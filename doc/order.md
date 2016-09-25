@@ -476,6 +476,27 @@ See [example](../data/order/getOrders.json)
 | drivers | driver | 驾驶人详情详情 | 
 
 
+### 获取订单状态 getOrderState 
+
+#### request
+
+| name     | type | note      |
+| ----     | ---- | ----      |
+| vid      | uuid | vehicle ID|
+| qid      | uuid | 报价 ID    |
+#### response
+##### 没有对应订单
+| name    | value  | note         |
+| ----    | ----   | ----         |
+| code    |  500   |  返回状态码    |
+|state    |not found| 返回状态      |
+##### 有对应订单
+|  name  |  type  | note  |
+|   ---- |  ----  | ----  |
+| state  |  int   |订单状态码|
+|state_code|string|订单状态|
+
+
 See [计划订单](../data/order/getPlanOrder.json)
 
 See [司机订单](../data/order/getDriverOrder.json)
