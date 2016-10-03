@@ -13,7 +13,7 @@ var server = http.createServer(function(req, rep) {
         })
             .addListener('end', function() {
                 const data = msgpack.decode(Buffer.concat(chunks));
-                const mod = data.mod;
+                const mod = data.mod.replace("-", "_");
                 const fun = data.fun;
                 const arg = data.arg;
                 const path = "data/" + mod + "/" + fun + ".json";
