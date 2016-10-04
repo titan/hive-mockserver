@@ -374,6 +374,7 @@ See [example](../data/order/placeAnDriverOrder.json)
 | name    | type          | note     |
 | ----    | ----          | ----     |
 | vid     | uuid          | 车辆 ID  |
+| pid     | uuid          | plan ID  |
 | qid     | uuid          | 报价 ID  |
 | items   | {piid: price} | 代售条目 |
 | summary | float         | 总价     |
@@ -381,15 +382,59 @@ See [example](../data/order/placeAnDriverOrder.json)
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
+let pid = "00000000-0000-0000-0000-000000000004";
 let qid = "00000000-0000-0000-0000-000000000000";
 let items = {
-  "00000000-0000-0000-0000-000000000000": 1000,
-  "00000000-0000-0000-0000-000000000001": 2000
+  "00000000-0000-0000-0000-000000000008": 1000,
+  "00000000-0000-0000-0000-000000000009": 2000
 };
 let summary = 2000;
 let payment = 2000;
 
-rpc.call("order", "placeAnSaleOrder", vid, qid, items, summary, payment)
+rpc.call("order", "placeAnSaleOrder", vid, pid, qid, items, summary, payment)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+### 修改代售单 updateSaleOrder
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| order_id     | uuid          | 车辆 ID  |
+| items   | {piid: price} | 代售条目 |
+
+```javascript
+let order_id = "00000000-0000-0000-0000-000000000000";
+let items = {
+  "00000000-0000-0000-0000-000000000008": 1000,
+  "00000000-0000-0000-0000-000000000009": 2000
+};
+
+rpc.call("order", "updateSaleOrder", order_id, items)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+### 根据vid获取代售单 getSaleOrder
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| vid     | uuid          | 车辆 ID  |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("order", "getSaleOrder", vid)
   .then(function (result) {
 
   }, function (error) {
@@ -539,6 +584,7 @@ See 成功返回数据：[example](../data/underwrite/createUnderwrite.json)
 
 ```javascript
 
+var uwid = "01994420-87b9-11e6-a929-134811bad5bf";
 var real_place = "北京市东城区东直门东方银座";
 var opid = "01994420-87b9-11e6-a929-134811bad5bf";
 var certificate_state = 1;
@@ -554,7 +600,7 @@ var photos =[
   "http://pic.58pic.com/58pic/13/19/86/55m58PICf9t_1024.jpg"
 ]
 
-rpc.call("underwrite", "fillUnderwrite", real_place, opid, certificate_state, problem_type, problem_description, note, photos)
+rpc.call("underwrite", "fillUnderwrite", uwid, real_place, opid, certificate_state, problem_type, problem_description, note, photos)
   .then(function (result) {
 
   }, function (error) {
