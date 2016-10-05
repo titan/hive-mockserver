@@ -1128,17 +1128,19 @@ See [example](../data/bank-payment/generateTenderCancleUrl.json)
 | ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
 | outCustId | char(16) | 出账客户号,由汇付生成,用户的唯一性标识 |
 | transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
-| isUnFreeze   | char(1)  | 是否解冻，Y--冻结，N--不冻结 |
-| unFreezeOrdId   | char(30)  | 解冻订单号，如果 IsUnFreeze 参数传 Y,那么该参数不能为空   |
 | fee | char(12) | 扣款手续费 |
 | subOrdId | char(30) | 订单号,由商户的系统生成,必须保证唯一.如果本次交易从属于另一个交易流水,则需要通过填写该流水号来进行关联.例如:本次放款:商户流水号是 OrdId,日期是OrdDate,关联投标订单流水是 SubOrdId,日期是SubOrdDate |
 | subOrdDate | char(8) | 订单日期,格式为 YYYYMMDD |
 | inCustId | char(16) | 入账客户号,由汇付生成,用户的唯一性标识 |
+| divDetails   | JSON Object | 分账账户串   |
 | divCustId | char(16) | 分账商户号,DivDetails 参数下的二级参数 |
 | divAcctId | varchar | 分账账户号,DivDetails 参数下的二级参数 |
 | divAmt | varchar | 分账金额,保留两位小数,DivDetails 参数下的二级参数 |
+| feeObjFlag | char(1) | 手续费收取对象标志,若 fee 大于 0.00,FeeObjFlag 为必填参数.I--向入款客户号 InCustId 收取;O--向出款客户号 OutCustId 收取 |
 | isDefault | char(1) | Y--默认添加资金池:这部分资金需要商户调用商户代取现接口,帮助用户做后台取现动作;N--不默认不添加资金池:这部分资金用户可以自己取现 |
 | isUnFreeze   | char(1)  | 是否解冻，Y--冻结，N--不冻结 |
+| unFreezeOrdId   | char(30)  | 解冻订单号，如果 IsUnFreeze 参数传 Y,那么该参数不能为空   |
+| freezeTrxId | char(18) | 冻结标识,组成规则为:8 位本平台日期+10 位系统流水号 |
 | proId | char(16) | 项目 ID |
 | test   | boolean  | 是否开启测试模式   |
 
