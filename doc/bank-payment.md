@@ -1153,17 +1153,8 @@ See [example](../data/bank-payment/generateTenderCancleUrl.json)
 | Version   | 10               |
 | CmdId     | Loans     |
 | MerCustId | 6000060004492053 |
-| RetUrl    | 见下面           |
 | BgRetUrl  | 见下面           |
 | ChkValue  | 签名             |
-
-RetUrl:
-
-| 场景 | 内容                                               |
-| ---- | ----                                               |
-| 正式 | http://m.fengchaohuzhu.com/bank/LoansCallback   |
-| 测试 | http://dev.fengchaohuzhu.com/bank/LoansCallback |
-
 
 BgRetUrl:
 
@@ -1253,6 +1244,95 @@ rpc.call("bank_payment", "generateQueryTenderPlanUrl", usrCustId, true)
 | name | type   | note     |
 | ---- | ----   | ----     |
 | code | int    | 200      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 500  |
+
+
+| code | meanning |
+| ---- | ----     |
+| 200  | 正常 |
+| 201  | 关闭 |
+| 500  | 出错 |
+
+See [example](../data/bank-payment/generateQueryTenderPlanUrl.json)
+
+### 生成自动扣款(还款)链接 generateRepaymentUrl
+
+生成主动投标链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| proId | char(16) | 标的 ID |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
+| outCustId | char(16) | 出账客户号,由汇付生成,用户的唯一性标识 |
+| subOrdId | char(30) | 订单号,由商户的系统生成,必须保证唯一.如果本次交易从属于另一个交易流水,则需要通过填写该流水号来进行关联.例如:本次放款:商户流水号是 OrdId,日期是OrdDate,关联投标订单流水是 SubOrdId,日期是SubOrdDate |
+| subOrdDate | char(8) | 订单日期,格式为 YYYYMMDD |
+| outAcctId | char(9) | 出账子账户,用户在汇付的虚拟资金账户号 |
+| PrincipalAmt | char(14) | 还款本金 |
+| InterestAmt| char(14) | 还款利息 |
+| fee | char(12) | 扣款手续费 |
+| inCustId | char(16) | 入账客户号,由汇付生成,用户的唯一性标识 |
+| InAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
+| divDetails   | JSON Object | 分账账户串   |
+| divCustId | char(16) | 分账商户号,DivDetails 参数下的二级参数 |
+| divAcctId | varchar | 分账账户号,DivDetails 参数下的二级参数 |
+| divAmt | varchar | 分账金额,保留两位小数,DivDetails 参数下的二级参数 |
+| feeObjFlag | char(1) | 手续费收取对象标志,若 fee 大于 0.00,FeeObjFlag 为必填参数.I--向入款客户号 InCustId 收取;O--向出款客户号 OutCustId 收取 |
+| dzObject | char(16) | 垫资/代偿对象,如果是垫资还款必传 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | Repayment     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/Repayment   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/Repayment |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateRepaymentUrl", ordId, ordDate, outCustId, transAmt, isUnFreeze, unFreezeOrdId, fee, subOrdId, subOrdDate, inCustId, divCustId, divAcctId, divAmt, isDefault, isUnFreeze, proId true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
 | url  | string | 跳转链接 |
 
 失败：
@@ -1266,4 +1346,5 @@ rpc.call("bank_payment", "generateQueryTenderPlanUrl", usrCustId, true)
 | ---- | ----     |
 | 500  | 未知错误 |
 
-See [example](../data/bank-payment/generateQueryTenderPlanUrl.json)
+See [example](../data/bank-payment/generateRepaymentUrl.json)
+
