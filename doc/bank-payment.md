@@ -42,6 +42,18 @@
 # bank-payment
 
 ## ChangeLog
+1. 2016-10-05
+  * 增加生成自动扣款(放款)链接。
+  * 增加生成自动投标计划状态查询链接接口。
+
+1. 2016-10-03
+  * 增加参数验证。
+  * 删除测试选项的默认状态。
+  * 增加生成自动投标计划链接接口。
+  * 增加生成企业开户链接接口。
+  * 增加生成主动投标链接接口。
+  * 增加生成自动投标链接接口。
+  * 增加生成投标撤销链接接口。
 
 1. 2016-09-28
   * 增加生成自动投标链接接口。
@@ -51,8 +63,8 @@
   * 增加生成绑卡链接接口。
   * 增加生成登录链接接口。
   * 增加生成自动投标链接接口。
-  * 增加生成余额查询链接接口。
-  * 增加生成子账户查询链接接口。
+  * 增加生成余额查询链接(后台)接口。
+  * 增加生成子账户查询链接(后台)接口。
   * 增加生成交易状态查询链接接口。
   * 增加生成充值对账链接接口。
 
@@ -92,7 +104,7 @@
 | phone  | char(11) | 用户手机号         |
 | test   | boolean  | 是否开启测试模式   |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -179,7 +191,7 @@ See [example](../data/bank-payment/generateUserRegisterUrl.json)
 | trans-amount | char(14) | 交易金额 ###.##       |
 | test         | boolean  | 是否开启测试模式      |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -309,7 +321,7 @@ See [example](../data/bank-payment/getCustomerId.json)
 | customer-id | char(16) | 汇付天下生成的用户 ID |
 | test        | boolean  | 是否开启测试模式      |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -380,7 +392,7 @@ See [example](../data/bank-payment/generateUserBindCardUrl.json)
 | customer-id | char(16) | 汇付天下生成的用户 ID |
 | test        | boolean  | 是否开启测试模式      |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -441,7 +453,7 @@ See [example](../data/bank-payment/generateUserLoginUrl.json)
 | customer-id     | char(16) | 汇付天下生成的用户 ID   |
 | test            | boolean  | 是否开启测试模式        |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -513,7 +525,7 @@ See [example](../data/bank-payment/generateAutoTenderPlanUrl.json)
 | customer-id | char(16) | 汇付天下生成的用户 ID |
 | test        | boolean  | 是否开启测试模式      |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -572,7 +584,7 @@ See [example](../data/bank-payment/generateQueryBalanceBgUrl.json)
 | ----        | ----     | ----                  |
 | test        | boolean  | 是否开启测试模式      |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -644,7 +656,7 @@ query-trans-type 取值如下：
 | FREEZE    | 冻结解冻交易查询 |
 
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -709,7 +721,7 @@ See [example](../data/bank-payment/generateQueryTransStatUrl.json)
 | page-size  | string  | 每页记录数        |
 | test       | boolean | 是否开启测试模式  |
 
-默认 test == false，开启测试模式后，返回汇付天下提供的测试链接。
+开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -755,3 +767,501 @@ rpc.call("bank_payment", "generateSaveReconciliationUrl", begin_date, end_date, 
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generateSaveReconciliationUrl.json)
+
+### 生成企业开户链接 generateCorpRegisterUrl
+
+生成企业开户链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| usrId | char(25) | 商户下的平台用户号 |
+| usrName | char(25) | 用户的真实姓名 |
+| BusiCode | char(30) | 营业执照编号 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | CorpRegister     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/CorpRegister   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/CorpRegister |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+rpc.call("bank_payment", "generateCorpRegisterUrl", usrId, usrName, BusiCode, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateCorpRegisterUrl.json)
+
+
+### 生成主动投标链接 generateInitiativeTenderUrl
+
+生成主动投标链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| maxTenderRate | char(6) | 最大投资手续费率，数字,保留 2 位小数，测试环境取值范围 0.00<= MaxTenderRate <= 0.20 |
+| borrowerDetails   | JSON Object | 借款人信息   |
+| borrowerCustId   | char(16)  | 借款人客户号，BorrowerDetails 参数下的二级参数借款人客户号,由汇付生成,用户的唯一性标识  |
+| borrowerAmt   | char(12)  | 借款金额，BorrowerDetails 参数下的二级参数借款金额   |
+| borrowerRate   | char(6)  | 借款手续费率，BorrowerDetails 参数下的二级参数，数字,保留 2 位小数，测试环境取值范围 0.00<= BorrowerRate <=1.00   |
+| proId   | char(16)  | 项目 ID，BorrowerDetails 参数下的二级参数必须标的的唯一性标识 |
+| isFreeze   | char(1)  | 是否冻结，Y--冻结，N--不冻结 |
+| freezeOrdId   | char(30)  | 冻结订单号，如果 IsFreeze 参数传 Y,那么该参数不能为空   |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | InitiativeTender     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| RetUrl  | 见下面           |
+| ChkValue  | 签名             |
+
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/InitiativeTenderCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/InitiativeTenderCallback |
+
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/initiativetender   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/initiativetender |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateCorpRegisterUrl", usrCustId, ordId, ordDate, transAmt, maxTenderRate, borrowerDetails, borrowerCustId, borrowerAmt, borrowerRate, proId, isFreeze, freezeOrdId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateInitiativeTenderUrl.json)
+
+
+### 生成自动投标链接 generateAutoTenderUrl
+
+生成自动投标链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| maxTenderRate | char(6) | 最大投资手续费率，数字,保留 2 位小数，测试环境取值范围 0.00<= MaxTenderRate <= 0.20 |
+| borrowerDetails   | JSON Object | 借款人信息   |
+| borrowerCustId   | char(16)  | 借款人客户号，BorrowerDetails 参数下的二级参数借款人客户号,由汇付生成,用户的唯一性标识  |
+| borrowerAmt   | char(12)  | 借款金额，BorrowerDetails 参数下的二级参数借款金额   |
+| borrowerRate   | char(6)  | 借款手续费率，BorrowerDetails 参数下的二级参数，数字,保留 2 位小数，测试环境取值范围 0.00<= BorrowerRate <=1.00   |
+| proId   | char(16)  | 项目 ID，BorrowerDetails 参数下的二级参数必须标的的唯一性标识 |
+| isFreeze   | char(1)  | 是否冻结，Y--冻结，N--不冻结 |
+| freezeOrdId   | char(30)  | 冻结订单号，如果 IsFreeze 参数传 Y,那么该参数不能为空   |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | AutoTender     |
+| MerCustId | 6000060004492053 |
+| RetUrl    | 见下面           |
+| BgRetUrl  | 见下面           |
+| ChkValue  | 签名             |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/AutoTenderCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/AutoTenderCallback |
+
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/autotender   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/autotender |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateCorpRegisterUrl", usrCustId, ordId, ordDate, transAmt, maxTenderRate, borrowerDetails, borrowerCustId, borrowerAmt, borrowerRate, proId, isFreeze, freezeOrdId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateAutoTenderUrl.json)
+
+
+### 生成投标撤销链接 generateTenderCancleUrl
+
+生成投标撤销链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| isUnFreeze   | char(1)  | 是否解冻，Y--冻结，N--不冻结 |
+| unFreezeOrdId   | char(30)  | 解冻订单号，如果 IsUnFreeze 参数传 Y,那么该参数不能为空   |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | TenderCancle     |
+| MerCustId | 6000060004492053 |
+| RetUrl    | 见下面           |
+| BgRetUrl  | 见下面           |
+| ChkValue  | 签名             |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/TenderCancleCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/TenderCancleCallback |
+
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/tendercancle   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/tendercancle |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateTenderCancleUrl", usrCustId, ordId, ordDate, transAmt, isUnFreeze, unFreezeOrdId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateTenderCancleUrl.json)
+
+### 生成自动扣款(放款)链接 generateLoansUrl
+
+生成主动投标链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
+| outCustId | char(16) | 出账客户号,由汇付生成,用户的唯一性标识 |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| isUnFreeze   | char(1)  | 是否解冻，Y--冻结，N--不冻结 |
+| unFreezeOrdId   | char(30)  | 解冻订单号，如果 IsUnFreeze 参数传 Y,那么该参数不能为空   |
+| fee | char(12) | 扣款手续费 |
+| subOrdId | char(30) | 订单号,由商户的系统生成,必须保证唯一.如果本次交易从属于另一个交易流水,则需要通过填写该流水号来进行关联.例如:本次放款:商户流水号是 OrdId,日期是OrdDate,关联投标订单流水是 SubOrdId,日期是SubOrdDate |
+| subOrdDate | char(8) | 订单日期,格式为 YYYYMMDD |
+| inCustId | char(16) | 入账客户号,由汇付生成,用户的唯一性标识 |
+| divCustId | char(16) | 分账商户号,DivDetails 参数下的二级参数 |
+| divAcctId | varchar | 分账账户号,DivDetails 参数下的二级参数 |
+| divAmt | varchar | 分账金额,保留两位小数,DivDetails 参数下的二级参数 |
+| isDefault | char(1) | Y--默认添加资金池:这部分资金需要商户调用商户代取现接口,帮助用户做后台取现动作;N--不默认不添加资金池:这部分资金用户可以自己取现 |
+| isUnFreeze   | char(1)  | 是否解冻，Y--冻结，N--不冻结 |
+| proId | char(16) | 项目 ID |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | Loans     |
+| MerCustId | 6000060004492053 |
+| RetUrl    | 见下面           |
+| BgRetUrl  | 见下面           |
+| ChkValue  | 签名             |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/LoansCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/LoansCallback |
+
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/loans   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/loans |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateLoansUrl", ordId, ordDate, outCustId, transAmt, isUnFreeze, unFreezeOrdId, fee, subOrdId, subOrdDate, inCustId, divCustId, divAcctId, divAmt, isDefault, isUnFreeze, proId true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateLoansUrl.json)
+
+
+### 生成自动投标计划状态查询链接 generateQueryTenderPlanUrl
+
+生成跳转到汇付天下的自动投标计划状态查询链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name        | type     | note                  |
+| ----        | ----     | ----                  |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| test        | boolean  | 是否开启测试模式      |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | QueryTenderPlan   |
+| MerCustId | 6000060004492053 |
+| ChkValue  | 签名             |
+
+```javascript
+
+rpc.call("bank_payment", "generateQueryTenderPlanUrl", usrCustId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateQueryTenderPlanUrl.json)
