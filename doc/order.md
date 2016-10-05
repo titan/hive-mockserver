@@ -374,6 +374,7 @@ See [example](../data/order/placeAnDriverOrder.json)
 | name    | type          | note     |
 | ----    | ----          | ----     |
 | vid     | uuid          | 车辆 ID  |
+| pid     | uuid          | plan ID  |
 | qid     | uuid          | 报价 ID  |
 | items   | {piid: price} | 代售条目 |
 | summary | float         | 总价     |
@@ -381,15 +382,59 @@ See [example](../data/order/placeAnDriverOrder.json)
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
+let pid = "00000000-0000-0000-0000-000000000004";
 let qid = "00000000-0000-0000-0000-000000000000";
 let items = {
-  "00000000-0000-0000-0000-000000000000": 1000,
-  "00000000-0000-0000-0000-000000000001": 2000
+  "00000000-0000-0000-0000-000000000008": 1000,
+  "00000000-0000-0000-0000-000000000009": 2000
 };
 let summary = 2000;
 let payment = 2000;
 
-rpc.call("order", "placeAnSaleOrder", vid, qid, items, summary, payment)
+rpc.call("order", "placeAnSaleOrder", vid, pid, qid, items, summary, payment)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+### 修改代售单 updateSaleOrder
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| order_id     | uuid          | 车辆 ID  |
+| items   | {piid: price} | 代售条目 |
+
+```javascript
+let order_id = "00000000-0000-0000-0000-000000000000";
+let items = {
+  "00000000-0000-0000-0000-000000000008": 1000,
+  "00000000-0000-0000-0000-000000000009": 2000
+};
+
+rpc.call("order", "updateSaleOrder", order_id, items)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+### 根据vid获取代售单 getSaleOrder
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| vid     | uuid          | 车辆 ID  |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("order", "getSaleOrder", vid)
   .then(function (result) {
 
   }, function (error) {
@@ -491,13 +536,12 @@ See [代售订单](../data/order/getSaleOrder.json)
 | oid                  | uuid      | 订单id                   |
 | plan_time            | timestamp | 计划核保时间             |
 | validate_place       | string    | 预约验车地点             |
-| validate_update_time | timestamp | 预约验车地点最后修改时间 |
 
 ##### example
 
 ```javascript
 
-rpc.call("underwrite", "createUnderwrite", oid, plan_time, validate_place, validate_update_time)
+rpc.call("underwrite", "createUnderwrite", oid, plan_time, validate_place)
   .then(function (result) {
 
   }, function (error) {
@@ -540,11 +584,13 @@ See 成功返回数据：[example](../data/underwrite/createUnderwrite.json)
 
 ```javascript
 
+var uwid = "01994420-87b9-11e6-a929-134811bad5bf";
 var real_place = "北京市东城区东直门东方银座";
 var opid = "01994420-87b9-11e6-a929-134811bad5bf";
 var certificate_state = 1;
 var problem_type = ["剐蹭","调漆"];
 var problem_description = "追尾。。。。";
+var note = "备注内容";
 var photos =[
   "http://pic.58pic.com/58pic/13/19/86/55m58PICf9t_1024.jpg",
   "http://pic.58pic.com/58pic/13/19/86/55m58PICf9t_1024.jpg",
@@ -554,7 +600,7 @@ var photos =[
   "http://pic.58pic.com/58pic/13/19/86/55m58PICf9t_1024.jpg"
 ]
 
-rpc.call("underwrite", "fillUnderwrite", real_place, opid, certificate_state, problem_type, problem_description, photos)
+rpc.call("underwrite", "fillUnderwrite", uwid, real_place, opid, certificate_state, problem_type, problem_description, note, photos)
   .then(function (result) {
 
   }, function (error) {
@@ -584,16 +630,15 @@ See 成功返回数据：[example](../data/underwrite/fillUnderwrite.json)
 | ----               | ----    | ----                 |
 | uwid               | uuid    | 核保编号             |
 | underwrite_result  | string  | 核保结果             |
-| result_update_time | ISO8601 | 核保结果最后修改时间 |
 
 ##### example
 
 ```javascript
 
+var uwid = "b2288950-8849-11e6-86a9-8d3457e084f0";
 var underwrite_result = "未通过";
-var result_update_time = "9999-12-31 23:59:59"
 
-rpc.call("underwrite", "submitUnderwriteResult", underwrite_result, result_update_time)
+rpc.call("underwrite", "submitUnderwriteResult", uwid, underwrite_result)
   .then(function (result) {
 
   }, function (error) {
@@ -623,16 +668,15 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 | ----                 | ----    | ----                     |
 | uwid                 | uuid    | 核保编号                 |
 | validate_place       | string  | 预约验车地点             |
-| validate_update_time | ISO8601 | 预约验车地点最后修改时间 |
 
 ##### example
 
 ```javascript
 
+var uwid = "b2288950-8849-11e6-86a9-8d3457e084f0";
 var validate_place = "北京市东城区东直门东方银座";
-var validate_update_time = "9999-12-31 23:59:59"
 
-rpc.call("underwrite", "alterValidatePlace", validate_place, validate_update_time)
+rpc.call("underwrite", "alterValidatePlace", uwid, validate_place)
   .then(function (result) {
 
   }, function (error) {
@@ -662,16 +706,15 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 | ----               | ----    | ----                 |
 | uwid               | uuid    | 核保编号             |
 | underwrite_result  | string  | 核保结果             |
-| result_update_time | ISO8601 | 核保结果最后修改时间 |
 
 ##### example
 
 ```javascript
 
+var uwid = "b2288950-8849-11e6-86a9-8d3457e084f0";
 var underwrite_result = "通过";
-var validate_update_time = "9999-12-31 23:59:59"
 
-rpc.call("underwrite", "alterUnderwriteResult", underwrite_result, result_update_time)
+rpc.call("underwrite", "alterUnderwriteResult", uwid, underwrite_result);
   .then(function (result) {
 
   }, function (error) {
@@ -701,16 +744,15 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 | ----             | ----    | ----                     |
 | uwid             | uuid    | 核保编号                 |
 | real_place       | string  | 实际验车地点             |
-| real_update_time | ISO8601 | 实际验车地点最后修改时间 |
 
 ##### example
 
 ```javascript
 
-var real_place = "通过";
-var real_update_time = "9999-12-31 23:59:59"
+var uwid = "b2288950-8849-11e6-86a9-8d3457e084f0";
+var real_place = "北京市东城区东直门东方银座";
 
-rpc.call("underwrite", "alterRealPlace", real_place, real_update_time)
+rpc.call("underwrite", "alterRealPlace", uwid, real_place);
   .then(function (result) {
 
   }, function (error) {
@@ -740,16 +782,15 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 | ----             | ----    | ----             |
 | uwid             | uuid    | 核保编号         |
 | note             | string  | 备注             |
-| note_update_time | ISO8601 | 备注最后修改时间 |
 
 ##### example
 
 ```javascript
 
+var uwid = "b2288950-8849-11e6-86a9-8d3457e084f0";
 var note = "备注内容";
-var note_update_time = "9999-12-31 23:59:59"
 
-rpc.call("underwrite", "alterNote", note, note_update_time)
+rpc.call("underwrite", "alterNote", uwid, note)
   .then(function (result) {
 
   }, function (error) {
@@ -821,7 +862,7 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 
 ```javascript
 
-var oid = "";
+var oid = "0000000000-0000-0000-0000-000000000000";
 
 rpc.call("underwrite", "getUnderwriteByOrderNumber", oid)
   .then(function (result) {
@@ -857,7 +898,7 @@ See 成功返回数据：[example](../data/underwrite/getUnderwriteByOrder.json)
 
 ```javascript
 
-var oid = "";
+var order_id = "0000000000-0000-0000-0000-000000000000";
 
 rpc.call("underwrite", "getUnderwriteByOrderId", order_id)
   .then(function (result) {
@@ -894,7 +935,7 @@ See 成功返回数据：[example](../data/underwrite/getUnderwriteByOrderId.jso
 
 ```javascript
 
-var oid = "";
+var uwid = "0000000000-0000-0000-0000-000000000000";
 
 rpc.call("underwrite", "getUnderwriteByUWId", uwid)
   .then(function (result) {
