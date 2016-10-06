@@ -443,6 +443,48 @@ rpc.call("order", "getSaleOrder", vid)
 
 ```
 
+### 根据vid获取已生效计划单 getPlanOrderByVehicle
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| vid     | uuid          | 车辆 ID  |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("order", "getPlanOrderByVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+
+```
+
+### 根据vid获取司机单 getDriverOrderByVehicle
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| vid     | uuid          | 车辆 ID  |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("order", "getDriverOrderByVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+
+```
+
 ### 更新订单状态 updateOrderState
 
 #### request
