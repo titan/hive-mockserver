@@ -1,6 +1,49 @@
-# Group 模块
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-## 修改记录
+- [ChangeLog](#changelog)
+- [Data Structure](#data-structure)
+  - [group](#group)
+  - [group-item](#group-item)
+  - [group-poll-item](#group-poll-item)
+- [Database](#database)
+  - [groups](#groups)
+  - [group\_vehicles](#group%5C_vehicles)
+  - [group\_poll\_items](#group%5C_poll%5C_items)
+- [Cache](#cache)
+- [API](#api)
+  - [获得互助组信息 getGroup](#%E8%8E%B7%E5%BE%97%E4%BA%92%E5%8A%A9%E7%BB%84%E4%BF%A1%E6%81%AF-getgroup)
+    - [request](#request)
+    - [response](#response)
+  - [获得当前用户的互助组 getGroupOfCurrentUser](#%E8%8E%B7%E5%BE%97%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E7%9A%84%E4%BA%92%E5%8A%A9%E7%BB%84-getgroupofcurrentuser)
+    - [request](#request-1)
+    - [response](#response-1)
+  - [创建互助组 createGroup](#%E5%88%9B%E5%BB%BA%E4%BA%92%E5%8A%A9%E7%BB%84-creategroup)
+    - [request](#request-2)
+    - [response](#response-2)
+  - [申请加入互助组 joinGroup](#%E7%94%B3%E8%AF%B7%E5%8A%A0%E5%85%A5%E4%BA%92%E5%8A%A9%E7%BB%84-joingroup)
+    - [request](#request-3)
+    - [response](#response-3)
+  - [同意加入申请 agree](#%E5%90%8C%E6%84%8F%E5%8A%A0%E5%85%A5%E7%94%B3%E8%AF%B7-agree)
+    - [request](#request-4)
+    - [response](#response-4)
+  - [拒绝加入申请 refuse](#%E6%8B%92%E7%BB%9D%E5%8A%A0%E5%85%A5%E7%94%B3%E8%AF%B7-refuse)
+    - [request](#request-5)
+    - [response](#response-5)
+- [Trigger](#trigger)
+  - [group](#group-1)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## ChangeLog
+
+1. 2016-10-02
+  * 增加获取当前用户所在互助组函数。
+  * 增加 vid-gid 缓存。
+
+1. 2016-09-24
+  * group 加入分摊比例。
 
 1. 2016-09-22
   * 给 agree 接口加上缺失的参数。
@@ -16,7 +59,7 @@
   * 为每一个接口增加详细错误信息。
   * 增加了 group 触发器。
 
-## 数据结构
+## Data Structure
 
 ### group
 
@@ -28,6 +71,7 @@
 | applied-vehicles | [vehicle]    | 申请加入车辆 |
 | quitted-vehicles | [vehicle]    | 退出车辆     |
 | founder          | profile      | 创始人       |
+| apportion        | float        | 分摊比例     |
 | items            | [group-item] | 互助小组条目 |
 | created-at       | date         | 创建时间     |
 
@@ -71,7 +115,7 @@
 
 user 是收到申请的互助组成员。
 
-## 数据库结构
+## Database
 
 ### groups
 
@@ -80,6 +124,7 @@ user 是收到申请的互助组成员。
 | id          | uuid      |      |         | primary |           |
 | name        | char(128) |      |         |         |           |
 | founder     | uuid      |      |         |         | users     |
+| apportion   | float     |      |         |         |           |
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
 | deleted     | boolean   |      | false   |         |           |
@@ -117,15 +162,16 @@ user 是收到申请的互助组成员。
 | updated\_at | timestamp |      | now     |         |           |
 | deleted     | boolean   |      | false   |         |           |
 
-## 缓存结构
+## Cache
 
 | key                    | type  | value                  | note             |
 | ----                   | ----  | ----                   | ----             |
 | group-entities         | hash  | Group ID => Group JSON | 所有互助组实体   |
+| vid-gid                | hash  | vid => gid             |                  |
 | global-balance-percent | float |                        | 剩余余额百分比   |
 | global-days-percent    | float |                        | 剩余互助期百分比 |
 
-## 接口
+## API
 
 ### 获得互助组信息 getGroup
 
@@ -176,6 +222,54 @@ rpc.call("group" ,"getGroup", gid)
 
 See [example](../data/group/getGroup.json)
 
+### 获得当前用户的互助组 getGroupOfCurrentUser
+
+根据 gid 获得互助组的详细内容。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note      |
+| ---- | ---- | ----      |
+|      |      |           |
+
+```javascript
+
+rpc.call("group" ,"getGroupOfCurrentUser")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name  | type  | note  |
+| ----  | ----  | ----  |
+| code  | int   | 200   |
+| group | group | Group |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning     |
+| ---- | ----         |
+| 404  | 互助组不存在 |
+| 500  | 未知错误     |
+
+See [example](../data/group/getGroupOfCurrentUser.json)
+
 ### 创建互助组 createGroup
 
 为新用户创建互助组。用户自动成为组长。
@@ -187,17 +281,20 @@ See [example](../data/group/getGroup.json)
 
 #### request
 
-| name | type   | note                     |
-| ---- | ----   | ----                     |
-| name | string | 互助组名称               |
-| vid  | uuid   | 车辆 ID                  |
-| uid  | uuid   | 用户 ID(仅 admin 域需要) |
+| name      | type   | note                     |
+| ----      | ----   | ----                     |
+| name      | string | 互助组名称               |
+| vid       | uuid   | 车辆 ID                  |
+| apportion | float  | 分摊比例                 |
+| uid       | uuid   | 用户 ID(仅 admin 域需要) |
 
 ```javascript
 
-var vid = "00000000-0000-0000-0000-000000000000";
-var name = "XXX 的互助组";
-rpc.call("group", "createGroup"，name, vid)
+let vid = "00000000-0000-0000-0000-000000000000";
+let name = "XXX 的互助组";
+let apportion = 0.20;
+
+rpc.call("group", "createGroup"，name, vid, apportion)
   .then(function (result) {
 
   }, function (error) {
@@ -391,7 +488,7 @@ rpc.call("group", "refuse"，piid, gid, vid)
 
 See [example](../data/group/refuse.json)
 
-## 触发器
+## Trigger
 
 ### group
 
