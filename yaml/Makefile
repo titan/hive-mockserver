@@ -71,6 +71,7 @@ $(PLAN): $(PLAN_DEPS)
 
 $(GET_GROUP): $(GET_GROUP_DEPS)
 	$(YAML2JSON) get-group.yaml | aeson-pretty > $@
+	cp $@ ../data/group/getGroupOfCurrentUser.json
 
 $(GROUP_TRIGGER): $(GROUP_TRIGGER_DEPS)
 	$(YAML2JSON) group-trigger.yaml | aeson-pretty > $@
