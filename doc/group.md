@@ -34,6 +34,9 @@
   - [查询申请结果 queryApplicationStatus](#%E6%9F%A5%E8%AF%A2%E7%94%B3%E8%AF%B7%E7%BB%93%E6%9E%9C-queryapplicationstatus)
     - [request](#request-6)
     - [response](#response-6)
+  - [获得当前用户的投票状况 getGroupPollsStatus](#%E8%8E%B7%E5%BE%97%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E7%9A%84%E6%8A%95%E7%A5%A8%E7%8A%B6%E5%86%B5-getgrouppollsstatus)
+    - [request](#request-7)
+    - [response](#response-7)
 - [Trigger](#trigger)
   - [group](#group-1)
 
@@ -43,6 +46,7 @@
 
 1. 2016-10-06
   * 增加查询申请加入互助组结果的函数。
+  * 增加用户对其它申请加入互助组车辆的处理结果的函数。
 
 1. 2016-10-05
   * 修改 group 中 items 的组织方式。
@@ -553,6 +557,65 @@ rpc.call("group", "queryApplicationStatus", gid, vid)
 | 500  | 未知错误 |
 
 See [example](../data/group/queryApplicationStatus.json)
+
+### 获得当前用户的投票状况 getGroupPollsStatus
+
+获得当前用户对申请加入互助组的所有车辆的处理情况。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note       |
+| ---- | ---- | ----       |
+| uid  | uuid | Usre ID    |
+
+uid 仅在 admin 域调用时有效。
+
+```javascript
+
+let uid = "00000000-0000-0000-0000-000000000000";
+rpc.call("group", "getGroupPollsStatus", uid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name   | type        | note |
+| ----   | ----        | ---- |
+| code   | int         | 200  |
+| status | {vid: stat} |      |
+
+vid 是车辆的 ID，stat 的内容见下表：
+
+| stat     | meaning |
+| ----     | ----    |
+| Agreed   | 已同意  |
+| Refused  | 已拒绝  |
+| Unpolled | 未投票  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meaning  |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/group/getGroupPollsStatus.json)
 
 ## Trigger
 
