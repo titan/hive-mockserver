@@ -443,6 +443,48 @@ rpc.call("order", "getSaleOrder", vid)
 
 ```
 
+### 根据vid获取已生效计划单 getPlanOrderByVehicle
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| vid     | uuid          | 车辆 ID  |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("order", "getPlanOrderByVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+
+```
+
+### 根据vid获取司机单 getDriverOrderByVehicle
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| vid     | uuid          | 车辆 ID  |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("order", "getDriverOrderByVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+
+```
+
 ### 更新订单状态 updateOrderState
 
 #### request
@@ -519,6 +561,27 @@ See [example](../data/order/getOrders.json)
 | name    | type   | note         |
 | ----    | ----   | ----         |
 | drivers | driver | 驾驶人详情详情 | 
+
+
+### 获取订单状态 getOrderState 
+
+#### request
+
+| name     | type | note      |
+| ----     | ---- | ----      |
+| vid      | uuid | vehicle ID|
+| qid      | uuid | 报价 ID    |
+#### response
+##### 没有对应订单
+| name    | value  | note         |
+| ----    | ----   | ----         |
+| code    |  500   |  返回状态码    |
+|state    |not found| 返回状态      |
+##### 有对应订单
+|  name  |  type  | note  |
+|   ---- |  ----  | ----  |
+| state  |  int   |订单状态码|
+|state_code|string|订单状态|
 
 
 See [计划订单](../data/order/getPlanOrder.json)
