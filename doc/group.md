@@ -31,12 +31,25 @@
   - [拒绝加入申请 refuse](#%E6%8B%92%E7%BB%9D%E5%8A%A0%E5%85%A5%E7%94%B3%E8%AF%B7-refuse)
     - [request](#request-5)
     - [response](#response-5)
+  - [查询申请结果 queryApplicationStatus](#%E6%9F%A5%E8%AF%A2%E7%94%B3%E8%AF%B7%E7%BB%93%E6%9E%9C-queryapplicationstatus)
+    - [request](#request-6)
+    - [response](#response-6)
+  - [获得当前用户的投票状况 getGroupPollsStatus](#%E8%8E%B7%E5%BE%97%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E7%9A%84%E6%8A%95%E7%A5%A8%E7%8A%B6%E5%86%B5-getgrouppollsstatus)
+    - [request](#request-7)
+    - [response](#response-7)
 - [Trigger](#trigger)
   - [group](#group-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## ChangeLog
+
+1. 2016-10-06
+  * 增加查询申请加入互助组结果的函数。
+  * 增加用户对其它申请加入互助组车辆的处理结果的函数。
+
+1. 2016-10-05
+  * 修改 group 中 items 的组织方式。
 
 1. 2016-10-02
   * 增加获取当前用户所在互助组函数。
@@ -63,17 +76,17 @@
 
 ### group
 
-| name             | type         | note         |
-| ----             | ----         | ----         |
-| name             | string       | 互助小组名称 |
-| joined-vehicles  | [vehicle]    | 参与车辆     |
-| waiting-vehicles | [vehicle]    | 等待生效车辆 |
-| applied-vehicles | [vehicle]    | 申请加入车辆 |
-| quitted-vehicles | [vehicle]    | 退出车辆     |
-| founder          | profile      | 创始人       |
-| apportion        | float        | 分摊比例     |
-| items            | [group-item] | 互助小组条目 |
-| created-at       | date         | 创建时间     |
+| name             | type              | note         |
+| ----             | ----              | ----         |
+| name             | string            | 互助小组名称 |
+| joined-vehicles  | [vehicle]         | 参与车辆     |
+| waiting-vehicles | [vehicle]         | 等待生效车辆 |
+| applied-vehicles | [vehicle]         | 申请加入车辆 |
+| quitted-vehicles | [vehicle]         | 退出车辆     |
+| founder          | profile           | 创始人       |
+| apportion        | float             | 分摊比例     |
+| items            | {vid: group-item} | 互助小组条目 |
+| created-at       | date              | 创建时间     |
 
 ### group-item
 
@@ -457,7 +470,7 @@ See [example](../data/group/agree.json)
 let piid = "00000000-0000-0000-0000-000000000000";
 let gid = "00000000-0000-0000-0000-000000000000";
 let vid = "00000000-0000-0000-0000-000000000000";
-rpc.call("group", "refuse"，piid, gid, vid)
+rpc.call("group", "refuse", piid, gid, vid)
   .then(function (result) {
 
   }, function (error) {
@@ -487,6 +500,122 @@ rpc.call("group", "refuse"，piid, gid, vid)
 | 500  | 未知错误          |
 
 See [example](../data/group/refuse.json)
+
+### 查询申请结果 queryApplicationStatus
+
+查询车辆申请加入互助组的处理结果。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note        |
+| ---- | ---- | ----        |
+| gid  | uuid | Group ID    |
+| vid  | uuid | Vehicle ID  |
+
+```javascript
+
+let gid = "00000000-0000-0000-0000-000000000000";
+let vid = "00000000-0000-0000-0000-000000000000";
+rpc.call("group", "queryApplicationStatus", gid, vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name   | type   | note |
+| ----   | ----   | ---- |
+| code   | int    | 200  |
+| status | string |      |
+
+| status  | meaning |
+| ----    | ----    |
+| Success | 成功    |
+| Failure | 失败    |
+| Polling | 投票中  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meaning  |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/group/queryApplicationStatus.json)
+
+### 获得当前用户的投票状况 getGroupPollsStatus
+
+获得当前用户对申请加入互助组的所有车辆的处理情况。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note       |
+| ---- | ---- | ----       |
+| uid  | uuid | Usre ID    |
+
+uid 仅在 admin 域调用时有效。
+
+```javascript
+
+let uid = "00000000-0000-0000-0000-000000000000";
+rpc.call("group", "getGroupPollsStatus", uid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name   | type        | note |
+| ----   | ----        | ---- |
+| code   | int         | 200  |
+| status | {vid: stat} |      |
+
+vid 是车辆的 ID，stat 的内容见下表：
+
+| stat     | meaning |
+| ----     | ----    |
+| Agreed   | 已同意  |
+| Refused  | 已拒绝  |
+| Unpolled | 未投票  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meaning  |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/group/getGroupPollsStatus.json)
 
 ## Trigger
 
