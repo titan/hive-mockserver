@@ -36,6 +36,45 @@
 
 ## 接口
 
+
+### 根据userid数组获得一些用户信息 getUserInfoByUserIds
+
+#### request
+
+| name    | type   | note    |
+| ----    | ----   | ----    |
+| user_ids | [uuid]   | 用户id   |
+
+##### example
+
+```javascript
+
+var user_ids = [
+  
+]
+rpc.call("profile", "getUserInfoByUserIds")
+  .then(function (result) {
+
+  }, function (error) {
+        
+  });
+```
+
+#### response
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| code   | int    | 结果编码  |
+| msg    | string | 结果内容  |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | users     | 用户信息     |
+| 404   | not found  | 未找到     |
+| 500   | err  | 错误信息     |
+
+See 成功返回数据：[example](../data/profile/getUserInfoByUserIds.json)
+
 ### 根据userid获得某个用户信息 getUserInfoByUserId
 
 #### request
@@ -68,7 +107,7 @@ rpc.call("profile", "getUserInfoByUserId")
 | 200   | null     | 成功     |
 | other | 错误信息  | 失败     |
 
-See 成功返回数据：[example](../data/profile/getUserInfo.json)
+See 成功返回数据：[example](../data/profile/getUserInfoByUserId.json)
 
 ### 获得用户信息 getUserInfo
 
