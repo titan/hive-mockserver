@@ -45,7 +45,6 @@
 ## ChangeLog
 
 1. 2016-10-09
-  * group 增加互助基金。
   * group 增加互助事件数量。
 
 1. 2016-10-06
@@ -91,10 +90,7 @@
 | apportion        | float             | 分摊比例     |
 | items            | {vid: group-item} | 互助小组条目 |
 | created-at       | date              | 创建时间     |
-| amount           | float             | 互助基金     |
 | event-count      | integer           | 互助事件数量 |
-
-互助基金内容来自 Wallet，是互助组参与车辆的个人余额汇总。
 
 ### group-item
 
