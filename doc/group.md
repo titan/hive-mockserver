@@ -44,6 +44,9 @@
 
 ## ChangeLog
 
+1. 2016-10-09
+  * group 增加互助基金。
+
 1. 2016-10-06
   * 增加查询申请加入互助组结果的函数。
   * 增加用户对其它申请加入互助组车辆的处理结果的函数。
@@ -87,6 +90,9 @@
 | apportion        | float             | 分摊比例     |
 | items            | {vid: group-item} | 互助小组条目 |
 | created-at       | date              | 创建时间     |
+| amount           | float             | 互助基金     |
+
+互助基金内容来自 Wallet，是互助组参与车辆的个人余额汇总。
 
 ### group-item
 

@@ -1,5 +1,6 @@
 {
     "group": {
+        "amount": 1000.0,
         "apportion": 0.2,
         "items": [
             {
