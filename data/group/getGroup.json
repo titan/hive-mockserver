@@ -2,6 +2,7 @@
     "group": {
         "amount": 1000.0,
         "apportion": 0.2,
+        "event_count": 0,
         "items": [
             {
                 "days": 365,
