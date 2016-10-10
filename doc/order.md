@@ -131,6 +131,7 @@
 | pid            | uuid      |      |         |         | plans      |
 | qid            | uuid      |      |         |         | quotations |
 | pmid           | uuid      | ✓    |         |         | promotions |
+| promotion      | real      | ✓    |         |         | promotion  |
 | service\_ratio | float     |      |         |         |            |
 | expect\_at     | timestamp |      | now     |         |            |
 | created\_at    | timestamp |      | now     |         |            |
