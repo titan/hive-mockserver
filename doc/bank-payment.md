@@ -45,6 +45,7 @@
 1. 2016-10-10
   * 删除生成自动投标计划状态查询链接接口
   * 新增自动投标计划状态查询接口
+  * 生成自动扣款(还款)链接
 
 1. 2016-10-05
   * 增加生成自动扣款(放款)链接。
@@ -1277,11 +1278,11 @@ See [example](../data/bank-payment/queryTenderPlan.json)
 | subOrdId | char(30) | 订单号,由商户的系统生成,必须保证唯一.如果本次交易从属于另一个交易流水,则需要通过填写该流水号来进行关联.例如:本次放款:商户流水号是 OrdId,日期是OrdDate,关联投标订单流水是 SubOrdId,日期是SubOrdDate |
 | subOrdDate | char(8) | 订单日期,格式为 YYYYMMDD |
 | outAcctId | char(9) | 出账子账户,用户在汇付的虚拟资金账户号 |
-| PrincipalAmt | char(14) | 还款本金 |
-| InterestAmt| char(14) | 还款利息 |
+| principalAmt | char(14) | 还款本金 |
+| interestAmt| char(14) | 还款利息 |
 | fee | char(12) | 扣款手续费 |
 | inCustId | char(16) | 入账客户号,由汇付生成,用户的唯一性标识 |
-| InAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
+| inAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
 | divDetails   | JSON Object | 分账账户串   |
 | divCustId | char(16) | 分账商户号,DivDetails 参数下的二级参数 |
 | divAcctId | varchar | 分账账户号,DivDetails 参数下的二级参数 |
@@ -1315,7 +1316,7 @@ url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
 
-rpc.call("bank_payment", "generateRepaymentUrl", ordId, ordDate, outCustId, transAmt, isUnFreeze, unFreezeOrdId, fee, subOrdId, subOrdDate, inCustId, divCustId, divAcctId, divAmt, isDefault, isUnFreeze, proId true)
+rpc.call("bank_payment", "generateRepaymentUrl", proId, ordId, ordDate, outCustId, subOrdId, subOrdDate, outAcctId, principalAmt, interestAmt, fee, inCustId, inAcctId, divDetails, divCustId, divAcctId, divAmt, feeObjFlag, dzObject, true)
   .then(function (result) {
 
   }, function (error) {
