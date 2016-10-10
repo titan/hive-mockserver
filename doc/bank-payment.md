@@ -45,7 +45,10 @@
 1. 2016-10-10
   * 删除生成自动投标计划状态查询链接接口
   * 新增自动投标计划状态查询接口
-  * 生成自动扣款(还款)链接
+  * 增加生成自动扣款(还款)链接
+  * 增加生成自动扣款转账(商户用)链接
+  * 增加生成资金(货款)冻结链接
+  * 增加生成资金(货款)解冻链接
 
 1. 2016-10-05
   * 增加生成自动扣款(放款)链接。
@@ -1423,3 +1426,169 @@ rpc.call("bank_payment", "generateTransferUrl", ordId, outCustId, outAcctId, tra
 
 See [example](../data/bank-payment/generateTransferUrl.json)
 
+
+### 生成资金(货款)冻结链接 generateUsrFreezeBgUrl
+
+生成资金(货款)冻结链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| subAcctType | char(9) | 子账户类型,默认为商户专属账户 |
+| subAcctId | char(9) | 子账户号,用户在汇付的虚拟资金账户号 |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | UsrFreezeBg     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| RetUrl    | 见下面           |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/usrfreezebg   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/usrfreezebg |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/UsrFreezeBgCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/UsrFreezeBgCallback |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateUsrFreezeBgUrl", usrCustId, subAcctId, subAcctId, ordId, ordDate, transAmt, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateUsrFreezeBgUrl.json)
+
+
+### 生成资金(货款)解冻链接 generateUsrUnFreezeUrl
+
+生成资金(货款)解冻链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
+| trxId | char(18) | 汇付平台交易唯一标识,组成规则为:8位本平台日期+10位系统流水号 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | UsrUnFreeze     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| RetUrl    | 见下面           |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/usrunfreeze   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/usrunfreeze |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/UsrUnFreezeCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/UsrUnFreezeCallback |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateUsrUnFreezeUrl", ordId, ordDate, trxId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateUsrUnFreezeUrl.json)
