@@ -42,6 +42,10 @@
 # bank-payment
 
 ## ChangeLog
+1. 2016-10-10
+  * 删除生成自动投标计划状态查询链接接口
+  * 新增自动投标计划状态查询接口
+
 1. 2016-10-05
   * 增加生成自动扣款(放款)链接。
   * 增加生成自动投标计划状态查询链接接口。
@@ -1200,9 +1204,9 @@ rpc.call("bank_payment", "generateLoansUrl", ordId, ordDate, outCustId, transAmt
 See [example](../data/bank-payment/generateLoansUrl.json)
 
 
-### 生成自动投标计划状态查询链接 generateQueryTenderPlanUrl
+### 查询自动投标计划状态 queryTenderPlan
 
-生成跳转到汇付天下的自动投标计划状态查询链接。
+查询用户在汇付天下的自动投标计划状态。
 
 | domain | accessable |
 | ----   | ----       |
@@ -1229,7 +1233,7 @@ See [example](../data/bank-payment/generateLoansUrl.json)
 
 ```javascript
 
-rpc.call("bank_payment", "generateQueryTenderPlanUrl", usrCustId, true)
+rpc.call("bank_payment", "queryTenderPlan", usrCustId, true)
   .then(function (result) {
 
   }, function (error) {
@@ -1239,26 +1243,19 @@ rpc.call("bank_payment", "generateQueryTenderPlanUrl", usrCustId, true)
 
 #### response
 
-成功：
-
 | name | type   | note     |
 | ---- | ----   | ----     |
-| code | int    | 200      |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 500  |
+| code | int    | 见下      |
 
 
 | code | meanning |
 | ---- | ----     |
 | 200  | 正常 |
 | 201  | 关闭 |
+| 300  | 未定义 |
 | 500  | 出错 |
 
-See [example](../data/bank-payment/generateQueryTenderPlanUrl.json)
+See [example](../data/bank-payment/queryTenderPlan.json)
 
 ### 生成自动扣款(还款)链接 generateRepaymentUrl
 
