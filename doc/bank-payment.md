@@ -1118,7 +1118,7 @@ See [example](../data/bank-payment/generateTenderCancleUrl.json)
 
 ### 生成自动扣款(放款)链接 generateLoansUrl
 
-生成主动投标链接。
+生成自动扣款(放款)链接。
 
 | domain | accessable |
 | ----   | ----       |
@@ -1260,7 +1260,7 @@ See [example](../data/bank-payment/queryTenderPlan.json)
 
 ### 生成自动扣款(还款)链接 generateRepaymentUrl
 
-生成主动投标链接。
+生成自动扣款(还款)链接。
 
 | domain | accessable |
 | ----   | ----       |
@@ -1345,4 +1345,81 @@ rpc.call("bank_payment", "generateRepaymentUrl", proId, ordId, ordDate, outCustI
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generateRepaymentUrl.json)
+
+
+### 生成自动扣款转账(商户用)链接 generateTransferUrl
+
+生成自动扣款转账(商户用)链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| outCustId | char(16) | 出账客户号,由汇付生成,用户的唯一性标识 |
+| outAcctId | char(9) | 出账子账户,用户在汇付的虚拟资金账户号 |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| inCustId | char(16) | 入账客户号,由汇付生成,用户的唯一性标识 |
+| inAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | Transfer     |
+| MerCustId | 6000060004492053 |
+| RetUrl  | 见下面           |
+| ChkValue  | 签名             |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/TransferCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/TransferCallback |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateTransferUrl", ordId, outCustId, outAcctId, transAmt, inCustId, inAcctId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateTransferUrl.json)
 
