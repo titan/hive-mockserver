@@ -42,6 +42,9 @@
 # bank-payment
 
 ## ChangeLog
+1. 2016-10-11
+  * 增加生成取现复核链接
+
 1. 2016-10-10
   * 删除生成自动投标计划状态查询链接接口
   * 新增自动投标计划状态查询接口
@@ -1511,7 +1514,6 @@ rpc.call("bank_payment", "generateUsrFreezeBgUrl", usrCustId, subAcctId, subAcct
 
 See [example](../data/bank-payment/generateUsrFreezeBgUrl.json)
 
-
 ### 生成资金(货款)解冻链接 generateUsrUnFreezeUrl
 
 生成资金(货款)解冻链接。
@@ -1592,3 +1594,85 @@ rpc.call("bank_payment", "generateUsrUnFreezeUrl", ordId, ordDate, trxId, true)
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generateUsrUnFreezeUrl.json)
+
+### 生成取现复核链接 generateCashAuditUrl
+
+生成取现复核链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| auditFlag | char(1) | 复核标识,R--拒绝,S--复核通过 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | CashAudit     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| RetUrl    | 见下面           |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/cashaudit   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/cashaudit |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/CashAuditCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/CashAuditCallback |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateUsrUnFreezeUrl", ordId, usrCustId, transAmt, auditFlag, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateCashAuditUrl.json)
