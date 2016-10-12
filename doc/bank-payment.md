@@ -1761,3 +1761,87 @@ rpc.call("bank_payment", "generateCashUrl", ordId, usrCustId, transAmt, servFee,
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generateCashUrl.json)
+
+### 生成用户账户支付链接 generateUsrAcctPayUrl
+
+生成用户账户支付链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| inAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
+| inAcctType | char(9) | 入账账户类型,商户在汇付的虚拟资金子账户类型:BASEDT--基本借记户,DEP--保证金账户,MERDT--专属借记帐户,SPEDT--专用户 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 20               |
+| CmdId     | UsrAcctPay     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| RetUrl    | 见下面           |
+| PageType  | 2                |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/usracctpay   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/usracctpay |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/UsrAcctPayCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/UsrAcctPayCallback |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateUsrAcctPayUrl", ordId, usrCustId, transAmt, inAcctId, inAcctType, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateUsrAcctPayUrl.json)
