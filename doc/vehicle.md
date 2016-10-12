@@ -475,7 +475,8 @@ rpc.call("vehicle", "getVehicleInfo"， vid)
 See [example](../data/vehicle/getVehicleInfos.json)
 
 ### 获取驾驶人信息 getDriverInfos
-### 注：前端禁用
+
+**注：前端禁用**
 
 ```javascript
 var vid = "00000000-0000-0000-0000-000000000000";

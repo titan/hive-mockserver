@@ -11,6 +11,7 @@ created_at: 2016-08-01T00:00:00.000Z
 updated_at: 2016-08-01T00:00:00.000Z
 plan: !include plan-main.yaml
 promotion: !include promotion.yaml
+quotation: !include quotation.yaml
 service_ratio: 0
 expect_at: 2016-08-01T00:00:00.000Z
 items: !include order-items-plan.yaml
