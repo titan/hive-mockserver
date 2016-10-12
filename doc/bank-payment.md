@@ -44,6 +44,11 @@
 ## ChangeLog
 1. 2016-10-11
   * 增加生成取现复核链接
+  * 增加生成取现(页面)链接
+  * 增加生成用户账户支付链接
+  * 增加生成商户代取现接口链接
+  * 增加生成标的信息录入接口链接
+  * 增加生成标的信息补录输入接口链接
 
 1. 2016-10-10
   * 删除生成自动投标计划状态查询链接接口
@@ -1845,3 +1850,87 @@ rpc.call("bank_payment", "generateUsrAcctPayUrl", ordId, usrCustId, transAmt, in
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generateUsrAcctPayUrl.json)
+
+### 生成商户代取现接口链接 generateMerCashPayUrl
+
+生成商户代取现接口链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| servFee | char(14) | 商户收取服务费金额 |
+| servFeeAcctId | char(9) | 商户子账户号,商户用来收取服务费的子账户号 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 20               |
+| CmdId     | MerCash     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| RetUrl    | 见下面           |
+| PageType  | 2                |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/mercash   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/mercash |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/MerCashCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/MerCashCallback |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+
+rpc.call("bank_payment", "generateMerCashUrl", ordId, usrCustId, transAmt, servFee, servFeeAcctId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateMerCashUrl.json)
