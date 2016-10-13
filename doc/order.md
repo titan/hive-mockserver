@@ -401,6 +401,9 @@ rpc.call("order", "placeAnSaleOrder", vid, pid, qid, items, summary, payment)
   });
 
 ```
+
+
+
 ### 修改代售单 updateSaleOrder
 
 #### request
@@ -424,7 +427,35 @@ rpc.call("order", "updateSaleOrder", order_id, items)
 
   });
 
+
 ```
+### 修改订单编号 updatePlanOrderNo
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| order_no| uuid          |  订单no   |
+
+```javascript
+let order_no = "111000100120160000001";
+
+rpc.call("order", "updatePlanOrderNo", order_no)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| order-no | string | newOrderNo |
+
+
 ### 根据vid获取代售单 getSaleOrder
 
 #### request
