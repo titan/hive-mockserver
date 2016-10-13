@@ -44,6 +44,7 @@
 | vehicle       | vehicle      | 车辆              |
 | plans         | [plan]       | 包含的 plan       |
 | items         | [order-item] | 包含的 order-item |
+| quotation     | quotation    | 报价              |
 | promotion     | promotion    | 促销              |
 | service-ratio | float        | 服务费率          |
 | summary       | float        | 订单总额          |
@@ -131,6 +132,7 @@
 | pid            | uuid      |      |         |         | plans      |
 | qid            | uuid      |      |         |         | quotations |
 | pmid           | uuid      | ✓    |         |         | promotions |
+| promotion      | real      | ✓    |         |         | promotion  |
 | service\_ratio | float     |      |         |         |            |
 | expect\_at     | timestamp |      | now     |         |            |
 | created\_at    | timestamp |      | now     |         |            |
@@ -209,7 +211,7 @@
 | 1                  | 上传部分证件 |
 | 2                  | 证件全部上传 |
 
-### underwrite_photos
+### underwrite-photos
 
 | field                  | type       | null | default | index   | reference  |
 | ----                   | ----       | ---- | ----    | ----    | ----       |
@@ -255,9 +257,9 @@
 
 ### order-driver-entities
 
-| key                    | type | value               | note             |
-| ----                   | ---- | ----                | ----             |
-| order-driver-entities  | hash | VID =>  驾驶人 JSON  | 所有车辆已生效驾驶人| 
+| key                   | type | value               | note                 |
+| ----                  | ---- | ----                | ----                 |
+| order-driver-entities | hash | VID =>  驾驶人 JSON | 所有车辆已生效驾驶人 |
 
 ### underwrite
 
@@ -267,8 +269,8 @@
 
 ### underwrite-entities
 
-| key            | type | value               | note         |
-| ----           | ---- | ----                | ----         |
+| key                 | type | value               | note         |
+| ----                | ---- | ----                | ----         |
 | underwrite-entities | hash | 核保ID => 核保 JSON | 所有核保实体 |
 
 ## 接口
@@ -399,6 +401,9 @@ rpc.call("order", "placeAnSaleOrder", vid, pid, qid, items, summary, payment)
   });
 
 ```
+
+
+
 ### 修改代售单 updateSaleOrder
 
 #### request
@@ -422,7 +427,36 @@ rpc.call("order", "updateSaleOrder", order_id, items)
 
   });
 
+
 ```
+### 修改订单编号 updatePlanOrderNo
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| order_no| string        |  订单no   |
+
+```javascript
+let order_no = "111000100120160000001";
+
+rpc.call("order", "updatePlanOrderNo", order_no)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | number | 状态码    |
+| order-no | string | newOrderNo |
+
+
 ### 根据vid获取代售单 getSaleOrder
 
 #### request
@@ -523,7 +557,7 @@ rpc.call("order", "updateOrderState", order_id, state_code, state)
 | name   | type | note           |
 | ----   | ---- | ----           |
 | uid    | uuid | User ID        |
-| offset | int  | 结果集起始地址   | 
+| offset | int  | 结果集起始地址   |
 | limit  | int  | 结果集大小      |
 
 #### response
@@ -548,7 +582,7 @@ See [example](../data/order/getOrders.json)
 | ----  | ----  | ----       |
 | order | order | Order 详情 |
 
-### 获取驾驶人信息 getDriverOrders 
+### 获取驾驶人信息 getDriverOrders
 
 #### request
 
@@ -560,10 +594,10 @@ See [example](../data/order/getOrders.json)
 
 | name    | type   | note         |
 | ----    | ----   | ----         |
-| drivers | driver | 驾驶人详情详情 | 
+| drivers | driver | 驾驶人详情详情 |
 
 
-### 获取订单状态 getOrderState 
+### 获取订单状态 getOrderState
 
 #### request
 
@@ -608,7 +642,7 @@ rpc.call("underwrite", "createUnderwrite", oid, plan_time, validate_place)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -667,7 +701,7 @@ rpc.call("underwrite", "fillUnderwrite", uwid, real_place, opid, certificate_sta
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -705,7 +739,7 @@ rpc.call("underwrite", "submitUnderwriteResult", uwid, underwrite_result)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -743,7 +777,7 @@ rpc.call("underwrite", "alterValidatePlace", uwid, validate_place)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -781,7 +815,7 @@ rpc.call("underwrite", "alterUnderwriteResult", uwid, underwrite_result);
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -819,7 +853,7 @@ rpc.call("underwrite", "alterRealPlace", uwid, real_place);
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -857,7 +891,7 @@ rpc.call("underwrite", "alterNote", uwid, note)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -895,7 +929,7 @@ rpc.call("underwrite", "uploadPhotos", uwid, photo)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -931,7 +965,7 @@ rpc.call("underwrite", "getUnderwriteByOrderNumber", oid)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -967,7 +1001,7 @@ rpc.call("underwrite", "getUnderwriteByOrderId", order_id)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -1004,7 +1038,7 @@ rpc.call("underwrite", "getUnderwriteByUWId", uwid)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 

@@ -1,6 +1,59 @@
-# Vehicles  模块
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-## 数据结构
+- [ChangeLog](#changelog)
+- [Data Structure](#data-structure)
+  - [vehicle-model](#vehicle-model)
+  - [vehicle](#vehicle)
+  - [person](#person)
+- [Cache](#cache)
+  - [vehicle-model](#vehicle-model-1)
+- [API](#api)
+  - [获得车型 getVehicleModelsByMake](#%E8%8E%B7%E5%BE%97%E8%BD%A6%E5%9E%8B-getvehiclemodelsbymake)
+    - [request](#request)
+      - [example](#example)
+    - [response](#response)
+  - [获取报价提交表单(新车已上牌)(个人) setVehicleInfoOnCard](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicleinfooncard)
+    - [request](#request-1)
+      - [example](#example-1)
+    - [response](#response-1)
+  - [获取报价提交表单(新车未上牌)(个人) setVehicleInfo](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E6%9C%AA%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicleinfo)
+    - [request](#request-2)
+      - [example](#example-2)
+    - [response](#response-2)
+  - [获取报价提交表单(新车已上牌)(企业) setVehicleInfoOnCardEnterprise](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%BC%81%E4%B8%9A-setvehicleinfooncardenterprise)
+    - [request](#request-3)
+      - [example](#example-3)
+    - [response](#response-3)
+  - [获取报价提交表单(新车未上牌)(企业) setVehicleInfoEnterprise](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E6%9C%AA%E4%B8%8A%E7%89%8C%E4%BC%81%E4%B8%9A-setvehicleinfoenterprise)
+    - [request](#request-4)
+      - [example](#example-4)
+    - [response](#response-4)
+  - [提交驾驶人信息 setDriverInfo](#%E6%8F%90%E4%BA%A4%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-setdriverinfo)
+    - [request](#request-5)
+    - [response](#response-5)
+  - [修改驾驶人信息 changeDriverInfo](#%E4%BF%AE%E6%94%B9%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-changedriverinfo)
+  - [获取所有车信息 getVehicleInfos](#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicleinfos)
+      - [example](#example-5)
+  - [获取某个车信息 getVehicleInfo](#%E8%8E%B7%E5%8F%96%E6%9F%90%E4%B8%AA%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicleinfo)
+      - [example](#example-6)
+  - [获取驾驶人信息 getDriverInfos](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriverinfos)
+  - [注：前端禁用](#%E6%B3%A8%EF%BC%9A%E5%89%8D%E7%AB%AF%E7%A6%81%E7%94%A8)
+  - [上传证件照 uploadDriverImages](#%E4%B8%8A%E4%BC%A0%E8%AF%81%E4%BB%B6%E7%85%A7-uploaddriverimages)
+  - [查看用户上传证件情况  uploadStatus](#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E8%AF%81%E4%BB%B6%E6%83%85%E5%86%B5--uploadstatus)
+    - [request](#request-6)
+      - [example](#example-7)
+    - [response](#response-6)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## ChangeLog
+
+1. 2016-10-10
+  * vehicle 增加去年出险次数属性
+
+## Data Structure
 
 ### vehicle-model
 
@@ -28,26 +81,28 @@
 
 ### vehicle
 
-| name                     | type     | note                   |
-| ----                     | ----     | ----                   |
-| id                       | uuid     | 车ID                   |
-| user\_id                 | user     | 用户                   |
-| owner                    | person   | 车主                   |
-| owner\_type              | int      | 车主类型               |
-| recommend                | string   | 推荐人                 |
-| drivers                  | [person] | 驾驶人                 |
-| vehicle\_code            | string   | 车型代码               |
-| license\_no              | string   | 车牌                   |
-| engine\_no               | string   | 发动机号               |
-| register\_date           | iso8601  | 车辆注册日期           |
-| average\_mileage         | string   | 年平均行驶里程         |
-| is\_transfer             | boolean  | 是否过户车             |
-| receipt\_no              | string   | 新车购置发票号         |
-| receipt\_date            | iso8601  | 发票开票日期           |
-| last\_insurance\_company | string   | 最近一次投保的保险公司 |
-| insurance\_due\_date     | date     | 保险到期时间           |
-| driving\_frontal\_view   | string   | 行驶证正面照           |
-| driving\_rear\_view      | string   | 行驶证背面照           |
+| name                     | type          | note                   |
+| ----                     | ----          | ----                   |
+| id                       | uuid          | 车ID                   |
+| user\_id                 | user          | 用户                   |
+| owner                    | person        | 车主                   |
+| owner\_type              | int           | 车主类型               |
+| recommend                | string        | 推荐人                 |
+| drivers                  | [person]      | 驾驶人                 |
+| vehicle\_code            | string        | 车型代码               |
+| license\_no              | string        | 车牌                   |
+| engine\_no               | string        | 发动机号               |
+| register\_date           | iso8601       | 车辆注册日期           |
+| average\_mileage         | string        | 年平均行驶里程         |
+| model                    | vehicle-model | 车型                   |
+| is\_transfer             | boolean       | 是否过户车             |
+| receipt\_no              | string        | 新车购置发票号         |
+| receipt\_date            | iso8601       | 发票开票日期           |
+| last\_insurance\_company | string        | 最近一次投保的保险公司 |
+| insurance\_due\_date     | date          | 保险到期时间           |
+| driving\_frontal\_view   | string        | 行驶证正面照           |
+| driving\_rear\_view      | string        | 行驶证背面照           |
+| accident\_times          | integer       | 最近一年出险次数       |
 
 ### person
 
@@ -63,7 +118,7 @@
 | license\_rear\_view     | string | 驾照背面照   |
 
 
-## 缓存结构
+## Cache
 
 ### vehicle-model
 
@@ -73,7 +128,7 @@
 | vehicle-vin-codes      | has  | vin => [VehicleCode] JSON        | vin 码映射 |
 | vehicle-model          | set  | vin                              | vin 码     |
 
-## 接口
+## API
 
 ### 获得车型 getVehicleModelsByMake
 
@@ -130,16 +185,16 @@ var name = "";
 var identity_no = "";
 var phone = "";
 var recommend = "";
-var vehicle_code = ""; 
-var license_no = ""; 
-var engine_no = ""; 
-var register_date = ""; 
-var average_mileage = ""; 
+var vehicle_code = "";
+var license_no = "";
+var engine_no = "";
+var register_date = "";
+var average_mileage = "";
 var is_transfer = "";
-var last_insurance_company = ""; 
+var last_insurance_company = "";
 var insurance_due_date = "";
 
-rpc.call("vehicle", "setVehicleInfoOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no, 
+rpc.call("vehicle", "setVehicleInfoOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
   register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date)
   .then(function (result) {
 
@@ -165,19 +220,19 @@ rpc.call("vehicle", "setVehicleInfoOnCard", name, identity_no, phone, recommend,
 
 #### request
 
-| name                     | type     | note           |
-| ----                     | ----     | ----           |
-| name         | string  | 驾驶人姓名       |
-| identity\_no | string  | 身份证编号       |
-| phone        | string  | 电话号码         |
-| recommend    | string  | 推荐人           |
-| vehicle\_code            | string   | 车型代码       |
-| engine\_no               | string   | 发动机号       |
-| receipt\_no              | string   | 发票编号       |
-| receipt\_date            | iso8601  | 发票开具时间   |
-| average\_mileage         | string   | 年平均行驶里程 |
-| is\_transfer             | boolean  | 是否过户       |
-| last\_insurance\_company | string   | 上次投保的公司 |
+| name                     | type    | note           |
+| ----                     | ----    | ----           |
+| name                     | string  | 驾驶人姓名     |
+| identity\_no             | string  | 身份证编号     |
+| phone                    | string  | 电话号码       |
+| recommend                | string  | 推荐人         |
+| vehicle\_code            | string  | 车型代码       |
+| engine\_no               | string  | 发动机号       |
+| receipt\_no              | string  | 发票编号       |
+| receipt\_date            | iso8601 | 发票开具时间   |
+| average\_mileage         | string  | 年平均行驶里程 |
+| is\_transfer             | boolean | 是否过户       |
+| last\_insurance\_company | string  | 上次投保的公司 |
 
 ##### example
 
@@ -186,15 +241,15 @@ var name = "";
 var identity_no = "";
 var phone = "";
 var recommend = "";
-var vehicle_code = ""; 
-var engine_no = ""; 
-var average_mileage = ""; 
+var vehicle_code = "";
+var engine_no = "";
+var average_mileage = "";
 var is_transfer = "";
-var receipt_no = ""; 
+var receipt_no = "";
 var receipt_date = "";
-var last_insurance_company = ""; 
+var last_insurance_company = "";
 
-rpc.call("vehicle", "setVehicleInfo", name, identity_no, phone, recommend, vehicle_code, engine_no, 
+rpc.call("vehicle", "setVehicleInfo", name, identity_no, phone, recommend, vehicle_code, engine_no,
   receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company)
   .then(function (result) {
 
@@ -245,16 +300,16 @@ var society_code = "";
 var contact_name = "";
 var contact_phone = "";
 var recommend = "";
-var vehicle_code = ""; 
-var license_no = ""; 
-var engine_no = ""; 
-var register_date = ""; 
-var average_mileage = ""; 
+var vehicle_code = "";
+var license_no = "";
+var engine_no = "";
+var register_date = "";
+var average_mileage = "";
 var is_transfer = "";
-var last_insurance_company = ""; 
+var last_insurance_company = "";
 var insurance_due_date = "";
 
-rpc.call("vehicle", "setVehicleInfoOnCard", name, society_code, contact_name, contact_phone, recommend, vehicle_code, license_no, engine_no, 
+rpc.call("vehicle", "setVehicleInfoOnCard", name, society_code, contact_name, contact_phone, recommend, vehicle_code, license_no, engine_no,
   register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date)
   .then(function (result) {
 
@@ -280,20 +335,20 @@ rpc.call("vehicle", "setVehicleInfoOnCard", name, society_code, contact_name, co
 
 #### request
 
-| name                     | type     | note           |
-| ----                     | ----     | ----           |
-| name         | string  | 企业名称       |
-| society_code | string  | 统一社会信用代码  |
-| contact_name | string  | 指定联系人       |
-| contact_phone        | string  | 联系人手机号        |
-| recommend    | string  | 推荐人           |
-| vehicle\_code            | string   | 车型代码       |
-| engine\_no               | string   | 发动机号       |
-| receipt\_no              | string   | 发票编号       |
-| receipt\_date            | iso8601  | 发票开具时间   |
-| average\_mileage         | string   | 年平均行驶里程 |
-| is\_transfer             | boolean  | 是否过户       |
-| last\_insurance\_company | string   | 上次投保的公司 |
+| name                     | type    | note             |
+| ----                     | ----    | ----             |
+| name                     | string  | 企业名称         |
+| society\_code            | string  | 统一社会信用代码 |
+| contact\_name            | string  | 指定联系人       |
+| contact\_phone           | string  | 联系人手机号     |
+| recommend                | string  | 推荐人           |
+| vehicle\_code            | string  | 车型代码         |
+| engine\_no               | string  | 发动机号         |
+| receipt\_no              | string  | 发票编号         |
+| receipt\_date            | iso8601 | 发票开具时间     |
+| average\_mileage         | string  | 年平均行驶里程   |
+| is\_transfer             | boolean | 是否过户         |
+| last\_insurance\_company | string  | 上次投保的公司   |
 
 ##### example
 
@@ -303,15 +358,15 @@ var society_code = "";
 var contact_name = "";
 var contact_phone = "";
 var recommend = "";
-var vehicle_code = ""; 
-var engine_no = ""; 
-var average_mileage = ""; 
+var vehicle_code = "";
+var engine_no = "";
+var average_mileage = "";
 var is_transfer = "";
-var receipt_no = ""; 
+var receipt_no = "";
 var receipt_date = "";
-var last_insurance_company = ""; 
+var last_insurance_company = "";
 
-rpc.call("vehicle", "setVehicleInfo", name, society_code, contact_name, contact_phone, recommend, vehicle_code, engine_no, 
+rpc.call("vehicle", "setVehicleInfo", name, society_code, contact_name, contact_phone, recommend, vehicle_code, engine_no,
   receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company)
   .then(function (result) {
 
@@ -372,7 +427,7 @@ See [example](../data/vehicle/setVehicleInfo.json)
 ### 修改驾驶人信息 changeDriverInfo
 
 ```javascript
-var vid = ""; 
+var vid = "";
 var pid = "";
 var name = "";
 var identity_no = "";
@@ -420,7 +475,8 @@ rpc.call("vehicle", "getVehicleInfo"， vid)
 See [example](../data/vehicle/getVehicleInfos.json)
 
 ### 获取驾驶人信息 getDriverInfos
-### 注：前端禁用
+
+**注：前端禁用**
 
 ```javascript
 var vid = "00000000-0000-0000-0000-000000000000";
@@ -461,9 +517,9 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
 
 #### request
 
-| name                   | type      | note                     |
-| ----                   | ----      | ----                     |
-| order_id                    | uuid      | 订单id                   |
+| name      | type | note   |
+| ----      | ---- | ----   |
+| order\_id | uuid | 订单id |
 
 ##### example
 
@@ -473,7 +529,7 @@ rpc.call("vehicle", "uploadStatus", order_id)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 

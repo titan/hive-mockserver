@@ -363,7 +363,18 @@
                 }
             ],
             "engine_no": "xxxx",
-            "vehicle_model": {
+            "is_transfer": true,
+            "owner": {
+                "phone": "00000000000",
+                "identity_rear_view": null,
+                "identity_frontal_view": null,
+                "license_frontal_view": null,
+                "name": "王宝强",
+                "license_rear_view": null,
+                "id": "00000000-0000-0000-0000-000000000000",
+                "identity_no": "000000000000000000"
+            },
+            "model": {
                 "pl": "1.595",
                 "body_type": "三厢",
                 "vin_code": "LSVFA49J232037048",
@@ -384,19 +395,9 @@
                 "brand_name": "大众",
                 "seat": 5
             },
-            "is_transfer": true,
-            "owner": {
-                "phone": "00000000000",
-                "identity_rear_view": null,
-                "identity_frontal_view": null,
-                "license_frontal_view": null,
-                "name": "王宝强",
-                "license_rear_view": null,
-                "id": "00000000-0000-0000-0000-000000000000",
-                "identity_no": "000000000000000000"
-            },
             "last_insurance_company": "中国人保",
             "receipt_no": "xxx",
+            "accident_times": 0,
             "register_date": "2016-08-01T00:00:00.000Z",
             "license_no": "京A00000",
             "id": "00000000-0000-0000-0000-000000000000",

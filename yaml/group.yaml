@@ -8,3 +8,4 @@ applied_vehicles: []
 founder: !include profile.yaml
 created_at: 2016-08-01T00:00:00.000Z
 items: !include group-items.yaml
+event_count: 0
