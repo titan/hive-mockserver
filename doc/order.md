@@ -435,7 +435,7 @@ rpc.call("order", "updateSaleOrder", order_id, items)
 
 | name    | type          | note     |
 | ----    | ----          | ----     |
-| order_no| uuid          |  订单no   |
+| order_no| string        |  订单no   |
 
 ```javascript
 let order_no = "111000100120160000001";
