@@ -2055,3 +2055,82 @@ rpc.call("bank_payment", "generateAddBidInfoUrl", proId, bidType,
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generateAddBidInfoUrl.json)
+
+### 生成标的信息补录输入接口链接 generateAddBidAttachInfoUrl
+
+生成标的信息补录输入接口链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| proId   | char(16)  | 项目 ID，BorrowerDetails 参数下的二级参数必须标的的唯一性标识 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 20               |
+| CmdId     | AddBidAttachInfo     |
+| MerCustId | 6000060004492053 |
+| BgRetUrl  | 见下面           |
+| RetUrl    | 见下面           |
+| PageType  | 2                |
+| ChkValue  | 签名             |
+
+BgRetUrl:
+
+| 场景 | 内容                                       |
+| ---- | ----                                       |
+| 正式 | http://m.fengchaohuzhu.com/bank/addbidattachinfo   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/addbidattachinfo |
+
+RetUrl:
+
+| 场景 | 内容                                               |
+| ---- | ----                                               |
+| 正式 | http://m.fengchaohuzhu.com/bank/AddBidAttachInfoCallback   |
+| 测试 | http://dev.fengchaohuzhu.com/bank/AddBidAttachInfoCallback |
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+rpc.call("bank_payment", "generateAddBidAttachInfoUrl", proId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generatAddBidAttachInfoUrl.json)
