@@ -451,9 +451,9 @@ rpc.call("order", "updatePlanOrderNo", order_no)
 
 #### response
 
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | number | 状态码    |
+| name     | type   | note       |
+| ----     | ----   | ----       |
+| code     | number | 200(成功)   |
 | order-no | string | newOrderNo |
 
 
@@ -525,6 +525,7 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 
 | name       | type          | note      |
 | ----       | ----          | ----      |
+| uid        |uuid           |user-id    |
 | order_id   | uuid          | 订单 ID   |
 | state_code | int           |订单状态编码 |
 | state      | string        |订单状态    |
