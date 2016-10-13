@@ -453,6 +453,7 @@ rpc.call("order", "updatePlanOrderNo", order_no)
 
 | name     | type   | note     |
 | ----     | ----   | ----     |
+| code     | number | 状态码    |
 | order-no | string | newOrderNo |
 
 
