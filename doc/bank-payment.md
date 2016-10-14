@@ -2272,7 +2272,7 @@ rpc.call("bank_payment", "trfReconciliation", true)
 See [example](../data/bank-payment/trfReconciliation.json)
 
 
-### 放还款对账 Reconciliation
+### 放还款对账 reconciliation
 
 | domain | accessable |
 | ----   | ----       |
@@ -2317,7 +2317,7 @@ queryTtransType 取值如下：
 url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
-rpc.call("bank_payment", "trfReconciliation", true)
+rpc.call("bank_payment", "reconciliation", true)
   .then(function (result) {
 
   }, function (error) {
@@ -2345,10 +2345,9 @@ rpc.call("bank_payment", "trfReconciliation", true)
 | ---- | ----     |
 | 500  | 未知错误 |
 
-See [example](../data/bank-payment/Reconciliation.json)
+See [example](../data/bank-payment/reconciliation.json)
 
-
-### 取现对账 CashReconciliation
+### 取现对账 cashReconciliation
 
 | domain | accessable |
 | ----   | ----       |
@@ -2382,7 +2381,7 @@ See [example](../data/bank-payment/Reconciliation.json)
 url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
-rpc.call("bank_payment", "CashReconciliation", true)
+rpc.call("bank_payment", "cashReconciliation", true)
   .then(function (result) {
 
   }, function (error) {
@@ -2410,7 +2409,7 @@ rpc.call("bank_payment", "CashReconciliation", true)
 | ---- | ----     |
 | 500  | 未知错误 |
 
-See [example](../data/bank-payment/CashReconciliation.json)
+See [example](../data/bank-payment/cashReconciliation.json)
 
 ### 生成余额查询(页面)链接 generateQueryBalanceUrl
 
@@ -2472,3 +2471,65 @@ rpc.call("bank_payment", "generateQueryBalanceUrl", usrCustId, true)
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generateQueryBalanceUrl.json)
+
+### 银行卡查询接口 queryCardInfo
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| cardId | char(40) | 取现银行的账户号(银行卡号) |
+| test             | boolean  | 是否开启测试模式  |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 20               |
+| CmdId     | QueryCardInfo    |
+| MerCustId | 6000060004492053 |
+| ChkValue  | 签名             |
+
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+rpc.call("bank_payment", "queryCardInfo", true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/queryCardInfo.json)
