@@ -42,6 +42,15 @@
 # bank-payment
 
 ## ChangeLog
+1. 2016-10-14
+  * 增加生成标的审核状态查询接口链接
+  * 增加生成链接
+  * 增加生成链接
+  * 增加生成链接
+  * 增加生成链接
+
+
+  
 1. 2016-10-11
   * 增加生成取现复核链接
   * 增加生成取现(页面)链接
@@ -1948,7 +1957,7 @@ See [example](../data/bank-payment/generateMerCashUrl.json)
 
 | name   | type     | note               |
 | ----   | ----     | ----               |
-| proId   | char(16)  | 项目 ID，BorrowerDetails 参数下的二级参数必须标的的唯一性标识 |
+| proId   | char(16)  | 标的的唯一标识, 为英文和数字组合 |
 | bidName | char(50) | 标的名称 |
 | BidType | char(2) | 标的类型: 01--信用, 02--抵押, 03--债权转让, 99--其他 | 
 | BorrTotAmt | char(14) | 发标金额,单位为元,精确到分,例如 1000.01 |
@@ -2069,7 +2078,7 @@ See [example](../data/bank-payment/generateAddBidInfoUrl.json)
 
 | name   | type     | note               |
 | ----   | ----     | ----               |
-| proId   | char(16)  | 项目 ID，BorrowerDetails 参数下的二级参数必须标的的唯一性标识 |
+| proId   | char(16)  | 标的的唯一标识, 为英文和数字组合 |
 | test   | boolean  | 是否开启测试模式   |
 
 开启测试模式后，返回汇付天下提供的测试链接。
@@ -2134,3 +2143,66 @@ rpc.call("bank_payment", "generateAddBidAttachInfoUrl", proId, true)
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generatAddBidAttachInfoUrl.json)
+
+### 生成标的审核状态查询接口链接 generateQueryBidInfoUrl
+
+生成标的审核状态查询接口链接。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| proId   | char(16)  | 标的的唯一标识, 为英文和数字组合 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 20               |
+| CmdId     | QueryBidInfo     |
+| MerCustId | 6000060004492053 |
+| ChkValue  | 签名             |
+
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+rpc.call("bank_payment", "generateQueryBidInfoUrl", proId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generatQueryBidInfoUrl.json)
