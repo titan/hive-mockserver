@@ -44,12 +44,11 @@
 ## ChangeLog
 1. 2016-10-14
   * 增加生成标的审核状态查询接口链接
-  * 增加生成链接
-  * 增加生成链接
-  * 增加生成链接
-  * 增加生成链接
-
-
+  * 增加商户扣款对账接口
+  * 增加放还款对账接口
+  * 增加取现对账接口
+  * 增加生成余额查询(页面)链接
+  * 增加银行卡查询接口
   
 1. 2016-10-11
   * 增加生成取现复核链接
@@ -807,7 +806,6 @@ See [example](../data/bank-payment/generateSaveReconciliationUrl.json)
 | name   | type     | note               |
 | ----   | ----     | ----               |
 | usrId | char(25) | 商户下的平台用户号 |
-| usrName | char(25) | 用户的真实姓名 |
 | BusiCode | char(30) | 营业执照编号 |
 | test   | boolean  | 是否开启测试模式   |
 
@@ -835,7 +833,7 @@ BgRetUrl:
 url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
-rpc.call("bank_payment", "generateCorpRegisterUrl", usrId, usrName, BusiCode, true)
+rpc.call("bank_payment", "generateCorpRegisterUrl", usrId, BusiCode, true)
   .then(function (result) {
 
   }, function (error) {
