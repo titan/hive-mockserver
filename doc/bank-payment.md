@@ -2411,3 +2411,64 @@ rpc.call("bank_payment", "CashReconciliation", true)
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/CashReconciliation.json)
+
+### 生成余额查询(页面)链接 generateQueryBalanceUrl
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
+| test             | boolean  | 是否开启测试模式  |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 20               |
+| CmdId     | QueryBalance     |
+| MerCustId | 6000060004492053 |
+| ChkValue  | 签名             |
+
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+rpc.call("bank_payment", "generateQueryBalanceUrl", usrCustId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateQueryBalanceUrl.json)
