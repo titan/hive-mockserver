@@ -2206,3 +2206,67 @@ rpc.call("bank_payment", "generateQueryBidInfoUrl", proId, true)
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/generatQueryBidInfoUrl.json)
+
+### 商户扣款对账 trfReconciliation
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| beginDate | char(8) | 开始日期 YYYYMMDD |
+| endDate   | char(8) | 结束日期 YYYYMMDD,BeginDate 和 EndDate 日期跨度不能大于 90 天 |
+| pageNum   | string  | 页数,查询数据的所在页号,>0 的整数 |
+| pageSize  | string  | 每页记录数,查询数据的所在页号,>0 且<=1000 的整数 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 20               |
+| CmdId     | TrfReconciliation     |
+| MerCustId | 6000060004492053 |
+| ChkValue  | 签名             |
+
+
+注意：
+
+url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
+
+```javascript
+rpc.call("bank_payment", "trfReconciliation", proId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/trfReconciliation.json)
