@@ -130,20 +130,19 @@
 
 ## API
 
-### 获得车型 getVehicleModelsByMake
+### 查看用户上传证件情况  uploadStatus
 
 #### request
 
-| name          | type   | note     |
-| ----          | ----   | ----     |
-| vehicle\_code | string | 车型代码 |
+| name      | type | note   |
+| ----      | ---- | ----   |
+| order\_id | uuid | 订单id |
 
 ##### example
 
 ```javascript
-var code = "I0000000000000000250000000000041";
 
-rpc.call("vehicle", "getVehicleModelsByMake", code)
+rpc.call("vehicle", "uploadStatus", order_id)
   .then(function (result) {
 
   }, function (error) {
@@ -153,11 +152,114 @@ rpc.call("vehicle", "getVehicleModelsByMake", code)
 
 #### response
 
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| code   | int    | 结果编码  |
+| msg    | string | 结果内容  |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | null     | 成功    |
+| other | 错误信息 | 失败    |
+
+See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
+
+### 获取某个车信息 getVehicle
+
+##### example
+
+```javascript
+
+let vid = "00000000-0000-0000-0000-000000000000";
+rpc.call("vehicle", "getVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name          | type          | note          |
+| ----          | ----          | ----          |
+| vehicle | vehicle | Vehicle |
+
+See [example](../data/vehicle/getVehicle.json)
+
+
+### 获取某个车型信息 getVehicleModel
+
+##### example
+
+```javascript
+
+let vehicle_code = "I0000000000000000250000000000041";
+rpc.call("vehicle", "getVehicleModel", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
 | name          | type          | note          |
 | ----          | ----          | ----          |
 | vehicle-model | vehicle-model | Vehicle Model |
 
-See [example](../data/vehicle/getVehicleModelsByMake.json)
+See [example](../data/vehicle/getVehicleModel.json)
+
+
+### 获取所有车信息 getVehicles
+
+##### example
+
+```javascript
+
+rpc.call("vehicle", "getVehicles")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name          | type          | note          |
+| ----          | ----          | ----          |
+| vehicle | vehicle | Vehicle |
+
+See [example](../data/vehicle/getVehicles.json)
+
+
+
+### 获取驾驶人信息 getDrivers
+
+```javascript
+var vid = "00000000-0000-0000-0000-000000000000";
+var pid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("vehicle", "getDrivers", vid, pid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+#### response
+
+| name          | type          | note          |
+| ----          | ----          | ----          |
+| vehicle | vehicle | Vehicle |
+
+See [example](../data/vehicle/getDrivers.json)
+
 
 ### 获取报价提交表单(新车已上牌)(个人) setVehicleInfoOnCard
 
@@ -216,7 +318,7 @@ rpc.call("vehicle", "setVehicleInfoOnCard", name, identity_no, phone, recommend,
 | other | 错误信息 | 失败    |
 
 
-### 获取报价提交表单(新车未上牌)(个人) setVehicleInfo
+### 获取报价提交表单(新车未上牌)(个人) setVehicle
 
 #### request
 
@@ -272,124 +374,8 @@ rpc.call("vehicle", "setVehicleInfo", name, identity_no, phone, recommend, vehic
 
 See [example](../data/vehicle/setVehicleInfo.json)
 
-### 获取报价提交表单(新车已上牌)(企业) setVehicleInfoOnCardEnterprise
 
-#### request
-
-| name                     | type    | note             |
-| ----                     | ----    | ----             |
-| name                     | string  | 企业名称         |
-| society\_code            | string  | 统一社会信用代码 |
-| contact\_name            | string  | 指定联系人       |
-| contact\_phone           | string  | 联系人手机号     |
-| recommend                | string  | 推荐人           |
-| vehicle\_code            | string  | 车型代码         |
-| license\_no              | string  | 车牌             |
-| engine\_no               | string  | 发动机号         |
-| register\_date           | iso8601 | 注册日期         |
-| average\_mileage         | string  | 年平均行驶里程   |
-| is\_transfer             | boolean | 是否过户         |
-| last\_insurance\_company | string  | 上次投保的公司   |
-| insurance\_due\_date     | iso8601 | 保险到期时间     |
-
-##### example
-
-```javascript
-var name = "";
-var society_code = "";
-var contact_name = "";
-var contact_phone = "";
-var recommend = "";
-var vehicle_code = "";
-var license_no = "";
-var engine_no = "";
-var register_date = "";
-var average_mileage = "";
-var is_transfer = "";
-var last_insurance_company = "";
-var insurance_due_date = "";
-
-rpc.call("vehicle", "setVehicleInfoOnCard", name, society_code, contact_name, contact_phone, recommend, vehicle_code, license_no, engine_no,
-  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码 |
-| status | string | 结果内容 |
-
-| code  | status   | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
-
-
-### 获取报价提交表单(新车未上牌)(企业) setVehicleInfoEnterprise
-
-#### request
-
-| name                     | type    | note             |
-| ----                     | ----    | ----             |
-| name                     | string  | 企业名称         |
-| society\_code            | string  | 统一社会信用代码 |
-| contact\_name            | string  | 指定联系人       |
-| contact\_phone           | string  | 联系人手机号     |
-| recommend                | string  | 推荐人           |
-| vehicle\_code            | string  | 车型代码         |
-| engine\_no               | string  | 发动机号         |
-| receipt\_no              | string  | 发票编号         |
-| receipt\_date            | iso8601 | 发票开具时间     |
-| average\_mileage         | string  | 年平均行驶里程   |
-| is\_transfer             | boolean | 是否过户         |
-| last\_insurance\_company | string  | 上次投保的公司   |
-
-##### example
-
-```javascript
-var name = "";
-var society_code = "";
-var contact_name = "";
-var contact_phone = "";
-var recommend = "";
-var vehicle_code = "";
-var engine_no = "";
-var average_mileage = "";
-var is_transfer = "";
-var receipt_no = "";
-var receipt_date = "";
-var last_insurance_company = "";
-
-rpc.call("vehicle", "setVehicleInfo", name, society_code, contact_name, contact_phone, recommend, vehicle_code, engine_no,
-  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码 |
-| status | string | 结果内容 |
-
-| code  | status   | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
-
-
-### 提交驾驶人信息 setDriverInfo
-
+### 添加驾驶人信息 setDriver
 #### request
 
 | name    | type     | note       |
@@ -408,7 +394,7 @@ var drivers = [
   }
 ];
 
-rpc.call("vehicle", "setDriverInfo", vid, drivers)
+rpc.call("vehicle", "setDriver", vid, drivers)
   .then(function (result) {
 
   }, function (error) {
@@ -422,31 +408,22 @@ rpc.call("vehicle", "setDriverInfo", vid, drivers)
 | ---- | ---- | ----      |
 | pid  | uuid | Person ID |
 
-See [example](../data/vehicle/setVehicleInfo.json)
+See [example](../data/vehicle/setDriver.json)
 
-### 修改驾驶人信息 changeDriverInfo
+### 获得车型 getVehicleModelsByMake
 
-```javascript
-var vid = "";
-var pid = "";
-var name = "";
-var identity_no = "";
-var phone = "";
+#### request
 
-rpc.call("vehicle", "changeDriverInfo", vid, pid, name, identity_no, phone)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-### 获取所有车信息 getVehicleInfos
+| name          | type   | note     |
+| ----          | ----   | ----     |
+| vehicle\_code | string | 车型代码 |
 
 ##### example
 
 ```javascript
-rpc.call("vehicle", "getVehicleInfos", uid)
+var code = "I0000000000000000250000000000041";
+
+rpc.call("vehicle", "getVehicleModelsByMake", code)
   .then(function (result) {
 
   }, function (error) {
@@ -454,41 +431,13 @@ rpc.call("vehicle", "getVehicleInfos", uid)
   });
 ```
 
-See [example](../data/vehicle/getVehicleInfos.json)
+#### response
 
-### 获取某个车信息 getVehicleInfo
+| name          | type          | note          |
+| ----          | ----          | ----          |
+| vehicle-model | vehicle-model | Vehicle Model |
 
-##### example
-
-```javascript
-
-let vid = "00000000-0000-0000-0000-000000000000";
-rpc.call("vehicle", "getVehicleInfo"， vid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-See [example](../data/vehicle/getVehicleInfos.json)
-
-### 获取驾驶人信息 getDriverInfos
-
-**注：前端禁用**
-
-```javascript
-var vid = "00000000-0000-0000-0000-000000000000";
-var pid = "00000000-0000-0000-0000-000000000000";
-
-rpc.call("vehicle", "getDriverInfos", vid, pid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
+See [example](../data/vehicle/getVehicleModelsByMake.json)
 
 ### 上传证件照 uploadDriverImages
 
@@ -512,37 +461,29 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
 
   });
 ```
+#### response
 
-### 查看用户上传证件情况  uploadStatus
+| name          | type          | note          |
+| ----          | ----          | ----          |
+| vehicle | vehicle | Vehicle |
+See [example](../data/vehicle/uploadDriverImages.json)
 
-#### request
-
-| name      | type | note   |
-| ----      | ---- | ----   |
-| order\_id | uuid | 订单id |
+### 获取用户车信息 getUserVehicles
 
 ##### example
 
 ```javascript
-
-rpc.call("vehicle", "uploadStatus", order_id)
+rpc.call("vehicle", "getUserVehicles")
   .then(function (result) {
 
   }, function (error) {
 
   });
 ```
-
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| name          | type          | note          |
+| ----          | ----          | ----          |
+| vehicle | vehicle | Vehicle|
 
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
-
-See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
+See [example](../data/vehicle/getUserVehicles.json)
