@@ -926,7 +926,7 @@ url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
 
-rpc.call("bank_payment", "generateCorpRegisterUrl", usrCustId, ordId, ordDate, transAmt, maxTenderRate, borrowerDetails, borrowerCustId, borrowerAmt, borrowerRate, proId, isFreeze, freezeOrdId, true)
+rpc.call("bank_payment", "generateInitiativeTenderUrl", usrCustId, ordId, ordDate, transAmt, maxTenderRate, borrowerDetails, borrowerCustId, borrowerAmt, borrowerRate, proId, isFreeze, freezeOrdId, true)
   .then(function (result) {
 
   }, function (error) {
@@ -1062,9 +1062,9 @@ See [example](../data/bank-payment/generateAutoTenderUrl.json)
 
 | name   | type     | note               |
 | ----   | ----     | ----               |
+| usrCustId | char(16) | 汇付天下生成的用户 ID |
 | ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
 | ordDate | char(25) | 订单日期，格式为 YYYYMMDD |
-| usrCustId | char(16) | 汇付天下生成的用户 ID |
 | transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
 | isUnFreeze   | char(1)  | 是否解冻，Y--冻结，N--不冻结 |
 | unFreezeOrdId   | char(30)  | 解冻订单号，如果 IsUnFreeze 参数传 Y,那么该参数不能为空   |
@@ -2285,18 +2285,15 @@ See [example](../data/bank-payment/trfReconciliation.json)
 | endDate   | char(8) | 结束日期 YYYYMMDD,BeginDate 和 EndDate 日期跨度不能大于 90 天 |
 | pageNum   | string  | 页数,查询数据的所在页号,>0 的整数 |
 | pageSize  | string  | 每页记录数,查询数据的所在页号,>0 且<=1000 的整数 |
-| queryTtransType | string   | 交易查询类型       |
+| queryTransType | string   | 交易查询类型       |
 | test             | boolean  | 是否开启测试模式  |
 
-queryTtransType 取值如下：
+queryTransType 取值如下：
 
 | name      | meaning          |
 | ----      | ----             |
-| LOANS     | 放款交易查询     |
-| REPAYMENT | 还款交易查询     |
-| TENDER    | 投标交易查询     |
-| CASH      | 取现交易查询     |
-| FREEZE    | 冻结解冻交易查询 |
+| LOANS | 放款交易查询 |
+| REPAYMENT | 还款交易查询 |
 
 开启测试模式后，返回汇付天下提供的测试链接。
 
@@ -2502,7 +2499,7 @@ See [example](../data/bank-payment/generateQueryBalanceUrl.json)
 url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
-rpc.call("bank_payment", "queryCardInfo", true)
+rpc.call("bank_payment", "queryCardInfo", usrCustId, cardId, true)
   .then(function (result) {
 
   }, function (error) {
