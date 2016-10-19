@@ -48,7 +48,7 @@
 
 ```javascript
 
-rpc.call("profile", "getUserInfoByUserId")
+rpc.call("profile", "getUserInfoByUserId", user_id)
   .then(function (result) {
 
   }, function (error) {
@@ -61,7 +61,7 @@ rpc.call("profile", "getUserInfoByUserId")
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -94,7 +94,7 @@ rpc.call("profile", "getUserInfo")
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg   | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -129,7 +129,7 @@ rpc.call("profile", "getUserOpenId", uid)
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -144,6 +144,7 @@ See 成功返回数据：[example](../data/profile/getUserOpenId.json)
 
 | name    | type   | note    |
 | ----    | ----   | ----    |
+| uid     | uuid   | 用户id   |
 | openid  | string | openid  |
 | gender  | string | 性别     |
 | nickname| string | 昵称     |
@@ -152,13 +153,13 @@ See 成功返回数据：[example](../data/profile/getUserOpenId.json)
 ##### example
 
 ```javascript
-
+var uid = "a7354820-904c-11e6-a2dc-6320aa4a9b08";
 var openid = "obxM2wvAjoNGtHZkYzBI_I4blpl8";
 var gender = "女";
 var nickname = "vivian";
 var portrait = "https://www.baidu.com/img/bd_logo1.png";
 
-rpc.call("profile", "addUserInfo", openid, gender, nickname, portrait)
+rpc.call("profile", "addUserInfo", uid, openid, gender, nickname, portrait)
   .then(function (result) {
 
   }, function (error) {
@@ -170,12 +171,12 @@ rpc.call("profile", "addUserInfo", openid, gender, nickname, portrait)
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
 | 200   | null     | 成功     |
-| other | 错误信息  | 失败     |
+| other   | 错误信息  | 失败     |
 
 See 成功返回数据: [example](../data/profile/sucessful.json)
 
@@ -203,12 +204,12 @@ rpc.call("profile", "refresh")
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
 | 200   | null     | 成功     |
-| other | 错误信息  | 失败     |
+| other   | 错误信息  | 失败     |
 
 See 成功返回数据：[example](../data/profile/sucessful.json)
 
@@ -239,7 +240,7 @@ rpc.call("profile", "getAllUsers", start, limit)
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
