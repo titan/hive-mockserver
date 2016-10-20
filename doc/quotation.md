@@ -147,9 +147,24 @@ rpc.call("quotation", "createQuotation", vid)
 
 #### response
 
-| name         | type | note         |
-| ----         | ---- | ----         |
-| quotation-id | uuid | Quotation ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/quotation/createQuotation.json)
 
@@ -184,9 +199,24 @@ rpc.call("quotation", "addQuotationGroups", qid, vid, groups, promotion)
 
 #### response
 
-| name               | type | note               |
-| ----               | ---- | ----               |
-| quotation-group-id | uuid | Quotation Group ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/quotation/addQuotationGroup.json)
 
@@ -214,9 +244,24 @@ rpc.call("quotation", "getQuotatedQuotations", start, limit)
 
 #### response
 
-| name               | type | note               |
-| ----               | ---- | ----               |
-| quotation-group-id | uuid | Quotation Group ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/quotation/getQuotatedQuotations.json)
 
@@ -244,9 +289,24 @@ rpc.call("quotation", "getUnquotatedQuotations", start, limit)
 
 #### response
 
-| name               | type | note               |
-| ----               | ---- | ----               |
-| quotation-group-id | uuid | Quotation Group ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/quotation/getUnquotatedQuotations.json)
 
@@ -270,9 +330,24 @@ rpc.call("quotation", "getQuotations")
 
 #### response
 
-| name               | type | note               |
-| ----               | ---- | ----               |
-| quotation-group-id | uuid | Quotation Group ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/quotation/getQuotations.json)
 
@@ -298,9 +373,24 @@ rpc.call("quotation", "getQuotation", qid)
 
 #### response
 
-| name               | type | note               |
-| ----               | ---- | ----               |
-| quotation-group-id | uuid | Quotation Group ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/quotation/getQuotation.json)
 
@@ -326,8 +416,23 @@ rpc.call("quotation", "getTicket", oid)
 
 #### response
 
-| name               | type | note               |
-| ----               | ---- | ----               |
-| quotation-group-id | uuid | Quotation Group ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/quotation/getTicket.json)

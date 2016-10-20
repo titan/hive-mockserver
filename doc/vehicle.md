@@ -14,31 +14,31 @@
     - [request](#request)
       - [example](#example)
     - [response](#response)
-  - [获取报价提交表单(新车已上牌)(个人) setVehicleInfoOnCard](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicleinfooncard)
+  - [获取报价提交表单(新车已上牌)(个人) setVehicleOnCard](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicleoncard)
     - [request](#request-1)
       - [example](#example-1)
     - [response](#response-1)
-  - [获取报价提交表单(新车未上牌)(个人) setVehicleInfo](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E6%9C%AA%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicleinfo)
+  - [获取报价提交表单(新车未上牌)(个人) setVehicle](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E6%9C%AA%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicle)
     - [request](#request-2)
       - [example](#example-2)
     - [response](#response-2)
-  - [获取报价提交表单(新车已上牌)(企业) setVehicleInfoOnCardEnterprise](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%BC%81%E4%B8%9A-setvehicleinfooncardenterprise)
+  - [获取报价提交表单(新车已上牌)(企业) setVehicleOnCardEnterprise](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%BC%81%E4%B8%9A-setvehicleoncardenterprise)
     - [request](#request-3)
       - [example](#example-3)
     - [response](#response-3)
-  - [获取报价提交表单(新车未上牌)(企业) setVehicleInfoEnterprise](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E6%9C%AA%E4%B8%8A%E7%89%8C%E4%BC%81%E4%B8%9A-setvehicleinfoenterprise)
+  - [获取报价提交表单(新车未上牌)(企业) setVehicleEnterprise](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E6%9C%AA%E4%B8%8A%E7%89%8C%E4%BC%81%E4%B8%9A-setvehicleenterprise)
     - [request](#request-4)
       - [example](#example-4)
     - [response](#response-4)
-  - [提交驾驶人信息 setDriverInfo](#%E6%8F%90%E4%BA%A4%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-setdriverinfo)
+  - [提交驾驶人信息 setDriver](#%E6%8F%90%E4%BA%A4%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-setdriver)
     - [request](#request-5)
     - [response](#response-5)
-  - [修改驾驶人信息 changeDriverInfo](#%E4%BF%AE%E6%94%B9%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-changedriverinfo)
-  - [获取所有车信息 getVehicleInfos](#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicleinfos)
+  - [修改驾驶人信息 changeDriver](#%E4%BF%AE%E6%94%B9%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-changedriver)
+  - [获取所有车信息 getVehicles](#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicles)
       - [example](#example-5)
-  - [获取某个车信息 getVehicleInfo](#%E8%8E%B7%E5%8F%96%E6%9F%90%E4%B8%AA%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicleinfo)
+  - [获取某个车信息 getVehicle](#%E8%8E%B7%E5%8F%96%E6%9F%90%E4%B8%AA%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicle)
       - [example](#example-6)
-  - [获取驾驶人信息 getDriverInfos](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriverinfos)
+  - [获取驾驶人信息 getDrivers](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdrivers)
   - [注：前端禁用](#%E6%B3%A8%EF%BC%9A%E5%89%8D%E7%AB%AF%E7%A6%81%E7%94%A8)
   - [上传证件照 uploadDriverImages](#%E4%B8%8A%E4%BC%A0%E8%AF%81%E4%BB%B6%E7%85%A7-uploaddriverimages)
   - [查看用户上传证件情况  uploadStatus](#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E8%AF%81%E4%BB%B6%E6%83%85%E5%86%B5--uploadstatus)
@@ -142,6 +142,8 @@
 
 ```javascript
 
+var order_id = "94845290-901d-11e6-baa4-e13a142bc7ae";
+
 rpc.call("vehicle", "uploadStatus", order_id)
   .then(function (result) {
 
@@ -152,42 +154,71 @@ rpc.call("vehicle", "uploadStatus", order_id)
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+成功：
 
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
 
-### 获取某个车信息 getVehicle
+### 获取车型和车的信息  getModelAndVehicle
+
+#### request
+
+| name      | type | note   |
+| ----      | ---- | ----   |
+| vid | uuid | 车id |
 
 ##### example
 
 ```javascript
 
-let vid = "00000000-0000-0000-0000-000000000000";
-rpc.call("vehicle", "getVehicle", vid)
+var vid = '94845290-901d-11e6-baa4-e13a142bc7ae';
+
+rpc.call("vehicle", "getModelAndVehicle", vid)
   .then(function (result) {
 
   }, function (error) {
 
   });
-
 ```
 
 #### response
 
-| name          | type          | note          |
-| ----          | ----          | ----          |
-| vehicle | vehicle | Vehicle |
+成功：
 
-See [example](../data/vehicle/getVehicle.json)
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
 
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See 成功返回数据：[example](../data/vehicle/getModelAndVehicle.json)
 
 ### 获取某个车型信息 getVehicleModel
 
@@ -196,6 +227,7 @@ See [example](../data/vehicle/getVehicle.json)
 ```javascript
 
 let vehicle_code = "I0000000000000000250000000000041";
+
 rpc.call("vehicle", "getVehicleModel", vid)
   .then(function (result) {
 
@@ -207,12 +239,67 @@ rpc.call("vehicle", "getVehicleModel", vid)
 
 #### response
 
-| name          | type          | note          |
-| ----          | ----          | ----          |
-| vehicle-model | vehicle-model | Vehicle Model |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/vehicle/getVehicleModel.json)
 
+
+### 获取某个车信息 getVehicle
+
+##### example
+
+```javascript
+
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("vehicle", "getVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/vehicle/getVehicle.json)
 
 ### 获取所有车信息 getVehicles
 
@@ -231,9 +318,24 @@ rpc.call("vehicle", "getVehicles")
 
 #### response
 
-| name          | type          | note          |
-| ----          | ----          | ----          |
-| vehicle | vehicle | Vehicle |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/vehicle/getVehicles.json)
 
@@ -254,14 +356,29 @@ rpc.call("vehicle", "getDrivers", vid, pid)
 ```
 #### response
 
-| name          | type          | note          |
-| ----          | ----          | ----          |
-| vehicle | vehicle | Vehicle |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/vehicle/getDrivers.json)
 
 
-### 获取报价提交表单(新车已上牌)(个人) setVehicleInfoOnCard
+### 获取报价提交表单(新车已上牌)(个人) setVehicleOnCard
 
 #### request
 
@@ -296,7 +413,7 @@ var is_transfer = "";
 var last_insurance_company = "";
 var insurance_due_date = "";
 
-rpc.call("vehicle", "setVehicleInfoOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
+rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
   register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date)
   .then(function (result) {
 
@@ -307,15 +424,24 @@ rpc.call("vehicle", "setVehicleInfoOnCard", name, identity_no, phone, recommend,
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码 |
-| status | string | 结果内容 |
+成功：
 
-| code  | status   | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 
 ### 获取报价提交表单(新车未上牌)(个人) setVehicle
@@ -351,7 +477,7 @@ var receipt_no = "";
 var receipt_date = "";
 var last_insurance_company = "";
 
-rpc.call("vehicle", "setVehicleInfo", name, identity_no, phone, recommend, vehicle_code, engine_no,
+rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_code, engine_no,
   receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company)
   .then(function (result) {
 
@@ -362,17 +488,26 @@ rpc.call("vehicle", "setVehicleInfo", name, identity_no, phone, recommend, vehic
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码 |
-| status | string | 结果内容 |
+成功：
 
-| code  | status   | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
 
-See [example](../data/vehicle/setVehicleInfo.json)
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/vehicle/setVehicle.json)
 
 
 ### 添加驾驶人信息 setDriver
@@ -404,9 +539,24 @@ rpc.call("vehicle", "setDriver", vid, drivers)
 
 #### response
 
-| name | type | note      |
-| ---- | ---- | ----      |
-| pid  | uuid | Person ID |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/vehicle/setDriver.json)
 
@@ -441,7 +591,6 @@ See [example](../data/vehicle/getVehicleModelsByMake.json)
 
 ### 上传证件照 uploadDriverImages
 
-
 ```javascript
 
 var vid = "00000000-0000-0000-0000-000000000000";
@@ -463,9 +612,24 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
 ```
 #### response
 
-| name          | type          | note          |
-| ----          | ----          | ----          |
-| vehicle | vehicle | Vehicle |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 See [example](../data/vehicle/uploadDriverImages.json)
 
 ### 获取用户车信息 getUserVehicles
@@ -482,8 +646,23 @@ rpc.call("vehicle", "getUserVehicles")
 ```
 #### response
 
-| name          | type          | note          |
-| ----          | ----          | ----          |
-| vehicle | vehicle | Vehicle|
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/vehicle/getUserVehicles.json)
