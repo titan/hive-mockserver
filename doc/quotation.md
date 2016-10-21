@@ -53,6 +53,10 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | num  | float  | 数量 |
 | unit | string | 单位 |
 
+### 后台提醒
+
+[![后台提醒状态](../img/new-message-states.svg)](后台提醒状态)
+
 ## 表结构
 
 ### quotations
@@ -117,11 +121,23 @@ sorted 是元素在列表中的顺序
 
 ## 缓存结构
 
-### quotation
+### unquotated-quotations 
+
+| key           | type       | value                  | note     |
+| ----          | ----       | ----                   | ----     |
+| unquotated-quotations | sorted set | (报价生成时间, 已报价ID) | 已报价汇总 |
+
+### quotated-quotations
 
 | key        | type | value               | note         |
 | ----       | ---- | ----                | ----         |
-| quotations | hash | 报价ID => 报价 JSON | 所有报价实体 |
+| quotated-quotations | sorted set | (报价更新时间, 未报价ID) | 已报价汇总 |
+
+### quotation-entities
+
+| key               | type | value                   | note           |
+| ----              | ---- | ----                    | ----           |
+| quotation-entities | hash | 报价ID => 报价 JSON | 所有报价实体 |
 
 ## 接口
 
@@ -436,3 +452,74 @@ rpc.call("quotation", "getTicket", oid)
 | 500  | 未知错误          |
 
 See [example](../data/quotation/getTicket.json)
+
+### 刷新报价缓存 refresh
+
+#### !!禁止前端调用！！
+#### request
+
+| name    | type   | note    |
+| ----    | ----   | ----    |
+
+##### example
+
+```javascript
+
+rpc.call("quotation", "refresh")
+  .then(function (result) {
+
+  }, function (error) {
+        
+  });
+```
+#### response
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| code   | int    | 结果编码  |
+| msg    | string | 结果内容  |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | null     | 成功     |
+| other | 错误信息  | 失败     |
+
+See 成功返回数据：[example](../data/quotation/sucessful.json)
+
+### 后台提醒 newMessageNotify
+
+#### request
+
+```javascript
+
+rpc.call("quotation", "newMessageNotify")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/quotation/newMessageNotify.json)
