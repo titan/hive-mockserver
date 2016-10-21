@@ -391,6 +391,19 @@
 | ----                | ---- | ----                | ----         |
 | underwrite-entities | hash | 核保ID => 核保 JSON | 所有核保实体 |
 
+### newOrders 
+
+| key           | type       | value                  | note     |
+| ----          | ----       | ----                   | ----     |
+| newOrders-id | sorted set | (订单生成时间, 订单ID) | 新订单汇总 |
+
+### newPays 
+
+| key           | type       | value                  | note     |
+| ----          | ----       | ----                   | ----     |
+| newPays-id | sorted set | (订单更新时间, 订单ID) | 新支付汇总 |
+
+
 ## 接口
 
 ### 下计划单 placeAnPlanOrder
