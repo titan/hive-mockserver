@@ -145,14 +145,16 @@ sorted 是元素在列表中的顺序
 
 #### request
 
-| name           | type    | note     |
-| ----           | ----    | ----     |
-| vid            | uuid    | 车辆 ID  |
+| name           | type    | note       |
+| ----           | ----    | ----       |
+| vid            | uuid    | 车辆 ID     |
+| VIN            | string  | 车辆 VIN码  |
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
+let VIN = "LSVFA49J232037048"
 
-rpc.call("quotation", "createQuotation", vid)
+rpc.call("quotation", "createQuotation", vid, VIN)
   .then(function (result) {
 
   }, function (error) {

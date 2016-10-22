@@ -1190,3 +1190,42 @@ rpc.call("underwrite", "getUnderwriteByUWId", uwid)
 | other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/underwrite/getUnderwriteByUWId.json)
+
+### 判断一个VIN码是否有订单 ValidOrder
+
+#### request
+
+```javascript
+
+rpc.call("order", "ValidOrder")
+
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/quotation/ValidOrder.json)
