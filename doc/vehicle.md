@@ -175,51 +175,6 @@ rpc.call("vehicle", "uploadStatus", order_id)
 
 See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
 
-### 获取车型和车的信息  getModelAndVehicle
-
-#### request
-
-| name      | type | note   |
-| ----      | ---- | ----   |
-| vid | uuid | 车id |
-
-##### example
-
-```javascript
-
-var vid = '94845290-901d-11e6-baa4-e13a142bc7ae';
-
-rpc.call("vehicle", "getModelAndVehicle", vid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
-
-See 成功返回数据：[example](../data/vehicle/getModelAndVehicle.json)
-
 ### 获取某个车型信息 getVehicleModel
 
 ##### example
