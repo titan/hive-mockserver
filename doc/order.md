@@ -113,6 +113,9 @@
 
 ## ChangeLog
 
+1. 2016-10-24
+  * order-items 表将 pid 改为 oid
+
 1. 2016-10-15
   * 增加订单编号
 
@@ -283,11 +286,8 @@
 | ----  | ----  | ---- | ----    | ----    | ----        |
 | id    | uuid  |      |         | primary |             |
 | piid  | uuid  |      |         |         | plan\_items |
-| pid   | uuid  |      |         | ✓       |             |
+| oid   | uuid  |      |         |         |             |
 | price | float |      | 0.0     |         |             |
-
-注意：此表的 pid 不是 plan-id 的缩写，是 parent-id 的意思。
-可以成为 parent 的有 plan (对应 plan-order)，或者 sale-order。
 
 ### order\_events
 
