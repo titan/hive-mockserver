@@ -36,19 +36,19 @@
 
 ## 接口
 
-### 根据userid获得某个用户信息 getUserInfoByUserId
+### 获得当前用户信息 getUser
 
 #### request
 
 | name    | type   | note    |
 | ----    | ----   | ----    |
-| user_id | uuid   | 用户id   |
 
 ##### example
 
 ```javascript
 
-rpc.call("profile", "getUserInfoByUserId", user_id)
+
+rpc.call("profile", "getUser")
   .then(function (result) {
 
   }, function (error) {
@@ -68,20 +68,21 @@ rpc.call("profile", "getUserInfoByUserId", user_id)
 | 200   | null     | 成功     |
 | other | 错误信息  | 失败     |
 
-See 成功返回数据：[example](../data/profile/getUserInfo.json)
+See 成功返回数据：[example](../data/profile/getUser.json)
 
-### 获得用户信息 getUserInfo
+### 根据userid获得某个用户信息 getUserByUserId
 
 #### request
 
 | name    | type   | note    |
 | ----    | ----   | ----    |
+| user_id | uuid   | 用户id   |
 
 ##### example
 
 ```javascript
 
-rpc.call("profile", "getUserInfo")
+rpc.call("profile", "getUserByUserId")
   .then(function (result) {
 
   }, function (error) {
@@ -101,7 +102,7 @@ rpc.call("profile", "getUserInfo")
 | 200   | null     | 成功     |
 | other | 错误信息  | 失败     |
 
-See 成功返回数据：[example](../data/profile/getUserInfo.json)
+See 成功返回数据：[example](../data/profile/getUserByUserId.json)
 
 ### 获得用户openid getUserOpenId
 
@@ -137,48 +138,6 @@ rpc.call("profile", "getUserOpenId", uid)
 | other | 错误信息  | 失败     |
 
 See 成功返回数据：[example](../data/profile/getUserOpenId.json)
-
-### 添加用户信息 addUserInfo
-
-#### request
-
-| name    | type   | note    |
-| ----    | ----   | ----    |
-| uid     | uuid   | 用户id   |
-| openid  | string | openid  |
-| gender  | string | 性别     |
-| nickname| string | 昵称     |
-| portrait| string | 头像     |
-
-##### example
-
-```javascript
-var uid = "a7354820-904c-11e6-a2dc-6320aa4a9b08";
-var openid = "obxM2wvAjoNGtHZkYzBI_I4blpl8";
-var gender = "女";
-var nickname = "vivian";
-var portrait = "https://www.baidu.com/img/bd_logo1.png";
-
-rpc.call("profile", "addUserInfo", uid, openid, gender, nickname, portrait)
-  .then(function (result) {
-
-  }, function (error) {
-        
-  });
-```
-#### response
-
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| data/msg    | string | 结果内容  |
-
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功     |
-| other   | 错误信息  | 失败     |
-
-See 成功返回数据: [example](../data/profile/sucessful.json)
 
 ### 刷新用户缓存 refresh
 
@@ -245,6 +204,44 @@ rpc.call("profile", "getAllUsers", start, limit)
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
 | 200   | null     | 成功     |
-| other | 错误信息  | 失败     |
+| other   | 错误信息  | 失败     |
 
 See 成功返回数据：[example](../data/profile/getAllUsers.json)
+
+### 根据userid数组获得一些用户信息 getUserByUserIds
+
+#### request
+
+| name    | type   | note    |
+| ----    | ----   | ----    |
+| user_ids | [uuid]   | 用户id   |
+
+##### example
+
+```javascript
+
+var user_ids = [
+  
+]
+rpc.call("profile", "getUserByUserIds")
+  .then(function (result) {
+
+  }, function (error) {
+        
+  });
+```
+
+#### response
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| code   | int    | 结果编码  |
+| data/msg    | string | 结果内容  |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | users     | 用户信息     |
+| 404   | not found  | 未找到     |
+| 500   | err  | 错误信息     |
+
+See 成功返回数据：[example](../data/profile/getUserByUserIds.json)

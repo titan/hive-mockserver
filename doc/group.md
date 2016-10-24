@@ -39,6 +39,8 @@
     - [response](#response-7)
 - [Trigger](#trigger)
   - [group](#group-1)
+- [Timer](#timer)
+  - [group-vehicle](#group-vehicle)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -46,6 +48,7 @@
 
 1. 2016-10-09
   * group 增加互助事件数量。
+  * 增加定时触发器设计。
 
 1. 2016-10-06
   * 增加查询申请加入互助组结果的函数。
@@ -633,3 +636,14 @@ See [example](../data/group/getGroupPollsStatus.json)
 | group | group | group 实体对象 |
 
 See [example](../data/group/group-trigger.json)
+
+## Timer
+
+### group-vehicle
+
+把满足条件的等待生效车辆加入到已加入车辆列表中。
+
+| 调度参数 | 内容          |
+| ----     | ----          |
+| 激发时间 | 每日凌晨 0 点 |
+| 频率     | 每日一次      |

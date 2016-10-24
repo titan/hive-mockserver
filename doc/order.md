@@ -1,12 +1,129 @@
-# Order 模块
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-## 数据结构
+- [ChangeLog](#changelog)
+- [Data Structure](#data-structure)
+  - [driver-order](#driver-order)
+  - [sale-order](#sale-order)
+  - [plan-order](#plan-order)
+  - [order-item](#order-item)
+  - [order-event](#order-event)
+  - [underwrite](#underwrite)
+  - [photo](#photo)
+  - [order states](#order-states)
+- [Database](#database)
+  - [orders](#orders)
+  - [plan\_order\_ext](#plan%5C_order%5C_ext)
+  - [driver\_order\_ext](#driver%5C_order%5C_ext)
+  - [sale\_order\_ext](#sale%5C_order%5C_ext)
+  - [order\_items](#order%5C_items)
+  - [order\_events](#order%5C_events)
+  - [underwrite](#underwrite-1)
+  - [underwrite-photos](#underwrite-photos)
+- [缓存结构](#%E7%BC%93%E5%AD%98%E7%BB%93%E6%9E%84)
+  - [driver-order](#driver-order-1)
+  - [sale-order](#sale-order-1)
+  - [plan-order](#plan-order-1)
+  - [orders](#orders-1)
+  - [order-entities](#order-entities)
+  - [order-driver-entities](#order-driver-entities)
+  - [underwrite](#underwrite-2)
+  - [underwrite-entities](#underwrite-entities)
+- [接口](#%E6%8E%A5%E5%8F%A3)
+  - [下计划单 placeAnPlanOrder](#%E4%B8%8B%E8%AE%A1%E5%88%92%E5%8D%95-placeanplanorder)
+    - [request](#request)
+    - [response](#response)
+  - [下司机单 placeAnDriverOrder](#%E4%B8%8B%E5%8F%B8%E6%9C%BA%E5%8D%95-placeandriverorder)
+    - [request](#request-1)
+    - [response](#response-1)
+  - [下代售单 placeAnSaleOrder](#%E4%B8%8B%E4%BB%A3%E5%94%AE%E5%8D%95-placeansaleorder)
+    - [request](#request-2)
+  - [修改代售单 updateSaleOrder](#%E4%BF%AE%E6%94%B9%E4%BB%A3%E5%94%AE%E5%8D%95-updatesaleorder)
+    - [request](#request-3)
+  - [根据vid获取代售单 getSaleOrder](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E4%BB%A3%E5%94%AE%E5%8D%95-getsaleorder)
+    - [request](#request-4)
+  - [根据vid获取已生效计划单 getPlanOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%B7%B2%E7%94%9F%E6%95%88%E8%AE%A1%E5%88%92%E5%8D%95-getplanorderbyvehicle)
+    - [request](#request-5)
+  - [根据vid获取司机单 getDriverOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%8F%B8%E6%9C%BA%E5%8D%95-getdriverorderbyvehicle)
+    - [request](#request-6)
+  - [更新订单状态 updateOrderState](#%E6%9B%B4%E6%96%B0%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-updateorderstate)
+    - [request](#request-7)
+    - [response](#response-2)
+  - [获取订单列表 getOrders](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8-getorders)
+    - [request](#request-8)
+    - [response](#response-3)
+  - [获取订单详情 getOrder](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85-getorder)
+    - [request](#request-9)
+    - [response](#response-4)
+  - [获取驾驶人信息 getDriverOrders](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriverorders)
+    - [request](#request-10)
+    - [response](#response-5)
+  - [获取订单状态 getOrderState](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-getorderstate)
+    - [request](#request-11)
+    - [response](#response-6)
+      - [没有对应订单](#%E6%B2%A1%E6%9C%89%E5%AF%B9%E5%BA%94%E8%AE%A2%E5%8D%95)
+      - [有对应订单](#%E6%9C%89%E5%AF%B9%E5%BA%94%E8%AE%A2%E5%8D%95)
+  - [生成核保 createUnderwrite](#%E7%94%9F%E6%88%90%E6%A0%B8%E4%BF%9D-createunderwrite)
+    - [request](#request-12)
+      - [example](#example)
+    - [response](#response-7)
+  - [工作人员填充验车信息 fillUnderwrite](#%E5%B7%A5%E4%BD%9C%E4%BA%BA%E5%91%98%E5%A1%AB%E5%85%85%E9%AA%8C%E8%BD%A6%E4%BF%A1%E6%81%AF-fillunderwrite)
+    - [request](#request-13)
+      - [example](#example-1)
+    - [response](#response-8)
+  - [提交审核结果 submitUnderwriteResult](#%E6%8F%90%E4%BA%A4%E5%AE%A1%E6%A0%B8%E7%BB%93%E6%9E%9C-submitunderwriteresult)
+    - [request](#request-14)
+      - [example](#example-2)
+    - [response](#response-9)
+  - [修改预约验车地点  alterValidatePlace](#%E4%BF%AE%E6%94%B9%E9%A2%84%E7%BA%A6%E9%AA%8C%E8%BD%A6%E5%9C%B0%E7%82%B9--altervalidateplace)
+    - [request](#request-15)
+      - [example](#example-3)
+    - [response](#response-10)
+  - [修改审核结果  alterUnderwriteResult](#%E4%BF%AE%E6%94%B9%E5%AE%A1%E6%A0%B8%E7%BB%93%E6%9E%9C--alterunderwriteresult)
+    - [request](#request-16)
+      - [example](#example-4)
+    - [response](#response-11)
+  - [修改实际验车地点 alterRealPlace](#%E4%BF%AE%E6%94%B9%E5%AE%9E%E9%99%85%E9%AA%8C%E8%BD%A6%E5%9C%B0%E7%82%B9-alterrealplace)
+    - [request](#request-17)
+      - [example](#example-5)
+    - [response](#response-12)
+  - [修改备注 alterNote](#%E4%BF%AE%E6%94%B9%E5%A4%87%E6%B3%A8-alternote)
+    - [request](#request-18)
+      - [example](#example-6)
+    - [response](#response-13)
+  - [上传现场图片 uploadPhotos](#%E4%B8%8A%E4%BC%A0%E7%8E%B0%E5%9C%BA%E5%9B%BE%E7%89%87-uploadphotos)
+    - [request](#request-19)
+      - [example](#example-7)
+    - [response](#response-14)
+  - [根据订单编号得到核保信息 getUnderwriteByOrderNo](#%E6%A0%B9%E6%8D%AE%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyorderno)
+    - [request](#request-20)
+      - [example](#example-8)
+    - [response](#response-15)
+  - [根据订单号得到核保信息 getUnderwriteByOrderId](#%E6%A0%B9%E6%8D%AE%E8%AE%A2%E5%8D%95%E5%8F%B7%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyorderid)
+    - [request](#request-21)
+      - [example](#example-9)
+    - [response](#response-16)
+  - [根据核保ID得到核保信息 getUnderwriteByUWId](#%E6%A0%B9%E6%8D%AE%E6%A0%B8%E4%BF%9Did%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyuwid)
+    - [request](#request-22)
+      - [example](#example-10)
+    - [response](#response-17)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## ChangeLog
+
+1. 2016-10-15
+  * 增加订单编号
+
+## Data Structure
 
 ### driver-order
 
 | name       | type     | note         |
 | ----       | ----     | ----         |
 | id         | uuid     | 主键         |
+| no         | string   | 订单编号     |
 | type       | int      | 订单类型 1   |
 | state-code | int      | 订单状态编码 |
 | state      | string   | 订单状态     |
@@ -44,6 +161,7 @@
 | vehicle       | vehicle      | 车辆              |
 | plans         | [plan]       | 包含的 plan       |
 | items         | [order-item] | 包含的 order-item |
+| quotation     | quotation    | 报价              |
 | promotion     | promotion    | 促销              |
 | service-ratio | float        | 服务费率          |
 | summary       | float        | 订单总额          |
@@ -104,13 +222,14 @@
 [![订单状态转换图](../img/order-states.svg)](订单状态转换图)
 [![订单状态转换图](../img/order-states.png)](订单状态转换图)
 
-## 数据库结构
+## Database
 
 ### orders
 
 | field       | type      | null | default | index   | reference |
 | ----        | ----      | ---- | ----    | ----    | ----      |
 | id          | uuid      |      |         | primary |           |
+| no          | char(32)  |      |         | ✓       |           |
 | vid         | uuid      |      |         |         | vehicles  |
 | type        | smallint  |      | 0       |         |           |
 | state\_code | int       |      | 0       |         |           |
@@ -131,6 +250,7 @@
 | pid            | uuid      |      |         |         | plans      |
 | qid            | uuid      |      |         |         | quotations |
 | pmid           | uuid      | ✓    |         |         | promotions |
+| promotion      | real      | ✓    |         |         | promotion  |
 | service\_ratio | float     |      |         |         |            |
 | expect\_at     | timestamp |      | now     |         |            |
 | created\_at    | timestamp |      | now     |         |            |
@@ -209,7 +329,7 @@
 | 1                  | 上传部分证件 |
 | 2                  | 证件全部上传 |
 
-### underwrite_photos
+### underwrite-photos
 
 | field                  | type       | null | default | index   | reference  |
 | ----                   | ----       | ---- | ----    | ----    | ----       |
@@ -255,9 +375,9 @@
 
 ### order-driver-entities
 
-| key                    | type | value               | note             |
-| ----                   | ---- | ----                | ----             |
-| order-driver-entities  | hash | VID =>  驾驶人 JSON  | 所有车辆已生效驾驶人| 
+| key                   | type | value               | note                 |
+| ----                  | ---- | ----                | ----                 |
+| order-driver-entities | hash | VID =>  驾驶人 JSON | 所有车辆已生效驾驶人 |
 
 ### underwrite
 
@@ -267,9 +387,22 @@
 
 ### underwrite-entities
 
-| key            | type | value               | note         |
-| ----           | ---- | ----                | ----         |
+| key                 | type | value               | note         |
+| ----                | ---- | ----                | ----         |
 | underwrite-entities | hash | 核保ID => 核保 JSON | 所有核保实体 |
+
+### newOrders 
+
+| key           | type       | value                  | note     |
+| ----          | ----       | ----                   | ----     |
+| newOrders-id | sorted set | (订单生成时间, 订单ID) | 新订单汇总 |
+
+### newPays 
+
+| key           | type       | value                  | note     |
+| ----          | ----       | ----                   | ----     |
+| newPays-id | sorted set | (订单更新时间, 订单ID) | 新支付汇总 |
+
 
 ## 接口
 
@@ -282,11 +415,11 @@
 | vid           | uuid         | 车辆 ID      |
 | plans         | {pid: items} | 计划 ID 列表 |
 | qid           | uuid         | 报价 ID      |
-| pm_price      | float        | 优惠价格      |
+| pm-price      | float        | 优惠价格     |
 | service-ratio | float        | 服务费率     |
 | summary       | float        | 总价         |
 | payment       | float        | 实付         |
-| v_value       | float        | 车辆实际价值  |
+
 其中, items 的结构为: `{piid: price}`。piid 是 plan-item 的 ID。
 
 ```javascript
@@ -306,10 +439,9 @@ let pm_price = 500;
 let service_ratio = 0;
 let summary = 6000;
 let payment = 6000;
-let v_value = 100000;
 let expect_at = "2016-08-01T00:00:00.000+800Z";
 
-rpc.call("order", "placeAnPlanOrder", vid, plans, qid, pmid, service_ratio, summary, payment, expect_at)
+rpc.call("order", "placeAnPlanOrder", vid, plans, qid, pm_price, service_ratio, summary, payment, expect_at)
   .then(function (result) {
 
   }, function (error) {
@@ -399,14 +531,17 @@ rpc.call("order", "placeAnSaleOrder", vid, pid, qid, items, summary, payment)
   });
 
 ```
+
+
+
 ### 修改代售单 updateSaleOrder
 
 #### request
 
-| name    | type          | note     |
-| ----    | ----          | ----     |
-| order_id     | uuid          | 车辆 ID  |
-| items   | {piid: price} | 代售条目 |
+| name     | type          | note     |
+| ----     | ----          | ----     |
+| order-id | uuid          | 车辆 ID  |
+| items    | {piid: price} | 代售条目 |
 
 ```javascript
 let order_id = "00000000-0000-0000-0000-000000000000";
@@ -422,7 +557,36 @@ rpc.call("order", "updateSaleOrder", order_id, items)
 
   });
 
+
 ```
+### 修改订单编号 updatePlanOrderNo
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| order_no| string        |  订单no   |
+
+```javascript
+let order_no = "111000100120160000001";
+
+rpc.call("order", "updatePlanOrderNo", order_no)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | number | 状态码    |
+| order-no | string | newOrderNo |
+
+
 ### 根据vid获取代售单 getSaleOrder
 
 #### request
@@ -489,11 +653,11 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 
 #### request
 
-| name       | type          | note      |
-| ----       | ----          | ----      |
-| order_id   | uuid          | 订单 ID   |
-| state_code | int           |订单状态编码 |
-| state      | string        |订单状态    |
+| name       | type   | note         |
+| ----       | ----   | ----         |
+| order-id   | uuid   | 订单 ID      |
+| state-code | int    | 订单状态编码 |
+| state      | string | 订单状态     |
 
 ```javascript
 let order_id = "00000000-0000-0000-0000-000000000000";
@@ -523,8 +687,8 @@ rpc.call("order", "updateOrderState", order_id, state_code, state)
 | name   | type | note           |
 | ----   | ---- | ----           |
 | uid    | uuid | User ID        |
-| offset | int  | 结果集起始地址   | 
-| limit  | int  | 结果集大小      |
+| offset | int  | 结果集起始地址 |
+| limit  | int  | 结果集大小     |
 
 #### response
 
@@ -548,40 +712,45 @@ See [example](../data/order/getOrders.json)
 | ----  | ----  | ----       |
 | order | order | Order 详情 |
 
-### 获取驾驶人信息 getDriverOrders 
+### 获取驾驶人信息 getDriverOrders
 
 #### request
 
-| name     | type | note      |
-| ----     | ---- | ----      |
-| vid      | uuid | vehicle ID  |
+| name | type | note       |
+| ---- | ---- | ----       |
+| vid  | uuid | vehicle ID |
 
 #### response
 
-| name    | type   | note         |
-| ----    | ----   | ----         |
-| drivers | driver | 驾驶人详情详情 | 
+| name    | type   | note           |
+| ----    | ----   | ----           |
+| drivers | driver | 驾驶人详情详情 |
 
 
-### 获取订单状态 getOrderState 
+### 获取订单状态 getOrderState
 
 #### request
 
-| name     | type | note      |
-| ----     | ---- | ----      |
-| vid      | uuid | vehicle ID|
-| qid      | uuid | 报价 ID    |
+| name | type | note       |
+| ---- | ---- | ----       |
+| vid  | uuid | vehicle ID |
+| qid  | uuid | 报价 ID    |
+
 #### response
+
 ##### 没有对应订单
-| name    | value  | note         |
-| ----    | ----   | ----         |
-| code    |  500   |  返回状态码    |
-|state    |not found| 返回状态      |
+
+| name  | value     | note       |
+| ----  | ----      | ----       |
+| code  | 500       | 返回状态码 |
+| state | not found | 返回状态   |
+
 ##### 有对应订单
-|  name  |  type  | note  |
-|   ---- |  ----  | ----  |
-| state  |  int   |订单状态码|
-|state_code|string|订单状态|
+
+| name       | type   | note       |
+| ----       | ----   | ----       |
+| state      | int    | 订单状态码 |
+| state-code | string | 订单状态   |
 
 
 See [计划订单](../data/order/getPlanOrder.json)
@@ -597,8 +766,8 @@ See [代售订单](../data/order/getSaleOrder.json)
 | name                 | type      | note                     |
 | ----                 | ----      | ----                     |
 | oid                  | uuid      | 订单id                   |
-| plan_time            | timestamp | 计划核保时间             |
-| validate_place       | string    | 预约验车地点             |
+| plan-time            | timestamp | 计划核保时间             |
+| validate-place       | string    | 预约验车地点             |
 
 ##### example
 
@@ -608,7 +777,7 @@ rpc.call("underwrite", "createUnderwrite", oid, plan_time, validate_place)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -631,16 +800,16 @@ See 成功返回数据：[example](../data/underwrite/createUnderwrite.json)
 
 #### request
 
-| name              | type      | note             |
-| ----              | ----      | ----             |
-| uwid              | uuid      | 核保编号         |
-| real_place        | string    | 实际验车地点     |
-| opid              | uuid      | 操作员id        |
-| certificate_state | int       | 用户证件上传情况 |
-| problem_type      | [string]    | 车辆存在问题类型  |
-| problem_description | string    | 车辆存在问题描述  |
-| note              | string      |  备注           |
-| photos            | [photo]   | 照片             |
+| name                | type     | note             |
+| ----                | ----     | ----             |
+| uwid                | uuid     | 核保编号         |
+| real-place          | string   | 实际验车地点     |
+| opid                | uuid     | 操作员id         |
+| certificate-state   | int      | 用户证件上传情况 |
+| problem-type        | [string] | 车辆存在问题类型 |
+| problem-description | string   | 车辆存在问题描述 |
+| note                | string   | 备注             |
+| photos              | [photo]  | 照片             |
 
 
 ##### example
@@ -667,7 +836,7 @@ rpc.call("underwrite", "fillUnderwrite", uwid, real_place, opid, certificate_sta
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -689,10 +858,10 @@ See 成功返回数据：[example](../data/underwrite/fillUnderwrite.json)
 
 #### request
 
-| name               | type    | note                 |
-| ----               | ----    | ----                 |
-| uwid               | uuid    | 核保编号             |
-| underwrite_result  | string  | 核保结果             |
+| name              | type   | note     |
+| ----              | ----   | ----     |
+| uwid              | uuid   | 核保编号 |
+| underwrite-result | string | 核保结果 |
 
 ##### example
 
@@ -705,7 +874,7 @@ rpc.call("underwrite", "submitUnderwriteResult", uwid, underwrite_result)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -727,10 +896,10 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 
 #### request
 
-| name                 | type    | note                     |
-| ----                 | ----    | ----                     |
-| uwid                 | uuid    | 核保编号                 |
-| validate_place       | string  | 预约验车地点             |
+| name           | type   | note         |
+| ----           | ----   | ----         |
+| uwid           | uuid   | 核保编号     |
+| validate-place | string | 预约验车地点 |
 
 ##### example
 
@@ -743,7 +912,7 @@ rpc.call("underwrite", "alterValidatePlace", uwid, validate_place)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -765,10 +934,10 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 
 #### request
 
-| name               | type    | note                 |
-| ----               | ----    | ----                 |
-| uwid               | uuid    | 核保编号             |
-| underwrite_result  | string  | 核保结果             |
+| name              | type   | note     |
+| ----              | ----   | ----     |
+| uwid              | uuid   | 核保编号 |
+| underwrite-result | string | 核保结果 |
 
 ##### example
 
@@ -781,7 +950,7 @@ rpc.call("underwrite", "alterUnderwriteResult", uwid, underwrite_result);
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -803,10 +972,10 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 
 #### request
 
-| name             | type    | note                     |
-| ----             | ----    | ----                     |
-| uwid             | uuid    | 核保编号                 |
-| real_place       | string  | 实际验车地点             |
+| name       | type   | note         |
+| ----       | ----   | ----         |
+| uwid       | uuid   | 核保编号     |
+| real-place | string | 实际验车地点 |
 
 ##### example
 
@@ -819,7 +988,7 @@ rpc.call("underwrite", "alterRealPlace", uwid, real_place);
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -857,7 +1026,7 @@ rpc.call("underwrite", "alterNote", uwid, note)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -895,7 +1064,7 @@ rpc.call("underwrite", "uploadPhotos", uwid, photo)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -913,25 +1082,25 @@ rpc.call("underwrite", "uploadPhotos", uwid, photo)
 
 See 成功返回数据：[example](../data/underwrite/sucessful.json)
 
-### 根据订单编号得到核保信息 getUnderwriteByOrderNumber
+### 根据订单编号得到核保信息 getUnderwriteByOrderNo
 
 #### request
 
 | name | type   | note     |
 | ---- | ----   | ----     |
-| oid  | string | 订单编号 |
+| no   | string | 订单编号 |
 
 ##### example
 
 ```javascript
 
-var oid = "0000000000-0000-0000-0000-000000000000";
+var no = "000000000000000000000000000000";
 
-rpc.call("underwrite", "getUnderwriteByOrderNumber", oid)
+rpc.call("underwrite", "getUnderwriteByOrderNo", no)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -953,9 +1122,9 @@ See 成功返回数据：[example](../data/underwrite/getUnderwriteByOrder.json)
 
 #### request
 
-| name | type   | note     |
-| ---- | ----   | ----     |
-| order_id  | string | 订单号 |
+| name     | type   | note   |
+| ----     | ----   | ----   |
+| order-id | string | 订单号 |
 
 ##### example
 
@@ -967,7 +1136,7 @@ rpc.call("underwrite", "getUnderwriteByOrderId", order_id)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -1004,7 +1173,7 @@ rpc.call("underwrite", "getUnderwriteByUWId", uwid)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
@@ -1021,3 +1190,42 @@ rpc.call("underwrite", "getUnderwriteByUWId", uwid)
 | other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/underwrite/getUnderwriteByUWId.json)
+
+### 判断一个VIN码是否有订单 ValidOrder
+
+#### request
+
+```javascript
+
+rpc.call("order", "ValidOrder")
+
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/quotation/ValidOrder.json)
