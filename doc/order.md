@@ -286,7 +286,7 @@
 | ----  | ----  | ---- | ----    | ----    | ----        |
 | id    | uuid  |      |         | primary |             |
 | piid  | uuid  |      |         |         | plan\_items |
-| oid   | uuid  |      |         |         |             |
+| oid   | uuid  |      |         |         | orders      |
 | price | float |      | 0.0     |         |             |
 
 ### order\_events
