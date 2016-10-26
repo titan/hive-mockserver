@@ -51,7 +51,9 @@
 ## ChangeLog
 
 1. 2016-10-26
- * vin-code 从 vehicle-model 移到 vehicle
+  * vin-code 从 vehicle-model 移到 vehicle
+  * vin-code 改名为 vin
+
 
 1. 2016-10-10
   * vehicle 增加去年出险次数属性
@@ -86,7 +88,7 @@
 | name                   | type          | note                   |
 | ----                   | ----          | ----                   |
 | id                     | uuid          | 车ID                   |
-| vin-code               | string        | VIN码                  |
+| vin                    | string        | VIN码                  |
 | user-id                | user          | 用户                   |
 | owner                  | person        | 车主                   |
 | owner-type             | int           | 车主类型               |
