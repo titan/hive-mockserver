@@ -170,7 +170,7 @@ See 成功返回数据: [example](../data/operator/sucessful.json)
 | domain | accessable |
 | ----   | ----       |
 | admin  | ✓          |
-| mobile | ✓          |
+| mobile |            |
 
 #### request
 
