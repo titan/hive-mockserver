@@ -165,4 +165,39 @@ rpc.call("operator", "addOperator", oname, password, name, gender, phone, email,
 
 See 成功返回数据: [example](../data/operator/sucessful.json)
 
+### 刷新用户缓存 refresh
 
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name    | type   | note    |
+| ----    | ----   | ----    |
+
+##### example
+
+```javascript
+
+rpc.call("profile", "refresh")
+  .then(function (result) {
+
+  }, function (error) {
+        
+  });
+```
+#### response
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| code   | int    | 结果编码  |
+| msg    | string | 结果内容  |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | null     | 成功     |
+| other | 错误信息  | 失败     |
+
+See 成功返回数据：[example](../data/profile/sucessful.json)

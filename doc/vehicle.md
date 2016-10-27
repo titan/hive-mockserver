@@ -133,6 +133,13 @@
 | vehicle-vin-codes      | has  | vin => [VehicleCode] JSON        | vin 码映射 |
 | vehicle-model          | set  | vin                              | vin 码     |
 
+### vehicle
+
+| key              | type  | value                           | note       |
+| ----             | ----  | ----                            | ----       |
+| vehicle-entities | hash  | ID => Vehicle JSON              | 车数据      |
+| vehicle          | list  | ID                              | 车ID       |
+
 ## API
 
 ### 查看用户上传证件情况  uploadStatus
@@ -179,51 +186,6 @@ rpc.call("vehicle", "uploadStatus", order_id)
 | 500  | 未知错误          |
 
 See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
-
-### 获取车型和车的信息  getModelAndVehicle
-
-#### request
-
-| name      | type | note   |
-| ----      | ---- | ----   |
-| vid | uuid | 车id |
-
-##### example
-
-```javascript
-
-var vid = '94845290-901d-11e6-baa4-e13a142bc7ae';
-
-rpc.call("vehicle", "getModelAndVehicle", vid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
-
-See 成功返回数据：[example](../data/vehicle/getModelAndVehicle.json)
 
 ### 获取某个车型信息 getVehicleModel
 
@@ -401,6 +363,7 @@ See [example](../data/vehicle/getDrivers.json)
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
 | insurance\_due\_date     | iso8601 | 保险到期时间   |
+| vin                      | string  | vin码         |
 
 ##### example
 
@@ -417,9 +380,10 @@ var average_mileage = "";
 var is_transfer = "";
 var last_insurance_company = "";
 var insurance_due_date = "";
+var vin = "LSVFA49J232037048";
 
 rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
-  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date)
+  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -466,6 +430,8 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 | average\_mileage         | string  | 年平均行驶里程 |
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
+| vin                      | string  | vin码         |
+
 
 ##### example
 
@@ -481,9 +447,10 @@ var is_transfer = "";
 var receipt_no = "";
 var receipt_date = "";
 var last_insurance_company = "";
+var vin = "LSVFA49J232037048";
 
 rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_code, engine_no,
-  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company)
+  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -671,3 +638,39 @@ rpc.call("vehicle", "getUserVehicles")
 | 500  | 未知错误          |
 
 See [example](../data/vehicle/getUserVehicles.json)
+
+### 提交出险次数 damageCount
+
+```javascript
+
+var vid = "00000000-0000-0000-0000-000000000000";
+var count = 2;
+
+rpc.call("vehicle", "damageCount", vid, count)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+See [example](../data/vehicle/damageCount.json)
