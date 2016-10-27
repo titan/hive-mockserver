@@ -1082,7 +1082,7 @@ rpc.call("underwrite", "uploadPhotos", uwid, photo)
 
 See 成功返回数据：[example](../data/underwrite/sucessful.json)
 
-### 根据订单编号得到核保信息 getUnderwriteByOrderNo
+### 根据订单编号得到核保信息 getUnderwriteByOrderNumber
 
 #### request
 
@@ -1096,7 +1096,7 @@ See 成功返回数据：[example](../data/underwrite/sucessful.json)
 
 var no = "000000000000000000000000000000";
 
-rpc.call("underwrite", "getUnderwriteByOrderNo", no)
+rpc.call("underwrite", "getUnderwriteByOrderNumber", no)
   .then(function (result) {
 
   }, function (error) {
