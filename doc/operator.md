@@ -167,7 +167,11 @@ See 成功返回数据: [example](../data/operator/sucessful.json)
 
 ### 刷新用户缓存 refresh
 
-#### !!禁止前端调用！！
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
 #### request
 
 | name    | type   | note    |
