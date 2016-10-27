@@ -13,6 +13,8 @@ bank-callback 是一个特殊的模块，不遵循 hive-server 和 hive-processo
 | key            | type | value            | note                        |
 | ----           | ---- | ----             | ----                        |
 | bank-customers | hash | openid => custid | openid 与 custid 的对应关系 |
+| bank-mer-customers | hash | usrId => usrCustid | usrId 与 usrCustid 的对应关系 |
+
 
 注意：openid 只有 25 个字节长。
 
@@ -28,6 +30,24 @@ bank-callback 是一个特殊的模块，不遵循 hive-server 和 hive-processo
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
 | deleted     | boolean   |      | false   |         |           |
+
+
+### bank\_mer\_customers
+
+| field       | type      | null | default | index   | reference |
+| ----        | ----      | ---- | ----    | ----    | ----      |
+| id          | uuid      |      |         | primary |           |
+| usrId       | varchar(25)  |      |         |         |           |
+| usrName     | varchar(50)  |      |         |         |           |
+| usrCustId     | varchar(16)  |      |         |         |           |
+| auditStat     | char(1)  |      |         |         |           |
+| trxId     | char(18)  |      |         |         |           |
+| openBankId     | varchar(8)  |      |         |         |           |
+| cardId     | varchar(40)  |      |         |         |           |
+| created\_at | timestamp |      | now     |         |           |
+| updated\_at | timestamp |      | now     |         |           |
+| deleted     | boolean   |      | false   |         |           |
+
 
 ### bank\_netsave
 
