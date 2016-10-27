@@ -47,6 +47,7 @@
 
 ```javascript
 
+
 rpc.call("profile", "getUser")
   .then(function (result) {
 
@@ -60,7 +61,7 @@ rpc.call("profile", "getUser")
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -94,7 +95,7 @@ rpc.call("profile", "getUserByUserId")
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg   | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -129,7 +130,7 @@ rpc.call("profile", "getUserOpenId", uid)
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -162,12 +163,12 @@ rpc.call("profile", "refresh")
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
 | 200   | null     | 成功     |
-| other | 错误信息  | 失败     |
+| other   | 错误信息  | 失败     |
 
 See 成功返回数据：[example](../data/profile/sucessful.json)
 
@@ -198,12 +199,12 @@ rpc.call("profile", "getAllUsers", start, limit)
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
 | 200   | null     | 成功     |
-| other | 错误信息  | 失败     |
+| other   | 错误信息  | 失败     |
 
 See 成功返回数据：[example](../data/profile/getAllUsers.json)
 
@@ -235,7 +236,7 @@ rpc.call("profile", "getUserByUserIds")
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| data/msg    | string | 结果内容  |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |

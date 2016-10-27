@@ -50,6 +50,11 @@
 
 ## ChangeLog
 
+1. 2016-10-26
+  * vin-code 从 vehicle-model 移到 vehicle
+  * vin-code 改名为 vin
+
+
 1. 2016-10-10
   * vehicle 增加去年出险次数属性
 
@@ -57,65 +62,65 @@
 
 ### vehicle-model
 
-| name                 | type    | note           |
-| ----                 | ----    | ----           |
-| vehicle\_code        | string  | 车型代码       |
-| vin\_code            | string  | VIN码          |
-| vehicle\_name        | string  | 车型名称       |
-| brand\_name          | string  | 品牌名称       |
-| family\_name         | string  | 车系名称       |
-| body\_type           | string  | 车身结构       |
-| engine\_number       | string  | 车身结构       |
-| engine\_desc         | string  | 发动机描述     |
-| gearbox\_name        | string  | 变速箱类型     |
-| year\_pattern        | string  | 车款           |
-| group\_name          | string  | 车组名称       |
-| cfg\_level           | string  | 配置级别       |
-| purchase\_price      | float   | 新车购置价     |
-| purchase\_price\_tax | float   | 新车购置价含税 |
-| seat                 | integer | 座位           |
-| effluent\_standard   | string  | 排放标准       |
-| pl                   | string  | 排量           |
-| fuel\_jet\_type      | string  | 燃油类型       |
-| driven\_type         | string  | 驱动形式       |
+| name               | type    | note           |
+| ----               | ----    | ----           |
+| vehicle-code       | string  | 车型代码       |
+| vehicle-name       | string  | 车型名称       |
+| brand-name         | string  | 品牌名称       |
+| family-name        | string  | 车系名称       |
+| body-type          | string  | 车身结构       |
+| engine-number      | string  | 车身结构       |
+| engine-desc        | string  | 发动机描述     |
+| gearbox-name       | string  | 变速箱类型     |
+| year-pattern       | string  | 车款           |
+| group-name         | string  | 车组名称       |
+| cfg-level          | string  | 配置级别       |
+| purchase-price     | float   | 新车购置价     |
+| purchase-price-tax | float   | 新车购置价含税 |
+| seat               | integer | 座位           |
+| effluent-standard  | string  | 排放标准       |
+| pl                 | string  | 排量           |
+| fuel-jet-type      | string  | 燃油类型       |
+| driven-type        | string  | 驱动形式       |
 
 ### vehicle
 
-| name                     | type          | note                   |
-| ----                     | ----          | ----                   |
-| id                       | uuid          | 车ID                   |
-| user\_id                 | user          | 用户                   |
-| owner                    | person        | 车主                   |
-| owner\_type              | int           | 车主类型               |
-| recommend                | string        | 推荐人                 |
-| drivers                  | [person]      | 驾驶人                 |
-| vehicle\_code            | string        | 车型代码               |
-| license\_no              | string        | 车牌                   |
-| engine\_no               | string        | 发动机号               |
-| register\_date           | iso8601       | 车辆注册日期           |
-| average\_mileage         | string        | 年平均行驶里程         |
-| model                    | vehicle-model | 车型                   |
-| is\_transfer             | boolean       | 是否过户车             |
-| receipt\_no              | string        | 新车购置发票号         |
-| receipt\_date            | iso8601       | 发票开票日期           |
-| last\_insurance\_company | string        | 最近一次投保的保险公司 |
-| insurance\_due\_date     | date          | 保险到期时间           |
-| driving\_frontal\_view   | string        | 行驶证正面照           |
-| driving\_rear\_view      | string        | 行驶证背面照           |
-| accident\_times          | integer       | 最近一年出险次数       |
+| name                   | type          | note                   |
+| ----                   | ----          | ----                   |
+| id                     | uuid          | 车ID                   |
+| vin                    | string        | VIN码                  |
+| user-id                | user          | 用户                   |
+| owner                  | person        | 车主                   |
+| owner-type             | int           | 车主类型               |
+| recommend              | string        | 推荐人                 |
+| drivers                | [person]      | 驾驶人                 |
+| vehicle-code           | string        | 车型代码               |
+| license-no             | string        | 车牌                   |
+| engine-no              | string        | 发动机号               |
+| register-date          | iso8601       | 车辆注册日期           |
+| average-mileage        | string        | 年平均行驶里程         |
+| model                  | vehicle-model | 车型                   |
+| is-transfer            | boolean       | 是否过户车             |
+| receipt-no             | string        | 新车购置发票号         |
+| receipt-date           | iso8601       | 发票开票日期           |
+| last-insurance-company | string        | 最近一次投保的保险公司 |
+| insurance-due-date     | date          | 保险到期时间           |
+| driving-frontal-view   | string        | 行驶证正面照           |
+| driving-rear-view      | string        | 行驶证背面照           |
+| accident-times         | integer       | 最近一年出险次数       |
 
 ### person
 
-| name                    | type   | note         |
-| ----                    | ----   | ----         |
-| id                      | uuid   | personID     |
-| name                    | string | 姓名         |
-| identity\_no            | string | 身份证       |
-| phone                   | string | 手机号       |
-| identity\_frontal\_view | string | 身份证正面照 |
-| identity\_rear\_view    | string | 身份证背面照 |
-| license\_frontal\_view  | string | 驾照正面照   |
-| license\_rear\_view     | string | 驾照背面照   |
+| name                  | type   | note         |
+| ----                  | ----   | ----         |
+| id                    | uuid   | personID     |
+| name                  | string | 姓名         |
+| identity-no           | string | 身份证       |
+| phone                 | string | 手机号       |
+| identity-frontal-view | string | 身份证正面照 |
+| identity-rear-view    | string | 身份证背面照 |
+| license-frontal-view  | string | 驾照正面照   |
+| license-rear-view     | string | 驾照背面照   |
 
 
 ## Cache
