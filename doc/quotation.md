@@ -121,6 +121,12 @@ sorted 是元素在列表中的顺序
 
 ## 缓存结构
 
+### VIN-quotation
+
+| key               | type | value                   | note           |
+| ----              | ---- | ----                    | ----           |
+| VIN-quotationID | hash | VIN => 报价 ID | VIN下的报价 |
+
 ### unquotated-quotations 
 
 | key           | type       | value                  | note     |

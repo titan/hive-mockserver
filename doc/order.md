@@ -403,6 +403,11 @@
 | ----          | ----       | ----                   | ----     |
 | newPays-id | sorted set | (订单更新时间, 订单ID) | 新支付汇总 |
 
+### VIN-orderID 
+
+| key           | type       | value                  | note     |
+| ----          | ----       | ----                   | ----     |
+| VIN-orderID | hash | VIN => orderID | 订单ID |
 
 ## 接口
 
