@@ -30,6 +30,9 @@
   - [order-driver-entities](#order-driver-entities)
   - [underwrite](#underwrite-2)
   - [underwrite-entities](#underwrite-entities)
+  - [new-orders](#new-orders)
+  - [new-pays](#new-pays)
+  - [VIN-orderID](#vin-orderid)
 - [接口](#%E6%8E%A5%E5%8F%A3)
   - [下计划单 placeAnPlanOrder](#%E4%B8%8B%E8%AE%A1%E5%88%92%E5%8D%95-placeanplanorder)
     - [request](#request)
@@ -41,77 +44,87 @@
     - [request](#request-2)
   - [修改代售单 updateSaleOrder](#%E4%BF%AE%E6%94%B9%E4%BB%A3%E5%94%AE%E5%8D%95-updatesaleorder)
     - [request](#request-3)
-  - [根据vid获取代售单 getSaleOrder](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E4%BB%A3%E5%94%AE%E5%8D%95-getsaleorder)
+  - [修改订单编号 updatePlanOrderNo](#%E4%BF%AE%E6%94%B9%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7-updateplanorderno)
     - [request](#request-4)
-  - [根据vid获取已生效计划单 getPlanOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%B7%B2%E7%94%9F%E6%95%88%E8%AE%A1%E5%88%92%E5%8D%95-getplanorderbyvehicle)
-    - [request](#request-5)
-  - [根据vid获取司机单 getDriverOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%8F%B8%E6%9C%BA%E5%8D%95-getdriverorderbyvehicle)
-    - [request](#request-6)
-  - [更新订单状态 updateOrderState](#%E6%9B%B4%E6%96%B0%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-updateorderstate)
-    - [request](#request-7)
     - [response](#response-2)
-  - [获取订单列表 getOrders](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8-getorders)
+  - [根据vid获取代售单 getSaleOrder](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E4%BB%A3%E5%94%AE%E5%8D%95-getsaleorder)
+    - [request](#request-5)
+  - [根据vid获取已生效计划单 getPlanOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%B7%B2%E7%94%9F%E6%95%88%E8%AE%A1%E5%88%92%E5%8D%95-getplanorderbyvehicle)
+    - [request](#request-6)
+  - [根据vid获取司机单 getDriverOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%8F%B8%E6%9C%BA%E5%8D%95-getdriverorderbyvehicle)
+    - [request](#request-7)
+  - [更新订单状态 updateOrderState](#%E6%9B%B4%E6%96%B0%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-updateorderstate)
     - [request](#request-8)
     - [response](#response-3)
-  - [获取订单详情 getOrder](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85-getorder)
+  - [获取订单列表 getOrders](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8-getorders)
     - [request](#request-9)
     - [response](#response-4)
-  - [获取驾驶人信息 getDriverOrders](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriverorders)
+  - [获取订单详情 getOrder](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85-getorder)
     - [request](#request-10)
     - [response](#response-5)
-  - [获取订单状态 getOrderState](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-getorderstate)
+  - [获取驾驶人信息 getDriverOrders](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriverorders)
     - [request](#request-11)
     - [response](#response-6)
+  - [获取订单状态 getOrderState](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-getorderstate)
+    - [request](#request-12)
+    - [response](#response-7)
       - [没有对应订单](#%E6%B2%A1%E6%9C%89%E5%AF%B9%E5%BA%94%E8%AE%A2%E5%8D%95)
       - [有对应订单](#%E6%9C%89%E5%AF%B9%E5%BA%94%E8%AE%A2%E5%8D%95)
   - [生成核保 createUnderwrite](#%E7%94%9F%E6%88%90%E6%A0%B8%E4%BF%9D-createunderwrite)
-    - [request](#request-12)
-      - [example](#example)
-    - [response](#response-7)
-  - [工作人员填充验车信息 fillUnderwrite](#%E5%B7%A5%E4%BD%9C%E4%BA%BA%E5%91%98%E5%A1%AB%E5%85%85%E9%AA%8C%E8%BD%A6%E4%BF%A1%E6%81%AF-fillunderwrite)
     - [request](#request-13)
-      - [example](#example-1)
+      - [example](#example)
     - [response](#response-8)
-  - [提交审核结果 submitUnderwriteResult](#%E6%8F%90%E4%BA%A4%E5%AE%A1%E6%A0%B8%E7%BB%93%E6%9E%9C-submitunderwriteresult)
+  - [工作人员填充验车信息 fillUnderwrite](#%E5%B7%A5%E4%BD%9C%E4%BA%BA%E5%91%98%E5%A1%AB%E5%85%85%E9%AA%8C%E8%BD%A6%E4%BF%A1%E6%81%AF-fillunderwrite)
     - [request](#request-14)
-      - [example](#example-2)
+      - [example](#example-1)
     - [response](#response-9)
-  - [修改预约验车地点  alterValidatePlace](#%E4%BF%AE%E6%94%B9%E9%A2%84%E7%BA%A6%E9%AA%8C%E8%BD%A6%E5%9C%B0%E7%82%B9--altervalidateplace)
+  - [提交审核结果 submitUnderwriteResult](#%E6%8F%90%E4%BA%A4%E5%AE%A1%E6%A0%B8%E7%BB%93%E6%9E%9C-submitunderwriteresult)
     - [request](#request-15)
-      - [example](#example-3)
+      - [example](#example-2)
     - [response](#response-10)
-  - [修改审核结果  alterUnderwriteResult](#%E4%BF%AE%E6%94%B9%E5%AE%A1%E6%A0%B8%E7%BB%93%E6%9E%9C--alterunderwriteresult)
+  - [修改预约验车地点  alterValidatePlace](#%E4%BF%AE%E6%94%B9%E9%A2%84%E7%BA%A6%E9%AA%8C%E8%BD%A6%E5%9C%B0%E7%82%B9--altervalidateplace)
     - [request](#request-16)
-      - [example](#example-4)
+      - [example](#example-3)
     - [response](#response-11)
-  - [修改实际验车地点 alterRealPlace](#%E4%BF%AE%E6%94%B9%E5%AE%9E%E9%99%85%E9%AA%8C%E8%BD%A6%E5%9C%B0%E7%82%B9-alterrealplace)
+  - [修改审核结果  alterUnderwriteResult](#%E4%BF%AE%E6%94%B9%E5%AE%A1%E6%A0%B8%E7%BB%93%E6%9E%9C--alterunderwriteresult)
     - [request](#request-17)
-      - [example](#example-5)
+      - [example](#example-4)
     - [response](#response-12)
-  - [修改备注 alterNote](#%E4%BF%AE%E6%94%B9%E5%A4%87%E6%B3%A8-alternote)
+  - [修改实际验车地点 alterRealPlace](#%E4%BF%AE%E6%94%B9%E5%AE%9E%E9%99%85%E9%AA%8C%E8%BD%A6%E5%9C%B0%E7%82%B9-alterrealplace)
     - [request](#request-18)
-      - [example](#example-6)
+      - [example](#example-5)
     - [response](#response-13)
-  - [上传现场图片 uploadPhotos](#%E4%B8%8A%E4%BC%A0%E7%8E%B0%E5%9C%BA%E5%9B%BE%E7%89%87-uploadphotos)
+  - [修改备注 alterNote](#%E4%BF%AE%E6%94%B9%E5%A4%87%E6%B3%A8-alternote)
     - [request](#request-19)
-      - [example](#example-7)
+      - [example](#example-6)
     - [response](#response-14)
-  - [根据订单编号得到核保信息 getUnderwriteByOrderNo](#%E6%A0%B9%E6%8D%AE%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyorderno)
+  - [上传现场图片 uploadPhotos](#%E4%B8%8A%E4%BC%A0%E7%8E%B0%E5%9C%BA%E5%9B%BE%E7%89%87-uploadphotos)
     - [request](#request-20)
-      - [example](#example-8)
+      - [example](#example-7)
     - [response](#response-15)
-  - [根据订单号得到核保信息 getUnderwriteByOrderId](#%E6%A0%B9%E6%8D%AE%E8%AE%A2%E5%8D%95%E5%8F%B7%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyorderid)
+  - [根据订单编号得到核保信息 getUnderwriteByOrderNumber](#%E6%A0%B9%E6%8D%AE%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyordernumber)
     - [request](#request-21)
-      - [example](#example-9)
+      - [example](#example-8)
     - [response](#response-16)
-  - [根据核保ID得到核保信息 getUnderwriteByUWId](#%E6%A0%B9%E6%8D%AE%E6%A0%B8%E4%BF%9Did%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyuwid)
+  - [根据订单号得到核保信息 getUnderwriteByOrderId](#%E6%A0%B9%E6%8D%AE%E8%AE%A2%E5%8D%95%E5%8F%B7%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyorderid)
     - [request](#request-22)
-      - [example](#example-10)
+      - [example](#example-9)
     - [response](#response-17)
+  - [根据核保ID得到核保信息 getUnderwriteByUWId](#%E6%A0%B9%E6%8D%AE%E6%A0%B8%E4%BF%9Did%E5%BE%97%E5%88%B0%E6%A0%B8%E4%BF%9D%E4%BF%A1%E6%81%AF-getunderwritebyuwid)
+    - [request](#request-23)
+      - [example](#example-10)
+    - [response](#response-18)
+  - [判断一个VIN码是否有订单 ValidOrder](#%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AAvin%E7%A0%81%E6%98%AF%E5%90%A6%E6%9C%89%E8%AE%A2%E5%8D%95-validorder)
+    - [request](#request-24)
+    - [response](#response-19)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## ChangeLog
+
+1. 2016-11-01
+  * 在 plan-order 中增加车辆的真实价值。
+  * 修改缓存名称：new-orders-id, new-pays-id
 
 1. 2016-10-24
   * order-items 表将 pid 改为 oid
@@ -172,6 +185,7 @@
 | expect-at     | date         | 预计生效日期      |
 | start-at      | date         | 合约生效时间      |
 | stop-at       | date         | 合约失效时间      |
+| real-value    | float        | 车辆真实价格      |
 
 ### order-item
 
@@ -246,18 +260,19 @@
 
 ### plan\_order\_ext
 
-| field          | type      | null | default | index   | reference  |
-| ----           | ----      | ---- | ----    | ----    | ----       |
-| id             | serial    |      |         | primary |            |
-| oid            | uuid      |      |         |         | orders     |
-| pid            | uuid      |      |         |         | plans      |
-| qid            | uuid      |      |         |         | quotations |
-| pmid           | uuid      | ✓    |         |         | promotions |
-| promotion      | real      | ✓    |         |         | promotion  |
-| service\_ratio | float     |      |         |         |            |
-| expect\_at     | timestamp |      | now     |         |            |
-| created\_at    | timestamp |      | now     |         |            |
-| updated\_at    | timestamp |      | now     |         |            |
+| field                | type      | null | default | index   | reference  |
+| ----                 | ----      | ---- | ----    | ----    | ----       |
+| id                   | serial    |      |         | primary |            |
+| oid                  | uuid      |      |         |         | orders     |
+| pid                  | uuid      |      |         |         | plans      |
+| qid                  | uuid      |      |         |         | quotations |
+| pmid                 | uuid      | ✓    |         |         | promotions |
+| promotion            | real      | ✓    |         |         | promotion  |
+| service\_ratio       | float     |      |         |         |            |
+| expect\_at           | timestamp |      | now     |         |            |
+| created\_at          | timestamp |      | now     |         |            |
+| updated\_at          | timestamp |      | now     |         |            |
+| vehicle\_real\_value | real      |      | 0.0     |         |            |
 
 ### driver\_order\_ext
 
@@ -391,22 +406,22 @@
 | ----                | ---- | ----                | ----         |
 | underwrite-entities | hash | 核保ID => 核保 JSON | 所有核保实体 |
 
-### newOrders 
+### new-orders
 
-| key           | type       | value                  | note     |
-| ----          | ----       | ----                   | ----     |
-| newOrders-id | sorted set | (订单生成时间, 订单ID) | 新订单汇总 |
+| key           | type       | value                  | note       |
+| ----          | ----       | ----                   | ----       |
+| new-orders-id | sorted set | (订单生成时间, 订单ID) | 新订单汇总 |
 
-### newPays 
+### new-pays
 
-| key           | type       | value                  | note     |
-| ----          | ----       | ----                   | ----     |
-| newPays-id | sorted set | (订单更新时间, 订单ID) | 新支付汇总 |
+| key         | type       | value                  | note       |
+| ----        | ----       | ----                   | ----       |
+| new-pays-id | sorted set | (订单更新时间, 订单ID) | 新支付汇总 |
 
-### VIN-orderID 
+### VIN-orderID
 
-| key           | type       | value                  | note     |
-| ----          | ----       | ----                   | ----     |
+| key         | type | value          | note   |
+| ----        | ---- | ----           | ----   |
 | VIN-orderID | hash | VIN => orderID | 订单ID |
 
 ## 接口
