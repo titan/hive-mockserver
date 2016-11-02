@@ -11,3 +11,4 @@ stop_at: 2016-08-01T00:00:00.000Z
 created_at: 2016-08-01T00:00:00.000Z
 updated_at: 2016-08-01T00:00:00.000Z
 drivers: !include drivers.yaml
+paid_at: 2016-08-01T00:00:00.000Z

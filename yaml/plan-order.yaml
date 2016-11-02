@@ -16,3 +16,4 @@ quotation: !include quotation.yaml
 service_ratio: 0
 expect_at: 2016-08-01T00:00:00.000Z
 items: !include order-items-plan.yaml
+paid_at: 2016-08-01T00:00:00.000Z

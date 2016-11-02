@@ -122,6 +122,9 @@
 
 ## ChangeLog
 
+1. 2016-11-02
+  * 在 order 中加入 paid\_at。
+
 1. 2016-11-01
   * 在 plan-order 中增加车辆的真实价值。
   * 修改缓存名称：new-orders-id, new-pays-id
@@ -149,6 +152,7 @@
 | payment    | float    | 订单实付     |
 | start-at   | date     | 合约生效时间 |
 | stop-at    | date     | 合约失效时间 |
+| paid-at    | date     | 订单支付时间 |
 
 ### sale-order
 
@@ -165,6 +169,7 @@
 | payment    | float        | 订单实付          |
 | start-at   | date         | 合约生效时间      |
 | stop-at    | date         | 合约失效时间      |
+| paid-at    | date         | 订单支付时间      |
 
 ### plan-order
 
@@ -186,6 +191,7 @@
 | start-at      | date         | 合约生效时间      |
 | stop-at       | date         | 合约失效时间      |
 | real-value    | float        | 车辆真实价格      |
+| paid-at       | date         | 订单支付时间      |
 
 ### order-item
 
@@ -257,6 +263,7 @@
 | stop\_at    | timestamp |      | now     |         |           |
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
+| paid\_at    | timestamp | ✓    |         |         |           |
 
 ### plan\_order\_ext
 
