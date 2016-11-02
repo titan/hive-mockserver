@@ -1,5 +1,6 @@
 const http = require('http'),
       fs = require('fs'),
+      zlib = require('zlib'),
       msgpack = require('msgpack-lite');
 
 var server = http.createServer(function(req, rep) {
@@ -26,8 +27,23 @@ var server = http.createServer(function(req, rep) {
                                 rep.end();
                             } else {
                                 const result = JSON.parse(data);
-                                var stream = msgpack.createEncodeStream();
-                                stream.pipe(rep);
+                                const stream = msgpack.createEncodeStream();
+                                var acceptEncoding = req.headers['accept-encoding'];
+                                if (!acceptEncoding) {
+                                    acceptEncoding = '';
+                                }
+                                if (acceptEncoding.match(/\bdeflate\b/)) {
+                                    rep.writeHead(200, { 'Content-Encoding': 'deflate' });
+                                    stream.pipe(zlib.createDeflate()).pipe(rep);
+                                    console.log('deflate');
+                                } else if (acceptEncoding.match(/\bgzip\b/)) {
+                                    rep.writeHead(200, { 'Content-Encoding': 'gzip' });
+                                    stream.pipe(zlib.createGzip()).pipe(rep);
+                                    console.log('gzip');
+                                } else {
+                                    rep.writeHead(200, {});
+                                    stream.pipe(rep);
+                                }
                                 stream.write(result);
                                 stream.end();
                             }
