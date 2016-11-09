@@ -1295,11 +1295,18 @@ See [example](../data/bank-payment/queryTenderPlan.json)
 | outCustId | char(16) | 出账客户号,由汇付生成,用户的唯一性标识 |
 | subOrdId | char(30) | 订单号,由商户的系统生成,必须保证唯一.如果本次交易从属于另一个交易流水,则需要通过填写该流水号来进行关联.例如:本次放款:商户流水号是 OrdId,日期是OrdDate,关联投标订单流水是 SubOrdId,日期是SubOrdDate |
 | subOrdDate | char(8) | 订单日期,格式为 YYYYMMDD |
-| outAcctId | char(9) | 出账子账户,用户在汇付的虚拟资金账户号 |
 | principalAmt | char(14) | 还款本金 |
 | interestAmt| char(14) | 还款利息 |
 | fee | char(12) | 扣款手续费 |
 | inCustId | char(16) | 入账客户号,由汇付生成,用户的唯一性标识 |
+| test   | boolean  | 是否开启测试模式   |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+选用参数，暂时不用理会：
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| outAcctId | char(9) | 出账子账户,用户在汇付的虚拟资金账户号 |
 | inAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
 | divDetails   | JSON Object | 分账账户串   |
 | divCustId | char(16) | 分账商户号,DivDetails 参数下的二级参数 |
@@ -1307,9 +1314,6 @@ See [example](../data/bank-payment/queryTenderPlan.json)
 | divAmt | varchar | 分账金额,保留两位小数,DivDetails 参数下的二级参数 |
 | feeObjFlag | char(1) | 手续费收取对象标志,若 fee 大于 0.00,FeeObjFlag 为必填参数.I--向入款客户号 InCustId 收取;O--向出款客户号 OutCustId 收取 |
 | dzObject | char(16) | 垫资/代偿对象,如果是垫资还款必传 |
-| test   | boolean  | 是否开启测试模式   |
-
-开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -1334,7 +1338,7 @@ url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
 
-rpc.call("bank_payment", "generateRepaymentUrl", proId, ordId, ordDate, outCustId, subOrdId, subOrdDate, outAcctId, principalAmt, interestAmt, fee, inCustId, inAcctId, divDetails, divCustId, divAcctId, divAmt, feeObjFlag, dzObject, true)
+rpc.call("bank_payment", "generateRepaymentUrl", proId, ordId, ordDate, outCustId, subOrdId, subOrdDate, principalAmt, interestAmt, fee, inCustId, true)
   .then(function (result) {
 
   }, function (error) {
@@ -1383,10 +1387,13 @@ See [example](../data/bank-payment/generateRepaymentUrl.json)
 | outAcctId | char(9) | 出账子账户,用户在汇付的虚拟资金账户号 |
 | transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
 | inCustId | char(16) | 入账客户号,由汇付生成,用户的唯一性标识 |
-| inAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
 | test   | boolean  | 是否开启测试模式   |
 
 开启测试模式后，返回汇付天下提供的测试链接。
+选用参数，暂时不用理会：
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| inAcctId | char(9) | 入账子账户,用户在汇付的虚拟资金账户号 |
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -1411,7 +1418,7 @@ url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
 
-rpc.call("bank_payment", "generateTransferUrl", ordId, outCustId, outAcctId, transAmt, inCustId, inAcctId, true)
+rpc.call("bank_payment", "generateTransferUrl", ordId, outCustId, outAcctId, transAmt, inCustId, true)
   .then(function (result) {
 
   }, function (error) {
@@ -1705,12 +1712,16 @@ See [example](../data/bank-payment/generateCashAuditUrl.json)
 | ordId | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字 |
 | usrCustId | char(16) | 汇付天下生成的用户 ID |
 | transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
-| servFee | char(14) | 商户收取服务费金额 |
-| servFeeAcctId | char(9) | 商户子账户号,商户用来收取服务费的子账户号 |
-| openAcctId | char(40) | 开户银行账号,取现银行的账户号(银行卡号) |
 | test   | boolean  | 是否开启测试模式   |
 
 开启测试模式后，返回汇付天下提供的测试链接。
+
+选用参数，暂时不用理会：
+| name   | type     | note               |
+| ----   | ----     | ----               |
+| servFee | char(14) | 商户收取服务费金额 |
+| servFeeAcctId | char(9) | 商户子账户号,商户用来收取服务费的子账户号 |
+| openAcctId | char(40) | 开户银行账号,取现银行的账户号(银行卡号) |
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -1744,7 +1755,7 @@ url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
 
-rpc.call("bank_payment", "generateCashUrl", ordId, usrCustId, transAmt, servFee, servFeeAcctId, openAcctId, true)
+rpc.call("bank_payment", "generateCashUrl", ordId, usrCustId, transAmt, true)
   .then(function (result) {
 
   }, function (error) {
