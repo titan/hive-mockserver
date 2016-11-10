@@ -1068,6 +1068,7 @@ See [example](../data/bank-payment/generateAutoTenderUrl.json)
 | transAmt | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
 | isUnFreeze   | char(1)  | 是否解冻，Y--冻结，N--不冻结 |
 | unFreezeOrdId   | char(30)  | 解冻订单号，如果 IsUnFreeze 参数传 Y,那么该参数不能为空   |
+| FreezeTrxId | char(18) | 冻结标识,组成规则为:8 位本平台日期+10 位系统流水号
 | test   | boolean  | 是否开启测试模式   |
 
 开启测试模式后，返回汇付天下提供的测试链接。
@@ -2175,7 +2176,7 @@ See [example](../data/bank-payment/generatAddBidAttachInfoUrl.json)
 
 | name      | value            |
 | ----      | ----             |
-| Version   | 20               |
+| Version   | 10               |
 | CmdId     | QueryBidInfo     |
 | MerCustId | 6000060004492053 |
 | ChkValue  | 签名             |
