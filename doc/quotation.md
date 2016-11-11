@@ -251,13 +251,17 @@ See [example](../data/quotation/addQuotationGroup.json)
 | name           | type    | note     |
 | ----           | ----    | ----     |
 | start            | number   | 起始记录  |
-| limit          | number    | 记录条数  |
+| limit          | number    | 每页显示条数  |
+| max          | number    | 记最大录数  |
+| nowScore          | number    | 当前score  |
 
 ```javascript
 let start = 0;
-let limit = -1;
+let limit = 10;
+let maxScore = 10000;
+let nowScore = (new Date()).getTime();
 
-rpc.call("quotation", "getQuotatedQuotations", start, limit)
+rpc.call("quotation", "getQuotatedQuotations", start, limit, maxScore, nowScore)
   .then(function (result) {
 
   }, function (error) {
