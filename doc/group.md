@@ -48,6 +48,7 @@
 
 1. 2016-10-14
   * group 增加编号。
+  * 增加 groupno-gid 缓存。
 
 1. 2016-10-09
   * group 增加互助事件数量。
@@ -195,6 +196,7 @@ user 是收到申请的互助组成员。
 | vid-gid                | hash  | vid => gid             |                  |
 | global-balance-percent | float |                        | 剩余余额百分比   |
 | global-days-percent    | float |                        | 剩余互助期百分比 |
+| groupno-gid            | hash  | groupno => gid         |                  |
 
 ## API
 
