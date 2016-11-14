@@ -4,6 +4,8 @@
         "state": "已创建订单",
         "payment": 1000,
         "stop_at": "2016-08-01T00:00:00.000Z",
+        "screenshot1": "http://hive-data.fengchaohuzhu.com/screenshot1.png",
+        "outside-quotation2": 2200,
         "service_ratio": 0,
         "plan": {
             "thumbnail": "http://hive-data.oss-cn-beijing.aliyuncs.com/upload/wx/images/head2.png",
@@ -111,6 +113,7 @@
                 }
             }
         ],
+        "screenshot2": "http://hive-data.fengchaohuzhu.com/screenshot2.png",
         "no": "000000000000000000000000000000",
         "updated_at": "2016-08-01T00:00:00.000Z",
         "quotation": {
@@ -581,6 +584,7 @@
             "user_id": "00000000-0000-0000-0000-000000000000",
             "vin": "LSVFA49J232037048"
         },
+        "outside-quotation1": 2000,
         "promotion": {
             "name": "减免500",
             "id": "00000000-0000-0000-0000-000000000000",
@@ -673,6 +677,7 @@
     },
     {
         "summary": 1000,
+        "opr_level": 5,
         "state": "已创建订单",
         "payment": 1000,
         "stop_at": "2016-08-01T00:00:00.000Z",
