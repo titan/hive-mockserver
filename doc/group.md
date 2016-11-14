@@ -46,6 +46,9 @@
 
 ## ChangeLog
 
+1. 2016-10-14
+  * group 增加编号。
+
 1. 2016-10-09
   * group 增加互助事件数量。
   * 增加定时触发器设计。
@@ -84,6 +87,7 @@
 
 | name             | type              | note         |
 | ----             | ----              | ----         |
+| no               | string            | 互助小组编号 |
 | name             | string            | 互助小组名称 |
 | joined-vehicles  | [vehicle]         | 参与车辆     |
 | waiting-vehicles | [vehicle]         | 等待生效车辆 |
@@ -142,6 +146,7 @@ user 是收到申请的互助组成员。
 | field       | type      | null | default | index   | reference |
 | ----        | ----      | ---- | ----    | ----    | ----      |
 | id          | uuid      |      |         | primary |           |
+| no          | char(16)  |      |         |         |           |
 | name        | char(128) |      |         |         |           |
 | founder     | uuid      |      |         |         | users     |
 | apportion   | float     |      |         |         |           |
