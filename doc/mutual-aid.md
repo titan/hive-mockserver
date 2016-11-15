@@ -1,70 +1,99 @@
-# Mutual Aid 模块
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-## 数据结构
+- [ChangeLog](#changelog)
+- [Data Structure](#data-structure)
+  - [mutual-aid](#mutual-aid)
+  - [mutual-aid-recompense](#mutual-aid-recompense)
+- [API](#api)
+  - [applyForMutualAid](#applyformutualaid)
+      - [request](#request)
+        - [example](#example)
+      - [response](#response)
+  - [getMutualAids](#getmutualaids)
+      - [request](#request-1)
+        - [example](#example-1)
+      - [response](#response-1)
+  - [getMutualAid](#getmutualaid)
+      - [request](#request-2)
+      - [response](#response-2)
 
-### mutual-aid
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-|name|type|note|
-|----|----|----|
-|city|string|市|
-|district|string|区|
-|street|string|街道|
-|driver|person|驾驶员|
-|phone|string|联系电话|
-|vehicle|vehicle|车|
-|occurred-at|iso8601|报案时间|
-|responsibility|string|本车责任|
-|situation|string|出险情形|
-|description|string|简述事件经过|
-|scene-view|string|现场照片|
-|vehicle-damaged-view|string|车辆受损照片|
-|vehicle-frontal-view|string|车辆正面照片|
-|driver-view|string|驾驶员现场照片|
-|driver-license-view|string|驾驶证照片|
-|state|integer|互助状态|
-|recompense|mutual-aid-recompense|扣费记录|
+# ChangeLog
+
+1. 2016-11-15
+  * 增加 toc
+  * 修改 mutual-aid-recompense 内部结构
+
+# Data Structure
+
+## mutual-aid
+
+| name                 | type                  | note           |
+| ----                 | ----                  | ----           |
+| city                 | string                | 市             |
+| district             | string                | 区             |
+| street               | string                | 街道           |
+| driver               | person                | 驾驶员         |
+| phone                | string                | 联系电话       |
+| vehicle              | vehicle               | 车             |
+| occurred-at          | iso8601               | 报案时间       |
+| responsibility       | string                | 本车责任       |
+| situation            | string                | 出险情形       |
+| description          | string                | 简述事件经过   |
+| scene-view           | string                | 现场照片       |
+| vehicle-damaged-view | string                | 车辆受损照片   |
+| vehicle-frontal-view | string                | 车辆正面照片   |
+| driver-view          | string                | 驾驶员现场照片 |
+| driver-license-view  | string                | 驾驶证照片     |
+| state                | integer               | 互助状态       |
+| recompense           | mutual-aid-recompense | 扣费记录       |
 
 互助状态转换图:
 
 ![互助状态转换图](../img/mutual-aid-states.png)
 
-### mutual-aid-recompense
+## mutual-aid-recompense
 
-|name|type|note|
-|----|----|----|
-|personal-fee|float|个人扣费|
-|personal-balance|float|个人余额|
-|small-hive-fee|float|小蜂巢扣费|
-|small-hive-balance|float|小蜂巢余额|
-|big-hive-fee|float|大蜂巢扣费|
-|big-hive-balance|float|大蜂巢余额|
-|paid-at|date|支付日期|
+| name            | type  | note       |
+| ----            | ----  | ----       |
+| private-fee     | float | 个人扣费   |
+| private-balance | float | 个人余额   |
+| group-fee       | float | 互助组扣费 |
+| group-balance   | float | 互助组余额 |
+| public-fee      | float | 公共池扣费 |
+| public-balance  | float | 公共池余额 |
+| paid-at         | date  | 支付日期   |
 
-## 接口
+# API
 
-### 申请互助 applyForMutualAid
+## applyForMutualAid
+
+申请互助.
 
 #### request
 
-|name|type|note|
-|----|----|----|
-|city|string|市|
-|district|string|区|
-|street|string|街道|
-|driver|uuid|司机 ID|
-|phone|string|联系电话|
-|vehicle|uuid|车辆 ID|
-|occurred-at|iso8601|报案时间|
-|responsibility|string|本车责任|
-|situation|string|出险情形|
-|description|string|简述事件经过|
-|scene-view|string|现场照片|
-|vehicle-damaged-view|string|车辆受损照片|
-|vehicle-frontal-view|string|车辆正面照片|
-|driver-view|string|驾驶员现场照片|
-|driver-license-view|string|驾驶证照片|
+| name                 | type    | note           |
+| ----                 | ----    | ----           |
+| city                 | string  | 市             |
+| district             | string  | 区             |
+| street               | string  | 街道           |
+| driver               | uuid    | 司机 ID        |
+| phone                | string  | 联系电话       |
+| vehicle              | uuid    | 车辆 ID        |
+| occurred-at          | iso8601 | 报案时间       |
+| responsibility       | string  | 本车责任       |
+| situation            | string  | 出险情形       |
+| description          | string  | 简述事件经过   |
+| scene-view           | string  | 现场照片       |
+| vehicle-damaged-view | string  | 车辆受损照片   |
+| vehicle-frontal-view | string  | 车辆正面照片   |
+| driver-view          | string  | 驾驶员现场照片 |
+| driver-license-view  | string  | 驾驶证照片     |
 
-##### example
+Example
 
 ```javascript
 var aid = {
@@ -94,24 +123,34 @@ rpc.call("mutual-aid", "applyForMutualAid", aid).then(function (result) {
 
 #### response
 
-|name|type|note|
-|----|----|----|
-|mutual-aid-id|uuid|Mutual Aid ID|
-|mutual-aid-no|string|Mutual Aid No|
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | object |      |
+| msg  | string |      |
+
+data 的内容为:
+
+| name          | type   | note          |
+| ----          | ----   | ----          |
+| mutual-aid-id | uuid   | Mutual Aid ID |
+| mutual-aid-no | string | Mutual Aid No |
 
 See [example](../data/mutual-aid/applyForMutualAid.json)
 
-### 互助列表 getMutualAids
+## getMutualAids
+
+互助列表
 
 #### request
 
-|name|type|note|
-|----|----|----|
-|uid|uuid|User Id|
-|offset|integer|结果在数据集中的起始位置|
-|limit|integer|显示结果的长度|
+| name   | type    | note                     |
+| ----   | ----    | ----                     |
+| uid    | uuid    | User Id                  |
+| offset | integer | 结果在数据集中的起始位置 |
+| limit  | integer | 显示结果的长度           |
 
-##### example
+Example
 
 ```javascript
 var uid = "00000000-0000-0000-0000-000000000000";
@@ -126,23 +165,27 @@ rpc.call("mutual-aid", "getMutualAids", uid, 0, 10)
 
 #### response
 
-|name|type|note|
-|----|----|----|
-|mutual-aids|[mutual-aid]|Mutual Aid List|
+| name | type         | note            |
+| ---- | ----         | ----            |
+| code | int          | 200             |
+| data | [mutual-aid] | Mutual Aid List |
+| msg  | string       |                 |
 
 See [example](../data/mutual-aid/getMutualAids.json)
 
-### 互助详情 getMutualAid
+## getMutualAid
+
+互助详情
 
 #### request
 
-|name|type|note|
-|----|----|----|
-|aid|uuid|互助 ID|
+| name | type | note    |
+| ---- | ---- | ----    |
+| maid | uuid | 互助 ID |
 
 ```javascript
-var aid = "00000000-0000-0000-0000-000000000000";
-rpc.call("mutual-aid", "getMutualAid", aid).then(function (result) {
+var maid = "00000000-0000-0000-0000-000000000000";
+rpc.call("mutual-aid", "getMutualAid", maid).then(function (result) {
 
 }, function (error) {
 
@@ -151,8 +194,10 @@ rpc.call("mutual-aid", "getMutualAid", aid).then(function (result) {
 
 #### response
 
-|name|type|note|
-|----|----|----|
-|mutual-aid|mutual-aid|Mutual Aid|
+| name | type       | note       |
+| ---- | ----       | ----       |
+| code | int        | 200        |
+| data | mutual-aid | Mutual Aid |
+| msg  | string     |            |
 
 See [example](../data/mutual-aid/getMutualAid.json)
