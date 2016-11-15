@@ -555,6 +555,8 @@ See [example](../data/order/placeAnDriverOrder.json)
 | items   | {piid: price} | 代售条目 |
 | summary | float         | 总价     |
 | payment | float         | 实付     |
+| opr_level | int         | 等级                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
@@ -566,8 +568,9 @@ let items = {
 };
 let summary = 2000;
 let payment = 2000;
+let opr_level = 5;
 
-rpc.call("order", "placeAnSaleOrder", vid, pid, qid, items, summary, payment)
+rpc.call("order", "placeAnSaleOrder", vid, pid, qid, items, summary, payment, opr_level)
   .then(function (result) {
 
   }, function (error) {

@@ -248,20 +248,34 @@ See [example](../data/quotation/addQuotationGroup.json)
 
 #### request
 
-| name           | type    | note     |
-| ----           | ----    | ----     |
-| start            | number   | 起始记录  |
-| limit          | number    | 每页显示条数  |
-| max          | number    | 记最大录数  |
-| nowScore          | number    | 当前score  |
+| name           | type    | note        |
+| ----           | ----    | ----        |
+| start          | number  | 起始记录     |
+| limit          | number  | 每页显示条数  |
+| max            | number  | 记最大录数    |
+| nowScore       | number  | 当前score    |
+| vin            | string  | 车辆 VIN码   |
+| ownername      | string  | 车主姓名     |
+| phone          | string  | 车主电话     |
+| license_no     | string  | 车牌号       |
+| begintime      | string  | 开始时间     |
+| endtime        | string  | 结束时间     |
+| state          | string  | 报价状态     |
 
 ```javascript
 let start = 0;
 let limit = 10;
-let maxScore = 10000;
+let maxScore = (new Date()).getTime();
 let nowScore = (new Date()).getTime();
+let vin = "WBAZV4109BL817920";
+let ownername = "张三";
+let phone = "18141912911";
+let license_no = "京8903T";
+let begintime = "2016/11/15";
+let endtime = "2016/11/15";
+let state = 1;
 
-rpc.call("quotation", "getQuotatedQuotations", start, limit, maxScore, nowScore)
+rpc.call("quotation", "getQuotatedQuotations", start, limit, maxScore, nowScore, vin, ownername, phone, license_no, begintime, endtime, state)
   .then(function (result) {
 
   }, function (error) {
@@ -297,16 +311,35 @@ See [example](../data/quotation/getQuotatedQuotations.json)
 
 #### request
 
-| name           | type    | note     |
-| ----           | ----    | ----     |
-| start            | number   | 起始记录  |
-| limit          | number    | 记录条数  |
+| name           | type    | note        |
+| ----           | ----    | ----        |
+| start          | number  | 起始记录     |
+| limit          | number  | 每页显示条数  |
+| max            | number  | 记最大录数    |
+| nowScore       | number  | 当前score    |
+| vin            | string  | 车辆 VIN码   |
+| ownername      | string  | 车主姓名     |
+| phone          | string  | 车主电话     |
+| license_no     | string  | 车牌号       |
+| begintime      | string  | 开始时间     |
+| endtime        | string  | 结束时间     |
+| state          | string  | 报价状态     |
 
 ```javascript
 let start = 0;
-let limit = -1;
+let limit = 10;
+let maxScore = (new Date()).getTime();
+let nowScore = (new Date()).getTime();
+let vin = "WBAZV4109BL817920";
+let ownername = "张三";
+let phone = "18141912911";
+let license_no = "京8903T";
+let begintime = "2016/11/15";
+let endtime = "2016/11/15";
+let state = 1;
 
-rpc.call("quotation", "getUnquotatedQuotations", start, limit)
+
+rpc.call("quotation", "getUnquotatedQuotations", start, limit, maxScore, nowScore, vin, ownername, phone, license_no, begintime, endtime, state)
   .then(function (result) {
 
   }, function (error) {
