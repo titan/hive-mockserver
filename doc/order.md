@@ -122,6 +122,11 @@
 
 ## ChangeLog
 
+1. 2016-11-14
+  * 在 sale-order 中加入 opr-level。
+  * 在 plan-order 中加入安盛天平报价，截屏。
+  * 在 plan-order 中加入人保报价，截屏。
+
 1. 2016-11-02
   * 在 order 中加入 paid\_at。
 
@@ -159,6 +164,7 @@
 | name       | type         | note              |
 | ----       | ----         | ----              |
 | id         | uuid         | 主键              |
+| no         | string       | 订单编号          |
 | type       | int          | 订单类型 2        |
 | state-code | int          | 订单状态编码      |
 | state      | string       | 订单状态          |
@@ -170,28 +176,34 @@
 | start-at   | date         | 合约生效时间      |
 | stop-at    | date         | 合约失效时间      |
 | paid-at    | date         | 订单支付时间      |
+| opr-level  | int          | 选中的三者险      |
 
 ### plan-order
 
-| name          | type         | note              |
-| ----          | ----         | ----              |
-| id            | uuid         | 主键              |
-| type          | int          | 订单类型 0        |
-| state-code    | int          | 订单状态编码      |
-| state         | string       | 订单状态          |
-| vehicle       | vehicle      | 车辆              |
-| plans         | [plan]       | 包含的 plan       |
-| items         | [order-item] | 包含的 order-item |
-| quotation     | quotation    | 报价              |
-| promotion     | promotion    | 促销              |
-| service-ratio | float        | 服务费率          |
-| summary       | float        | 订单总额          |
-| payment       | float        | 订单实付          |
-| expect-at     | date         | 预计生效日期      |
-| start-at      | date         | 合约生效时间      |
-| stop-at       | date         | 合约失效时间      |
-| real-value    | float        | 车辆真实价格      |
-| paid-at       | date         | 订单支付时间      |
+| name               | type         | note              |
+| ----               | ----         | ----              |
+| id                 | uuid         | 主键              |
+| no                 | string       | 订单编号          |
+| type               | int          | 订单类型 0        |
+| state-code         | int          | 订单状态编码      |
+| state              | string       | 订单状态          |
+| vehicle            | vehicle      | 车辆              |
+| plans              | [plan]       | 包含的 plan       |
+| items              | [order-item] | 包含的 order-item |
+| quotation          | quotation    | 报价              |
+| promotion          | promotion    | 促销              |
+| service-ratio      | float        | 服务费率          |
+| summary            | float        | 订单总额          |
+| payment            | float        | 订单实付          |
+| expect-at          | date         | 预计生效日期      |
+| start-at           | date         | 合约生效时间      |
+| stop-at            | date         | 合约失效时间      |
+| real-value         | float        | 车辆真实价格      |
+| paid-at            | date         | 订单支付时间      |
+| outside-quotation1 | float        | 安盛天平报价      |
+| outside-quotation2 | float        | 人保报价          |
+| screenshot1        | string       | 安盛天平报价截屏  |
+| screenshot2        | string       | 人保报价截屏      |
 
 ### order-item
 
@@ -267,19 +279,23 @@
 
 ### plan\_order\_ext
 
-| field                | type      | null | default | index   | reference  |
-| ----                 | ----      | ---- | ----    | ----    | ----       |
-| id                   | serial    |      |         | primary |            |
-| oid                  | uuid      |      |         |         | orders     |
-| pid                  | uuid      |      |         |         | plans      |
-| qid                  | uuid      |      |         |         | quotations |
-| pmid                 | uuid      | ✓    |         |         | promotions |
-| promotion            | real      | ✓    |         |         | promotion  |
-| service\_ratio       | float     |      |         |         |            |
-| expect\_at           | timestamp |      | now     |         |            |
-| created\_at          | timestamp |      | now     |         |            |
-| updated\_at          | timestamp |      | now     |         |            |
-| vehicle\_real\_value | real      |      | 0.0     |         |            |
+| field                | type       | null | default | index   | reference  |
+| ----                 | ----       | ---- | ----    | ----    | ----       |
+| id                   | serial     |      |         | primary |            |
+| oid                  | uuid       |      |         |         | orders     |
+| pid                  | uuid       |      |         |         | plans      |
+| qid                  | uuid       |      |         |         | quotations |
+| pmid                 | uuid       | ✓    |         |         | promotions |
+| promotion            | real       | ✓    |         |         | promotion  |
+| service\_ratio       | float      |      |         |         |            |
+| expect\_at           | timestamp  |      | now     |         |            |
+| created\_at          | timestamp  |      | now     |         |            |
+| updated\_at          | timestamp  |      | now     |         |            |
+| vehicle\_real\_value | real       |      | 0.0     |         |            |
+| outside\_quotation1  | real       |      | 0.0     |         |            |
+| outside\_quotation2  | real       |      | 0.0     |         |            |
+| screenshot1          | char(1024) | ✓    | 0.0     |         |            |
+| screenshot2          | char(1024) | ✓    | 0.0     |         |            |
 
 ### driver\_order\_ext
 
@@ -301,6 +317,7 @@
 | qid         | uuid      |      |         |         | quotations |
 | created\_at | timestamp |      | now     |         |            |
 | updated\_at | timestamp |      | now     |         |            |
+| opr\_level  | smallint  |      | -1      |         |            |
 
 ### order\_items
 

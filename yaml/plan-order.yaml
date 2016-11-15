@@ -17,3 +17,7 @@ service_ratio: 0
 expect_at: 2016-08-01T00:00:00.000Z
 items: !include order-items-plan.yaml
 paid_at: 2016-08-01T00:00:00.000Z
+outside-quotation1: 2000
+outside-quotation2: 2200
+screenshot1: http://hive-data.fengchaohuzhu.com/screenshot1.png
+screenshot2: http://hive-data.fengchaohuzhu.com/screenshot2.png
