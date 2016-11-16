@@ -1,29 +1,69 @@
-# Profile 模块
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-## 数据结构
+- [ChangeLog](#changelog)
+- [Data Structure](#data-structure)
+  - [User](#user)
+- [Database](#database)
+  - [users](#users)
+- [Cache](#cache)
+  - [pnrid-uid](#pnrid-uid)
+- [API](#api)
+  - [getUser](#getuser)
+      - [request](#request)
+      - [response](#response)
+  - [getUserByUserId](#getuserbyuserid)
+    - [request](#request-1)
+      - [response](#response-1)
+  - [getUserOpenId](#getuseropenid)
+    - [request](#request-2)
+      - [response](#response-2)
+  - [refresh](#refresh)
+      - [request](#request-3)
+      - [response](#response-3)
+  - [getAllUsers](#getallusers)
+      - [request](#request-4)
+      - [response](#response-4)
+  - [getUserByUserIds](#getuserbyuserids)
+      - [request](#request-5)
+      - [response](#response-5)
 
-### user
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-| name        | type    | note    |
-| ----        | ----    | ----    |
-| id          | uuid    | 用户 ID  |
-| openid      | string  | openid  |
-| passsword   | string  | 密码     |
-| name        | string  | 姓名     |
-| gender      | string  | 性别     |
-| identity\_no| string  | 身份证   |
-| phone       | string  | 手机号   |
-| nickname    | string  | 昵称     |
-| portrait    | string  | 头像     |
+# ChangeLog
 
-## 数据库结构
+1. 2016-11-16
+  * User 增加 pnrid 属性
+  * users 表增加 pnrid 字段
+  * 增加 pnrid-uid 缓存
+  * 增加 toc
 
-### users
+# Data Structure
+
+## User
+
+| name         | type   | note        |
+| ----         | ----   | ----        |
+| id           | uuid   | 用户 ID     |
+| openid       | string | openid      |
+| passsword    | string | 密码        |
+| name         | string | 姓名        |
+| gender       | string | 性别        |
+| identity\_no | string | 身份证      |
+| phone        | string | 手机号      |
+| nickname     | string | 昵称        |
+| portrait     | string | 头像        |
+| pnrid        | string | 汇付天下 ID |
+
+# Database
+
+## users
 
 | field           | type       | null | default | index   | reference |
 | ----            | ----       | ---- | ----    | ----    | ----      |
 | id              | uuid       |      |         | primary |           |
-| openid          | char(28)   |      |         |         |           |
+| openid          | char(28)   |      |         | unique  |           |
 | passsword       | char(32)   |   ✓  |         |         |           |
 | name            | char(64)   |   ✓  |         |         |           |
 | gender          | char(4)    |   ✓  |         |         |           |
@@ -33,17 +73,28 @@
 | portrait        | char(1024) |   ✓  |         |         |           |
 | created\_at     | timestamp  |      | now     |         |           |
 | updated\_at     | timestamp  |      | now     |         |           |
+| pnrid           | char(25)   |      |         | unique  |           |
 
-## 接口
+# Cache
 
-### 获得当前用户信息 getUser
+## pnrid-uid
+
+| key       | type | value        | note                              |
+| ----      | ---- | ----         | ----                              |
+| pnrid-uid | hash | pnrid => uid | 汇付天下 ID 与 User ID 的对应关系 |
+
+# API
+
+## getUser
+
+获得当前用户信息
 
 #### request
 
 | name    | type   | note    |
 | ----    | ----   | ----    |
 
-##### example
+Example
 
 ```javascript
 
@@ -52,16 +103,16 @@ rpc.call("profile", "getUser")
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| data/msg    | string | 结果内容  |
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -70,15 +121,17 @@ rpc.call("profile", "getUser")
 
 See 成功返回数据：[example](../data/profile/getUser.json)
 
-### 根据userid获得某个用户信息 getUserByUserId
+## getUserByUserId
 
-#### request
+根据userid获得某个用户信息
 
-| name    | type   | note    |
-| ----    | ----   | ----    |
-| user_id | uuid   | 用户id   |
+### request
 
-##### example
+| name     | type | note   |
+| ----     | ---- | ----   |
+| user\_id | uuid | 用户id |
+
+Example
 
 ```javascript
 
@@ -86,16 +139,16 @@ rpc.call("profile", "getUserByUserId", user_id)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| data/msg   | string | 结果内容  |
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
@@ -104,15 +157,17 @@ rpc.call("profile", "getUserByUserId", user_id)
 
 See 成功返回数据：[example](../data/profile/getUserByUserId.json)
 
-### 获得用户openid getUserOpenId
+## getUserOpenId
 
-#### request
+获得用户openid
+
+### request
 
 | name | type | note    |
 | ---- | ---- | ----    |
 | uid  | uuid | 用户 ID |
 
-##### example
+Example
 
 ```javascript
 
@@ -121,33 +176,36 @@ rpc.call("profile", "getUserOpenId", uid)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| data/msg    | string | 结果内容  |
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
-| 200   | null     | 成功     |
-| other | 错误信息  | 失败     |
+| 200   | null     | 成功    |
+| other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/profile/getUserOpenId.json)
 
-### 刷新用户缓存 refresh
+## refresh
 
-#### !!禁止前端调用！！
+刷新用户缓存
+
+***!!禁止前端调用！！***
+
 #### request
 
 | name    | type   | note    |
 | ----    | ----   | ----    |
 
-##### example
+Example
 
 ```javascript
 
@@ -155,24 +213,27 @@ rpc.call("profile", "refresh")
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
+
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| data/msg    | string | 结果内容  |
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
-| 200   | null     | 成功     |
-| other   | 错误信息  | 失败     |
+| 200   | null     | 成功    |
+| other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/profile/sucessful.json)
 
-### 获取所有用户信息 getAllUsers
+## getAllUsers
+
+获取所有用户信息
 
 #### request
 
@@ -181,7 +242,7 @@ See 成功返回数据：[example](../data/profile/sucessful.json)
 | start   | int    | 起始记录 |
 | limit   | int    | 记录条数 |
 
-##### example
+Example
 
 ```javascript
 
@@ -191,57 +252,60 @@ rpc.call("profile", "getAllUsers", start, limit)
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
+
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| data/msg    | string | 结果内容  |
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
-| 200   | null     | 成功     |
-| other   | 错误信息  | 失败     |
+| 200   | null     | 成功    |
+| other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/profile/getAllUsers.json)
 
-### 根据userid数组获得一些用户信息 getUserByUserIds
+## getUserByUserIds
+
+根据userid数组获得一些用户信息
 
 #### request
 
-| name    | type   | note    |
-| ----    | ----   | ----    |
-| user_ids | [uuid]   | 用户id   |
+| name      | type   | note   |
+| ----      | ----   | ----   |
+| user\_ids | [uuid] | 用户id |
 
-##### example
+Example
 
 ```javascript
 
 var user_ids = [
-  
+
 ]
 rpc.call("profile", "getUserByUserIds")
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| data/msg    | string | 结果内容  |
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
 
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | users     | 用户信息     |
-| 404   | not found  | 未找到     |
-| 500   | err  | 错误信息     |
+| code | msg       | meaning  |
+| ---- | ----      | ----     |
+| 200  | users     | 用户信息 |
+| 404  | not found | 未找到   |
+| 500  | err       | 错误信息 |
 
 See 成功返回数据：[example](../data/profile/getUserByUserIds.json)

@@ -1,54 +1,77 @@
-# bank-callback 模块
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [ChangeLog](#changelog)
+- [Cache](#cache)
+- [Database](#database)
+  - [bank\_customers](#bank%5C_customers)
+  - [bank\_mer\_customers](#bank%5C_mer%5C_customers)
+  - [bank\_netsave](#bank%5C_netsave)
+- [API](#api)
+  - [register](#register)
+  - [RegisterCallback](#registercallback)
+  - [netsave](#netsave)
+  - [NetSaveCallback](#netsavecallback)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 bank-callback 是一个特殊的模块，不遵循 hive-server 和 hive-processor 的约定。bank-callback 模块启动一个 web server，供银行业务系统进行回调。
 
-## 修改记录
+# ChangeLog
+
+1. 2016-10-16
+  * 修改 bank-customers 的 field。openid 改为 pnrid
+  * 修改 bank\_customers 表结构，把 openid 改为 pnrid
+  * 增加 toc
+
 
 1. 2016-09-25
   * 增加缓存设计。
   * 增加调用序列图。
 
-## 缓存结构
+# Cache
 
-| key            | type | value            | note                        |
-| ----           | ---- | ----             | ----                        |
-| bank-customers | hash | openid => custid | openid 与 custid 的对应关系 |
+| key                | type | value              | note                          |
+| ----               | ---- | ----               | ----                          |
+| bank-customers     | hash | pnrid => custid    | pnrid 与 custid 的对应关系    |
 | bank-mer-customers | hash | usrId => usrCustid | usrId 与 usrCustid 的对应关系 |
 
 注意：openid 只有 25 个字节长。
 
-## 数据库结构
+# Database
 
-### bank\_customers
+## bank\_customers
 
 | field       | type      | null | default | index   | reference |
 | ----        | ----      | ---- | ----    | ----    | ----      |
 | id          | uuid      |      |         | primary |           |
-| openid      | char(25)  |      |         |         |           |
+| pnrid       | char(25)  |      |         |         |           |
 | cust\_id    | char(16)  |      |         |         |           |
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
 | deleted     | boolean   |      | false   |         |           |
 
 
-### bank\_mer\_customers
+## bank\_mer\_customers
 
-| field       | type      | null | default | index   | reference |
-| ----        | ----      | ---- | ----    | ----    | ----      |
-| id          | uuid      |      |         | primary |           |
-| usr\_id       | varchar(25)  |      |         |         |           |
-| usr\_name     | varchar(50)  |      |         |         |           |
-| usr\_cust\_id     | varchar(16)  |      |         |         |           |
-| audit\_stat     | char(1)  |      |         |         |           |
-| trx\_id     | char(18)  |      |         |         |           |
-| open\_bank\_id     | varchar(8)  |      |         |         |           |
-| card\_id     | varchar(40)  |      |         |         |           |
-| created\_at | timestamp |      | now     |         |           |
-| updated\_at | timestamp |      | now     |         |           |
-| deleted     | boolean   |      | false   |         |           |
+| field          | type        | null | default | index   | reference |
+| ----           | ----        | ---- | ----    | ----    | ----      |
+| id             | uuid        |      |         | primary |           |
+| usr\_id        | varchar(25) |      |         |         |           |
+| usr\_name      | varchar(50) |      |         |         |           |
+| usr\_cust\_id  | varchar(16) |      |         |         |           |
+| audit\_stat    | char(1)     |      |         |         |           |
+| trx\_id        | char(18)    |      |         |         |           |
+| open\_bank\_id | varchar(8)  |      |         |         |           |
+| card\_id       | varchar(40) |      |         |         |           |
+| created\_at    | timestamp   |      | now     |         |           |
+| updated\_at    | timestamp   |      | now     |         |           |
+| deleted        | boolean     |      | false   |         |           |
 
 
-### bank\_netsave
+## bank\_netsave
 
 | field       | type      | null | default | index   | reference |
 | ----        | ----      | ---- | ----    | ----    | ----      |
@@ -63,9 +86,9 @@ bank-callback 是一个特殊的模块，不遵循 hive-server 和 hive-processo
 
 充值回调的其它参数用 json 格式存放在 data 字段中。done 字段表明该数据是否被后台服务所处理。
 
-## 接口
+# API
 
-### 开户回调 register
+## register
 
 register 响应银行的开户回调，调用参数与返回结果见《汇付天下P2P系统托管平台接口规范-v2.7.0\_20160603.pdf》
 
@@ -73,7 +96,7 @@ register 的数据保存到 bank\_customers 表中，同时更新 bank-customers
 
 ![调用序列图](../img/register-callback-sequence.png)
 
-### 开户页面回调 RegisterCallback
+## RegisterCallback
 
 RegisterCallback 响应银行的开户页面响应，提取响应编码和响应内容，用 redirect 方式将客户端转移到前端页面。
 
@@ -84,7 +107,7 @@ RegisterCallback 响应银行的开户页面响应，提取响应编码和响应
 
 ![调用序列图](../img/page-callback-sequence.png)
 
-### 充值回调 netsave
+## netsave
 
 netsave 响应银行的充值回调，调用参数与返回结果见《汇付天下P2P系统托管平台接口规范-v2.7.0\_20160603.pdf》
 
@@ -92,7 +115,7 @@ netsave 的数据保存到 bank\_netsave 表中, 核心数据保存 cust\_id 和
 
 ![调用序列图](../img/netsave-callback-sequence.png)
 
-### 充值页面回调 NetSaveCallback
+## NetSaveCallback
 
 NetSaveCallback 响应银行的开户页面响应，提取响应编码和响应内容，用 redirect 方式将客户端转移到前端页面。
 
