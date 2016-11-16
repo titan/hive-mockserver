@@ -82,7 +82,7 @@ See 成功返回数据：[example](../data/profile/getUser.json)
 
 ```javascript
 
-rpc.call("profile", "getUserByUserId")
+rpc.call("profile", "getUserByUserId", user_id)
   .then(function (result) {
 
   }, function (error) {
