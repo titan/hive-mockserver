@@ -135,7 +135,7 @@ Example
 
 ```javascript
 
-rpc.call("profile", "getUserByUserId")
+rpc.call("profile", "getUserByUserId", user_id)
   .then(function (result) {
 
   }, function (error) {

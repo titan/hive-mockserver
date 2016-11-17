@@ -726,6 +726,69 @@ rpc.call("order", "updateOrderState", order_id, state_code, state)
 | ----     | ----   | ----     |
 | order-id | uuid   | Order ID |
 
+### 获取已报价 getAllOrders
+
+#### request
+
+| name           | type    | note        |
+| ----           | ----    | ----        |
+| start          | number  | 起始记录     |
+| limit          | number  | 每页显示条数  |
+| max            | number  | 记最大录数    |
+| nowScore       | number  | 当前score    |
+| order_id       | string  | 订单编号     |
+| ownername      | string  | 车主姓名     |
+| phone          | string  | 车主电话     |
+| license_no     | string  | 车牌号       |
+| begintime      | string  | 开始时间     |
+| endtime        | string  | 结束时间     |
+| state          | string  | 订单状态     |
+
+```javascript
+let start = 0;
+let limit = 10;
+let maxScore = (new Date()).getTime();
+let nowScore = (new Date()).getTime();
+let order_id = "111000100320160000023";
+let ownername = "张三";
+let phone = "18141912911";
+let license_no = "京8903T";
+let begintime = "2016/11/15";
+let endtime = "2016/11/15";
+let state = 1;
+
+rpc.call("order", "getAllOrders", start, limit, maxScore, nowScore, order_id, ownername, phone, license_no, begintime, endtime, state)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/order/getOrders.json)
+
 
 ### 获取订单列表 getOrders
 
