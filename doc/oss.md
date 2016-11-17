@@ -1,5 +1,8 @@
 # ChangeLog
 
+1. 2016-11-17
+  * sign 返回结果中的 expire 改为 x\_oss\_date
+
 1. 2016-11-12
   * 删除 sign 返回结果中的 host; date 改为 expire
 
@@ -42,10 +45,10 @@
 
 成功:
 
-| name        | type   | note                    |
-| ----        | ----   | ----                    |
-| signature   | string | 签名                    |
-| access\_key | string | 访问密钥                |
-| expire      | string | 到期时间的时间戳        |
+| name         | type   | note           |
+| ----         | ----   | ----           |
+| signature    | string | 签名           |
+| access\_key  | string | 访问密钥       |
+| x\_oss\_date | string | 签名的时间信息 |
 
 See [example](../data/oss/sign.json)
