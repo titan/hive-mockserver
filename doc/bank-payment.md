@@ -357,11 +357,11 @@ See [example](../data/bank-payment/generateNetSaveUrl.json)
 
 | name | type | note          |
 | ---- | ---- | ----          |
-| uid  | uuid | 仅 admin 有效 |
+| pnrid  | string | 汇付天下注册时用的Id |
 
 ```javascript
 
-rpc.call("bank_payment", "getCustomerId")
+rpc.call("bank_payment", "getCustomerId", pnrid)
   .then(function (result) {
 
   }, function (error) {
