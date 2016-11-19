@@ -203,6 +203,12 @@ sorted 是元素在列表中的顺序
 | ----               | ---- | ----                | ----         |
 | quotation-entities | hash | 报价ID => 报价 JSON | 所有报价实体 |
 
+# External Queue
+
+当报价状态改变时，报价模块通过外部消息队列给分销系统提供对应的消息。
+
+具体的内容见 [分销系统](http://git.fengchaohuzhu.com:10080/agent/document/src/master/doc/recommend.md#external-queue)
+
 # API
 
 ## createQuotation
