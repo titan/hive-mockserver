@@ -21,7 +21,10 @@ bank-callback 是一个特殊的模块，不遵循 hive-server 和 hive-processo
 
 # ChangeLog
 
-1. 2016-10-16
+1. 2016-11-19
+  * 增加刷新缓存
+
+1. 2016-11-16
   * 修改 bank-customers 的 field。openid 改为 pnrid
   * 修改 bank\_customers 表结构，把 openid 改为 pnrid
   * 增加 toc
@@ -125,3 +128,18 @@ NetSaveCallback 响应银行的开户页面响应，提取响应编码和响应�
 | 测试 | http://dev.fengchaohuzhu.com/#/NetSaveCallback |
 
 *调用序列图见开户页面回调*
+
+## RefreshRedis
+
+RefreshRedis 从数据库 bank\_customers 中获取数据刷新 Redis \"bank\-customers\" 与 \"customers\-pnrid\"
+
+模拟汇付天下报文，将 \"CmdId=RefreshRedis\" 发送到特定地址：
+
+| 场景 | 内容                                           |
+| ---- | ----                                           |
+| 正式 |  http://m.fengchaohuzhu.com/bank/RefreshRedis   |
+| 测试 |  http://dev.fengchaohuzhu.com/bank/RefreshRedis |
+
+```
+curl --data "CmdId=RefreshRedis" http://dev.fengchaohuzhu.com/bank/RefreshRedis
+```
