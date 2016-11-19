@@ -1,8 +1,66 @@
-# Quotation 模块
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-## 数据结构
+- [ChangeLog](#changelog)
+- [Data Structure](#data-structure)
+  - [quotation](#quotation)
+  - [quotation-group](#quotation-group)
+  - [quotation-item](#quotation-item)
+  - [quotation-item-price](#quotation-item-price)
+  - [quotation-item-quota](#quotation-item-quota)
+  - [后台提醒](#%E5%90%8E%E5%8F%B0%E6%8F%90%E9%86%92)
+- [Database](#database)
+  - [quotations](#quotations)
+  - [quotation\_groups](#quotation%5C_groups)
+  - [quotation\_items](#quotation%5C_items)
+  - [quotation\_item\_quotas](#quotation%5C_item%5C_quotas)
+  - [quotation\_item\_prices](#quotation%5C_item%5C_prices)
+- [Cache](#cache)
+  - [VIN-quotation](#vin-quotation)
+  - [unquotated-quotations](#unquotated-quotations)
+  - [quotated-quotations](#quotated-quotations)
+  - [quotation-entities](#quotation-entities)
+- [API](#api)
+  - [createQuotation](#createquotation)
+      - [request](#request)
+      - [response](#response)
+  - [addQuotationGroups](#addquotationgroups)
+      - [request](#request-1)
+      - [response](#response-1)
+  - [getQuotatedQuotations](#getquotatedquotations)
+      - [request](#request-2)
+      - [response](#response-2)
+  - [getUnquotatedQuotations](#getunquotatedquotations)
+      - [request](#request-3)
+      - [response](#response-3)
+  - [getQuotations](#getquotations)
+      - [request](#request-4)
+      - [response](#response-4)
+  - [getQuotation](#getquotation)
+      - [request](#request-5)
+      - [response](#response-5)
+  - [getTicket](#getticket)
+      - [request](#request-6)
+      - [response](#response-6)
+  - [refresh](#refresh)
+      - [request](#request-7)
+      - [response](#response-7)
+  - [newMessageNotify](#newmessagenotify)
+      - [request](#request-8)
+      - [response](#response-8)
 
-### quotation
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+# ChangeLog
+
+1. 2016-11-19
+  * 增加 toc
+
+# Data Structure
+
+## quotation
 
 | name    | type              | note         |
 | ----    | ----              | ----         |
@@ -15,7 +73,7 @@
 
 [![报价状态转换图](../img/quotation-states.png)](报价状态转换图)
 
-### quotation-group
+## quotation-group
 
 | name         | type             | note         |
 | ----         | ----             | ----         |
@@ -24,7 +82,7 @@
 | is-must-have | boolean          | 是否必选     |
 | items        | [quotation-item] | 包含的 items |
 
-### quotation-item
+## quotation-item
 
 | name         | type                   | note             |
 | ----         | ----                   | ----             |
@@ -37,7 +95,7 @@
 注意，[quotation-item-quota] 中，大多数情况都是只有一个元素，甚至为空。只有第三者险有多个元素。
 prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 
-### quotation-item-price
+## quotation-item-price
 
 | name       | type  | note     |
 | ----       | ----  | ----     |
@@ -45,7 +103,7 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | price      | float | 原价     |
 | real-price | float | 真实价格 |
 
-### quotation-item-quota
+## quotation-item-quota
 
 | name | type   | note |
 | ---- | ----   | ---- |
@@ -53,13 +111,13 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | num  | float  | 数量 |
 | unit | string | 单位 |
 
-### 后台提醒
+## 后台提醒
 
 [![后台提醒状态](../img/new-message-states.svg)](后台提醒状态)
 
-## 表结构
+# Database
 
-### quotations
+## quotations
 
 | field       | type      | null | default | index   | reference |
 | ----        | ----      | ---- | ----    | ----    | ----      |
@@ -69,7 +127,7 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
 
-### quotation\_groups
+## quotation\_groups
 
 | field          | type      | null | default | index   | reference  |
 | ----           | ----      | ---- | ----    | ----    | ----       |
@@ -80,7 +138,7 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | created\_at    | timestamp |      | now     |         |            |
 | updated\_at    | timestamp |      | now     |         |            |
 
-### quotation\_items
+## quotation\_items
 
 | field          | type      | null | default | index   | reference         |
 | ----           | ----      | ---- | ----    | ----    | ----              |
@@ -91,70 +149,72 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | created\_at    | timestamp |      | now     |         |                   |
 | updated\_at    | timestamp |      | now     |         |                   |
 
-### quotation\_item\_quotas
+## quotation\_item\_quotas
 
-| field       | type      | null | default | index   | reference       |
-| ----        | ----      | ---- | ----    | ----    | ----            |
-| id          | uuid      |      |         | primary |                 |
-| qiid        | uuid      |      |         |         | quotation\_items|
-| number      | float     |      |         |         |                 |
-| unit        | char(16)  |      |         |         |                 |
-| sorted      | int       |      | 0       |         |                 |
-| created\_at | timestamp |      | now     |         |                 |
-| updated\_at | timestamp |      | now     |         |                 |
-
-sorted 是元素在列表中的顺序
-
-### quotation\_item\_prices
-
-| field       | type      | null | default | index   | reference       |
-| ----        | ----      | ---- | ----    | ----    | ----            |
-| id          | uuid      |      |         | primary |                 |
-| qiid        | uuid      |      |         |         | quotation\_items|
-| price       | float     |      |         |         |                 |
-| real\_price | float     |      |         |         |                 |
-| sorted      | int       |      | 0       |         |                 |
-| created\_at | timestamp |      | now     |         |                 |
-| updated\_at | timestamp |      | now     |         |                 |
+| field       | type      | null | default | index   | reference        |
+| ----        | ----      | ---- | ----    | ----    | ----             |
+| id          | uuid      |      |         | primary |                  |
+| qiid        | uuid      |      |         |         | quotation\_items |
+| number      | float     |      |         |         |                  |
+| unit        | char(16)  |      |         |         |                  |
+| sorted      | int       |      | 0       |         |                  |
+| created\_at | timestamp |      | now     |         |                  |
+| updated\_at | timestamp |      | now     |         |                  |
 
 sorted 是元素在列表中的顺序
 
-## 缓存结构
+## quotation\_item\_prices
 
-### VIN-quotation
+| field       | type      | null | default | index   | reference        |
+| ----        | ----      | ---- | ----    | ----    | ----             |
+| id          | uuid      |      |         | primary |                  |
+| qiid        | uuid      |      |         |         | quotation\_items |
+| price       | float     |      |         |         |                  |
+| real\_price | float     |      |         |         |                  |
+| sorted      | int       |      | 0       |         |                  |
+| created\_at | timestamp |      | now     |         |                  |
+| updated\_at | timestamp |      | now     |         |                  |
 
-| key               | type | value                   | note           |
-| ----              | ---- | ----                    | ----           |
+sorted 是元素在列表中的顺序
+
+# Cache
+
+## VIN-quotation
+
+| key             | type | value          | note        |
+| ----            | ---- | ----           | ----        |
 | VIN-quotationID | hash | VIN => 报价 ID | VIN下的报价 |
 
-### unquotated-quotations 
+## unquotated-quotations
 
-| key           | type       | value                  | note     |
-| ----          | ----       | ----                   | ----     |
+| key                   | type       | value                    | note       |
+| ----                  | ----       | ----                     | ----       |
 | unquotated-quotations | sorted set | (报价生成时间, 已报价ID) | 已报价汇总 |
 
-### quotated-quotations
+## quotated-quotations
 
-| key        | type | value               | note         |
-| ----       | ---- | ----                | ----         |
+| key                 | type       | value                    | note       |
+| ----                | ----       | ----                     | ----       |
 | quotated-quotations | sorted set | (报价更新时间, 未报价ID) | 已报价汇总 |
 
-### quotation-entities
+## quotation-entities
 
-| key               | type | value                   | note           |
-| ----              | ---- | ----                    | ----           |
+| key                | type | value               | note         |
+| ----               | ---- | ----                | ----         |
 | quotation-entities | hash | 报价ID => 报价 JSON | 所有报价实体 |
 
-## 接口
+# API
 
-### 创建报价 createQuotation
+## createQuotation
+
+创建报价
 
 #### request
 
-| name           | type    | note       |
-| ----           | ----    | ----       |
-| vid            | uuid    | 车辆 ID     |
-| VIN            | string  | 车辆 VIN码  |
+| name | type   | note       |
+| ---- | ----   | ----       |
+| vid  | uuid   | 车辆 ID    |
+| VIN  | string | 车辆 VIN码 |
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
@@ -193,17 +253,19 @@ rpc.call("quotation", "createQuotation", vid, VIN)
 See [example](../data/quotation/createQuotation.json)
 
 
-### 增加报价组 addQuotationGroups
+## addQuotationGroups
+
+增加报价组
 
 **不能从 mobile 域调用!**
 
 #### request
 
-| name           | type    | note     |
-| ----           | ----    | ----     |
-| qid            | uuid    | 报价 ID  |
-| vid            | uuid    | 计划 ID  |
-| groups | [group] | 报价组 |
+| name      | type    | note     |
+| ----      | ----    | ----     |
+| qid       | uuid    | 报价 ID  |
+| vid       | uuid    | 计划 ID  |
+| groups    | [group] | 报价组   |
 | promotion | number] | 促销价格 |
 
 ```javascript
@@ -237,30 +299,32 @@ rpc.call("quotation", "addQuotationGroups", qid, vid, groups, promotion)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/addQuotationGroup.json)
 
-### 获取已报价 getQuotatedQuotations
+## getQuotatedQuotations
+
+获取已报价
 
 #### request
 
-| name           | type    | note        |
-| ----           | ----    | ----        |
-| start          | number  | 起始记录     |
-| limit          | number  | 每页显示条数  |
-| max            | number  | 记最大录数    |
-| nowScore       | number  | 当前score    |
-| vin            | string  | 车辆 VIN码   |
-| ownername      | string  | 车主姓名     |
-| phone          | string  | 车主电话     |
-| license_no     | string  | 车牌号       |
-| begintime      | string  | 开始时间     |
-| endtime        | string  | 结束时间     |
-| state          | string  | 报价状态     |
+| name        | type   | note         |
+| ----        | ----   | ----         |
+| start       | number | 起始记录     |
+| limit       | number | 每页显示条数 |
+| max         | number | 记最大录数   |
+| nowScore    | number | 当前score    |
+| vin         | string | 车辆 VIN码   |
+| ownername   | string | 车主姓名     |
+| phone       | string | 车主电话     |
+| license\_no | string | 车牌号       |
+| begintime   | string | 开始时间     |
+| endtime     | string | 结束时间     |
+| state       | string | 报价状态     |
 
 ```javascript
 let start = 0;
@@ -300,30 +364,32 @@ rpc.call("quotation", "getQuotatedQuotations", start, limit, maxScore, nowScore,
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/getQuotatedQuotations.json)
 
-### 获取未报价 getUnquotatedQuotations
+## getUnquotatedQuotations
+
+获取未报价
 
 #### request
 
-| name           | type    | note        |
-| ----           | ----    | ----        |
-| start          | number  | 起始记录     |
-| limit          | number  | 每页显示条数  |
-| max            | number  | 记最大录数    |
-| nowScore       | number  | 当前score    |
-| vin            | string  | 车辆 VIN码   |
-| ownername      | string  | 车主姓名     |
-| phone          | string  | 车主电话     |
-| license_no     | string  | 车牌号       |
-| begintime      | string  | 开始时间     |
-| endtime        | string  | 结束时间     |
-| state          | string  | 报价状态     |
+| name        | type   | note         |
+| ----        | ----   | ----         |
+| start       | number | 起始记录     |
+| limit       | number | 每页显示条数 |
+| max         | number | 记最大录数   |
+| nowScore    | number | 当前score    |
+| vin         | string | 车辆 VIN码   |
+| ownername   | string | 车主姓名     |
+| phone       | string | 车主电话     |
+| license\_no | string | 车牌号       |
+| begintime   | string | 开始时间     |
+| endtime     | string | 结束时间     |
+| state       | string | 报价状态     |
 
 ```javascript
 let start = 0;
@@ -364,14 +430,16 @@ rpc.call("quotation", "getUnquotatedQuotations", start, limit, maxScore, nowScor
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/getUnquotatedQuotations.json)
 
-### 获取所有报价 getQuotations
+## getQuotations
+
+获取所有报价
 
 #### request
 
@@ -405,14 +473,16 @@ rpc.call("quotation", "getQuotations")
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/getQuotations.json)
 
-### 获取某个报价 getQuotation
+## getQuotation
+
+获取某个报价
 
 #### request
 
@@ -448,20 +518,22 @@ rpc.call("quotation", "getQuotation", qid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/getQuotation.json)
 
-### 获取二维码 getTicket
+## getTicket
+
+获取二维码
 
 #### request
 
-| name           | type    | note     |
-| ----           | ----    | ----     |
-| oid            | uuid    | 订单 ID  |
+| name | type | note    |
+| ---- | ---- | ----    |
+| oid  | uuid | 订单 ID |
 
 ```javascript
 
@@ -491,22 +563,25 @@ rpc.call("quotation", "getTicket", oid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/getTicket.json)
 
-### 刷新报价缓存 refresh
+## refresh
 
-#### !!禁止前端调用！！
+刷新报价缓存
+
+**!!禁止前端调用！！**
+
 #### request
 
 | name    | type   | note    |
 | ----    | ----   | ----    |
 
-##### example
+Example
 
 ```javascript
 
@@ -514,24 +589,26 @@ rpc.call("quotation", "refresh")
   .then(function (result) {
 
   }, function (error) {
-        
+
   });
 ```
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码  |
-| msg    | string | 结果内容  |
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 结果编码 |
+| msg  | string | 结果内容 |
 
 | code  | msg      | meaning |
 | ----  | ----     | ----    |
-| 200   | null     | 成功     |
-| other | 错误信息  | 失败     |
+| 200   | null     | 成功    |
+| other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/quotation/sucessful.json)
 
-### 后台提醒 newMessageNotify
+## newMessageNotify
+
+后台提醒
 
 #### request
 
@@ -562,9 +639,9 @@ rpc.call("quotation", "newMessageNotify")
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/newMessageNotify.json)

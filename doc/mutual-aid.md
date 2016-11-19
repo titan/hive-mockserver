@@ -6,14 +6,14 @@
 - [Data Structure](#data-structure)
   - [mutual-aid](#mutual-aid)
   - [mutual-aid-recompense](#mutual-aid-recompense)
+- [Database](#database)
+  - [mutual\_aids](#mutual%5C_aids)
 - [API](#api)
   - [applyForMutualAid](#applyformutualaid)
       - [request](#request)
-        - [example](#example)
       - [response](#response)
   - [getMutualAids](#getmutualaids)
       - [request](#request-1)
-        - [example](#example-1)
       - [response](#response-1)
   - [getMutualAid](#getmutualaid)
       - [request](#request-2)
@@ -22,6 +22,9 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2016-11-16
+  * 增加数据库设计
 
 1. 2016-11-15
   * 增加 toc
@@ -66,6 +69,33 @@
 | public-fee      | float | 公共池扣费 |
 | public-balance  | float | 公共池余额 |
 | paid-at         | date  | 支付日期   |
+
+# Database
+
+## mutual\_aids
+
+| field                  | type       | null | default | index   | reference |
+| ----                   | ----       | ---- | ----    | ----    | ----      |
+| id                     | uuid       |      |         | primary |           |
+| no                     | char(16)   |      |         |         |           |
+| did                    | uuid       |      |         |         | drivers   |
+| vid                    | uuid       |      |         |         | vehicles  |
+| city                   | char(40)   |      |         |         |           |
+| district               | char(40)   |      |         |         |           |
+| street                 | char(100)  |      |         |         |           |
+| phone                  | char(20)   |      |         |         |           |
+| occurred\_at           | timestamp  |      |         |         |           |
+| responsibility         | char(20)   |      |         |         |           |
+| situation              | text       |      |         |         |           |
+| description            | text       |      |         |         |           |
+| vehicle\_damaged\_view | char(1024) |      |         |         |           |
+| vehicle\_frontal\_view | char(1024) |      |         |         |           |
+| driver\_view           | char(1024) |      |         |         |           |
+| driver\_license\_view  | char(1024) |      |         |         |           |
+| state                  | smallint   |      |         |         |           |
+| created\_at            | timestamp  |      | now     |         |           |
+| updated\_at            | timestamp  |      | now     |         |           |
+| deleted                | boolean    |      | false   |         |           |
 
 # API
 
