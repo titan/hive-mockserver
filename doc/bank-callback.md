@@ -131,9 +131,9 @@ NetSaveCallback 响应银行的开户页面响应，提取响应编码和响应�
 
 ## RefreshRedis
 
-RefreshRedis 从数据库 bank\_customers 中获取数据刷新 Redis \"bank\-customers\" 与 \"customers\-pnrid\"
+RefreshRedis 从数据库 bank\_customers 中获取数据刷新 Redis "bank-customers" 与 "customers-pnrid"
 
-模拟汇付天下报文，将 \"CmdId=RefreshRedis\" 发送到特定地址：
+模拟汇付天下报文，将 "CmdId=RefreshRedis" 发送到特定地址：
 
 | 场景 | 内容                                           |
 | ---- | ----                                           |
