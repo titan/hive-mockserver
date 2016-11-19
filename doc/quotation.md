@@ -21,6 +21,7 @@
   - [unquotated-quotations](#unquotated-quotations)
   - [quotated-quotations](#quotated-quotations)
   - [quotation-entities](#quotation-entities)
+- [External Queue](#external-queue)
 - [API](#api)
   - [createQuotation](#createquotation)
       - [request](#request)
@@ -57,6 +58,7 @@
 
 1. 2016-11-19
   * 增加 toc
+  * 增加外部队列
 
 # Data Structure
 
