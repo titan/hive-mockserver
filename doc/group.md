@@ -81,7 +81,9 @@
   * 为每一个接口增加权限表。
   * 为每一个接口增加详细错误信息。
   * 增加了 group 触发器。
-
+1. 2016-11-22
+  * 增加互助组已加入用户投票情况查询
+  
 ## Data Structure
 
 ### group
@@ -586,13 +588,13 @@ See [example](../data/group/queryApplicationStatus.json)
 | name | type | note       |
 | ---- | ---- | ----       |
 | uid  | uuid | Usre ID    |
-
+| piid | uuid | poli_items_id|
 uid 仅在 admin 域调用时有效。
 
 ```javascript
 
 let uid = "00000000-0000-0000-0000-000000000000";
-rpc.call("group", "getGroupPollsStatus", uid)
+rpc.call("group", "getGroupPollsStatus", uid,piid)
   .then(function (result) {
 
   }, function (error) {
@@ -607,11 +609,10 @@ rpc.call("group", "getGroupPollsStatus", uid)
 | name   | type        | note |
 | ----   | ----        | ---- |
 | code   | int         | 200  |
-| status | {vid: stat} |      |
+| status | string     |      |
 
-vid 是车辆的 ID，stat 的内容见下表：
 
-| stat     | meaning |
+| status   | meaning |
 | ----     | ----    |
 | Agreed   | 已同意  |
 | Refused  | 已拒绝  |
