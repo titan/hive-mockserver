@@ -716,11 +716,12 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 
 #### request
 
-| name       | type   | note         |
-| ----       | ----   | ----         |
-| order-id   | uuid   | 订单 ID      |
-| state-code | int    | 订单状态编码 |
-| state      | string | 订单状态     |
+| name       | type          | note      |
+| ----       | ----          | ----      |
+| uid        |uuid           |user-id    |
+| order_id   | uuid          | 订单 ID   |
+| state_code | int           |订单状态编码 |
+| state      | string        |订单状态    |
 
 ```javascript
 let order_id = "00000000-0000-0000-0000-000000000000";
