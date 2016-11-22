@@ -52,7 +52,18 @@ GET_WALLET_DEPS = get-wallet.yaml wallet.yaml accounts.yaml account.yaml $(VEHIC
 GET_TRANSACTIONS = ../data/wallet/getTransactions.json
 GET_TRANSACTIONS_DEPS = get-transactions.yaml transactions.yaml transaction.yaml
 
-all: $(QUOTATIONS) $(QUOTATION) $(AVAILABLE_PLANS) $(JOINED_PLANS) $(PLAN) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS)
+SIGN = ../data/oss/sign.json
+SIGN_DEPS = oss-sign.yaml
+
+MUTUAL_AID_DEPS = mutual-aid.yaml driver.yaml vehicle.yaml mutual-aid-recompense.yaml
+
+GET_MUTUAL_AID = ../data/mutual-aid/getMutualAid.json
+GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
+
+GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
+GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
+
+all: $(QUOTATIONS) $(QUOTATION) $(AVAILABLE_PLANS) $(JOINED_PLANS) $(PLAN) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(QUOTATIONS): $(QUOTATIONS_DEPS)
 	$(YAML2JSON) quotations.yaml | aeson-pretty > $@
@@ -97,6 +108,15 @@ $(GET_WALLET): $(GET_WALLET_DEPS)
 $(GET_TRANSACTIONS): $(GET_TRANSACTIONS_DEPS)
 	$(YAML2JSON) get-transactions.yaml | aeson-pretty > $@
 
+$(SIGN): $(SIGN_DEPS)
+	$(YAML2JSON) oss-sign.yaml | aeson-pretty > $@
+
+$(GET_MUTUAL_AID): $(GET_MUTUAL_AID_DEPS)
+	$(YAML2JSON) get-mutual-aid.yaml | aeson-pretty > $@
+
+$(GET_MUTUAL_AIDS): $(GET_MUTUAL_AIDS_DEPS)
+	$(YAML2JSON) get-mutual-aids.yaml | aeson-pretty > $@
+
 clean:
 	rm $(QUOTATIONS)
 	rm $(QUOTATION)
@@ -112,5 +132,8 @@ clean:
 	rm $(ORDERS)
 	rm $(GET_WALLET)
 	rm $(GET_TRANSACTIONS)
+	rm $(SIGN)
+	rm $(GET_MUTUAL_AID)
+	rm $(GET_MUTUAL_AIDS)
 
 .phoney: all clean

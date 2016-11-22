@@ -37,7 +37,6 @@
                     "model": {
                         "pl": "1.595",
                         "body_type": "三厢",
-                        "vin_code": "LSVFA49J232037048",
                         "family_name": "宝来",
                         "fuel_jet_type": "多点电喷",
                         "purchase_price": 113800,
@@ -61,7 +60,8 @@
                     "register_date": "2016-08-01T00:00:00.000Z",
                     "license_no": "京A00000",
                     "id": "00000000-0000-0000-0000-000000000000",
-                    "user_id": "00000000-0000-0000-0000-000000000000"
+                    "user_id": "00000000-0000-0000-0000-000000000000",
+                    "vin": "LSVFA49J232037048"
                 },
                 "init_balance": 1000
             }
@@ -69,15 +69,17 @@
         "founder": {
             "phone": 18700000000,
             "identity-no": "xxxxxxxxxxxxxxxxxx",
-            "openid": "xxxxxxxx",
+            "openid": "xxxxxxxxxxxxxxxxxxxxxxxxxxxx",
             "gender": "female",
             "name": "vivian",
             "password": "xxxxxxxx",
             "portrait": "https://www.baidu.com/img/bd_logo1.png",
             "id": "00000000-0000-0000-0000-000000000000",
-            "nickname": "vivian"
+            "nickname": "vivian",
+            "pnrid": "xxxxxxxxxxxxxxxxxxxxxxxxx"
         },
         "applied_vehicles": [],
+        "no": "FC01201600000001",
         "joined_vehicles": [
             {
                 "receipt_date": "2016-08-01T00:00:00.000Z",
@@ -110,7 +112,6 @@
                 "model": {
                     "pl": "1.595",
                     "body_type": "三厢",
-                    "vin_code": "LSVFA49J232037048",
                     "family_name": "宝来",
                     "fuel_jet_type": "多点电喷",
                     "purchase_price": 113800,
@@ -134,7 +135,8 @@
                 "register_date": "2016-08-01T00:00:00.000Z",
                 "license_no": "京A00000",
                 "id": "00000000-0000-0000-0000-000000000000",
-                "user_id": "00000000-0000-0000-0000-000000000000"
+                "user_id": "00000000-0000-0000-0000-000000000000",
+                "vin": "LSVFA49J232037048"
             }
         ],
         "name": "风小宝的蜂巢",

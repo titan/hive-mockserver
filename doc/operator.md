@@ -48,7 +48,7 @@
 
 ## 接口
 
-### 获得某个操作员信息 getOperatorInfo
+### 获得某个操作员信息 getOperator
 
 #### request
 
@@ -61,7 +61,7 @@
 ```javascript
 
 var opid = "0000000000-0000-0000-0000-000000000000";
-rpc.call("operator", "getOperatorInfo", opid)
+rpc.call("operator", "getOperator", opid)
   .then(function (result) {
 
   }, function (error) {
@@ -81,10 +81,10 @@ rpc.call("operator", "getOperatorInfo", opid)
 | 200   | null     | 成功    |
 | other | 错误信息 | 失败    |
 
-See 成功返回数据：[example](../data/operator/getOperatorInfo.json)
+See 成功返回数据：[example](../data/operator/getOperator.json)
 
 
-### 获得所有操作员信息 getOperatorInfos
+### 获得所有操作员信息 getOperators
 
 #### request
 
@@ -95,7 +95,7 @@ See 成功返回数据：[example](../data/operator/getOperatorInfo.json)
 
 ```javascript
 
-rpc.call("operator", "getOperatorInfos")
+rpc.call("operator", "getOperators")
   .then(function (result) {
 
   }, function (error) {
@@ -115,10 +115,10 @@ rpc.call("operator", "getOperatorInfos")
 | 200   | null     | 成功    |
 | other | 错误信息 | 失败    |
 
-See 成功返回数据：[example](../data/operator/getOperatorInfos.json)
+See 成功返回数据：[example](../data/operator/getOperators.json)
 
 
-### 添加操作员 addOperatorInfo
+### 添加操作员 addOperator
 
 #### request
 
@@ -144,7 +144,7 @@ var phone = "";
 var email = "";
 var portrait = "";
 
-rpc.call("operator", "addOperatorInfo", oname, password, name, gender, phone, email, portrait)
+rpc.call("operator", "addOperator", oname, password, name, gender, phone, email, portrait)
   .then(function (result) {
 
   }, function (error) {
@@ -165,4 +165,39 @@ rpc.call("operator", "addOperatorInfo", oname, password, name, gender, phone, em
 
 See 成功返回数据: [example](../data/operator/sucessful.json)
 
+### 刷新用户缓存 refresh
 
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name    | type   | note    |
+| ----    | ----   | ----    |
+
+##### example
+
+```javascript
+
+rpc.call("profile", "refresh")
+  .then(function (result) {
+
+  }, function (error) {
+        
+  });
+```
+#### response
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| code   | int    | 结果编码  |
+| msg    | string | 结果内容  |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | null     | 成功     |
+| other | 错误信息  | 失败     |
+
+See 成功返回数据：[example](../data/profile/sucessful.json)
