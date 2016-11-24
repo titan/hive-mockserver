@@ -399,12 +399,12 @@ rpc.call("group", "joinGroup"，gid, vid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 404  | 互助组/车辆不存在 |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
-
+| code | meanning           |
+| ---- | ----               |
+| 404  | 互助组/车辆不存在  |
+| 408  | 请求超时           |
+| 500  | 未知错误           |
+| 501  | 互助小组人数超过20 |
 See [example](../data/group/joinGroup.json)
 
 ### 同意加入申请 agree
