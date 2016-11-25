@@ -398,7 +398,6 @@ rpc.call("wallet", "ApplyCashOut", amonout, order_id)
   });
 
 ```
-
 #### response
 
 成功：
@@ -419,6 +418,7 @@ rpc.call("wallet", "ApplyCashOut", amonout, order_id)
 | ---- | ----              |
 | 500  | 未知错误           |
 
+See [example](../data/wallet/createCashout.json)
 
 ### 同意提现 AgreeCashOut
 
@@ -509,3 +509,5 @@ rpc.call("wallet", "ApplyCashOut", amonout, order_id)
 | code | meanning          |
 | ---- | ----              |
 | 500  | 未知错误           |
+
+See [example](../data/wallet/createCashout.json)
