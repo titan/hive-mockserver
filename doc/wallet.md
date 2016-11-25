@@ -1,6 +1,8 @@
 # Wallet 模块
 
 ## 修改记录
+1. 2016-11-25
+  * 增加提现对象
 
 1. 2016-09-24
   * 增加 createAccount 接口。
@@ -63,6 +65,36 @@
 | -2   | 池帐号小池扣款 |
 | -3   | 池帐号大池扣款 |
 
+### CashOut
+| name        | type    | note                |
+| ----        | ----    | ----                |
+| id          | number  | 提现编号              |
+| apply\_time | iso8601 | 申请时间              |
+| state       | integer | 提现状态              |
+| amount      | float   | 提现金额              |
+| order       | order   | 订单                 |
+
+# Event
+
+## Event Data Structure
+
+| name        | type    | note              |
+| ----        | ----    | ----              |
+| id          | uuid    | event id          |
+| type        | smallint| event type        |
+| oid         | uuid    | operator id       |
+| coid        | number  | cashout id        |
+| occurred-at | iso8601 | 事件发生时间        |
+
+## Event Type
+
+| type | name       | note       |
+| ---- | ----       | ----       |
+| 0    | CREATE     | 创建提现   |
+| 1    | AGREE      | 同意提现   |
+| 2    | REFUSE     | 拒绝提现   |
+
+
 ## 数据库结构
 
 ### accounts
@@ -90,13 +122,43 @@
 | amount       | float     |      |         |         |           |
 | occurred\_at | timestamp |      | now     |         |           |
 
+### cashout
+
+| field        | type      | null | default | index   | reference |
+| ----         | ----      | ---- | ----    | ----    | ----      |
+| id           | number    |      |         | primary |           |
+| apply\_time  | timestamp |      |         |         |           |
+| state        | smallint  |      |         |         |           |
+| amount       | float     |      |         |         |           |
+| order\_id    | uuid      |      |         |         |   orders  |
+
+| cashout\_state     | name         |
+| ----               | ----         |
+| 0                  | 未处理        |
+| 1                  | 已批准        |
+| 2                  | 已拒绝        | 
+
+## cashout\_events
+
+| field        | type      | null | default | index   | reference |
+| ----         | ----      | ---- | ----    | ----    | ----      |
+| id           | uuid      |      |         | primary |           |
+| type         | smallint  |      |         |         |           |
+| oid          | uuid      |      |         |         | operator  |
+| coid         | number    |      |         |         | cashout   |
+| occurred\_at | timestamp |      | now     |         |           |
+| data         | json      |      |         |         |           |
+
 ## 缓存结构
 
 
 | key                 | type       | value                   | note         |
 | ----                | ----       | ----                    | ----         |
-| wallet-entities     | hash       | UID => Wallet           | 所有钱包实体 |
-| transactions-${uid} | sorted set | {occurred, transaction} | 交易记录     |
+| wallet-entities     | hash       | UID => Wallet           | 所有钱包实体   |
+| transactions-${uid} | sorted set | {occurred, transaction} | 交易记录      |
+| cashout-counter     | hash       | date => counter         | 当日提现计数   |
+| cashout-entities    | hash       | UID => Wallet           | 所有提现实体  |
+| cashouts            | sorted set | (提现生成时间, 提现ID)     | 提现汇总     |
 
 
 ## 接口
@@ -265,3 +327,185 @@ rpc.call("wallet", "getTransactions", 0, 10)
 | 500  | 未知错误          |
 
 See [example](../data/wallet/getTransactions.json)
+
+
+### 申请提现 ApplyCashOut
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type  | note                |
+| ----      | ----  | ----                |
+| amount    | float | 提现金额              |
+| order_id  | uuid  | 订单id               |
+
+```javascript
+
+rpc.call("wallet", "ApplyCashOut", amonout, order_id)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name         | type          | note        |
+| ----         | ----          | ----        |
+| code         | int           | 200         |
+| coid         | uuid          | 提现id      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 500  | 未知错误           |
+
+### 申请提现 ApplyCashOut
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type  | note                |
+| ----      | ----  | ----                |
+| amount    | float | 提现金额              |
+| order_id  | uuid  | 订单id               |
+
+```javascript
+
+rpc.call("wallet", "ApplyCashOut", amonout, order_id)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name         | type          | note        |
+| ----         | ----          | ----        |
+| code         | int           | 200         |
+| coid         | uuid          | 提现id      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 500  | 未知错误           |
+
+
+### 同意提现 AgreeCashOut
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type     | note                |
+| ----      | ----     | ----                |
+| coid      | number   | 提现id               |
+| state     | integer  | 提现状态              |
+
+```javascript
+
+rpc.call("wallet", "AgreeCashOut", coid, state)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name         | type          | note        |
+| ----         | ----          | ----        |
+| code         | int           | 200         |
+| coid         | uuid          | 提现id      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 500  | 未知错误           |
+
+### 申请提现 ApplyCashOut
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type  | note                |
+| ----      | ----  | ----                |
+| amount    | float | 提现金额              |
+| order_id  | uuid  | 订单id               |
+
+```javascript
+
+rpc.call("wallet", "ApplyCashOut", amonout, order_id)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name         | type          | note        |
+| ----         | ----          | ----        |
+| code         | int           | 200         |
+| coid         | uuid          | 提现id      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 500  | 未知错误           |
