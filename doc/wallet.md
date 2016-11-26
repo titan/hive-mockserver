@@ -69,10 +69,11 @@
 
 | name        | type    | note                |
 | ----        | ----    | ----                |
-| id          | number  | 提现编号              |
-| applied-at  | iso8601 | 申请时间              |
+| id          | uuid    | 提现id               |
+| no          | string  | 提现编号              |
 | state       | integer | 提现状态              |
 | amount      | float   | 提现金额              |
+| reason      | text    | 拒绝理由             |
 | order       | order   | 订单                 |
 
 # Event
@@ -84,8 +85,10 @@
 | id          | uuid    | event id          |
 | type        | smallint| event type        |
 | opid        | uuid    | operator id       |
-| coid        | number  | cashout id        |
+| uid         | uuid    | user id           |
 | occurred-at | iso8601 | 事件发生时间        |
+| amount      | float   | 提现金额           |
+| reason      | text    | 拒绝理由           |
 
 ## Event Type
 
@@ -95,6 +98,13 @@
 | 1    | AGREE      | 提现同意   |
 | 2    | REFUSE     | 提现拒绝   |
 
+## Event Type And Data Structure Matrix
+
+| type |amonut|reason | 
+| ---- | ---- | ----   |
+| 0    | ✓    |        | 
+| 1    |      |        |
+| 2    |      |   ✓   |
 
 # Database
 
@@ -125,13 +135,17 @@
 
 ### cashout
 
-| field        | type      | null | default | index   | reference |
-| ----         | ----      | ---- | ----    | ----    | ----      |
-| id           | integer   |      |         | primary |           |
-| applied\_at  | timestamp |      |         |         |           |
-| state        | smallint  |      |         |         |           |
-| amount       | float     |      |         |         |           |
-| order\_id    | uuid      |      |         |         |   orders  |
+| field           | type      | null | default | index   | reference |
+| ----            | ----      | ---- | ----    | ----    | ----      |
+| id              | uuid      |      |         | primary |           |
+| no              | string    |      |         |         |           |
+| state           | smallint  |      |         |         |           |
+| amount          | float     |      |         |         |           |
+| reason          | text      |  ✓   |         |         |           |
+| order\_id       | uuid      |      |         |         |   orders  |
+| last\_event\_id | uuid      |  ✓   |         |         |           |
+| created\_at     | timestamp |      |   now   |         |           |
+| updated\_at     | timestamp |      |   now   |         |           |
 
 | cashout\_state     | name         |
 | ----               | ----         |
@@ -145,8 +159,8 @@
 | ----         | ----      | ---- | ----    | ----    | ----      |
 | id           | uuid      |      |         | primary |           |
 | type         | smallint  |      |         |         |           |
-| opid         | uuid      |      |         |         | operator  |
-| coid         | number    |      |         |         | cashout   |
+| opid         | uuid      |      |         |         |           |
+| uid          | uuid      |  ✓   |         |         |           |
 | occurred\_at | timestamp |      | now     |         |           |
 | data         | json      |      |         |         |           |
 
@@ -158,14 +172,15 @@
 | transactions-${uid} | sorted set | {occurred, transaction} | 交易记录      |
 | cashout-counter     | hash       | date => counter         | 当日提现计数   |
 | cashout-entities    | hash       | coid => cashout         | 所有提现实体  |
-| apply-cashouts      | sorted set | (提现生成时间, 提现ID)     | 提现申请汇总  |
-| agree-cashouts      | sorted set | (提现生成时间, 提现ID)     | 提现同意汇总  |
-| refuse-cashouts     | sorted set | (提现生成时间, 提现ID)     | 提现拒绝汇总  |
+| applied-cashouts    | sorted set | (提现生成时间, 提现ID)     | 提现申请汇总  |
+| agreed-cashouts     | sorted set | (提现生成时间, 提现ID)     | 提现同意汇总  |
+| refused-cashouts    | sorted set | (提现生成时间, 提现ID)     | 提现拒绝汇总  |
 
 
 # API
 
-### getWallet
+## getWallet
+
 获得钱包信息 
 
 钱包的数据其实是各个帐号数据的汇总。
@@ -218,7 +233,8 @@ rpc.call("wallet", "getWallet")
 
 See [example](../data/wallet/getWallet.json)
 
-### createAccount
+## createAccount
+
 创建钱包帐号 
 
 创建钱包下的帐号。每个钱包下，每辆车只能有一个帐号，不能重复创建。
@@ -241,6 +257,7 @@ See [example](../data/wallet/getWallet.json)
 vid 在普通帐号类型下保持为 null。
 
 ```javascript
+
 let type = 1;
 let vid = "00000000-0000-0000-0000-000000000000";
 let balance0 = 200.00;
@@ -282,7 +299,8 @@ rpc.call("wallet", "createAccount", type, balance0, balance1, vid)
 
 See [example](../data/wallet/createAccount.json)
 
-### getTransactions
+## getTransactions
+
 获得钱包交易日志列表 
 
 钱包交易日志按时间逆序显示。
@@ -329,11 +347,12 @@ rpc.call("wallet", "getTransactions", 0, 10)
 
 | code | meanning          |
 | ---- | ----              |
-| 500  | 未知错误          |
+| 500  | 未知错误           |
 
 See [example](../data/wallet/getTransactions.json)
 
-### ApplyCashOut
+## ApplyCashOut
+
 申请提现 
 
 | domain | accessable |
@@ -379,7 +398,8 @@ rpc.call("wallet", "ApplyCashOut", order_id)
 
 See [example](../data/wallet/createCashout.json)
 
-### AgreeCashOut
+## AgreeCashOut
+
 同意提现 
 
 | domain | accessable |
