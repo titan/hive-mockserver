@@ -1,6 +1,6 @@
-# Wallet 模块
+# Wallet
 
-## 修改记录
+# ChangeLog
 1. 2016-11-25
   * 增加提现对象
 
@@ -17,7 +17,7 @@
   * 删除 wallet 表。
   * 增加缓存设计。
 
-## 数据结构
+# Data Structure
 
 ### wallet
 
@@ -66,6 +66,7 @@
 | -3   | 池帐号大池扣款 |
 
 ### CashOut
+
 | name        | type    | note                |
 | ----        | ----    | ----                |
 | id          | number  | 提现编号              |
@@ -95,7 +96,7 @@
 | 2    | REFUSE     | 提现拒绝   |
 
 
-## 数据库结构
+# Database
 
 ### accounts
 
@@ -149,8 +150,7 @@
 | occurred\_at | timestamp |      | now     |         |           |
 | data         | json      |      |         |         |           |
 
-## 缓存结构
-
+# Cache
 
 | key                 | type       | value                   | note         |
 | ----                | ----       | ----                    | ----         |
@@ -163,9 +163,10 @@
 | refuse-cashouts     | sorted set | (提现生成时间, 提现ID)     | 提现拒绝汇总  |
 
 
-## 接口
+# API
 
-### 获得钱包信息 getWallet
+### getWallet
+获得钱包信息 
 
 钱包的数据其实是各个帐号数据的汇总。
 
@@ -217,7 +218,8 @@ rpc.call("wallet", "getWallet")
 
 See [example](../data/wallet/getWallet.json)
 
-### 创建钱包帐号 createAccount
+### createAccount
+创建钱包帐号 
 
 创建钱包下的帐号。每个钱包下，每辆车只能有一个帐号，不能重复创建。
 
@@ -280,7 +282,8 @@ rpc.call("wallet", "createAccount", type, balance0, balance1, vid)
 
 See [example](../data/wallet/createAccount.json)
 
-### 获得钱包交易日志列表 getTransactions
+### getTransactions
+获得钱包交易日志列表 
 
 钱包交易日志按时间逆序显示。
 
@@ -330,7 +333,8 @@ rpc.call("wallet", "getTransactions", 0, 10)
 
 See [example](../data/wallet/getTransactions.json)
 
-### 申请提现 ApplyCashOut
+### ApplyCashOut
+申请提现 
 
 | domain | accessable |
 | ----   | ----       |
@@ -375,7 +379,8 @@ rpc.call("wallet", "ApplyCashOut", order_id)
 
 See [example](../data/wallet/createCashout.json)
 
-### 同意提现 AgreeCashOut
+### AgreeCashOut
+同意提现 
 
 | domain | accessable |
 | ----   | ----       |
