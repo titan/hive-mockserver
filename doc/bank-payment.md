@@ -74,7 +74,7 @@
   - [generateUsrAcctPayUrl](#generateusracctpayurl)
       - [request](#request-22)
       - [response](#response-22)
-  - [generateMerCashPayUrl](#generatemercashpayurl)
+  - [generateMerCashUrl](#generatemercashurl)
       - [request](#request-23)
       - [response](#response-23)
   - [generateAddBidInfoUrl](#generateaddbidinfourl)
@@ -1936,7 +1936,7 @@ rpc.call("bank_payment", "generateUsrAcctPayUrl", ordId, usrCustId, transAmt, in
 
 See [example](../data/bank-payment/generateUsrAcctPayUrl.json)
 
-## generateMerCashPayUrl
+## generateMerCashUrl
 
 生成商户代取现接口链接。
 
