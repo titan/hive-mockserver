@@ -100,6 +100,13 @@
 
 ## Event Type And Data Structure Matrix
 
+
+| type | amount     | reason    |
+| ---- | ----       | ----      |
+| 0    | ✓          |          |
+| 1    |            |          |
+| 2    |            | ✓        |
+
 | type |amonut|reason | 
 | ---- | ---- | ----   |
 | 0    | ✓    |        | 
