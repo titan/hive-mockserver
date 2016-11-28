@@ -107,7 +107,7 @@
 | 1    |            |          |
 | 2    |            | ✓        |
 
-| type |amonut|reason | 
+| type | amonut | reason | 
 | ---- | ---- | ----   |
 | 0    | ✓    |        | 
 | 1    |      |        |
