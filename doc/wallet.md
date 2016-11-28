@@ -412,12 +412,13 @@ See [example](../data/wallet/createCashout.json)
 
 | name      | type     | note                |
 | ----      | ----     | ----                |
-| coid      | number   | 提现id               |
+| coid      | uuid     | 提现id               |
 | state     | integer  | 提现状态              |
+| opid      | uuid     | 操作员id             |
 
 ```javascript
 
-rpc.call("wallet", "AgreeCashOut", coid, state)
+rpc.call("wallet", "AgreeCashOut", coid, state, opid)
   .then(function (result) {
 
   }, function (error) {
