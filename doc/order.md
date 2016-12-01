@@ -113,6 +113,10 @@
 
 # ChangeLog
 
+1. 2016-12-01
+  * 增加 vehicle-plan-order 缓存
+  * 增加 vehicle-sale-order 缓存
+
 1. 2016-11-19
   * 增加外部队列
 
@@ -441,6 +445,22 @@
 | key         | type | value          | note   |
 | ----        | ---- | ----           | ----   |
 | VIN-orderID | hash | VIN => orderID | 订单ID |
+
+## vehicle-plan-order
+
+根据 vehicle id 得到对应的计划单
+
+| key      | type | value           | note |
+| ----     | ---- | ----            | ---- |
+| vid-poid | hash | vid => plan oid |      |
+
+## vehicle-sale-order
+
+根据 vehicle id 得到对应的代售单
+
+| key      | type | value           | note |
+| ----     | ---- | ----            | ---- |
+| vid-soid | hash | vid => sale oid |      |
 
 # External Queue
 
