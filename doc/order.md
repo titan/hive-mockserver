@@ -845,9 +845,9 @@ See [example](../data/order/getOrders.json)
 | ----  | ----  | ----       |
 | order | order | Order 详情 |
 
-## getDriverOrders
+## getDriverForVehicle
 
-获取驾驶人信息
+获取对应车的驾驶人信息
 
 #### request
 
@@ -857,10 +857,19 @@ See [example](../data/order/getOrders.json)
 
 #### response
 
+返回信息
+
 | name    | type   | note           |
 | ----    | ----   | ----           |
-| drivers | driver | 驾驶人详情详情 |
+| drivers | driver | 驾驶人详情详情   |
+ 
+| name    | type   | note           |
+| ----    | ----   | ----           |
+| code    | 500    | 系统内部错误     | 
 
+| name    | type   | note            |
+| ----    | ----   | ----            |
+| code    | 404    | 没有找到对应信息   |
 
 ## getOrderState
 
