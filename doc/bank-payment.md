@@ -74,7 +74,7 @@
   - [generateUsrAcctPayUrl](#generateusracctpayurl)
       - [request](#request-22)
       - [response](#response-22)
-  - [generateMerCashPayUrl](#generatemercashpayurl)
+  - [generateMerCashUrl](#generatemercashurl)
       - [request](#request-23)
       - [response](#response-23)
   - [generateAddBidInfoUrl](#generateaddbidinfourl)
@@ -1936,7 +1936,7 @@ rpc.call("bank_payment", "generateUsrAcctPayUrl", ordId, usrCustId, transAmt, in
 
 See [example](../data/bank-payment/generateUsrAcctPayUrl.json)
 
-## generateMerCashPayUrl
+## generateMerCashUrl
 
 生成商户代取现接口链接。
 
@@ -2045,34 +2045,35 @@ See [example](../data/bank-payment/generateMerCashUrl.json)
 | LoanPeriod     | char(20)  | 借款期限                                                                                                                                              | 例如:XX 天、XX 月、XX 年 |
 | RetType        | char(2)   | 还款方式,01--一次还本付息,02--等额本金,03--等额本息,04--按期付息到期还本,99--其他                                                                     |
 | RetDate        | char(8)   | 应还款日期,格式 yyyymmdd                                                                                                                              |
-| GuarantType    | char(2)   | 本息保障,01--保本保息,02--保本不保息,03--不保本不保息                                                                                                 |
 | BidProdType    | char(2)   | 标的产品类型, 01--房贷类,02--车贷类,03--收益权转让类,04--用贷款类,05--股票配资类,06--行承兑汇票,07--商业承兑汇票,08--消费贷款类,09--供应链类,99--其他 |
+| BorrType       | char(1)   | 借款人类型,01--个人,02--企业                                                                                                                          |
+| BorrCustId     | char(16)  | 借款人ID,借款人的唯一标识                                                                                                                             |
+| BorrName       | char(50)  | 借款人名称,文本,借款人真实姓名或者借款企业名称                                                                                                        |
+| BorrBusiCode   | char(30)  | 借款企业营业执照编号,借款人类型为企业时为必填                                                                                                         |
+| BorrMobiPhone  | char(11)  | 借款人手机号码                                                                                                                                        |
+| BorrPurpose    | varchar(150) | 借款用途 |
+| test           | boolean   | 是否开启测试模式                                                                                                                                      |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+备用参数
+
+| name           | type      | note                                                                                                                                                  |
+| ----           | ----      | ----            
+| GuarantType    | char(2)   | 本息保障,01--保本保息,02--保本不保息,03--不保本不保息                                                                                                 |
 | RiskCtlType    | char(2)   | 风险控制方式,01--抵(质)押,02--共管账户,03--担保,04--用无担保,99--其他                                                                                 |
 | LimitMinBidAmt | char(7)   | 限定最低投标份数,整数                                                                                                                                 |
 | LimitBidSum    | char(16)  | 限定每份投标金额,单位为元,精确到分,例如 1000.01                                                                                                       |
 | LimitMaxBidSum | char(16)  | 限定最多投标金额,单位为元,精确到分,例如 1000.01                                                                                                       |
 | LimitMinBidSum | char(16)  | 限定最少投标金额,单位为元,精确到分,例如 1000.01                                                                                                       |
 | BidPayforState | char(16)  | 逾期是否垫资,1--是,2--否                                                                                                                              |
-| BorrType       | char(1)   | 借款人类型,01--个人,02--企业                                                                                                                          |
-| BorrCustId     | char(16)  | 借款人ID,借款人的唯一标识                                                                                                                             |
-| BorrName       | char(50)  | 借款人名称,文本,借款人真实姓名或者借款企业名称                                                                                                        |
-| BorrBusiCode   | char(30)  | 借款企业营业执照编号,借款人类型为企业时为必填                                                                                                         |
 | BorrCertType   | cahr(2)   | 借款人证件类型,00--身份证(暂只支持身份证),借款人类型为“01:个人”时为必须参数                                                                           |
 | BorrCertId     | char(18)  | 借款人证件号码,借款人类型为“01:个人”时为必须参数                                                                                                      |
-| BorrMobiPhone  | char(11)  | 借款人手机号码                                                                                                                                        |
 | BorrPhone      | char(12)  | 借款人固定电话                                                                                                                                        |
 | BorrWork       | char(150) | 借款人工作单位,文本                                                                                                                                   |
 | BorrWorkYear   | char(3)   | 借款人工作年限,单位为年,整数                                                                                                                          |
 | BorrIncome     | char(16)  | 借款人税后月收入,单位为元,保留 2 位小数                                                                                                               |
-| BorrMarriage   | char(1)   | 借款人婚姻状况,Y--已婚,N--未婚                                                                                                                        |
-| ordId          | char(30)  | 商户下的订单号，必须保证唯一，请使用纯数字                                                                                                            |
-| usrCustId      | char(16)  | 汇付天下生成的用户 ID                                                                                                                                 |
-| transAmt       | char(14)  | 交易金额，金额格式必须是###.## 比如 2.00,2.01                                                                                                         |
-| servFee        | char(14)  | 商户收取服务费金额                                                                                                                                    |
-| servFeeAcctId  | char(9)   | 商户子账户号,商户用来收取服务费的子账户号                                                                                                             |
-| test           | boolean   | 是否开启测试模式                                                                                                                                      |
 
-开启测试模式后，返回汇付天下提供的测试链接。
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
 
@@ -2105,13 +2106,7 @@ RetUrl:
 url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
-rpc.call("bank_payment", "generateAddBidInfoUrl", proId, bidType,
-  BorrTotAmt, YearRate, RetInterest, LastRetDate,
-  BidStartDate, BidEndDate, RetType, RetDate,
-  GuarantType, BidProdType, RiskCtlType, LimitMinBidAmt,
-  LimitBidSum, LimitMaxBidSum, LimitMinBidSum, BidPayforState, BorrType,
-  BorrCustId, BorrBusiCode, BorrCertType, BorrCertId,
-  BorrMobiPhone, BorrPhone, BorrWorkYear, BorrIncome, BorrMarriage, BorrEmail, true)
+rpc.call("bank_payment", "generateAddBidInfoUrl", "AddBidInfoTest00", "标的信息录入Test00", "99", "1000.01", "0.01", "0.01", "20991231", "20161128000000", "20171126230000", "99年", "99", "20991231", "99", "02", "6000060005793396", "袁念文测试公司", "1102271875443", "13800000000", "修理", true)
   .then(function (result) {
 
   }, function (error) {
