@@ -2106,7 +2106,7 @@ RetUrl:
 url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
-rpc.call("bank_payment", "generateAddBidInfoUrl", "AddBidInfoTest00", "标的信息录入Test00", "99", "1000.01", "0.01", "0.01", "20991231", "20161128000000", "20171126230000", "99年", "99", "20991231", "99", "02", "6000060005793396", "袁念文测试公司", "1102271875443", "13800000000", "修理", true
+rpc.call("bank_payment", "generateAddBidInfoUrl", "AddBidInfoTest00", "标的信息录入Test00", "99", "1000.01", "0.01", "0.01", "20991231", "20161128000000", "20171126230000", "99年", "99", "20991231", "99", "02", "6000060005793396", "袁念文测试公司", "1102271875443", "13800000000", "修理", true)
   .then(function (result) {
 
   }, function (error) {
