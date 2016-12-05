@@ -694,8 +694,9 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 #### request
 | name | type   | note |
 | ---- | ----   | ---- |
-| licenseNo | String(8) | 车牌号码, 渝GF8853 |
+| licenseNo | String(8) | 车牌号码, 豫JCC522 |
 
+测试只能用 豫JCC522，其他车牌请求超时。 
 
 如下参数不用调用者提供，但是在请求报文中必须出现：
 
@@ -712,9 +713,10 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | JSON | 见下 |
+| data | string | VIN码 |
 
-返回数据
+
+完整数据如下，目前只返回 VIN码
 ```
 {
 "state": "1",
@@ -739,5 +741,5 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 
 | code | meanning          |
 | ---- | ----              |
-| 408  | 请求超时          |
+| 400  | 数据不存在          |
 | 500  | 未知错误          |
