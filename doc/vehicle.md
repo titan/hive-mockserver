@@ -50,6 +50,9 @@
 
 ## ChangeLog
 
+1. 2016-11-07
+  * 添加通过车牌号查询车辆信息
+
 1. 2016-10-26
   * vin-code 从 vehicle-model 移到 vehicle
   * vin-code 改名为 vin
@@ -674,3 +677,64 @@ rpc.call("vehicle", "damageCount", vid, count)
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 See [example](../data/vehicle/damageCount.json)
+
+
+### 通过车牌号获取车辆信息 getVehicleInfoByLicense
+
+##### example
+
+```javascript
+rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+#### request
+| name | type   | note |
+| licenseNo | String(8) | 车牌号码, 渝GF8853 |
+
+
+如下参数不用调用者提供，但是在请求报文中必须出现：
+| name | type   | note |
+| applicationID | String(32) | 请求方标识，由智通引擎提供 |
+| operType | String(32) |  接口类型, 固定值:BDB |
+| sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | JSON | 见下 |
+
+返回数据
+```
+{
+"state": "1",
+"msg": "success",
+"msgCode": null,
+"data": {
+"responseNo": "8f250190-31b9-4cf9-bea7-99f586ce31f1",
+"engineNo": "6454****65",
+"licenseNo": "鲁 C9S262",
+"frameNo": "LHGGM26****018605",
+"firstRegisterDate": "2014-05-12"
+}
+}
+```
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
