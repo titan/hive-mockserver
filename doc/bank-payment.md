@@ -2036,28 +2036,22 @@ See [example](../data/bank-payment/generateMerCashUrl.json)
 | proId          | char(16)  | 标的的唯一标识, 为英文和数字组合                                                                                                                      |
 | bidName        | char(50)  | 标的名称                                                                                                                                              |
 | BidType        | char(2)   | 标的类型: 01--信用, 02--抵押, 03--债权转让, 99--其他                                                                                                  |
-
 | BorrTotAmt     | char(14)  | 发标金额,单位为元,精确到分,例如 1000.01                                                                                                               |
 | YearRate       | char(14)  | 发标年化利率,百分比,保留 2 位小数,例如 24.55                                                                                                          |
 | RetInterest    | char(16)  | 应还款总利息,单位为元,精确到分,例如 1000.01                                                                                                           |
-
 | LastRetDate    | char(16)  | 最后还款日期,格式 yyyymmdd                                                                                                                            |
 | BidStartDate   | char(14)  | 计划投标开始日期,格式 yyyyMMddHHmmss                                                                                                                  |
 | BidEndDate     | char(14)  | 计划投标截止日期,格式 yyyyMMddHHmmss                                                                                                                  |
 | LoanPeriod     | char(20)  | 借款期限                                                                                                                                              | 例如:XX 天、XX 月、XX 年 |
-
 | RetType        | char(2)   | 还款方式,01--一次还本付息,02--等额本金,03--等额本息,04--按期付息到期还本,99--其他                                                                     |
 | RetDate        | char(8)   | 应还款日期,格式 yyyymmdd                                                                                                                              |
 | BidProdType    | char(2)   | 标的产品类型, 01--房贷类,02--车贷类,03--收益权转让类,04--用贷款类,05--股票配资类,06--行承兑汇票,07--商业承兑汇票,08--消费贷款类,09--供应链类,99--其他 |
-
 | BorrType       | char(1)   | 借款人类型,01--个人,02--企业                                                                                                                          |
 | BorrCustId     | char(16)  | 借款人ID,借款人的唯一标识                                                                                                                             |
 | BorrName       | char(50)  | 借款人名称,文本,借款人真实姓名或者借款企业名称                                                                                                        |
-
 | BorrBusiCode   | char(30)  | 借款企业营业执照编号,借款人类型为企业时为必填                                                                                                         |
 | BorrMobiPhone  | char(11)  | 借款人手机号码                                                                                                                                        |
 | BorrPurpose    | varchar(150) | 借款用途 |
-
 | test           | boolean   | 是否开启测试模式                                                                                                                                      |
 
 开启测试模式后，返回汇付天下提供的测试链接。
