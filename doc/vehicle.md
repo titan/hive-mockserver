@@ -693,11 +693,14 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 ```
 #### request
 | name | type   | note |
+| ---- | ----   | ---- |
 | licenseNo | String(8) | 车牌号码, 渝GF8853 |
 
 
 如下参数不用调用者提供，但是在请求报文中必须出现：
+
 | name | type   | note |
+| ---- | ----   | ---- |
 | applicationID | String(32) | 请求方标识，由智通引擎提供 |
 | operType | String(32) |  接口类型, 固定值:BDB |
 | sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
