@@ -358,7 +358,7 @@ See [example](../data/wallet/getTransactions.json)
 
 | domain | accessable |
 | ----   | ----       |
-| admin  | ✓          |
+| admin  |            |
 | mobile | ✓          |
 
 #### request
@@ -406,7 +406,7 @@ See [example](../data/wallet/createCashout.json)
 | domain | accessable |
 | ----   | ----       |
 | admin  | ✓          |
-| mobile | ✓          |
+| mobile |            |
 
 #### request
 
