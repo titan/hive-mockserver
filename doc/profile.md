@@ -33,6 +33,9 @@
 
 # ChangeLog
 
+1. 2016-12-05
+  * 增加getUserForInvite接口
+
 1. 2016-11-16
   * User 增加 pnrid 属性
   * users 表增加 pnrid 字段
@@ -100,6 +103,44 @@ Example
 
 
 rpc.call("profile", "getUser")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | null     | 成功     |
+| other | 错误信息  | 失败     |
+
+See 成功返回数据：[example](../data/profile/getUser.json)
+
+## getUserForInvite
+
+获得当前用户信息
+
+#### request
+
+| name    | type   | note          |
+| ----    | ----   | ----          |
+| key     | string | invite key    |
+
+Example
+
+```javascript
+
+var key = "79e577b731c71aa23d1954c5f701aac3";
+
+rpc.call("profile", "getUserForInvite", key)
   .then(function (result) {
 
   }, function (error) {
