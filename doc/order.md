@@ -267,7 +267,6 @@
 | data         | json      |      |         |         |           |
 | occurred\_at | timestamp |      | now     |         |           |
 
-
 ## 缓存结构
 
 ## driver-order
@@ -306,7 +305,6 @@
 | key                   | type | value               | note                 |
 | ----                  | ---- | ----                | ----                 |
 | order-driver-entities | hash | VID =>  驾驶人 JSON | 所有车辆已生效驾驶人 |
-
 
 ### new-orders
 
