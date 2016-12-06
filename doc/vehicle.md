@@ -713,23 +713,97 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | VIN码 |
+| data | JSON | 见下 |
 
-
-完整数据如下，目前只返回 VIN码
 ```
-{
-"state": "1",
-"msg": "success",
-"msgCode": null,
-"data": {
-"responseNo": "8f250190-31b9-4cf9-bea7-99f586ce31f1",
-"engineNo": "6454****65",
-"licenseNo": "鲁 C9S262",
-"frameNo": "LHGGM26****018605",
-"firstRegisterDate": "2014-05-12"
-}
-}
+{ responseNo: 'ecef20bc-9379-478f-bf4a-4015a35a904f',
+     engineNo: '870**86',
+     licenseNo: '豫JCC522',
+     frameNo: 'LSGPC52****013740',
+     firstRegisterDate: '2011-01-14' }
+```
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 400  | 数据不存在          |
+| 500  | 未知错误          |
+
+### 通过响应码获取车型信息 getVehicleInfoByResponseNumber
+
+##### example
+
+```javascript
+rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNumber)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+#### request
+| name | type   | note |
+| ---- | ----   | ---- |
+| licenseNo | String(8) | 车牌号码, 豫JCC522 |
+| responseNo | String(36) | 响应码。调用 getVehicleInfoByLicense 返回。 如.8f250190-31b9-4cf9-bea7-99f586ce31f1 |
+
+测试只能用 豫JCC522，ecef20bc-9379-478f-bf4a-4015a35a904f，其他车牌请求超时。 
+
+如下参数不用调用者提供，但是在请求报文中必须出现：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| applicationID | String(32) | 请求方标识，由智通引擎提供 |
+| operType | String(32) |  接口类型, 固定值:JYK |
+| sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | JSON | 见下 |
+
+
+```
+{ vehicleFgwCode: 'SGM7150DMAA',
+       brandCode: '3fe5c096-a157-4b69-8917-b2f168fbd571',
+       brandName: '上汽通用雪佛兰',
+       engineDesc: '1.5L',
+       familyName: '科鲁兹',
+       gearboxType: '手动档',
+       remark: '手动档 经典版 SE 国Ⅴ',
+       newCarPrice: '85900',
+       purchasePriceTax: '89571',
+       importFlag: '1',
+       purchasePrice: '85900',
+       seat: '5',
+       standardName: '雪佛兰SGM7150DMAA轿车',
+       vehicleFgwName: null,
+       parentVehName: null },
+     { vehicleFgwCode: 'SGM7150DMAA',
+       brandCode: '563e87a3-3109-4d38-a330-db45be35d673',
+       brandName: '上汽通用雪佛兰',
+       engineDesc: '1.5L',
+       familyName: '科鲁兹',
+       gearboxType: '手动档',
+       remark: '手动档 经典版 SL 国Ⅴ',
+       newCarPrice: '75900',
+       purchasePriceTax: '79144',
+       importFlag: '1',
+       purchasePrice: '75900',
+       seat: '5',
+       standardName: '雪佛兰SGM7150DMAA轿车',
+       vehicleFgwName: null,
+       parentVehName: null }
 ```
 
 失败：
