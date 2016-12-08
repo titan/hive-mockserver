@@ -352,7 +352,7 @@ rpc.call("wallet", "getTransactions", 0, 10)
 
 See [example](../data/wallet/getTransactions.json)
 
-## ApplyCashOut
+## applyCashOut
 
 申请提现 
 
@@ -369,7 +369,7 @@ See [example](../data/wallet/getTransactions.json)
 
 ```javascript
 
-rpc.call("wallet", "ApplyCashOut", order_id)
+rpc.call("wallet", "applyCashOut", order_id)
   .then(function (result) {
 
   }, function (error) {
@@ -399,7 +399,7 @@ rpc.call("wallet", "ApplyCashOut", order_id)
 
 See [example](../data/wallet/createCashout.json)
 
-## AgreeCashOut
+## agreeCashOut
 
 同意提现 
 
@@ -419,7 +419,7 @@ See [example](../data/wallet/createCashout.json)
 
 ```javascript
 
-rpc.call("wallet", "AgreeCashOut", coid, state, user_id, opid)
+rpc.call("wallet", "agreeCashOut", coid, state, user_id, opid)
   .then(function (result) {
 
   }, function (error) {
