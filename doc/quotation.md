@@ -56,6 +56,10 @@
 
 # ChangeLog
 
+1. 2016-12-08
+  * 增加vid-qid外键
+
+
 1. 2016-11-19
   * 增加 toc
   * 增加外部队列
@@ -181,11 +185,17 @@ sorted 是元素在列表中的顺序
 
 # Cache
 
+## vid-qid
+
+| key             | type | value          | note                   |
+| ----            | ---- | ----           | ----                   |
+| vid-qid         | hash | vid => qid     | vehicle与quotation的外键 |
+
 ## VIN-quotation
 
 | key             | type | value          | note        |
 | ----            | ---- | ----           | ----        |
-| VIN-quotationID | hash | VIN => 报价 ID | VIN下的报价 |
+| VIN-quotationID | hash | VIN => 报价 ID | VIN下的报价   |
 
 ## unquotated-quotations
 
@@ -226,7 +236,7 @@ sorted 是元素在列表中的顺序
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
-let VIN = "LSVFA49J232037048"
+let VIN = "LSVFA49J232037048";
 
 rpc.call("quotation", "createQuotation", vid, VIN)
   .then(function (result) {
@@ -502,6 +512,94 @@ See [example](../data/quotation/getQuotations.json)
 
 let qid = "00000000-0000-0000-0000-000000000000";
 rpc.call("quotation", "getQuotation", qid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/quotation/getQuotation.json)
+
+## getQuotations
+
+获取所有报价
+
+#### request
+
+| name           | type    | note     |
+| ----           | ----    | ----     |
+
+```javascript
+
+rpc.call("quotation", "getQuotations")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/quotation/getQuotations.json)
+
+## getQuotationByVid
+
+通过vid获取某个报价
+
+#### request
+
+| name           | type    | note        |
+| ----           | ----    | ----        |
+| vid            | uuid    | vehicle ID  |
+
+```javascript
+
+let vid = "00000000-0000-0000-0000-000000000000";
+rpc.call("quotation", "getQuotationByVid", vid)
   .then(function (result) {
 
   }, function (error) {
