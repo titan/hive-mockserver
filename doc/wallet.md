@@ -4,18 +4,25 @@
 
 - [ChangeLog](#changelog)
 - [Data Structure](#data-structure)
-  - [wallet](#wallet)
-  - [account](#account)
+  - [Wallet](#wallet)
+  - [Account](#account)
   - [Transaction](#transaction)
   - [CashOut](#cashout)
 - [Event](#event)
-  - [Event Data Structure](#event-data-structure)
-  - [Event Type](#event-type)
-  - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix)
+  - [CashoutEvent](#cashoutevent)
+    - [Event Data Structure](#event-data-structure)
+    - [Event Type](#event-type)
+    - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix)
+  - [WalletEvent](#walletevent)
+    - [Event Data Structure](#event-data-structure-1)
+    - [Event Type](#event-type-1)
+    - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix-1)
 - [Database](#database)
+  - [wallets](#wallets)
   - [accounts](#accounts)
   - [transactions](#transactions)
   - [cashout](#cashout)
+  - [wallet\_events](#wallet%5C_events)
   - [cashout\_events](#cashout%5C_events)
 - [Cache](#cache)
 - [API](#api)
@@ -38,6 +45,12 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2016-12-10
+  * 增加 wallets 表
+  * 增加 wallet\_events 表
+  * 增加 WalletEvent 设计
+
 1. 2016-11-25
   * 增加提现对象
 
@@ -56,14 +69,16 @@
 
 # Data Structure
 
-## wallet
+## Wallet
 
-| name     | type      | note     |
-| ----     | ----      | ----     |
-| balance  | float     | 账户余额 |
-| accounts | [account] | 帐号     |
+| name     | type      | note       |
+| ----     | ----      | ----       |
+| frozen   | float     | 冻结金额   |
+| cashable | float     | 可提现金额 |
+| balance  | float     | 总余额     |
+| accounts | [account] | 帐号       |
 
-## account
+## Account
 
 | name     | type    | note         |
 | ----     | ----    | ----         |
@@ -115,7 +130,9 @@
 
 # Event
 
-## Event Data Structure
+## CashoutEvent
+
+### Event Data Structure
 
 | name        | type     | note         |
 | ----        | ----     | ----         |
@@ -127,7 +144,7 @@
 | amount      | float    | 提现金额     |
 | reason      | text     | 拒绝理由     |
 
-## Event Type
+### Event Type
 
 | type | name       | note       |
 | ---- | ----       | ----       |
@@ -135,7 +152,7 @@
 | 1    | AGREE      | 提现同意   |
 | 2    | REFUSE     | 提现拒绝   |
 
-## Event Type And Data Structure Matrix
+### Event Type And Data Structure Matrix
 
 | type | amount | reason |
 | ---- | ----   | ----   |
@@ -143,7 +160,61 @@
 | 1    |        |        |
 | 2    |        | ✓      |
 
+## WalletEvent
+
+### Event Data Structure
+
+| name        | type     | note         |
+| ----        | ----     | ----         |
+| id          | uuid     | event id     |
+| type        | smallint | event type   |
+| opid        | uuid     | operator id  |
+| uid         | uuid     | user id      |
+| occurred-at | iso8601  | 事件发生时间 |
+| amount      | float    | 提现金额     |
+| maid        | uuid     | 互助事件 id  |
+| oid         | uuid     | order id     |
+| aid         | uuid     | account id   |
+
+### Event Type
+
+| type | name         | note     |
+| ---- | ----         | ----     |
+| 1    | RECHARGE     | 充值     |
+| 2    | FREEZE       | 冻结资金 |
+| 3    | UNFREEZE     | 解冻资金 |
+| 4    | DEBIT_PUBLIC | 大池扣款 |
+| 5    | DEBIT_GROUP  | 小池扣款 |
+| 6    | CASH_IN      | 增加提现 |
+| 7    | CASH_OUT     | 提现     |
+
+### Event Type And Data Structure Matrix
+
+| type | amount | maid | oid  | aid  |
+| ---- | ----   | ---- | ---- | ---- |
+| 1    | ✓      |      | ✓    |      |
+| 2    | ✓      | ✓    |      | ✓    |
+| 3    | ✓      | ✓    |      | ✓    |
+| 4    | ✓      | ✓    |      |      |
+| 5    | ✓      | ✓    |      |      |
+| 6    | ✓      |      | ✓    |      |
+| 7    | ✓      |      |      |      |
+
 # Database
+
+## wallets
+
+| field       | type      | null | default | index   | reference |
+| ----        | ----      | ---- | ----    | ----    | ----      |
+| id          | uuid      |      |         | primary |           |
+| uid         | uuid      |      |         |         | users     |
+| frozen      | float     |      | 0.0     |         |           |
+| cashable    | float     |      | 0.0     |         |           |
+| balance     | float     |      | 0.0     |         |           |
+| created\_at | timestamp |      | now     |         |           |
+| updated\_at | timestamp |      | now     |         |           |
+| deleted     | boolean   |      | false   |         |           |
+| evtid       | uuid      | ✓    |         |         |           |
 
 ## accounts
 
@@ -178,17 +249,28 @@
 | no              | string    |      |         |         |           |
 | state           | smallint  |      |         |         |           |
 | amount          | float     |      |         |         |           |
-| reason          | text      |  ✓   |         |         |           |
-| order\_id       | uuid      |      |         |         |   orders  |
-| last\_event\_id | uuid      |  ✓   |         |         |           |
-| created\_at     | timestamp |      |   now   |         |           |
-| updated\_at     | timestamp |      |   now   |         |           |
+| reason          | text      | ✓    |         |         |           |
+| order\_id       | uuid      |      |         |         | orders    |
+| last\_event\_id | uuid      | ✓    |         |         |           |
+| created\_at     | timestamp |      | now     |         |           |
+| updated\_at     | timestamp |      | now     |         |           |
 
 | cashout\_state | name   |
 | ----           | ----   |
 | 0              | 未处理 |
 | 1              | 已批准 |
 | 2              | 已拒绝 |
+
+## wallet\_events
+
+| field        | type      | null | default | index   | reference |
+| ----         | ----      | ---- | ----    | ----    | ----      |
+| id           | uuid      |      |         | primary |           |
+| type         | smallint  |      |         |         |           |
+| opid         | uuid      |      |         |         |           |
+| uid          | uuid      | ✓    |         |         |           |
+| occurred\_at | timestamp |      | now     |         |           |
+| data         | json      |      |         |         |           |
 
 ## cashout\_events
 
@@ -197,7 +279,7 @@
 | id           | uuid      |      |         | primary |           |
 | type         | smallint  |      |         |         |           |
 | opid         | uuid      |      |         |         |           |
-| uid          | uuid      |  ✓   |         |         |           |
+| uid          | uuid      | ✓    |         |         |           |
 | occurred\_at | timestamp |      | now     |         |           |
 | data         | json      |      |         |         |           |
 
