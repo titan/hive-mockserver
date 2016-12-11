@@ -366,32 +366,36 @@ See [example](../data/vehicle/getDrivers.json)
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
 | insurance\_due\_date     | iso8601 | 保险到期时间   |
+| fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
 
 ##### example
 
 ```javascript
-var name = "";
-var identity_no = "";
-var phone = "";
-var recommend = "";
-var vehicle_code = "";
-var license_no = "";
-var engine_no = "";
-var register_date = "";
-var average_mileage = "";
-var is_transfer = "";
-var last_insurance_company = "";
-var insurance_due_date = "";
-var vin = "LSVFA49J232037048";
+
+let name = "aaa";
+let identity_no = "440308197406255611";
+let phone = "18713575980";
+let recommend = null;
+let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
+let license_no = "a5678";
+let engine_no = "5555";
+let register_date = new Date("2016-12-06 18:26:54");
+let average_mileage = "3万以上";
+let is_transfer = false;
+let last_insurance_company = null;
+let insurance_due_date = new Date("2016-12-06 18:26:54");
+let fuel_type = "汽油";
+let vin = "WBAZV4101BL456778";
 
 rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
-  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, vin)
+  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
 
   });
+
 ```
 
 #### response
@@ -412,9 +416,13 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 
 | code | meanning          |
 | ---- | ----              |
+| 400  | 参数错误          |
+| 403  | 请求接口不存在     |
+| 404  | 未找到资源        |
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
+See [example](../data/vehicle/setVehicle.json)
 
 ### 获取报价提交表单(新车未上牌)(个人) setVehicle
 
@@ -433,27 +441,30 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 | average\_mileage         | string  | 年平均行驶里程 |
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
+| fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
 
 
 ##### example
 
 ```javascript
-var name = "";
-var identity_no = "";
-var phone = "";
-var recommend = "";
-var vehicle_code = "";
-var engine_no = "";
-var average_mileage = "";
-var is_transfer = "";
-var receipt_no = "";
-var receipt_date = "";
-var last_insurance_company = "";
-var vin = "LSVFA49J232037048";
+
+let name = "aaa";
+let identity_no = "440308197406255611";
+let phone = "18713575980";
+let recommend = null;
+let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
+let engine_no = "5555";
+let receipt_no = "123456";
+let receipt_date = new Date("2016-12-06 18:26:54");
+let average_mileage = "3万以上";
+let is_transfer = false;
+let last_insurance_company = null;
+let fuel_type = "汽油"
+let vin = "WBAZV4101BL456778";
 
 rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_code, engine_no,
-  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, vin)
+  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -479,6 +490,9 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 
 | code | meanning          |
 | ---- | ----              |
+| 400  | 参数错误          |
+| 403  | 请求接口不存在     |
+| 404  | 未找到资源        |
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
