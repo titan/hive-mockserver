@@ -752,6 +752,8 @@ rpc.call("quotation", "newMessageNotify")
 
 See [example](../data/quotation/newMessageNotify.json)
 
+## getAccurateQuotation1
+
 通过车辆信息获取精准报价
 
 #### request
@@ -791,6 +793,7 @@ rpc.call("quotation", "getAccurateQuotation1", "130684199006080073", "来看待"
 | data | JSON | 见下 |
 
 data 字段解释
+
 | name | type   | note    |
 | ---- | ----   | ----    |
 | msg | String(80)  |  返回信息,失败原因等信息 |
@@ -807,6 +810,7 @@ data 字段解释
 | carshipTax  | String(20)  | 车船税金额,两位小数:如:200.00 |
 | state | String(1)   |0 请求状态,-失败;1-成功
 | msgCode | String(12)  |  错误编码,8 位编码,State 为 0 时才有值 |
+
 
 ```
 {
