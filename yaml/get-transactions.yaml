@@ -1,2 +1,2 @@
 code: 200
-transactions: !include transactions.yaml
+data: !include transactions.yaml

@@ -12,15 +12,10 @@
   - [后台提醒](#%E5%90%8E%E5%8F%B0%E6%8F%90%E9%86%92)
 - [Database](#database)
   - [quotations](#quotations)
-  - [quotation\_groups](#quotation%5C_groups)
-  - [quotation\_items](#quotation%5C_items)
-  - [quotation\_item\_quotas](#quotation%5C_item%5C_quotas)
-  - [quotation\_item\_prices](#quotation%5C_item%5C_prices)
+  - [quotation\_item_list](#quotation%5C_item_list)
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
-  - [VIN-quotation](#vin-quotation)
-  - [unquotated-quotations](#unquotated-quotations)
-  - [quotated-quotations](#quotated-quotations)
+  - [vin-qid](#vin-qid)
   - [quotation-entities](#quotation-entities)
 - [External Queue](#external-queue)
 - [API](#api)
@@ -51,7 +46,14 @@
   * 删除 getQuotations
   * 删除 getTicket
   * 删除 newMessageNotify
-  * 删除 adQuotationGroups
+  * 删除 addQuotationGroups
+  * 删除 unquotated-quotations 缓存
+  * 删除 quotated-quotations 缓存
+  * Rename VIN-quotation to vin-qid
+  * 删除 quotation\_items
+  * 删除 quotation\_item_prices
+  * 删除 quotation\_item_prices
+  * 增加 quotation\_item_list
 
 1. 2016-12-08
   * 增加 vid-qid 外键
@@ -123,63 +125,38 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 
 ## quotations
 
-| field       | type      | null | default | index   | reference |
-| ----        | ----      | ---- | ----    | ----    | ----      |
-| id          | uuid      |      |         | primary |           |
-| vid         | uuid      |      |         |         | vehicles  |
-| state       | int       |      | 0       |         |           |
-| created\_at | timestamp |      | now     |         |           |
-| updated\_at | timestamp |      | now     |         |           |
+| field              | type          | null | default | index   | reference |
+| ----               | ----          | ---- | ----    | ----    | ----      |
+| id                 | uuid          |      |         | primary |           |
+| vid                | uuid          |      |         |         | vehicles  |
+| state              | int           |      | 0       |         |           |
+| created\_at        | timestamp     |      | now     |         |           |
+| updated\_at        | timestamp     |      | now     |         |           |
+| outside_quotation1 | real          |      | 0.0     |         |           |
+| outside_quotation2 | real          |      | 0.0     |         |           |
+| screenshot1        | varchar(1024) | ✓    |         |         |           |
+| screenshot2        | varchar(1024) | ✓    |         |         |           |
+| pid                | uuid          |      |         |         | plans     |
+| total\_price       | real          |      |         |         |           |
+| fu\_total\_price   | real          |      |         |         |           |
+| h                  | smallint      |      |         |         |           |
+| auto               | smallint      |      |         |         |           |
 
-## quotation\_groups
+## quotation\_item_list
 
-| field          | type      | null | default | index   | reference  |
-| ----           | ----      | ---- | ----    | ----    | ----       |
-| id             | uuid      |      |         | primary |            |
-| qid            | uuid      |      |         |         | quotations |
-| pid            | uuid      |      |         |         | plans      |
-| is\_must\_have | bool      |      | false   |         |            |
-| created\_at    | timestamp |      | now     |         |            |
-| updated\_at    | timestamp |      | now     |         |            |
-
-## quotation\_items
-
-| field          | type      | null | default | index   | reference         |
-| ----           | ----      | ---- | ----    | ----    | ----              |
-| id             | uuid      |      |         | primary |                   |
-| qgid           | uuid      |      |         |         | quotation\_groups |
-| piid           | uuid      |      |         |         | plan\_items       |
-| is\_must\_have | bool      |      | false   |         |                   |
-| created\_at    | timestamp |      | now     |         |                   |
-| updated\_at    | timestamp |      | now     |         |                   |
-
-## quotation\_item\_quotas
-
-| field       | type      | null | default | index   | reference        |
-| ----        | ----      | ---- | ----    | ----    | ----             |
-| id          | uuid      |      |         | primary |                  |
-| qiid        | uuid      |      |         |         | quotation\_items |
-| number      | float     |      |         |         |                  |
-| unit        | char(16)  |      |         |         |                  |
-| sorted      | int       |      | 0       |         |                  |
-| created\_at | timestamp |      | now     |         |                  |
-| updated\_at | timestamp |      | now     |         |                  |
-
-sorted 是元素在列表中的顺序
-
-## quotation\_item\_prices
-
-| field       | type      | null | default | index   | reference        |
-| ----        | ----      | ---- | ----    | ----    | ----             |
-| id          | uuid      |      |         | primary |                  |
-| qiid        | uuid      |      |         |         | quotation\_items |
-| price       | float     |      |         |         |                  |
-| real\_price | float     |      |         |         |                  |
-| sorted      | int       |      | 0       |         |                  |
-| created\_at | timestamp |      | now     |         |                  |
-| updated\_at | timestamp |      | now     |         |                  |
-
-sorted 是元素在列表中的顺序
+| field          | type      | null | default | index   | reference   |
+| ----           | ----      | ---- | ----    | ----    | ----        |
+| id             | uuid      |      |         | primary |             |
+| piid           | uuid      |      |         |         | plan\_items |
+| is\_must\_have | bool      |      | false   |         |             |
+| price          | real      |      |         |         |             |
+| num            | real      |      |         |         |             |
+| unit           | char(16)  |      |         |         |             |
+| real\_price    | real      |      |         |         |             |
+| type           | smallint  |      |         |         |             |
+| h              | smallint  |      |         |         |             |
+| created\_at    | timestamp |      | now     |         |             |
+| updated\_at    | timestamp |      | now     |         |             |
 
 # Cache
 
@@ -189,23 +166,11 @@ sorted 是元素在列表中的顺序
 | ----            | ---- | ----           | ----                   |
 | vid-qid         | hash | vid => qid     | vehicle与quotation的外键 |
 
-## VIN-quotation
+## vin-qid
 
-| key             | type | value          | note        |
-| ----            | ---- | ----           | ----        |
-| VIN-quotationID | hash | VIN => 报价 ID | VIN下的报价   |
-
-## unquotated-quotations
-
-| key                   | type       | value                    | note       |
-| ----                  | ----       | ----                     | ----       |
-| unquotated-quotations | sorted set | (报价生成时间, 已报价ID) | 已报价汇总 |
-
-## quotated-quotations
-
-| key                 | type       | value                    | note       |
-| ----                | ----       | ----                     | ----       |
-| quotated-quotations | sorted set | (报价更新时间, 未报价ID) | 已报价汇总 |
+| key     | type | value          | note        |
+| ----    | ---- | ----           | ----        |
+| vin-qid | hash | VIN => 报价 ID | VIN下的报价 |
 
 ## quotation-entities
 

@@ -1,2 +1,2 @@
 code: 200
-wallet: !include wallet.yaml
+data: !include wallet.yaml
