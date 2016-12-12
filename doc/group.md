@@ -251,6 +251,99 @@ rpc.call("group" ,"getGroup", gid)
 
 See [example](../data/group/getGroup.json)
 
+### 使用token获取用户的互助组（仅限用于邀请好友） getGroupOfInviteUser
+
+根据 gid 获得互助组的详细内容。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note      |
+| ---- | ---- | ----      |
+|      |      |           |
+
+```javascript
+
+rpc.call("group" ,"getGroupOfInviteUser"，token)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name  | type  | note  |
+| ----  | ----  | ----  |
+| code  | int   | 200   |
+| group | group | Group |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning     |
+| ---- | ----         |
+| 404  | 互助组不存在 |
+| 500  | 未知错误     |
+
+
+### 获取长时间有效的token,仅限用于邀请好友 getInviteKey
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note      |
+| ---- | ---- | ----      |
+|      |      |           |
+
+```javascript
+
+rpc.call("group" ,"getInviteKey")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name  | type  | note  |
+| ----  | ----  | ----  |
+| code  | int   | 200   |
+| token | string| token |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning     |
+| ---- | ----         |
+| 404  | 用户不存在  　|
+| 500  | 未知错误     |
+
+
+
 ### 获得当前用户的互助组 getGroupOfCurrentUser
 
 根据 gid 获得互助组的详细内容。

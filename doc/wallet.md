@@ -168,7 +168,6 @@
 | ----        | ----     | ----         |
 | id          | uuid     | event id     |
 | type        | smallint | event type   |
-| opid        | uuid     | operator id  |
 | uid         | uuid     | user id      |
 | occurred-at | iso8601  | 事件发生时间 |
 | amount      | float    | 提现金额     |
@@ -180,6 +179,7 @@
 
 | type | name         | note     |
 | ---- | ----         | ----     |
+| 0    | create       | 创建     |
 | 1    | RECHARGE     | 充值     |
 | 2    | FREEZE       | 冻结资金 |
 | 3    | UNFREEZE     | 解冻资金 |
@@ -192,6 +192,7 @@
 
 | type | amount | maid | oid  | aid  |
 | ---- | ----   | ---- | ---- | ---- |
+| 0    | ✓      |      | ✓    | ✓    |
 | 1    | ✓      |      | ✓    |      |
 | 2    | ✓      | ✓    |      | ✓    |
 | 3    | ✓      | ✓    |      | ✓    |
@@ -374,15 +375,13 @@ See [example](../data/wallet/getWallet.json)
 | uid      | uuid    | 仅 admin 有效 |
 
 vid 在普通帐号类型下保持为 null。
-
 ```javascript
 
 let type = 1;
 let vid = "00000000-0000-0000-0000-000000000000";
-let balance0 = 200.00;
-let balance1 = 800.00;
 
-rpc.call("wallet", "createAccount", type, balance0, balance1, vid)
+创建一个初始化的帐号，订单提交时创建．
+rpc.call("wallet", "createAccount", uid, type, vid, order_id)
   .then(function (result) {
 
   }, function (error) {
@@ -414,9 +413,39 @@ rpc.call("wallet", "createAccount", type, balance0, balance1, vid)
 | 409  | 帐号已存在 |
 | 500  | 未知错误   |
 
-注意: 帐号对应 balance0，balance1 的含义请参考前文的数据结构。
 
 See [example](../data/wallet/createAccount.json)
+
+
+## updateAccountbalance
+
+注意: 帐号对应 balance0，balance1 的含义请参考前文的数据结构,type表示交易类型，type1表示 wallet 事件类型。
+rpc.callu"wallet", "updateAccountbalance", uid, vid, type, type1, balance0, balance1, order_id)
+.then(function(result){
+
+},function (error) {
+
+});
+
+```
+#### response
+成功:
+
+| name |  type  |   note  |
+| ---- |  ----  |   ----  |       |
+| code |  int   |   200   |
+| data | string | success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 500  | 未知错误   |
 
 ## getTransactions
 
