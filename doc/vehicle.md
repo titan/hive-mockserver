@@ -366,32 +366,36 @@ See [example](../data/vehicle/getDrivers.json)
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
 | insurance\_due\_date     | iso8601 | 保险到期时间   |
+| fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
 
 ##### example
 
 ```javascript
-var name = "";
-var identity_no = "";
-var phone = "";
-var recommend = "";
-var vehicle_code = "";
-var license_no = "";
-var engine_no = "";
-var register_date = "";
-var average_mileage = "";
-var is_transfer = "";
-var last_insurance_company = "";
-var insurance_due_date = "";
-var vin = "LSVFA49J232037048";
+
+let name = "aaa";
+let identity_no = "440308197406255611";
+let phone = "18713575980";
+let recommend = null;
+let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
+let license_no = "a5678";
+let engine_no = "5555";
+let register_date = new Date("2016-12-06 18:26:54");
+let average_mileage = "3万以上";
+let is_transfer = false;
+let last_insurance_company = null;
+let insurance_due_date = new Date("2016-12-06 18:26:54");
+let fuel_type = "汽油";
+let vin = "WBAZV4101BL456778";
 
 rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
-  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, vin)
+  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
 
   });
+
 ```
 
 #### response
@@ -412,9 +416,13 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 
 | code | meanning          |
 | ---- | ----              |
+| 400  | 参数错误          |
+| 403  | 请求接口不存在     |
+| 404  | 未找到资源        |
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
+See [example](../data/vehicle/setVehicle.json)
 
 ### 获取报价提交表单(新车未上牌)(个人) setVehicle
 
@@ -433,27 +441,30 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 | average\_mileage         | string  | 年平均行驶里程 |
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
+| fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
 
 
 ##### example
 
 ```javascript
-var name = "";
-var identity_no = "";
-var phone = "";
-var recommend = "";
-var vehicle_code = "";
-var engine_no = "";
-var average_mileage = "";
-var is_transfer = "";
-var receipt_no = "";
-var receipt_date = "";
-var last_insurance_company = "";
-var vin = "LSVFA49J232037048";
+
+let name = "aaa";
+let identity_no = "440308197406255611";
+let phone = "18713575980";
+let recommend = null;
+let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
+let engine_no = "5555";
+let receipt_no = "123456";
+let receipt_date = new Date("2016-12-06 18:26:54");
+let average_mileage = "3万以上";
+let is_transfer = false;
+let last_insurance_company = null;
+let fuel_type = "汽油"
+let vin = "WBAZV4101BL456778";
 
 rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_code, engine_no,
-  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, vin)
+  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -479,6 +490,9 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 
 | code | meanning          |
 | ---- | ----              |
+| 400  | 参数错误          |
+| 403  | 请求接口不存在     |
+| 404  | 未找到资源        |
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
@@ -681,6 +695,8 @@ See [example](../data/vehicle/damageCount.json)
 
 ### 通过车牌号获取车辆信息 getVehicleInfoByLicense
 
+测试用，以后移除
+
 ##### example
 
 ```javascript
@@ -713,23 +729,14 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | VIN码 |
+| data | JSON | 见下 |
 
-
-完整数据如下，目前只返回 VIN码
 ```
-{
-"state": "1",
-"msg": "success",
-"msgCode": null,
-"data": {
-"responseNo": "8f250190-31b9-4cf9-bea7-99f586ce31f1",
-"engineNo": "6454****65",
-"licenseNo": "鲁 C9S262",
-"frameNo": "LHGGM26****018605",
-"firstRegisterDate": "2014-05-12"
-}
-}
+{ responseNo: 'ecef20bc-9379-478f-bf4a-4015a35a904f',
+     engineNo: '870**86',
+     licenseNo: '豫JCC522',
+     frameNo: 'LSGPC52****013740',
+     firstRegisterDate: '2011-01-14' }
 ```
 
 失败：
@@ -742,4 +749,233 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 | code | meanning          |
 | ---- | ----              |
 | 400  | 数据不存在          |
+| 500  | 未知错误          |
+
+### 通过响应码获取车型信息 getVehicleInfoByResponseNumber
+
+测试用，以后移除
+
+##### example
+
+```javascript
+rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNumber)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+#### request
+| name | type   | note |
+| ---- | ----   | ---- |
+| licenseNo | String(8) | 车牌号码, 豫JCC522 |
+| responseNo | String(36) | 响应码。调用 getVehicleInfoByLicense 返回。 如.8f250190-31b9-4cf9-bea7-99f586ce31f1 |
+
+测试只能用 豫JCC522，ecef20bc-9379-478f-bf4a-4015a35a904f，其他车牌请求超时。 
+
+如下参数不用调用者提供，但是在请求报文中必须出现：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| applicationID | String(32) | 请求方标识，由智通引擎提供 |
+| operType | String(32) |  接口类型, 固定值:JYK |
+| sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | JSON | 见下 |
+
+
+```
+{ vehicleFgwCode: 'SGM7150DMAA',
+       brandCode: '3fe5c096-a157-4b69-8917-b2f168fbd571',
+       brandName: '上汽通用雪佛兰',
+       engineDesc: '1.5L',
+       familyName: '科鲁兹',
+       gearboxType: '手动档',
+       remark: '手动档 经典版 SE 国Ⅴ',
+       newCarPrice: '85900',
+       purchasePriceTax: '89571',
+       importFlag: '1',
+       purchasePrice: '85900',
+       seat: '5',
+       standardName: '雪佛兰SGM7150DMAA轿车',
+       vehicleFgwName: null,
+       parentVehName: null },
+     { vehicleFgwCode: 'SGM7150DMAA',
+       brandCode: '563e87a3-3109-4d38-a330-db45be35d673',
+       brandName: '上汽通用雪佛兰',
+       engineDesc: '1.5L',
+       familyName: '科鲁兹',
+       gearboxType: '手动档',
+       remark: '手动档 经典版 SL 国Ⅴ',
+       newCarPrice: '75900',
+       purchasePriceTax: '79144',
+       importFlag: '1',
+       purchasePrice: '75900',
+       seat: '5',
+       standardName: '雪佛兰SGM7150DMAA轿车',
+       vehicleFgwName: null,
+       parentVehName: null }
+```
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 400  | 数据不存在          |
+| 500  | 未知错误          |
+
+
+### 通过车牌号获取车辆信息、车型信息列表 getCarInfoByLicense
+
+##### example
+
+```javascript
+rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+#### request
+| name | type   | note |
+| ---- | ----   | ---- |
+| licenseNo | String(8) | 车牌号码, 豫JCC522 |
+
+测试只能用 豫JCC522，其他车牌请求超时。 
+
+如下参数不用调用者提供，但是在请求报文中必须出现：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| applicationID | String(32) | 请求方标识，由智通引擎提供 |
+| operType | String(32) |  接口类型, 固定值:BDB |
+| sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | JSON | 见下 |
+
+
+data 字段解释
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+|	responseNo  		|		String(36)			|         响应码,如.8f250190-31b9-4cf9-bea7-99f586ce31f1			|
+|	engineNo  			|		String(25)			|         发动机号,8 位以上 100****00,8 位及以下 004**761			|
+|	licenseNo  			|		String(8) 			|        车牌号 如. 渝 GF8853			|
+|	frameNo  			|		String(17)			|          车架号(VIN 码), LJVA34D****010008			|
+|	firstRegisterDate  	|		String(20)			|         初登日期, 如. 2013-09-01,获取不到返回为 null			|
+| modelList     |   JSON           |    车型列表，见下           |
+
+
+modelList 字段解释
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+|	state  				|		String(1) 			|        请求状态,0-失败;1-成功			|
+|	msgCode  			|		String(12)			|         错误编码,8 位编码,State 为 0 时才有值			|
+|	msg  				|		String(80)			|         返回信息,失败原因等信息			|
+
+data 字段解释
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+|	vehicleFgwCode  						|		String(50) 	|	发改委编码,SGM7181ATA	|
+|	brandCode  						|		String(36) 	|	品牌型号编码,如. 16a65866-4fe2-49d3-b9f9-bd512c3274f9	|
+|	brandName  						|		String(50) 	|	品牌型号名称,一汽红旗	|
+|	engineDesc 						|		String(10) 	|	 排量,2.4L	|
+|	familyName  						|		String(100)	|	车系名称, 世纪星	|
+|	gearboxType  						|		String(100)	|	车挡类型, 手动档	|
+|	remark 						|		String(200)	|	 备注, 手动档 老款	|
+|	newCarPrice  						|		String(11) 	|	新车购置价,如.215000	|
+|	purchasePriceTax  						|		String(11) 	|	含税价格,如.233400	|
+|	importFlag  						|		String(1) 0	|	进口标识,:国产,1:合资,2:进口	|
+|	purchasePrice  						|		String(18) 	|	参考价,215000	|
+|	seat  						|		String(50) 	|	座位数,5	|
+|	standardName  						|		String(100)	|	款型名称, 红旗 CA7242E6L1 轿车	|
+|	vehicleFgwName  						|		String(100)	|	发改委名称, 红旗	|
+|	parentVehName  						|		String(100)	|	年份款型, 2008 款 豪华型	|
+
+
+
+```
+{
+    "responseNo": "97c75995-0dd0-45d1-ad03-cf42396410a7",
+    "engineNo": "870**86",
+    "licenseNo": "豫JCC522",
+    "frameNo": "LSGPC52****013740",
+    "firstRegisterDate": "2011-01-14",
+    "modelList": {
+        "state": "1",
+        "msg": "success",
+        "msgCode": null,
+        "data": [
+            {
+                "vehicleFgwCode": "SGM7150DMAA",
+                "brandCode": "3fe5c096-a157-4b69-8917-b2f168fbd571",
+                "brandName": "上汽通用雪佛兰",
+                "engineDesc": "1.5L",
+                "familyName": "科鲁兹",
+                "gearboxType": "手动档",
+                "remark": "手动档 经典版 SE 国Ⅴ",
+                "newCarPrice": "85900",
+                "purchasePriceTax": "89571",
+                "importFlag": "1",
+                "purchasePrice": "85900",
+                "seat": "5",
+                "standardName": "雪佛兰SGM7150DMAA轿车",
+                "vehicleFgwName": null,
+                "parentVehName": null
+            },
+            {
+                "vehicleFgwCode": "SGM7150DMAA",
+                "brandCode": "563e87a3-3109-4d38-a330-db45be35d673",
+                "brandName": "上汽通用雪佛兰",
+                "engineDesc": "1.5L",
+                "familyName": "科鲁兹",
+                "gearboxType": "手动档",
+                "remark": "手动档 经典版 SL 国Ⅴ",
+                "newCarPrice": "75900",
+                "purchasePriceTax": "79144",
+                "importFlag": "1",
+                "purchasePrice": "75900",
+                "seat": "5",
+                "standardName": "雪佛兰SGM7150DMAA轿车",
+                "vehicleFgwName": null,
+                "parentVehName": null
+            }
+        ]
+    }
+}
+
+```
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 400  | 数据不存在，具体见返回的 msg 内容          |
 | 500  | 未知错误          |

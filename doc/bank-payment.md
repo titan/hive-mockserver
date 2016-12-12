@@ -1778,6 +1778,8 @@ See [example](../data/bank-payment/generateCashAuditUrl.json)
 | ordId     | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字    |
 | usrCustId | char(16) | 汇付天下生成的用户 ID                         |
 | transAmt  | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
+| servFee       | char(14) | 商户收取服务费金额,只能收取不超过取现金额的1%,金额格式必须是###.## 比如 2.00,2.01 |           
+| servFeeAcctId | char(9)  | 商户子账户号,商户用来收取服务费的子账户号, "BASEDT"--基本借记户， "MDT000001"--商户专用借记账户，"SDT000001"--担保账户1， "SDT000002"--风险金账户1     |
 | test      | boolean  | 是否开启测试模式                              |
 
 开启测试模式后，返回汇付天下提供的测试链接。
@@ -1786,8 +1788,6 @@ See [example](../data/bank-payment/generateCashAuditUrl.json)
 
 | name          | type     | note                                      |
 | ----          | ----     | ----                                      |
-| servFee       | char(14) | 商户收取服务费金额                        |
-| servFeeAcctId | char(9)  | 商户子账户号,商户用来收取服务费的子账户号 |
 | openAcctId    | char(40) | 开户银行账号,取现银行的账户号(银行卡号)   |
 
 在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
@@ -1822,7 +1822,7 @@ url 作为参数传递时，需要调用 encodeURIComponent 进行编码。
 
 ```javascript
 
-rpc.call("bank_payment", "generateCashUrl", ordId, usrCustId, transAmt, true)
+rpc.call("bank_payment", "generateCashUrl", ordId, usrCustId, transAmt, servFee, servFeeAcctId, true)
   .then(function (result) {
 
   }, function (error) {
@@ -1939,6 +1939,9 @@ See [example](../data/bank-payment/generateUsrAcctPayUrl.json)
 ## generateMerCashUrl
 
 生成商户代取现接口链接。
+默认是即时取现
+
+汇付天下：即时取现现在回调有点问题 返回400实际是交易成功了
 
 | domain | accessable |
 | ----   | ----       |
@@ -1952,8 +1955,8 @@ See [example](../data/bank-payment/generateUsrAcctPayUrl.json)
 | ordId         | char(30) | 商户下的订单号，必须保证唯一，请使用纯数字    |
 | usrCustId     | char(16) | 汇付天下生成的用户 ID                         |
 | transAmt      | char(14) | 交易金额，金额格式必须是###.## 比如 2.00,2.01 |
-| servFee       | char(14) | 商户收取服务费金额                            |
-| servFeeAcctId | char(9)  | 商户子账户号,商户用来收取服务费的子账户号     |
+| servFee       | char(14) | 商户收取服务费金额,只能收取不超过取现金额的1%,金额格式必须是###.## 比如 2.00,2.01 |           
+| servFeeAcctId | char(9)  | 商户子账户号,商户用来收取服务费的子账户号, "BASEDT"--基本借记户， "MDT000001"--商户专用借记账户，"SDT000001"--担保账户1， "SDT000002"--风险金账户1     |
 | test          | boolean  | 是否开启测试模式                              |
 
 开启测试模式后，返回汇付天下提供的测试链接。
