@@ -58,10 +58,12 @@
   * 删除 getQuotations
   * 删除 getTicket
   * 删除 newMessageNotify
+  * 删除 adQuotationGroups
 
 1. 2016-12-08
   * 增加 vid-qid 外键
   * 增加 getQuotationByVid
+  * 增加 getAccurateQuotation
 
 1. 2016-11-19
   * 增加 toc
@@ -230,6 +232,11 @@ sorted 是元素在列表中的顺序
 
 创建报价
 
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
 #### request
 
 | name | type   | note       |
@@ -272,167 +279,6 @@ rpc.call("quotation", "createQuotation", vid, VIN)
 | 500  | 未知错误          |
 
 See [example](../data/quotation/createQuotation.json)
-
-
-## addQuotationGroups
-
-增加报价组
-
-**不能从 mobile 域调用!**
-
-#### request
-
-| name      | type    | note     |
-| ----      | ----    | ----     |
-| qid       | uuid    | 报价 ID  |
-| vid       | uuid    | 计划 ID  |
-| groups    | [group] | 报价组   |
-| promotion | number] | 促销价格 |
-
-```javascript
-let qid = "00000000-0000-0000-0000-000000000000";
-let vid = "00000000-0000-0000-0000-000000000000";
-let groups = [];
-let promotion = 0;
-
-rpc.call("quotation", "addQuotationGroups", qid, vid, groups, promotion)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/addQuotationGroup.json)
-
-
-获取未报价
-
-#### request
-
-| name        | type   | note         |
-| ----        | ----   | ----         |
-| start       | number | 起始记录     |
-| limit       | number | 每页显示条数 |
-| max         | number | 记最大录数   |
-| nowScore    | number | 当前score    |
-| vin         | string | 车辆 VIN码   |
-| ownername   | string | 车主姓名     |
-| phone       | string | 车主电话     |
-| license\_no | string | 车牌号       |
-| begintime   | string | 开始时间     |
-| endtime     | string | 结束时间     |
-| state       | string | 报价状态     |
-
-```javascript
-let start = 0;
-let limit = 10;
-let maxScore = (new Date()).getTime();
-let nowScore = (new Date()).getTime();
-let vin = "WBAZV4109BL817920";
-let ownername = "张三";
-let phone = "18141912911";
-let license_no = "京8903T";
-let begintime = "2016/11/15";
-let endtime = "2016/11/15";
-let state = 1;
-
-
-rpc.call("quotation", "getUnquotatedQuotations", start, limit, maxScore, nowScore, vin, ownername, phone, license_no, begintime, endtime, state)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/getUnquotatedQuotations.json)
-
-
-获取所有报价
-
-#### request
-
-| name           | type    | note     |
-| ----           | ----    | ----     |
-
-```javascript
-
-rpc.call("quotation", "getQuotations")
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/getQuotations.json)
 
 ## getQuotation
 
@@ -532,8 +378,9 @@ See [example](../data/quotation/getQuotation.json)
 
 #### request
 
-| name    | type   | note    |
-| ----    | ----   | ----    |
+| name | type | note           |
+| ---- | ---- | ----           |
+| qid  | uuid | 报价 ID (可选) |
 
 Example
 
@@ -566,18 +413,18 @@ See 成功返回数据：[example](../data/quotation/sucessful.json)
 
 #### request
 
-| name           | type    | note     |
-| ----           | ----    | ----     |
-| ownerName | String(32) |  车主姓名 张某某 |
-| ownerID  | String(18) | 车主身份证号 429001198902024810 |
-| ownerMobile  | String(11) | 车主手机号 18610077627 |
-| carInfo            | JSON    | getCarInfoByLicense 接口返回的对象  |
-| modelListOrder     | Number  | 车型信息列表序号，从 0 开始 |
-| isTrans  | String(2)  | 是否过户车 0 否,1 是 |
-| transDate | String(20) |  过户日期 null 或 2017-09-01 |
-| cityCode  | String(6)  | 行驶城市代码 国标码,到二级城市,371200 |
-| insurerCodeForRef  | String(100) | 参考报价保险人代码，测试填 YGBX  |
-| insurerCodeForAcc  | String(100) | 精准报价保险人代码，测试填 ASTP  |
+| name              | type        | note                                  |
+| ----              | ----        | ----                                  |
+| ownerName         | String(32)  | 车主姓名 张某某                       |
+| ownerID           | String(18)  | 车主身份证号 429001198902024810       |
+| ownerMobile       | String(11)  | 车主手机号 18610077627                |
+| carInfo           | JSON        | getCarInfoByLicense 接口返回的对象    |
+| modelListOrder    | Number      | 车型信息列表序号，从 0 开始           |
+| isTrans           | String(2)   | 是否过户车 0 否,1 是                  |
+| transDate         | String(20)  | 过户日期 null 或 2017-09-01           |
+| cityCode          | String(6)   | 行驶城市代码 国标码,到二级城市,371200 |
+| insurerCodeForRef | String(100) | 参考报价保险人代码，测试填 YGBX       |
+| insurerCodeForAcc | String(100) | 精准报价保险人代码，测试填 ASTP       |
 
 ```javascript
 
@@ -595,29 +442,29 @@ rpc.call("quotation", "getAccurateQuotation1", "130684199006080073", "来看待"
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
 | data | JSON | 见下 |
 
 data 字段解释
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| msg | String(80)  |  返回信息,失败原因等信息 |
-| thpBizID  | String(36)  | 请求方业务号,第三方业务唯一标识 |
-| bizID  | String(36)  | 智通引擎业务号,智通引擎业务唯一标识 |
-| insurerCode  | String(20)  | 保险人代码,详见文档最下方“保险人代码” |
-| channelCode | String(32)  |  渠道编码,由智通引擎提供(如: REQUESTER_SERVICE) |
-| biBeginDate  | String(20)  | 商业险起期,2016-09-01 |
-| biPremium  | String(20)  | 商业险总保费,两位小数, 如:5000.00 |
-| coverageList | JSON | 商业险险别列表,详见”险别信息 coverage 说明”
-| integr | String(20)  | al 积分,保险公司返的佣金,和人民币是 1:1 的关系 |
-| ciBeginDate  | String(20)  | 交强险起期,2016-09-01 |
-| ciPremium  | String(20)  | 交强险保费,两位小数,如:950.00 |
-| carshipTax  | String(20)  | 车船税金额,两位小数:如:200.00 |
-| state | String(1)   |0 请求状态,-失败;1-成功
-| msgCode | String(12)  |  错误编码,8 位编码,State 为 0 时才有值 |
+| name         | type       | note                                           |
+| ----         | ----       | ----                                           |
+| msg          | String(80) | 返回信息,失败原因等信息                        |
+| thpBizID     | String(36) | 请求方业务号,第三方业务唯一标识                |
+| bizID        | String(36) | 智通引擎业务号,智通引擎业务唯一标识            |
+| insurerCode  | String(20) | 保险人代码,详见文档最下方“保险人代码”          |
+| channelCode  | String(32) | 渠道编码,由智通引擎提供(如: REQUESTER_SERVICE) |
+| biBeginDate  | String(20) | 商业险起期,2016-09-01                          |
+| biPremium    | String(20) | 商业险总保费,两位小数, 如:5000.00              |
+| coverageList | JSON       | 商业险险别列表,详见”险别信息 coverage 说明”
+| integr       | String(20) | al 积分,保险公司返的佣金,和人民币是 1:1 的关系 |
+| ciBeginDate  | String(20) | 交强险起期,2016-09-01                          |
+| ciPremium    | String(20) | 交强险保费,两位小数,如:950.00                  |
+| carshipTax   | String(20) | 车船税金额,两位小数:如:200.00                  |
+| state        | String(1)  | 0 请求状态,-失败;1-成功
+| msgCode      | String(12) | 错误编码,8 位编码,State 为 0 时才有值          |
 
 
 ```
@@ -735,4 +582,3 @@ data 字段解释
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
-See [example](../data/quotation/getQuotation.json)
