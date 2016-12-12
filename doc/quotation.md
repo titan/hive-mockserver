@@ -751,3 +751,176 @@ rpc.call("quotation", "newMessageNotify")
 | 500  | 未知错误 |
 
 See [example](../data/quotation/newMessageNotify.json)
+
+通过车辆信息获取精准报价
+
+#### request
+
+| name           | type    | note     |
+| ----           | ----    | ----     |
+| ownerName | String(32) |  车主姓名 张某某 |
+| ownerID  | String(18) | 车主身份证号 429001198902024810 |
+| ownerMobile  | String(11) | 车主手机号 18610077627 |
+| carInfo            | JSON    | getCarInfoByLicense 接口返回的对象  |
+| modelListOrder     | Number  | 车型信息列表序号，从 0 开始 |
+| isTrans  | String(2)  | 是否过户车 0 否,1 是 |
+| transDate | String(20) |  过户日期 null 或 2017-09-01 |
+| cityCode  | String(6)  | 行驶城市代码 国标码,到二级城市,371200 |
+| insurerCodeForRef  | String(100) | 参考报价保险人代码，测试填 YGBX  |
+| insurerCodeForAcc  | String(100) | 精准报价保险人代码，测试填 ASTP  |
+
+```javascript
+
+let qid = "00000000-0000-0000-0000-000000000000";
+rpc.call("quotation", "getAccurateQuotation1", "130684199006080073", "来看待", "15210520502", {"responseNo":"97c75995-0dd0-45d1-ad03-cf42396410a7","engineNo":"870**86","licenseNo":"豫JCC522","frameNo":"LSGPC52****013740","firstRegisterDate":"2011-01-14","modelList":{"state":"1","msg":"success","msgCode":null,"data":[{"vehicleFgwCode":"SGM7150DMAA","brandCode":"3fe5c096-a157-4b69-8917-b2f168fbd571","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SE国Ⅴ","newCarPrice":"85900","purchasePriceTax":"89571","importFlag":"1","purchasePrice":"85900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null},{"vehicleFgwCode":"SGM7150DMAA","brandCode":"563e87a3-3109-4d38-a330-db45be35d673","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SL国Ⅴ","newCarPrice":"75900","purchasePriceTax":"79144","importFlag":"1","purchasePrice":"75900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null}]}}, 0, "0", null, "371200", "YGBX", "ASTP")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | JSON | 见下 |
+
+data 字段解释
+| name | type   | note    |
+| ---- | ----   | ----    |
+| msg | String(80)  |  返回信息,失败原因等信息 |
+| thpBizID  | String(36)  | 请求方业务号,第三方业务唯一标识 |
+| bizID  | String(36)  | 智通引擎业务号,智通引擎业务唯一标识 |
+| insurerCode  | String(20)  | 保险人代码,详见文档最下方“保险人代码” |
+| channelCode | String(32)  |  渠道编码,由智通引擎提供(如: REQUESTER_SERVICE) |
+| biBeginDate  | String(20)  | 商业险起期,2016-09-01 |
+| biPremium  | String(20)  | 商业险总保费,两位小数, 如:5000.00 |
+| coverageList | JSON | 商业险险别列表,详见”险别信息 coverage 说明”
+| integr | String(20)  | al 积分,保险公司返的佣金,和人民币是 1:1 的关系 |
+| ciBeginDate  | String(20)  | 交强险起期,2016-09-01 |
+| ciPremium  | String(20)  | 交强险保费,两位小数,如:950.00 |
+| carshipTax  | String(20)  | 车船税金额,两位小数:如:200.00 |
+| state | String(1)   |0 请求状态,-失败;1-成功
+| msgCode | String(12)  |  错误编码,8 位编码,State 为 0 时才有值 |
+
+```
+{
+    "operType": "ACCPRICE",
+    "msg": "精准报价",
+    "sendTime": "2016-12-10 10:51:21",
+    "sign": "23ff92kas820ss92k9s933jf209daqc13fsd",
+    "data": {
+        "applicationID": "QUNAR_SERVICE",
+        "insurerCode": "YGBX",
+        "cityCode": "371200",
+        "responseNo": "97c75995-0dd0-45d1-ad03-cf42396410a7",
+        "channelCode": null,
+        "carInfo": {
+            "licenseNo": "豫JCC522",
+            "frameNo": "LSGPC52****013740",
+            "modelCode": "3fe5c096-a157-4b69-8917-b2f168fbd571",
+            "engineNo": "870**86",
+            "isTrans": "0",
+            "transDate": null,
+            "registerDate": "2011-01-14"
+        },
+        "thpBizID": "20161207fuyuhintest",
+        "personInfo": {
+            "insuredID": "130684199006080073",
+            "ownerName": "来看待",
+            "ownerID": "130684199006080073",
+            "ownerMobile": "15210520502",
+            "insuredName": "来看待",
+            "insuredMobile": "15210520502"
+        },
+        "coverageList": [
+            {
+                "coverageCode": "A",
+                "coverageName": "机动车损失保险",
+                "insuredAmount": "Y",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "B",
+                "coverageName": "商业第三者责任险",
+                "insuredAmount": "50000",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "B",
+                "coverageName": "商业第三者责任险",
+                "insuredAmount": "100000",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "B",
+                "coverageName": "商业第三者责任险",
+                "insuredAmount": "150000",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "B",
+                "coverageName": "商业第三者责任险",
+                "insuredAmount": "200000",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "B",
+                "coverageName": "商业第三者责任险",
+                "insuredAmount": "300000",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "G1",
+                "coverageName": "全车盗抢险",
+                "insuredAmount": "Y",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "Z",
+                "coverageName": "自燃损失险",
+                "insuredAmount": "Y",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "F",
+                "coverageName": "玻璃单独破碎险",
+                "insuredAmount": "Y",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "FORCEPREMIUM",
+                "coverageName": "交强险",
+                "insuredAmount": "Y",
+                "insuredPremium": null
+            },
+            {
+                "coverageCode": "X1",
+                "coverageName": "发动机涉水损失险",
+                "insuredAmount": "Y",
+                "insuredPremium": null
+            }
+        ]
+    }
+}
+```
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 400  | 具体内容见返回的 msg |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/quotation/getQuotation.json)
