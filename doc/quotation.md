@@ -27,25 +27,18 @@
   - [createQuotation](#createquotation)
       - [request](#request)
       - [response](#response)
-  - [addQuotationGroups](#addquotationgroups)
+  - [getQuotation](#getquotation)
       - [request](#request-1)
       - [response](#response-1)
+  - [getQuotationByVid](#getquotationbyvid)
       - [request](#request-2)
       - [response](#response-2)
+  - [refresh](#refresh)
       - [request](#request-3)
       - [response](#response-3)
-  - [getQuotation](#getquotation)
+  - [getAccurateQuotation](#getaccuratequotation)
       - [request](#request-4)
       - [response](#response-4)
-  - [getQuotationByVid](#getquotationbyvid)
-      - [request](#request-5)
-      - [response](#response-5)
-  - [refresh](#refresh)
-      - [request](#request-6)
-      - [response](#response-6)
-  - [getAccurateQuotation](#getaccuratequotation)
-      - [request](#request-7)
-      - [response](#response-7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -284,6 +277,11 @@ See [example](../data/quotation/createQuotation.json)
 
 获取某个报价
 
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
 #### request
 
 | name           | type    | note     |
@@ -328,6 +326,11 @@ See [example](../data/quotation/getQuotation.json)
 ## getQuotationByVid
 
 通过vid获取某个报价
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
 
 #### request
 
@@ -374,7 +377,10 @@ See [example](../data/quotation/getQuotation.json)
 
 刷新报价缓存
 
-**!!禁止前端调用！！**
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
 
 #### request
 
