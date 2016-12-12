@@ -876,7 +876,6 @@ modelList 字段解释
 
 | name | type   | note    |
 | ---- | ----   | ----    |
-
 |	state  				|		String(1) 			|        请求状态,0-失败;1-成功			|
 |	msgCode  			|		String(12)			|         错误编码,8 位编码,State 为 0 时才有值			|
 |	msg  				|		String(80)			|         返回信息,失败原因等信息			|
