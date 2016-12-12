@@ -17,6 +17,7 @@
   - [quotation\_item\_quotas](#quotation%5C_item%5C_quotas)
   - [quotation\_item\_prices](#quotation%5C_item%5C_prices)
 - [Cache](#cache)
+  - [vid-qid](#vid-qid)
   - [VIN-quotation](#vin-quotation)
   - [unquotated-quotations](#unquotated-quotations)
   - [quotated-quotations](#quotated-quotations)
@@ -29,36 +30,38 @@
   - [addQuotationGroups](#addquotationgroups)
       - [request](#request-1)
       - [response](#response-1)
-  - [getQuotatedQuotations](#getquotatedquotations)
       - [request](#request-2)
       - [response](#response-2)
-  - [getUnquotatedQuotations](#getunquotatedquotations)
       - [request](#request-3)
       - [response](#response-3)
-  - [getQuotations](#getquotations)
+  - [getQuotation](#getquotation)
       - [request](#request-4)
       - [response](#response-4)
-  - [getQuotation](#getquotation)
+  - [getQuotationByVid](#getquotationbyvid)
       - [request](#request-5)
       - [response](#response-5)
-  - [getTicket](#getticket)
+  - [refresh](#refresh)
       - [request](#request-6)
       - [response](#response-6)
-  - [refresh](#refresh)
+  - [getAccurateQuotation](#getaccuratequotation)
       - [request](#request-7)
       - [response](#response-7)
-  - [newMessageNotify](#newmessagenotify)
-      - [request](#request-8)
-      - [response](#response-8)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # ChangeLog
 
-1. 2016-12-08
-  * 增加vid-qid外键
+1. 2016-12-12
+  * 删除 getQuotatedQuotations
+  * 删除 getUnquotatedQuotations
+  * 删除 getQuotations
+  * 删除 getTicket
+  * 删除 newMessageNotify
 
+1. 2016-12-08
+  * 增加 vid-qid 外键
+  * 增加 getQuotationByVid
 
 1. 2016-11-19
   * 增加 toc
@@ -324,72 +327,6 @@ rpc.call("quotation", "addQuotationGroups", qid, vid, groups, promotion)
 
 See [example](../data/quotation/addQuotationGroup.json)
 
-## getQuotatedQuotations
-
-获取已报价
-
-#### request
-
-| name        | type   | note         |
-| ----        | ----   | ----         |
-| start       | number | 起始记录     |
-| limit       | number | 每页显示条数 |
-| max         | number | 记最大录数   |
-| nowScore    | number | 当前score    |
-| vin         | string | 车辆 VIN码   |
-| ownername   | string | 车主姓名     |
-| phone       | string | 车主电话     |
-| license\_no | string | 车牌号       |
-| begintime   | string | 开始时间     |
-| endtime     | string | 结束时间     |
-| state       | string | 报价状态     |
-
-```javascript
-let start = 0;
-let limit = 10;
-let maxScore = (new Date()).getTime();
-let nowScore = (new Date()).getTime();
-let vin = "WBAZV4109BL817920";
-let ownername = "张三";
-let phone = "18141912911";
-let license_no = "京8903T";
-let begintime = "2016/11/15";
-let endtime = "2016/11/15";
-let state = 1;
-
-rpc.call("quotation", "getQuotatedQuotations", start, limit, maxScore, nowScore, vin, ownername, phone, license_no, begintime, endtime, state)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/getQuotatedQuotations.json)
-
-## getUnquotatedQuotations
 
 获取未报价
 
@@ -455,7 +392,6 @@ rpc.call("quotation", "getUnquotatedQuotations", start, limit, maxScore, nowScor
 
 See [example](../data/quotation/getUnquotatedQuotations.json)
 
-## getQuotations
 
 获取所有报价
 
@@ -543,49 +479,6 @@ rpc.call("quotation", "getQuotation", qid)
 
 See [example](../data/quotation/getQuotation.json)
 
-## getQuotations
-
-获取所有报价
-
-#### request
-
-| name           | type    | note     |
-| ----           | ----    | ----     |
-
-```javascript
-
-rpc.call("quotation", "getQuotations")
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/getQuotations.json)
-
 ## getQuotationByVid
 
 通过vid获取某个报价
@@ -631,51 +524,6 @@ rpc.call("quotation", "getQuotationByVid", vid)
 
 See [example](../data/quotation/getQuotation.json)
 
-## getTicket
-
-获取二维码
-
-#### request
-
-| name | type | note    |
-| ---- | ---- | ----    |
-| oid  | uuid | 订单 ID |
-
-```javascript
-
-let oid = "00000000-0000-0000-0000-000000000000";
-rpc.call("quotation", "getTicket", oid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/getTicket.json)
-
 ## refresh
 
 刷新报价缓存
@@ -712,47 +560,7 @@ rpc.call("quotation", "refresh")
 
 See 成功返回数据：[example](../data/quotation/sucessful.json)
 
-## newMessageNotify
-
-后台提醒
-
-#### request
-
-```javascript
-
-rpc.call("quotation", "newMessageNotify")
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/newMessageNotify.json)
-
-## getAccurateQuotation1
+## getAccurateQuotation
 
 通过车辆信息获取精准报价
 
