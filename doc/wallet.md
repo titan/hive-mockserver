@@ -168,7 +168,6 @@
 | ----        | ----     | ----         |
 | id          | uuid     | event id     |
 | type        | smallint | event type   |
-| opid        | uuid     | operator id  |
 | uid         | uuid     | user id      |
 | occurred-at | iso8601  | 事件发生时间 |
 | amount      | float    | 提现金额     |
@@ -180,6 +179,7 @@
 
 | type | name         | note     |
 | ---- | ----         | ----     |
+| 0    | create       | 创建     |
 | 1    | RECHARGE     | 充值     |
 | 2    | FREEZE       | 冻结资金 |
 | 3    | UNFREEZE     | 解冻资金 |
@@ -192,6 +192,7 @@
 
 | type | amount | maid | oid  | aid  |
 | ---- | ----   | ---- | ---- | ---- |
+| 0    | ✓      |      | ✓    | ✓    |
 | 1    | ✓      |      | ✓    |      |
 | 2    | ✓      | ✓    |      | ✓    |
 | 3    | ✓      | ✓    |      | ✓    |
