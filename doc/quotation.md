@@ -654,7 +654,7 @@ rpc.call("quotation", "newMessageNotify")
 
 See [example](../data/quotation/newMessageNotify.json)
 
-## getAccurateQuotation1
+## getAccurateQuotation
 
 通过车辆信息获取精准报价
 
@@ -665,18 +665,22 @@ See [example](../data/quotation/newMessageNotify.json)
 | ownerName | String(32) |  车主姓名 张某某 |
 | ownerID  | String(18) | 车主身份证号 429001198902024810 |
 | ownerMobile  | String(11) | 车主手机号 18610077627 |
-| carInfo            | JSON    | getCarInfoByLicense 接口返回的对象  |
+| carInfo            | JSON    | getCarInfoByLicense 接口返回的对象,将来用车牌号（string)替代  |
 | modelListOrder     | Number  | 车型信息列表序号，从 0 开始 |
-| isTrans  | String(2)  | 是否过户车 0 否,1 是 |
-| transDate | String(20) |  过户日期 null 或 2017-09-01 |
-| cityCode  | String(6)  | 行驶城市代码 国标码,到二级城市,371200 |
-| insurerCodeForRef  | String(100) | 参考报价保险人代码，测试填 YGBX  |
-| insurerCodeForAcc  | String(100) | 精准报价保险人代码，测试填 ASTP  |
+
+#### 固定的参数，不用再传
+
+| name           | type    | note     |
+| ----           | ----    | ----     |
+| isTrans  | String(2)  | 是否过户车 0 否,1 是,固定为 "0"|
+| transDate | String(20) |  过户日期 null 或 2017-09-01，固定为 null  |
+| cityCode  | String(6)  | 行驶城市代码 国标码,到二级城市, 固定为 "110100"，北京 |
+| insurerCode | String(100) | 固定为 "ASTP"，永城保险公司  |
+
 
 ```javascript
 
-let qid = "00000000-0000-0000-0000-000000000000";
-rpc.call("quotation", "getAccurateQuotation1", "130684199006080073", "来看待", "15210520502", {"responseNo":"97c75995-0dd0-45d1-ad03-cf42396410a7","engineNo":"870**86","licenseNo":"豫JCC522","frameNo":"LSGPC52****013740","firstRegisterDate":"2011-01-14","modelList":{"state":"1","msg":"success","msgCode":null,"data":[{"vehicleFgwCode":"SGM7150DMAA","brandCode":"3fe5c096-a157-4b69-8917-b2f168fbd571","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SE国Ⅴ","newCarPrice":"85900","purchasePriceTax":"89571","importFlag":"1","purchasePrice":"85900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null},{"vehicleFgwCode":"SGM7150DMAA","brandCode":"563e87a3-3109-4d38-a330-db45be35d673","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SL国Ⅴ","newCarPrice":"75900","purchasePriceTax":"79144","importFlag":"1","purchasePrice":"75900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null}]}}, 0, "0", null, "371200", "YGBX", "ASTP")
+rpc.call("quotation", "getAccurateQuotation", "130684199006080073", "来看待", "15210520502", {"responseNo":"97c75995-0dd0-45d1-ad03-cf42396410a7","engineNo":"870**86","licenseNo":"豫JCC522","frameNo":"LSGPC52****013740","firstRegisterDate":"2011-01-14","modelList":{"state":"1","msg":"success","msgCode":null,"data":[{"vehicleFgwCode":"SGM7150DMAA","brandCode":"3fe5c096-a157-4b69-8917-b2f168fbd571","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SE国Ⅴ","newCarPrice":"85900","purchasePriceTax":"89571","importFlag":"1","purchasePrice":"85900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null},{"vehicleFgwCode":"SGM7150DMAA","brandCode":"563e87a3-3109-4d38-a330-db45be35d673","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SL国Ⅴ","newCarPrice":"75900","purchasePriceTax":"79144","importFlag":"1","purchasePrice":"75900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null}]}}, 0)
   .then(function (result) {
 
   }, function (error) {
@@ -716,103 +720,76 @@ data 字段解释
 
 ```
 {
-    "operType": "ACCPRICE",
-    "msg": "精准报价",
-    "sendTime": "2016-12-10 10:51:21",
-    "sign": "23ff92kas820ss92k9s933jf209daqc13fsd",
-    "data": {
-        "applicationID": "QUNAR_SERVICE",
-        "insurerCode": "YGBX",
-        "cityCode": "371200",
-        "responseNo": "97c75995-0dd0-45d1-ad03-cf42396410a7",
-        "channelCode": null,
-        "carInfo": {
-            "licenseNo": "豫JCC522",
-            "frameNo": "LSGPC52****013740",
-            "modelCode": "3fe5c096-a157-4b69-8917-b2f168fbd571",
-            "engineNo": "870**86",
-            "isTrans": "0",
-            "transDate": null,
-            "registerDate": "2011-01-14"
+    "insurerCode": "APIC",
+    "thpBizID": "20161213fuyuhintest",
+    "bizID": "30490680",
+    "biBeginDate": "2017-01-11",
+    "biPremium": "4592.00",
+    "state": "1",
+    "msg": null,
+    "channelCode": "YC_INSURE",
+    "msgCode": null,
+    "coverageList": [
+        {
+            "coverageCode": "A",
+            "coverageName": "机动车损失保险",
+            "insuredAmount": "Y",
+            "insuredPremium": "2393.00",
+            "flag": null
         },
-        "thpBizID": "20161207fuyuhintest",
-        "personInfo": {
-            "insuredID": "130684199006080073",
-            "ownerName": "来看待",
-            "ownerID": "130684199006080073",
-            "ownerMobile": "15210520502",
-            "insuredName": "来看待",
-            "insuredMobile": "15210520502"
+        {
+            "coverageCode": "B",
+            "coverageName": "商业第三者责任险",
+            "insuredAmount": "300000.00",
+            "insuredPremium": "753.00",
+            "flag": null
         },
-        "coverageList": [
-            {
-                "coverageCode": "A",
-                "coverageName": "机动车损失保险",
-                "insuredAmount": "Y",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "B",
-                "coverageName": "商业第三者责任险",
-                "insuredAmount": "50000",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "B",
-                "coverageName": "商业第三者责任险",
-                "insuredAmount": "100000",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "B",
-                "coverageName": "商业第三者责任险",
-                "insuredAmount": "150000",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "B",
-                "coverageName": "商业第三者责任险",
-                "insuredAmount": "200000",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "B",
-                "coverageName": "商业第三者责任险",
-                "insuredAmount": "300000",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "G1",
-                "coverageName": "全车盗抢险",
-                "insuredAmount": "Y",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "Z",
-                "coverageName": "自燃损失险",
-                "insuredAmount": "Y",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "F",
-                "coverageName": "玻璃单独破碎险",
-                "insuredAmount": "Y",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "FORCEPREMIUM",
-                "coverageName": "交强险",
-                "insuredAmount": "Y",
-                "insuredPremium": null
-            },
-            {
-                "coverageCode": "X1",
-                "coverageName": "发动机涉水损失险",
-                "insuredAmount": "Y",
-                "insuredPremium": null
-            }
-        ]
-    }
+        {
+            "coverageCode": "F",
+            "coverageName": "玻璃单独破碎险",
+            "insuredAmount": "Y",
+            "insuredPremium": "305.00",
+            "flag": null
+        },
+        {
+            "coverageCode": "FORCEPREMIUM",
+            "coverageName": "交强险",
+            "insuredAmount": "Y",
+            "insuredPremium": "753.38",
+            "flag": null
+        },
+        {
+            "coverageCode": "G1",
+            "coverageName": "全车盗抢险",
+            "insuredAmount": "Y",
+            "insuredPremium": "679.00",
+            "flag": null
+        },
+        {
+            "coverageCode": "X1",
+            "coverageName": "发动机涉水损失险",
+            "insuredAmount": "Y",
+            "insuredPremium": "120.00",
+            "flag": null
+        },
+        {
+            "coverageCode": "Z",
+            "coverageName": "自燃损失险",
+            "insuredAmount": "Y",
+            "insuredPremium": "342.00",
+            "flag": null
+        }
+    ],
+    "integral": "1354.28",
+    "ciBeginDate": "2017-01-11",
+    "ciPremium": "753.38",
+    "carshipTax": "750.00",
+    "spAgreement": [],
+    "cIntegral": null,
+    "bIntegral": null,
+    "showCiCost": null,
+    "showBiCost": null,
+    "showSumIntegral": null
 }
 ```
 
@@ -829,4 +806,3 @@ data 字段解释
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
-See [example](../data/quotation/getQuotation.json)
