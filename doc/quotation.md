@@ -139,7 +139,7 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | pid                | uuid          |      |         |         | plans     |
 | total\_price       | real          |      |         |         |           |
 | fu\_total\_price   | real          |      |         |         |           |
-| h                  | smallint      |      |         |         |           |
+| insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
 
 ## quotation\_item_list
@@ -154,7 +154,7 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | unit           | char(16)  |      |         |         |             |
 | real\_price    | real      |      |         |         |             |
 | type           | smallint  |      |         |         |             |
-| h              | smallint  |      |         |         |             |
+| insure         | smallint  |      |         |         |             |
 | created\_at    | timestamp |      | now     |         |             |
 | updated\_at    | timestamp |      | now     |         |             |
 
