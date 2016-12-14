@@ -116,7 +116,8 @@
 | -1   | 普通帐号扣款   |
 | -2   | 池帐号小池扣款 |
 | -3   | 池帐号大池扣款 |
-
+| -4   | 池帐号小池冻结 |
+| -5   | 池帐号大池冻结 |
 ## CashOut
 
 | name   | type    | note     |
@@ -419,7 +420,9 @@ See [example](../data/wallet/createAccount.json)
 
 ## updateAccountbalance
 
-注意: 帐号对应 balance0，balance1 的含义请参考前文的数据结构,type表示交易类型，type1表示 wallet 事件类型。
+注意: 帐号对应 balance0，balance1 的含义请参考前文的数据结构.
+type表示交易类型，type1表示 wallet 事件类型。
+
 rpc.callu"wallet", "updateAccountbalance", uid, vid, type, type1, balance0, balance1, order_id)
 .then(function(result){
 
