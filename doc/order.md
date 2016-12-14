@@ -622,11 +622,12 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 | state      | string        |订单状态    |
 
 ```javascript
-let order_id = "00000000-0000-0000-0000-000000000000";
+let uid = "00000000-0000-0000-0000-000000000000"
+let order_no = "111000100320160000000";
 let state_code = 2;
 let state = '已支付';
 
-rpc.call("order", "updateOrderState", order_id, state_code, state)
+rpc.call("order", "updateOrderState", uid, order_no, state_code, state)
   .then(function (result) {
 
   }, function (error) {
