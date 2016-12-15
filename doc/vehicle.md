@@ -38,7 +38,7 @@
     - [request](#request-2)
       - [example](#example-5)
     - [response](#response-6)
-  - [添加驾驶人信息 setDrivers](#%E6%B7%BB%E5%8A%A0%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-setdrivers)
+  - [添加驾驶人信息 addDrivers](#%E6%B7%BB%E5%8A%A0%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-adddrivers)
     - [request](#request-3)
     - [response](#response-7)
   - [获得车型 getVehicleModelsByMake](#%E8%8E%B7%E5%BE%97%E8%BD%A6%E5%9E%8B-getvehiclemodelsbymake)
@@ -70,7 +70,7 @@
 # ChangeLog
 
 1. 2016-12-15
-  * setDriver改为setDrivers
+  * setDriver改为addDrivers
   * getDrivers改为getDriver
   * 缓存名vehicle改为vehicles
   * 增加接口addVehicleModels
@@ -599,7 +599,7 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 See [example](../data/vehicle/setVehicle.json)
 
 
-## 添加驾驶人信息 setDrivers
+## 添加驾驶人信息 addDrivers
 
 ### request
 
@@ -619,7 +619,7 @@ var drivers = [
   }
 ];
 
-rpc.call("vehicle", "setDrivers", vid, drivers)
+rpc.call("vehicle", "addDrivers", vid, drivers)
   .then(function (result) {
 
   }, function (error) {
@@ -1133,6 +1133,7 @@ data 字段解释
 
 ```javascript
 
+let vin = "LSVFA49J232037048";
 let vehicle_models = [
   {
     "vehicle_code" : "I0000000000000000250000000000041",
@@ -1172,9 +1173,9 @@ let vehicle_models = [
     "fuel_jet_type" : "多点电喷",
     "driven_type" : "前置前驱"
   },
-]
+];
 
-rpc.call("vehicle", "addVehicleModels", vehicle_models)
+rpc.call("vehicle", "addVehicleModels", vin, vehicle_models)
   .then(function (result) {
 
   }, function (error) {
