@@ -1110,24 +1110,8 @@ data 字段解释
 
 | name                | type    | note         |
 | ----                | ----    | ----         |
-| vehicle\_models     | json    | 车型          |
-| vehicle\_code       | string  | 车型代码       |
-| vehicle\_name       | string  | 车型名称       |
-| brand\_name         | string  | 品牌名称       |
-| family\_name        | string  | 车系名称       |
-| body\_type          | string  | 车身结构       |
-| engine\_desc        | string  | 发动机描述     |
-| gearbox\_name       | string  | 变速箱类型     |
-| year\_pattern       | string  | 车款          |
-| group\_name         | string  | 车组名称       |
-| cfg\_level          | string  | 配置级别       |
-| purchase\_price     | float   | 新车购置价     |
-| purchase\_price\_tax| float   | 新车购置价含税  |
-| seat                | integer | 座位          |
-| effluent\_standard  | string  | 排放标准       |
-| pl                  | string  | 排量          |
-| fuel\_jet\_type     | string  | 燃油类型       |
-| driven\_type        | string  | 驱动形式       |
+| vin                 | string  | vin          |
+| vehicle\_models     | [json]  | 车型数组      |
 
 #### example
 
