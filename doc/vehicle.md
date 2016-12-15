@@ -157,28 +157,28 @@
 
 ## vehicle\_models
 
-| field                | type          | null | default | index   | reference |
-| ----                 | ----          | ---- | ----    | ----    | ----      |
-| vehicle\_code        | char(32)      |      |         | primary |           |
-| vehicle\_name        | char(64)      | ✓    |         |         |           |
-| brand\_name          | char(32)      | ✓    |         |         |           |
-| family\_name         | char(32)      | ✓    |         |         |           |
-| body\_type           | char(16)      | ✓    |         |         |           |
-| engine\_desc         | char(16)      | ✓    |         |         |           |
-| gearbox\_name        | char(16)      | ✓    |         |         |           |
-| year\_pattern        | char(8)       | ✓    |         |         |           |
-| group\_name          | char(32)      | ✓    |         |         |           |
-| cfg\_level           | char(16)      | ✓    |         |         |           |
-| purchase\_price      | real          |      | 0.0     |         |           |
-| purchase\_price\_tax | real          |      | 0.0     |         |           |
-| seat                 | smallint      |      | 0       |         |           |
-| effluent\_standard   | char(8)       | ✓    |         |         |           |
-| pl                   | varchar(1024) | ✓    |         |         |           |
-| fuel\_jet\_type      | varchar(16)   | ✓    |         |         |           |
-| driven\_type         | varchar(8)    | ✓    |         |         |           |
-| created\_at          | timestamp     |      | now     |         |           |
-| updated\_at          | timestamp     |      | now     |         |           |
-| deleted              | boolean       |      | false   |         |           |
+| field                | type      | null | default | index   | reference |
+| ----                 | ----      | ---- | ----    | ----    | ----      |
+| vehicle\_code        | char(32)  |      |         | primary |           |
+| vehicle\_name        | char(64)  | ✓    |         |         |           |
+| brand\_name          | char(32)  | ✓    |         |         |           |
+| family\_name         | char(32)  | ✓    |         |         |           |
+| body\_type           | char(16)  | ✓    |         |         |           |
+| engine\_desc         | char(16)  | ✓    |         |         |           |
+| gearbox\_name        | char(16)  | ✓    |         |         |           |
+| year\_pattern        | char(8)   | ✓    |         |         |           |
+| group\_name          | char(32)  | ✓    |         |         |           |
+| cfg\_level           | char(16)  | ✓    |         |         |           |
+| purchase\_price      | real      |      | 0.0     |         |           |
+| purchase\_price\_tax | real      |      | 0.0     |         |           |
+| seat                 | smallint  |      | 0       |         |           |
+| effluent\_standard   | char(8)   | ✓    |         |         |           |
+| pl                   | char(16)  | ✓    |         |         |           |
+| fuel\_jet\_type      | char(16)  | ✓    |         |         |           |
+| driven\_type         | char(8)   | ✓    |         |         |           |
+| created\_at          | timestamp |      | now     |         |           |
+| updated\_at          | timestamp |      | now     |         |           |
+| deleted              | boolean   |      | false   |         |           |
 
 ## vehicles
 
