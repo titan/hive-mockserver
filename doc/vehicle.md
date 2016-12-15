@@ -1136,42 +1136,42 @@ data 字段解释
 let vin = "LSVFA49J232037048";
 let vehicle_models = [
   {
-    "vehicle_code" : "I0000000000000000250000000000041",
-    "vehicle_name" : "北京BJ7230C7GA轿车",
-    "brand_name" : "北汽绅宝",
-    "family_name" : "北汽绅宝D70",
-    "body_type" : "三厢",
-    "engine_desc" : "2.3T",
-    "gearbox_name" : "手自一体",
-    "year_pattern" : "2013",
-    "group_name" : "绅宝D70(13/05-)"
-    "cfg_level" : "豪华版",
-    "purchase_price" : 172600,
-    "purchase_price_tax" : 187400,
+    "vehicleCode" : "I0000000000000000250000000000041",
+    "vehicleName" : "北京BJ7230C7GA轿车",
+    "brandName" : "北汽绅宝",
+    "familyName" : "北汽绅宝D70",
+    "bodyType" : "三厢",
+    "engineDesc" : "2.3T",
+    "gearboxName" : "手自一体",
+    "yearPattern" : "2013",
+    "groupName" : "绅宝D70(13/05-)"
+    "cfgLevel" : "豪华版",
+    "purchasePrice" : 172600,
+    "purchasePriceTax" : 187400,
     "seat" : 5,
-    "effluent_standard" : "国五",
+    "effluentStandard" : "国五",
     "pl": "2.29",
-    "fuel_jet_type" : "多点电喷",
-    "driven_type" : "前置前驱"
+    "fuelJetType" : "多点电喷",
+    "drivenType" : "前置前驱"
   },
   {
-    "vehicle_code" : "I0000000000000000250000000000042",
-    "vehicle_name" : "北京BJ7230C7GA轿车",
-    "brand_name" : "北汽绅宝",
-    "family_name" : "北汽绅宝D70",
-    "body_type" : "三厢",
-    "engine_desc" : "2.3T",
-    "gearbox_name" : "手自一体",
-    "year_pattern" : "2013",
-    "group_name" : "绅宝D70(13/05-)"
-    "cfg_level" : "豪华版",
-    "purchase_price" : 172600,
-    "purchase_price_tax" : 187400,
+    "vehicleCode" : "I0000000000000000250000000000021",
+    "vehicleName" : "北京BJ7230C7GA轿车",
+    "brandName" : "北汽绅宝",
+    "familyName" : "北汽绅宝D70",
+    "bodyType" : "三厢",
+    "engineDesc" : "2.3T",
+    "gearboxName" : "手自一体",
+    "yearPattern" : "2013",
+    "groupName" : "绅宝D70(13/05-)"
+    "cfgLevel" : "豪华版",
+    "purchasePrice" : 172600,
+    "purchasePriceTax" : 187400,
     "seat" : 5,
-    "effluent_standard" : "国五",
+    "effluentStandard" : "国五",
     "pl": "2.29",
-    "fuel_jet_type" : "多点电喷",
-    "driven_type" : "前置前驱"
+    "fuelJetType" : "多点电喷",
+    "drivenType" : "前置前驱"
   },
 ];
 
