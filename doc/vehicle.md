@@ -28,7 +28,7 @@
   - [获取所有车信息 getVehicles](#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicles)
       - [example](#example-3)
     - [response](#response-3)
-  - [获取驾驶人信息 getDrivers](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdrivers)
+  - [获取驾驶人信息 getDriver](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriver)
     - [response](#response-4)
   - [获取报价提交表单(新车已上牌)(个人) setVehicleOnCard](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicleoncard)
     - [request](#request-1)
@@ -38,7 +38,7 @@
     - [request](#request-2)
       - [example](#example-5)
     - [response](#response-6)
-  - [添加驾驶人信息 setDriver](#%E6%B7%BB%E5%8A%A0%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-setdriver)
+  - [添加驾驶人信息 setDrivers](#%E6%B7%BB%E5%8A%A0%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-setdrivers)
     - [request](#request-3)
     - [response](#response-7)
   - [获得车型 getVehicleModelsByMake](#%E8%8E%B7%E5%BE%97%E8%BD%A6%E5%9E%8B-getvehiclemodelsbymake)
@@ -70,6 +70,12 @@
 # ChangeLog
 
 1. 2016-12-15
+  * setDriver改为setDrivers
+  * getDrivers改为getDriver
+  * 缓存名vehicle改为vehicles
+  * 增加接口addVehicleModels
+
+1. 2016-12-15
   * 增加数据库设计
 
 1. 2016-11-07
@@ -94,7 +100,6 @@
 | brand-name         | string  | 品牌名称       |
 | family-name        | string  | 车系名称       |
 | body-type          | string  | 车身结构       |
-| engine-number      | string  | 车身结构       |
 | engine-desc        | string  | 发动机描述     |
 | gearbox-name       | string  | 变速箱类型     |
 | year-pattern       | string  | 车款           |
@@ -238,7 +243,7 @@
 | key              | type  | value                           | note       |
 | ----             | ----  | ----                            | ----       |
 | vehicle-entities | hash  | ID => Vehicle JSON              | 车数据      |
-| vehicle          | list  | ID                              | 车ID       |
+| vehicles         | list  | ID                              | 车ID       |
 
 # API
 
@@ -262,6 +267,7 @@ rpc.call("vehicle", "uploadStatus", order_id)
   }, function (error) {
 
   });
+
 ```
 
 ### response
@@ -271,7 +277,7 @@ rpc.call("vehicle", "uploadStatus", order_id)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | Success |
+| data | json   |         |
 
 失败：
 
@@ -311,7 +317,7 @@ rpc.call("vehicle", "getVehicleModel", vid)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | Success |
+| data | json   |         |
 
 失败：
 
@@ -326,7 +332,6 @@ rpc.call("vehicle", "getVehicleModel", vid)
 | 500  | 未知错误          |
 
 See [example](../data/vehicle/getVehicleModel.json)
-
 
 ## 获取某个车信息 getVehicle
 
@@ -352,7 +357,7 @@ rpc.call("vehicle", "getVehicle", vid)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | Success |
+| data | json   |         |
 
 失败：
 
@@ -406,15 +411,14 @@ rpc.call("vehicle", "getVehicles")
 
 See [example](../data/vehicle/getVehicles.json)
 
-
-
-## 获取驾驶人信息 getDrivers
+## 获取驾驶人信息 getDriver
 
 ```javascript
+
 var vid = "00000000-0000-0000-0000-000000000000";
 var pid = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("vehicle", "getDrivers", vid, pid)
+rpc.call("vehicle", "getDriver", vid, pid)
   .then(function (result) {
 
   }, function (error) {
@@ -442,8 +446,7 @@ rpc.call("vehicle", "getDrivers", vid, pid)
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
-See [example](../data/vehicle/getDrivers.json)
-
+See [example](../data/vehicle/getDriver.json)
 
 ## 获取报价提交表单(新车已上牌)(个人) setVehicleOnCard
 
@@ -502,7 +505,7 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | Success |
+| data | string | vid     |
 
 失败：
 
@@ -541,7 +544,6 @@ See [example](../data/vehicle/setVehicle.json)
 | fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
 
-
 #### example
 
 ```javascript
@@ -567,6 +569,7 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
   }, function (error) {
 
   });
+
 ```
 
 ### response
@@ -576,7 +579,7 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | Success |
+| data | string | vid     |
 
 失败：
 
@@ -596,7 +599,8 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 See [example](../data/vehicle/setVehicle.json)
 
 
-## 添加驾驶人信息 setDriver
+## 添加驾驶人信息 setDrivers
+
 ### request
 
 | name    | type     | note       |
@@ -615,12 +619,13 @@ var drivers = [
   }
 ];
 
-rpc.call("vehicle", "setDriver", vid, drivers)
+rpc.call("vehicle", "setDrivers", vid, drivers)
   .then(function (result) {
 
   }, function (error) {
 
   });
+
 ```
 
 ### response
@@ -644,7 +649,7 @@ rpc.call("vehicle", "setDriver", vid, drivers)
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
-See [example](../data/vehicle/setDriver.json)
+See [example](../data/vehicle/setDrivers.json)
 
 ## 获得车型 getVehicleModelsByMake
 
@@ -657,6 +662,7 @@ See [example](../data/vehicle/setDriver.json)
 #### example
 
 ```javascript
+
 var code = "I0000000000000000250000000000041";
 
 rpc.call("vehicle", "getVehicleModelsByMake", code)
@@ -665,13 +671,29 @@ rpc.call("vehicle", "getVehicleModelsByMake", code)
   }, function (error) {
 
   });
+
 ```
 
 ### response
 
-| name          | type          | note          |
-| ----          | ----          | ----          |
-| vehicle-model | vehicle-model | Vehicle Model |
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | json   |         |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
 
 See [example](../data/vehicle/getVehicleModelsByMake.json)
 
@@ -695,6 +717,7 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
   }, function (error) {
 
   });
+
 ```
 ### response
 
@@ -716,6 +739,7 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
 | ---- | ----              |
 | 408  | 请求超时          |
 | 500  | 未知错误          |
+
 See [example](../data/vehicle/uploadDriverImages.json)
 
 ## 获取用户车信息 getUserVehicles
@@ -723,12 +747,14 @@ See [example](../data/vehicle/uploadDriverImages.json)
 #### example
 
 ```javascript
+
 rpc.call("vehicle", "getUserVehicles")
   .then(function (result) {
 
   }, function (error) {
 
   });
+
 ```
 ### response
 
@@ -751,7 +777,7 @@ rpc.call("vehicle", "getUserVehicles")
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
-See [example](../data/vehicle/getUserVehicles.json)
+See [example](../data/vehicle/getVehicles.json)
 
 ## 提交出险次数 damageCount
 
@@ -766,6 +792,7 @@ rpc.call("vehicle", "damageCount", vid, count)
   }, function (error) {
 
   });
+
 ```
 ### response
 
@@ -787,8 +814,8 @@ rpc.call("vehicle", "damageCount", vid, count)
 | ---- | ----              |
 | 408  | 请求超时          |
 | 500  | 未知错误          |
-See [example](../data/vehicle/damageCount.json)
 
+See [example](../data/vehicle/setVehicle.json)
 
 ## 通过车牌号获取车辆信息 getVehicleInfoByLicense
 
@@ -1076,3 +1103,105 @@ data 字段解释
 | ---- | ----              |
 | 400  | 数据不存在，具体见返回的 msg 内容          |
 | 500  | 未知错误          |
+
+## 添加车型 addVehicleModels
+
+### request
+
+| name                | type    | note         |
+| ----                | ----    | ----         |
+| vehicle\_models     | json    | 车型          |
+| vehicle\_code       | string  | 车型代码       |
+| vehicle\_name       | string  | 车型名称       |
+| brand\_name         | string  | 品牌名称       |
+| family\_name        | string  | 车系名称       |
+| body\_type          | string  | 车身结构       |
+| engine\_desc        | string  | 发动机描述     |
+| gearbox\_name       | string  | 变速箱类型     |
+| year\_pattern       | string  | 车款          |
+| group\_name         | string  | 车组名称       |
+| cfg\_level          | string  | 配置级别       |
+| purchase\_price     | float   | 新车购置价     |
+| purchase\_price\_tax| float   | 新车购置价含税  |
+| seat                | integer | 座位          |
+| effluent\_standard  | string  | 排放标准       |
+| pl                  | string  | 排量          |
+| fuel\_jet\_type     | string  | 燃油类型       |
+| driven\_type        | string  | 驱动形式       |
+
+#### example
+
+```javascript
+
+let vehicle_models = [
+  {
+    "vehicle_code" : "I0000000000000000250000000000041",
+    "vehicle_name" : "北京BJ7230C7GA轿车",
+    "brand_name" : "北汽绅宝",
+    "family_name" : "北汽绅宝D70",
+    "body_type" : "三厢",
+    "engine_desc" : "2.3T",
+    "gearbox_name" : "手自一体",
+    "year_pattern" : "2013",
+    "group_name" : "绅宝D70(13/05-)"
+    "cfg_level" : "豪华版",
+    "purchase_price" : 172600,
+    "purchase_price_tax" : 187400,
+    "seat" : 5,
+    "effluent_standard" : "国五",
+    "pl": "2.29",
+    "fuel_jet_type" : "多点电喷",
+    "driven_type" : "前置前驱"
+  },
+  {
+    "vehicle_code" : "I0000000000000000250000000000042",
+    "vehicle_name" : "北京BJ7230C7GA轿车",
+    "brand_name" : "北汽绅宝",
+    "family_name" : "北汽绅宝D70",
+    "body_type" : "三厢",
+    "engine_desc" : "2.3T",
+    "gearbox_name" : "手自一体",
+    "year_pattern" : "2013",
+    "group_name" : "绅宝D70(13/05-)"
+    "cfg_level" : "豪华版",
+    "purchase_price" : 172600,
+    "purchase_price_tax" : 187400,
+    "seat" : 5,
+    "effluent_standard" : "国五",
+    "pl": "2.29",
+    "fuel_jet_type" : "多点电喷",
+    "driven_type" : "前置前驱"
+  },
+]
+
+rpc.call("vehicle", "addVehicleModels", vehicle_models)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+### response
+
+成功：
+
+| name | type             | note    |
+| ---- | ----             | ----    |
+| code | int              | 200     |
+| data | [vehicle_code]   |         |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/vehicle/setDrivers.json)
