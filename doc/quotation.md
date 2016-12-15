@@ -41,6 +41,7 @@
 
 1. 2016-12-15
   * 删除 vin-qid 索引
+  * 删除 createQuotation 中的 vin 参数
 
 1. 2016-12-12
   * 删除 getQuotatedQuotations
@@ -196,13 +197,11 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | name | type   | note       |
 | ---- | ----   | ----       |
 | vid  | uuid   | 车辆 ID    |
-| VIN  | string | 车辆 VIN码 |
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
-let VIN = "LSVFA49J232037048";
 
-rpc.call("quotation", "createQuotation", vid, VIN)
+rpc.call("quotation", "createQuotation", vid)
   .then(function (result) {
 
   }, function (error) {
