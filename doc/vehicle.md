@@ -73,6 +73,7 @@
   * setDriver改为setDrivers
   * getDrivers改为getDriver
   * 缓存名vehicle改为vehicles
+  * 增加接口addVehicleModels
 
 1. 2016-12-15
   * 增加数据库设计
@@ -99,7 +100,6 @@
 | brand-name         | string  | 品牌名称       |
 | family-name        | string  | 车系名称       |
 | body-type          | string  | 车身结构       |
-| engine-number      | string  | 车身结构       |
 | engine-desc        | string  | 发动机描述     |
 | gearbox-name       | string  | 变速箱类型     |
 | year-pattern       | string  | 车款           |
@@ -717,7 +717,7 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
   }, function (error) {
 
   });
-  
+
 ```
 ### response
 
@@ -815,7 +815,7 @@ rpc.call("vehicle", "damageCount", vid, count)
 | 408  | 请求超时          |
 | 500  | 未知错误          |
 
-See [example](../data/vehicle/damageCount.json)
+See [example](../data/vehicle/setVehicle.json)
 
 ## 通过车牌号获取车辆信息 getVehicleInfoByLicense
 
@@ -1103,3 +1103,105 @@ data 字段解释
 | ---- | ----              |
 | 400  | 数据不存在，具体见返回的 msg 内容          |
 | 500  | 未知错误          |
+
+## 添加车型 addVehicleModels
+
+### request
+
+| name                | type    | note         |
+| ----                | ----    | ----         |
+| vehicle\_models     | json    | 车型          |
+| vehicle\_code       | string  | 车型代码       |
+| vehicle\_name       | string  | 车型名称       |
+| brand\_name         | string  | 品牌名称       |
+| family\_name        | string  | 车系名称       |
+| body\_type          | string  | 车身结构       |
+| engine\_desc        | string  | 发动机描述     |
+| gearbox\_name       | string  | 变速箱类型     |
+| year\_pattern       | string  | 车款          |
+| group\_name         | string  | 车组名称       |
+| cfg\_level          | string  | 配置级别       |
+| purchase\_price     | float   | 新车购置价     |
+| purchase\_price\_tax| float   | 新车购置价含税  |
+| seat                | integer | 座位          |
+| effluent\_standard  | string  | 排放标准       |
+| pl                  | string  | 排量          |
+| fuel\_jet\_type     | string  | 燃油类型       |
+| driven\_type        | string  | 驱动形式       |
+
+#### example
+
+```javascript
+
+let vehicle_models = [
+  {
+    "vehicle_code" : "I0000000000000000250000000000041",
+    "vehicle_name" : "北京BJ7230C7GA轿车",
+    "brand_name" : "北汽绅宝",
+    "family_name" : "北汽绅宝D70",
+    "body_type" : "三厢",
+    "engine_desc" : "2.3T",
+    "gearbox_name" : "手自一体",
+    "year_pattern" : "2013",
+    "group_name" : "绅宝D70(13/05-)"
+    "cfg_level" : "豪华版",
+    "purchase_price" : 172600,
+    "purchase_price_tax" : 187400,
+    "seat" : 5,
+    "effluent_standard" : "国五",
+    "pl": "2.29",
+    "fuel_jet_type" : "多点电喷",
+    "driven_type" : "前置前驱"
+  },
+  {
+    "vehicle_code" : "I0000000000000000250000000000042",
+    "vehicle_name" : "北京BJ7230C7GA轿车",
+    "brand_name" : "北汽绅宝",
+    "family_name" : "北汽绅宝D70",
+    "body_type" : "三厢",
+    "engine_desc" : "2.3T",
+    "gearbox_name" : "手自一体",
+    "year_pattern" : "2013",
+    "group_name" : "绅宝D70(13/05-)"
+    "cfg_level" : "豪华版",
+    "purchase_price" : 172600,
+    "purchase_price_tax" : 187400,
+    "seat" : 5,
+    "effluent_standard" : "国五",
+    "pl": "2.29",
+    "fuel_jet_type" : "多点电喷",
+    "driven_type" : "前置前驱"
+  },
+]
+
+rpc.call("vehicle", "addVehicleModels", vehicle_models)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+### response
+
+成功：
+
+| name | type             | note    |
+| ---- | ----             | ----    |
+| code | int              | 200     |
+| data | [vehicle_code]   |         |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时          |
+| 500  | 未知错误          |
+
+See [example](../data/vehicle/setDrivers.json)
