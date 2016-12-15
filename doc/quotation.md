@@ -15,7 +15,6 @@
   - [quotation\_item_list](#quotation%5C_item_list)
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
-  - [vin-qid](#vin-qid)
   - [quotation-entities](#quotation-entities)
 - [External Queue](#external-queue)
 - [API](#api)
@@ -39,6 +38,9 @@
 
 
 # ChangeLog
+
+1. 2016-12-15
+  * 删除 vin-qid 索引
 
 1. 2016-12-12
   * 删除 getQuotatedQuotations
@@ -165,12 +167,6 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | key             | type | value          | note                   |
 | ----            | ---- | ----           | ----                   |
 | vid-qid         | hash | vid => qid     | vehicle与quotation的外键 |
-
-## vin-qid
-
-| key     | type | value          | note        |
-| ----    | ---- | ----           | ----        |
-| vin-qid | hash | VIN => 报价 ID | VIN下的报价 |
 
 ## quotation-entities
 
