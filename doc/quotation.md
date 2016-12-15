@@ -427,7 +427,7 @@ See [example](../data/quotation/newMessageNotify.json)
 
 ```javascript
 
-rpc.call("quotation", "getAccurateQuotation", "110105196206130017", "周南", "18618495662", "京N3U419", 14)
+rpc.call("quotation", "getReferenceQuotation", "京N3U419", 14)
   .then(function (result) {
 
   }, function (error) {
