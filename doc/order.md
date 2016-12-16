@@ -842,3 +842,49 @@ rpc.call("order", "ValidOrder")
 | 500  | 未知错误          |
 
 See [example](../data/quotation/ValidOrder.json)
+
+
+
+### 刷新单个订单
+
+#### request
+
+| name    | type          | note     |
+| ----    | ----          | ----     |
+| type    | number        | 订单类型  |
+| uid     | uuid          | 用户id    |
+```javascript
+
+其中计划单type为1,司机单为2,代售单为3
+
+let type = 1; 
+let uid  = "00000000-0000-0000-0000-000000000000";
+let oid  = "00000000-0000-0000-0000-000000000000";
+rpc.call("order", "refresh_order", type, uid, oid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 408  | 请求超时           |
