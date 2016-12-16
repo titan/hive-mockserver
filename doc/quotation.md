@@ -15,7 +15,6 @@
   - [quotation\_item_list](#quotation%5C_item_list)
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
-  - [vin-qid](#vin-qid)
   - [quotation-entities](#quotation-entities)
 - [External Queue](#external-queue)
 - [API](#api)
@@ -39,6 +38,10 @@
 
 
 # ChangeLog
+
+1. 2016-12-15
+  * 删除 vin-qid 索引
+  * 删除 createQuotation 中的 vin 参数
 
 1. 2016-12-12
   * 删除 getQuotatedQuotations
@@ -166,12 +169,6 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | ----            | ---- | ----           | ----                   |
 | vid-qid         | hash | vid => qid     | vehicle与quotation的外键 |
 
-## vin-qid
-
-| key     | type | value          | note        |
-| ----    | ---- | ----           | ----        |
-| vin-qid | hash | VIN => 报价 ID | VIN下的报价 |
-
 ## quotation-entities
 
 | key                | type | value               | note         |
@@ -200,13 +197,11 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | name | type   | note       |
 | ---- | ----   | ----       |
 | vid  | uuid   | 车辆 ID    |
-| VIN  | string | 车辆 VIN码 |
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
-let VIN = "LSVFA49J232037048";
 
-rpc.call("quotation", "createQuotation", vid, VIN)
+rpc.call("quotation", "createQuotation", vid)
   .then(function (result) {
 
   }, function (error) {
@@ -419,6 +414,73 @@ rpc.call("quotation", "newMessageNotify")
 
 See [example](../data/quotation/newMessageNotify.json)
 
+## getReferenceQuotation
+
+通过车辆信息获取参考报价的商业险起期与交强险起期
+
+#### request
+
+| name           | type    | note     |
+| ----           | ----    | ----     |
+| licenseNumber | String(8)    | 车牌号, 京N3U419  |
+| modelListOrder     | Number  | 车型信息列表序号，从 0 开始 |
+
+```javascript
+
+rpc.call("quotation", "getReferenceQuotation", "京N3U419", 14)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
+| data | JSON | 见下 |
+
+data 字段解释
+
+| name         | type       | note                                           |
+| ----         | ----       | ----                                           |
+| biBeginDate | String(20) | 商业险起期 2016-09-01 |
+| ciBeginDate | String(20) | 交强险起期 2016-09-01 |
+
+data 例：
+```
+{
+    "biBeginDate": "2017-01-11",
+    "ciBeginDate": "2017-01-11"
+}
+```
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 400  | 具体内容见返回的 msg |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+错误例：
+```
+{
+    "code":400,
+    "msg":"商业险起保日期(2016-12-15)距今超过90天"
+}
+```
+
 ## getAccurateQuotation
 
 通过车辆信息获取精准报价
@@ -430,7 +492,7 @@ See [example](../data/quotation/newMessageNotify.json)
 | ownerName | String(32) |  车主姓名 张某某 |
 | ownerID  | String(18) | 车主身份证号 429001198902024810 |
 | ownerMobile  | String(11) | 车主手机号 18610077627 |
-| carInfo            | JSON    | getCarInfoByLicense 接口返回的对象,将来用车牌号（string)替代  |
+| licenseNumber | String(8)    | 车牌号, 京N3U419  |
 | modelListOrder     | Number  | 车型信息列表序号，从 0 开始 |
 
 #### 固定的参数，不用再传
@@ -445,7 +507,7 @@ See [example](../data/quotation/newMessageNotify.json)
 
 ```javascript
 
-rpc.call("quotation", "getAccurateQuotation", "130684199006080073", "来看待", "15210520502", {"responseNo":"97c75995-0dd0-45d1-ad03-cf42396410a7","engineNo":"870**86","licenseNo":"豫JCC522","frameNo":"LSGPC52****013740","firstRegisterDate":"2011-01-14","modelList":{"state":"1","msg":"success","msgCode":null,"data":[{"vehicleFgwCode":"SGM7150DMAA","brandCode":"3fe5c096-a157-4b69-8917-b2f168fbd571","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SE国Ⅴ","newCarPrice":"85900","purchasePriceTax":"89571","importFlag":"1","purchasePrice":"85900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null},{"vehicleFgwCode":"SGM7150DMAA","brandCode":"563e87a3-3109-4d38-a330-db45be35d673","brandName":"上汽通用雪佛兰","engineDesc":"1.5L","familyName":"科鲁兹","gearboxType":"手动档","remark":"手动档经典版SL国Ⅴ","newCarPrice":"75900","purchasePriceTax":"79144","importFlag":"1","purchasePrice":"75900","seat":"5","standardName":"雪佛兰SGM7150DMAA轿车","vehicleFgwName":null,"parentVehName":null}]}}, 0)
+rpc.call("quotation", "getAccurateQuotation", "110105196206130017", "周南", "18618495662", "京N3U419", 14)
   .then(function (result) {
 
   }, function (error) {
@@ -481,71 +543,121 @@ data 字段解释
 | carshipTax   | String(20) | 车船税金额,两位小数:如:200.00                  |
 | state        | String(1)  | 0 请求状态,-失败;1-成功
 | msgCode      | String(12) | 错误编码,8 位编码,State 为 0 时才有值          |
+| purchasePrice | String | 参考价 |
 
+其中， coverageList 结构如下，注意其格式，详见下例：
+
+| name         | type       | note                                           |
+| ----         | ----       | ----                                           |
+| coverageCode  | String(20) | 险别代码, 详见文档最下方“险别代码” |
+| coverageName  | String(100)| 险别名称, 如:机动车损失保险 |
+| insuredAmount | String(10) | 保额,如无保额险别:”Y”投保,”N”:未投保;如有保额险别:具体金额,保留两位小数 (如:61460.80 或 0.00)|
+| insuredPremium | String(10) | 保费 3427.00 |
+| flag  | String(20) | 标识. 如下险别需要给定 flag 值,具体约定如下: 玻璃单独破碎险:1 是国产,2 是进口 ;修理期间费用补偿险:格式: ” 天,金额”,如:“1,50”表示 1 天 50 元钱;|
+| modifiedPremium | string | 经公式运算后的报价 |
 
 ```
 {
     "insurerCode": "APIC",
     "thpBizID": "20161213fuyuhintest",
-    "bizID": "30490680",
+    "bizID": "30500777",
     "biBeginDate": "2017-01-11",
-    "biPremium": "4592.00",
+    "biPremium": "4652.00",
     "state": "1",
     "msg": null,
     "channelCode": "YC_INSURE",
     "msgCode": null,
-    "coverageList": [
-        {
+    "coverageList": {
+        "A": {
             "coverageCode": "A",
             "coverageName": "机动车损失保险",
             "insuredAmount": "Y",
             "insuredPremium": "2393.00",
-            "flag": null
+            "flag": null,
+            "modifiedPremium": "1788.77"
         },
-        {
+        "B": {
             "coverageCode": "B",
             "coverageName": "商业第三者责任险",
             "insuredAmount": "300000.00",
             "insuredPremium": "753.00",
-            "flag": null
+            "flag": null,
+            "modifiedPremium": {
+                "5万": "372.81",
+                "10万": "538.65",
+                "15万": "613.58",
+                "20万": "667.63",
+                "30万": "753.00",
+                "50万": "904.09",
+                "100万": "1177.41"
+            }
         },
-        {
+        "F": {
             "coverageCode": "F",
             "coverageName": "玻璃单独破碎险",
             "insuredAmount": "Y",
             "insuredPremium": "305.00",
-            "flag": null
+            "flag": null,
+            "modifiedPremium": "198.25"
         },
-        {
+        "FORCEPREMIUM": {
             "coverageCode": "FORCEPREMIUM",
             "coverageName": "交强险",
             "insuredAmount": "Y",
             "insuredPremium": "753.38",
-            "flag": null
+            "flag": null,
+            "modifiedPremium": "753.38"
         },
-        {
+        "G1": {
             "coverageCode": "G1",
             "coverageName": "全车盗抢险",
             "insuredAmount": "Y",
             "insuredPremium": "679.00",
-            "flag": null
+            "flag": null,
+            "modifiedPremium": "537.77"
         },
-        {
+        "X1": {
             "coverageCode": "X1",
             "coverageName": "发动机涉水损失险",
             "insuredAmount": "Y",
             "insuredPremium": "120.00",
-            "flag": null
+            "flag": null,
+            "modifiedPremium": "89.70"
         },
-        {
+        "Z": {
             "coverageCode": "Z",
             "coverageName": "自燃损失险",
             "insuredAmount": "Y",
             "insuredPremium": "342.00",
-            "flag": null
+            "flag": null,
+            "modifiedPremium": "266.76"
+        },
+        "Z3": {
+            "coverageCode": "Z3",
+            "coverageName": "机动车损失保险无法找到第三方特约险",
+            "insuredAmount": "Y",
+            "insuredPremium": "60.00",
+            "flag": null,
+            "modifiedPremium": "39.00"
+        },
+        "Scratch3": {
+            "coverageCode": "Scratch3",
+            "coverageName": "车身划痕损失（3块漆)",
+            "insuredAmount": "",
+            "insuredPremium": "380",
+            "flag": null,
+            "modifiedPremium": "380"
+        },
+        "Scratch6": {
+            "coverageCode": "Scratch6",
+            "coverageName": "车身划痕损失（6块漆)",
+            "insuredAmount": "",
+            "insuredPremium": "551",
+            "flag": null,
+            "modifiedPremium": "551"
         }
-    ],
-    "integral": "1354.28",
+    },
+    "integral": "1371.68",
     "ciBeginDate": "2017-01-11",
     "ciPremium": "753.38",
     "carshipTax": "750.00",
@@ -554,7 +666,8 @@ data 字段解释
     "bIntegral": null,
     "showCiCost": null,
     "showBiCost": null,
-    "showSumIntegral": null
+    "showSumIntegral": null,
+    "purchasePrice": "260900"
 }
 ```
 
