@@ -60,14 +60,21 @@
       - [example](#example-9)
     - [request](#request-6)
     - [response](#response-13)
-  - [通过车牌号获取车辆信息、车型信息列表 getCarInfoByLicense](#%E9%80%9A%E8%BF%87%E8%BD%A6%E7%89%8C%E5%8F%B7%E8%8E%B7%E5%8F%96%E8%BD%A6%E8%BE%86%E4%BF%A1%E6%81%AF%E8%BD%A6%E5%9E%8B%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8-getcarinfobylicense)
-      - [example](#example-10)
+  - [fetchVehicleModelByLicense](#fetchvehiclemodelbylicense)
     - [request](#request-7)
     - [response](#response-14)
+  - [添加车型 addVehicleModels](#%E6%B7%BB%E5%8A%A0%E8%BD%A6%E5%9E%8B-addvehiclemodels)
+    - [request](#request-8)
+      - [example](#example-10)
+    - [response](#response-15)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2016-12-17
+  * Rename getCarInfoByLicense to fetchVehicleModelByLicense
+  * 删除 addVehicleModels 的 vin 参数
 
 1. 2016-12-15
   * setDriver改为addDrivers
@@ -836,7 +843,7 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 | ---- | ----   | ---- |
 | licenseNo | String(8) | 车牌号码, 豫JCC522 |
 
-测试只能用 豫JCC522，其他车牌请求超时。 
+测试只能用 豫JCC522，其他车牌请求超时。
 
 如下参数不用调用者提供，但是在请求报文中必须出现：
 
@@ -895,7 +902,7 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 | licenseNo | String(8) | 车牌号码, 豫JCC522 |
 | responseNo | String(36) | 响应码。调用 getVehicleInfoByLicense 返回。 如.8f250190-31b9-4cf9-bea7-99f586ce31f1 |
 
-测试只能用 豫JCC522，ecef20bc-9379-478f-bf4a-4015a35a904f，其他车牌请求超时。 
+测试只能用 豫JCC522，ecef20bc-9379-478f-bf4a-4015a35a904f，其他车牌请求超时。
 
 如下参数不用调用者提供，但是在请求报文中必须出现：
 
@@ -961,82 +968,84 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 | 500  | 未知错误          |
 
 
-## 通过车牌号获取车辆信息、车型信息列表 getVehicleByLicense
+## fetchVehicleModelByLicense
 
-#### example
+通过车牌号获取车辆信息、车型信息列表
+
+### request
+
+| name    | type      | note               |
+| ----    | ----      | ----               |
+| license | String(8) | 车牌号码, 豫JCC522 |
+
+测试只能用 豫JCC522，其他车牌请求超时。
+
+如下参数不用调用者提供，但是在请求报文中必须出现：
+
+| name          | type       | note                                                |
+| ----          | ----       | ----                                                |
+| applicationID | String(32) | 请求方标识，由智通引擎提供                          |
+| operType      | String(32) | 接口类型, 固定值:BDB                                |
+| sendTime      | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
 
 ```javascript
-rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
+rpc.call("vehicle", "fetchVehicleModelByLicense", license)
   .then(function (result) {
 
   }, function (error) {
 
   });
 ```
-### request
-| name | type   | note |
-| ---- | ----   | ---- |
-| licenseNo | String(8) | 车牌号码, 豫JCC522 |
-
-测试只能用 豫JCC522，其他车牌请求超时。 
-
-如下参数不用调用者提供，但是在请求报文中必须出现：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| applicationID | String(32) | 请求方标识，由智通引擎提供 |
-| operType | String(32) |  接口类型, 固定值:BDB |
-| sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
 
 ### response
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
 | data | JSON | 见下 |
 
 
 data 字段解释
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-|	responseNo  		|		String(36)			|         响应码,如.8f250190-31b9-4cf9-bea7-99f586ce31f1			|
-|	engineNo  			|		String(25)			|         发动机号,8 位以上 100****00,8 位及以下 004**761			|
-|	licenseNo  			|		String(8) 			|        车牌号 如. 渝 GF8853			|
-|	frameNo  			|		String(17)			|          车架号(VIN 码), LJVA34D****010008			|
-|	firstRegisterDate  	|		String(20)			|         初登日期, 如. 2013-09-01,获取不到返回为 null			|
-| modelList     |   JSON           |    车型列表，见下           |
+| name              | type       | note                                            |
+| ----              | ----       | ----                                            |
+| responseNo        | String(36) | 响应码,如.8f250190-31b9-4cf9-bea7-99f586ce31f1  |
+| engineNo          | String(25) | 发动机号,8 位以上 100****00,8 位及以下 004**761 |
+| licenseNo         | String(8)  | 车牌号 如. 渝 GF8853                            |
+| frameNo           | String(17) | 车架号(VIN 码), LJVA34D****010008               |
+| firstRegisterDate | String(20) | 初登日期, 如. 2013-09-01,获取不到返回为 null    |
+| modelList         | JSON       | 车型列表，见下                                  |
 
 
 modelList 字段解释
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-|	state  				|		String(1) 			|        请求状态,0-失败;1-成功			|
-|	msgCode  			|		String(12)			|         错误编码,8 位编码,State 为 0 时才有值			|
-|	msg  				|		String(80)			|         返回信息,失败原因等信息			|
+| name    | type       | note                                  |
+| ----    | ----       | ----                                  |
+| state   | String(1)  | 请求状态,0-失败;1-成功                |
+| msgCode | String(12) | 错误编码,8 位编码,State 为 0 时才有值 |
+| msg     | String(80) | 返回信息,失败原因等信息               |
 
 data 字段解释
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-|	vehicleFgwCode  						|		String(50) 	|	发改委编码,SGM7181ATA	|
-|	brandCode  						|		String(36) 	|	品牌型号编码,如. 16a65866-4fe2-49d3-b9f9-bd512c3274f9	|
-|	brandName  						|		String(50) 	|	品牌型号名称,一汽红旗	|
-|	engineDesc 						|		String(10) 	|	 排量,2.4L	|
-|	familyName  						|		String(100)	|	车系名称, 世纪星	|
-|	gearboxType  						|		String(100)	|	车挡类型, 手动档	|
-|	remark 						|		String(200)	|	 备注, 手动档 老款	|
-|	newCarPrice  						|		String(11) 	|	新车购置价,如.215000	|
-|	purchasePriceTax  						|		String(11) 	|	含税价格,如.233400	|
-|	importFlag  						|		String(1) 0	|	进口标识,:国产,1:合资,2:进口	|
-|	purchasePrice  						|		String(18) 	|	参考价,215000	|
-|	seat  						|		String(50) 	|	座位数,5	|
-|	standardName  						|		String(100)	|	款型名称, 红旗 CA7242E6L1 轿车	|
-|	vehicleFgwName  						|		String(100)	|	发改委名称, 红旗	|
-|	parentVehName  						|		String(100)	|	年份款型, 2008 款 豪华型	|
+| name             | type        | note                                                  |
+| ----             | ----        | ----                                                  |
+| vehicleFgwCode   | String(50)  | 发改委编码,SGM7181ATA                                 |
+| brandCode        | String(36)  | 品牌型号编码,如. 16a65866-4fe2-49d3-b9f9-bd512c3274f9 |
+| brandName        | String(50)  | 品牌型号名称,一汽红旗                                 |
+| engineDesc       | String(10)  | 排量,2.4L                                             |
+| familyName       | String(100) | 车系名称, 世纪星                                      |
+| gearboxType      | String(100) | 车挡类型, 手动档                                      |
+| remark           | String(200) | 备注, 手动档 老款                                     |
+| newCarPrice      | String(11)  | 新车购置价,如.215000                                  |
+| purchasePriceTax | String(11)  | 含税价格,如.233400                                    |
+| importFlag       | String(1) 0 | 进口标识,:国产,1:合资,2:进口                          |
+| purchasePrice    | String(18)  | 参考价,215000                                         |
+| seat             | String(50)  | 座位数,5                                              |
+| standardName     | String(100) | 款型名称, 红旗 CA7242E6L1 轿车                        |
+| vehicleFgwName   | String(100) | 发改委名称, 红旗                                      |
+| parentVehName    | String(100) | 年份款型, 2008 款 豪华型                              |
 
 
 
