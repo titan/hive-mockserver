@@ -961,7 +961,7 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 | 500  | 未知错误          |
 
 
-## 通过车牌号获取车辆信息、车型信息列表 getCarInfoByLicense
+## 通过车牌号获取车辆信息、车型信息列表 getVehicleByLicense
 
 #### example
 
@@ -1110,14 +1110,12 @@ data 字段解释
 
 | name                | type    | note         |
 | ----                | ----    | ----         |
-| vin                 | string  | vin          |
 | vehicle\_models     | [json]  | 车型数组      |
 
 #### example
 
 ```javascript
 
-let vin = "LSVFA49J232037048";
 let vehicle_models = [
   {
     "vehicleCode" : "I0000000000000000250000000000041",
@@ -1159,7 +1157,7 @@ let vehicle_models = [
   },
 ];
 
-rpc.call("vehicle", "addVehicleModels", vin, vehicle_models)
+rpc.call("vehicle", "addVehicleModels", vehicle_models)
   .then(function (result) {
 
   }, function (error) {
