@@ -60,7 +60,7 @@
       - [example](#example-9)
     - [request](#request-6)
     - [response](#response-13)
-  - [fetchVehicleModelByLicense](#fetchvehiclemodelbylicense)
+  - [fetchVehicleAndModelByLicense](#fetchvehicleandmodelbylicense)
     - [request](#request-7)
     - [response](#response-14)
   - [添加车型 addVehicleModels](#%E6%B7%BB%E5%8A%A0%E8%BD%A6%E5%9E%8B-addvehiclemodels)
@@ -73,6 +73,7 @@
 # ChangeLog
 
 1. 2016-12-17
+  * Rename fetchVehicleModelByLicense to fetchVehicleAndModelByLicense
   * Rename getCarInfoByLicense to fetchVehicleModelByLicense
   * 删除 addVehicleModels 的 vin 参数
 
@@ -968,7 +969,7 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 | 500  | 未知错误          |
 
 
-## fetchVehicleModelByLicense
+## fetchVehicleAndModelByLicense
 
 通过车牌号获取车辆信息、车型信息列表
 
