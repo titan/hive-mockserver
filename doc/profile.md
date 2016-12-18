@@ -124,6 +124,40 @@ rpc.call("profile", "getUser")
 
 See 成功返回数据：[example](../data/profile/getUser.json)
 
+
+## getDiscountStatus
+
+查看用户是否通过指定方式进入
+
+#### request
+
+| name    | type   | note    |
+| ----    | ----   | ----    |
+
+Example
+
+```javascript
+
+
+rpc.call("profile", "getDiscountStatus")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+注: code 200时，返回结果data是布尔型，满足情况为true,否则为false
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | boloean| true    |
+
+
+
 ## getUserForInvite
 
 获得当前用户信息
