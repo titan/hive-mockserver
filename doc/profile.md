@@ -139,7 +139,7 @@ Example
 ```javascript
 
 
-rpc.call("profile", "getDiscountStatus",vid)
+rpc.call("profile", "getDiscountStatus",recommend)
   .then(function (result) {
 
   }, function (error) {
