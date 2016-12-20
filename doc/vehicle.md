@@ -474,8 +474,9 @@ See [example](../data/vehicle/getDriver.json)
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
 | insurance\_due\_date     | iso8601 | 保险到期时间   |
-| fuel_type                | string  | 燃油类型       |
+| fuel\_type               | string  | 燃油类型       |
 | vin                      | string  | vin码         |
+| accident\_status         | smallint| 出险次数       |
 
 #### example
 
@@ -495,9 +496,10 @@ let last_insurance_company = null;
 let insurance_due_date = new Date("2016-12-06 18:26:54");
 let fuel_type = "汽油";
 let vin = "WBAZV4101BL456778";
+let accident_status = 1;
 
 rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
-  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, fuel_type, vin)
+  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -551,6 +553,7 @@ See [example](../data/vehicle/setVehicle.json)
 | last\_insurance\_company | string  | 上次投保的公司 |
 | fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
+| accident\_status         | smallint| 出险次数       |
 
 #### example
 
@@ -569,9 +572,10 @@ let is_transfer = false;
 let last_insurance_company = null;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
+let accident_status = 1;
 
 rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_code, engine_no,
-  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
+  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -1166,35 +1170,3 @@ let vehicle_models = [
     "drivenType" : "前置前驱"
   },
 ];
-
-rpc.call("vehicle", "addVehicleModels", vehicle_models)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-### response
-
-成功：
-
-| name | type             | note    |
-| ---- | ----             | ----    |
-| code | int              | 200     |
-| data | [vehicle_code]   |         |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
-
-See [example](../data/vehicle/setDrivers.json)
