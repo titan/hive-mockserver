@@ -789,44 +789,6 @@ rpc.call("vehicle", "getUserVehicles")
 
 See [example](../data/vehicle/getVehicles.json)
 
-## 提交出险次数 damageCount
-
-```javascript
-
-var vid = "00000000-0000-0000-0000-000000000000";
-var count = 2;
-
-rpc.call("vehicle", "damageCount", vid, count)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
-
-See [example](../data/vehicle/setVehicle.json)
-
 ## 通过车牌号获取车辆信息 getVehicleInfoByLicense
 
 测试用，以后移除
