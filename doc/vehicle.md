@@ -553,7 +553,6 @@ See [example](../data/vehicle/setVehicle.json)
 | last\_insurance\_company | string  | 上次投保的公司 |
 | fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
-| accident\_status         | smallint| 出险次数       |
 
 #### example
 
@@ -572,10 +571,9 @@ let is_transfer = false;
 let last_insurance_company = null;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
-let accident_status = 1;
 
 rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_code, engine_no,
-  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin, accident_status)
+  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
