@@ -29,6 +29,8 @@
 
 1. 2016-12-27
   * applyCashOut 增加两个参数
+  * cashout增加chargeAmount字段
+  * 增加关系表cashoutStatus
 
 1. 2016-12-21
   * 新增此文件
@@ -88,8 +90,9 @@
 | no              | string    |      |         |         |           |
 | state           | smallint  |      |         |         |           |
 | amount          | float     |      |         |         |           |
+| chargeAmount    | float     |      |         |         |           |
 | reason          | text      | ✓    |         |         |           |
-| user\_id        | uuid      |      |         |         | user      |
+| user\_id        | uuid      |      |         |         | users     |
 | last\_event\_id | uuid      | ✓    |         |         |           |
 | created\_at     | timestamp |      | now     |         |           |
 | updated\_at     | timestamp |      | now     |         |           |
@@ -110,6 +113,17 @@
 | uid          | uuid      | ✓    |         |         |           |
 | occurred\_at | timestamp |      | now     |         |           |
 | data         | json      |      |         |         |           |
+
+## cashoutStatus
+
+| field           | type      | null | default | index   | reference |
+| ----            | ----      | ---- | ----    | ----    | ----      |
+| id              | uuid      |      |         | primary |           |
+| coid            | uuid      |      |         |         |  cashout  |
+| vid             | uuid      |      |         |         |  vehicles |
+| o_state         | number    |      |         |         |           |
+| created\_at     | timestamp |      | now     |         |           |
+| updated\_at     | timestamp |      | now     |         |           |
 
 # Cache
 
