@@ -116,14 +116,16 @@
 
 ## cashoutStatus
 
-| field           | type      | null | default | index   | reference |
-| ----            | ----      | ---- | ----    | ----    | ----      |
-| id              | uuid      |      |         | primary |           |
-| coid            | uuid      |      |         |         |  cashout  |
-| vid             | uuid      |      |         |         |  vehicles |
-| o_state         | number    |      |         |         |           |
-| created\_at     | timestamp |      | now     |         |           |
-| updated\_at     | timestamp |      | now     |         |           |
+| field           | type         | null | default | index   | reference |
+| ----            | ----         | ---- | ----    | ----    | ----      |
+| id              | uuid         |      |         | primary |           |
+| coid            | uuid         |      |         |         |  cashout  |
+| vid             | uuid         |      |         |         |  vehicles |
+| o_state         | smallint     |      |         |         |           |
+| price           | float        |      |         |         |           |
+| charge_price    | float |      |      |         |           |
+| created\_at     | timestamp    |      | now     |         |           |
+| updated\_at     | timestamp    |      | now     |         |           |
 
 # Cache
 
