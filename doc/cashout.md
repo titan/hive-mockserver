@@ -90,7 +90,7 @@
 | no              | string    |      |         |         |           |
 | state           | smallint  |      |         |         |           |
 | amount          | float     |      |         |         |           |
-| charge_amount   | float     |      |         |         |           |
+| charge\_amount  | float     |      |         |         |           |
 | reason          | text      | ✓    |         |         |           |
 | user\_id        | uuid      |      |         |         | users     |
 | last\_event\_id | uuid      | ✓    |         |         |           |
