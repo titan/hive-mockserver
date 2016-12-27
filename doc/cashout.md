@@ -27,6 +27,9 @@
 
 # ChangeLog
 
+1. 2016-12-27
+  * applyCashOut 增加两个参数
+
 1. 2016-12-21
   * 新增此文件
 
@@ -131,9 +134,20 @@
 
 #### request
 
+| name       | type    | note                |
+| ----       | ----    | ----                |
+| vids       | [uuid]  | 多个车id             |
+| isIncluded | boolean | 是否选择可直接提现项目  |
+
 ```javascript
 
-rpc.call("wallet", "applyCashOut")
+let vids = [
+  00000000-0000-0000-0000-000000000000,
+  00000000-0000-0000-0000-000000000001,
+  00000000-0000-0000-0000-000000000002
+]
+let isIncluded = true;
+rpc.call("wallet", "applyCashOut", vids, isIncluded)
   .then(function (result) {
 
   }, function (error) {
@@ -183,6 +197,10 @@ See [example](../data/wallet/createCashout.json)
 
 ```javascript
 
+let coid = 00000000-0000-0000-0000-000000000000;
+let state = 1;
+let user_id = 00000000-0000-0000-0000-000000000001;
+let opid = 00000000-0000-0000-0000-000000000002;
 rpc.call("wallet", "agreeCashOut", coid, state, user_id, opid)
   .then(function (result) {
 
