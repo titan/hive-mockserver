@@ -29,7 +29,7 @@
 
 1. 2016-12-27
   * applyCashOut 增加两个参数
-  * cashout增加chargeAmount字段
+  * cashout增加charge_amount字段
   * 增加关系表cashoutStatus
 
 1. 2016-12-21
@@ -90,7 +90,7 @@
 | no              | string    |      |         |         |           |
 | state           | smallint  |      |         |         |           |
 | amount          | float     |      |         |         |           |
-| chargeAmount    | float     |      |         |         |           |
+| charge_amount   | float     |      |         |         |           |
 | reason          | text      | ✓    |         |         |           |
 | user\_id        | uuid      |      |         |         | users     |
 | last\_event\_id | uuid      | ✓    |         |         |           |
