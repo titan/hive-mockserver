@@ -86,6 +86,7 @@ bank-callback 是一个特殊的模块，不遵循 hive-server 和 hive-processo
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
 | deleted     | boolean   |      | false   |         |           |
+| status     | smallint   | | | | 1--"成功", 2--"出错"|
 
 充值回调的其它参数用 json 格式存放在 data 字段中。done 字段表明该数据是否被后台服务所处理。
 
