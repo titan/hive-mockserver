@@ -137,7 +137,7 @@
 | name                     | type    | note                |
 | ----                     | ----    | ----                |
 | vids                     | [uuid]  | 多个车id             |
-| wetherChoosedDirectPlans| boolean | 是否选择可直接提现项目  |
+| whetherChoosedDirectPlans| boolean | 是否选择可直接提现项目  |
 
 ```javascript
 
@@ -147,7 +147,7 @@ let vids = [
   00000000-0000-0000-0000-000000000002
 ]
 let wetherChoosedDirectPlans = true;
-rpc.call("wallet", "applyCashOut", vids, wetherChoosedDirectPlans)
+rpc.call("wallet", "applyCashOut", vids, whetherChoosedDirectPlans)
   .then(function (result) {
 
   }, function (error) {
