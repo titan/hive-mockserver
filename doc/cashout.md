@@ -137,11 +137,17 @@
 | name            | type    | note                |
 | ----            | ----    | ----                |
 | vids            | [uuid]  | 多个车id             |
-| otherPlanAmount | boolean | 是否选择可直接提现项目  |
+| isSelectedOthers| boolean | 是否选择可直接提现项目  |
 
 ```javascript
 
-rpc.call("wallet", "applyCashOut", vids, otherPlanAmount)
+let vids = [
+  00000000-0000-0000-0000-000000000000,
+  00000000-0000-0000-0000-000000000001,
+  00000000-0000-0000-0000-000000000002
+]
+let isSelectedOthers = true;
+rpc.call("wallet", "applyCashOut", vids, isSelectedOthers)
   .then(function (result) {
 
   }, function (error) {
@@ -191,6 +197,10 @@ See [example](../data/wallet/createCashout.json)
 
 ```javascript
 
+let coid = 00000000-0000-0000-0000-000000000000;
+let state = 1;
+let user_id = 00000000-0000-0000-0000-000000000001;
+let opid = 00000000-0000-0000-0000-000000000002;
 rpc.call("wallet", "agreeCashOut", coid, state, user_id, opid)
   .then(function (result) {
 
