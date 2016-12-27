@@ -27,6 +27,9 @@
 
 # ChangeLog
 
+1. 2016-12-27
+  * applyCashOut 增加两个参数
+
 1. 2016-12-21
   * 新增此文件
 
@@ -131,9 +134,14 @@
 
 #### request
 
+| name            | type    | note                |
+| ----            | ----    | ----                |
+| vids            | [uuid]  | 多个车id             |
+| otherPlanAmount | boolean | 是否选择可直接提现项目  |
+
 ```javascript
 
-rpc.call("wallet", "applyCashOut")
+rpc.call("wallet", "applyCashOut", vids, otherPlanAmount)
   .then(function (result) {
 
   }, function (error) {
