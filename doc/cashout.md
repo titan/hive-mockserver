@@ -134,10 +134,10 @@
 
 #### request
 
-| name            | type    | note                |
-| ----            | ----    | ----                |
-| vids            | [uuid]  | 多个车id             |
-| isSelectedOthers| boolean | 是否选择可直接提现项目  |
+| name                     | type    | note                |
+| ----                     | ----    | ----                |
+| vids                     | [uuid]  | 多个车id             |
+| weatherChoosedDirectPlans| boolean | 是否选择可直接提现项目  |
 
 ```javascript
 
@@ -147,7 +147,7 @@ let vids = [
   00000000-0000-0000-0000-000000000002
 ]
 let isSelectedOthers = true;
-rpc.call("wallet", "applyCashOut", vids, isSelectedOthers)
+rpc.call("wallet", "applyCashOut", vids, weatherChoosedDirectPlans)
   .then(function (result) {
 
   }, function (error) {
