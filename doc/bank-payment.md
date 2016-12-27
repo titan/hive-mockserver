@@ -2604,3 +2604,64 @@ rpc.call("bank_payment", "queryCardInfo", usrCustId, cardId, true)
 | 500  | 未知错误 |
 
 See [example](../data/bank-payment/queryCardInfo.json)
+
+
+## QueryTransDetail
+
+查询用户在汇付天下的订单充值状态。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type     | note                  |
+| ----      | ----     | ----                  |
+| ordId           | char(30)    | 商户下的订单号，必须保证唯一，请使用纯数字                                                                      |
+| test      | boolean  | 是否开启测试模式      |
+
+在生成链接时，如下汇付天下接口参数不用调用者提供，但是在生成的 URL 必须出现：
+
+| name      | value            |
+| ----      | ----             |
+| Version   | 10               |
+| CmdId     | QueryTransDetail   |
+| MerCustId | 6000060004492053 |
+| ChkValue  | 签名             |
+
+```javascript
+
+rpc.call("bank_payment", "QueryTransDetail", ordId, true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 见下      |
+| msg  | string | 汇付天下的回调报文 |
+
+| code | meanning |
+| ---- | ----     |
+| 200  | 成功 |
+| 201  | 初始状态 |
+| 202  | 失败 |
+| 500  | 出错 |
+
+```
+{
+  "code": 200,
+  "msg": "{\"CmdId\":\"QueryTransDetail\",\"RespCode\":\"000\",\"RespDesc\":\"%E6%88%90%E5%8A%9F\",\"ChkValue\":\"EB1C5DF1A14BE771298562562E2BBCB41EDD2B9FC3F923249D04A2BAD60789ECA2055096682C040296574A03B81D69C2FE35AAAA0783B5D508C1367CD6BE169661E0C99CD6D44BFB7F5DC5E117A142E72880379AAF6F3E4E9D859FA885BCC566AF8A44067A52973C6F3BB833D9F51EBC4AC7A737F9438F87F2D11ACE6791AC2E\",\"Version\":null,\"MerCustId\":\"6000060004492053\",\"UsrCustId\":\"6000060005926626\",\"OrdId\":\"111000100320160000340\",\"OrdDate\":\"20161226\",\"QueryTransType\":\"SAVE\",\"TransAmt\":\"311.73\",\"TransStat\":\"S\",\"FeeAmt\":\"0.47\",\"FeeCustId\":\"6000060004492053\",\"FeeAcctId\":\"MDT000001\",\"GateBusiId\":\"QP\",\"RespExt\":\"\",\"PlainStr\":\"QueryTransDetail0006000060004492053600006000592662611100010032016000034020161226SAVE311.73S0.476000060004492053MDT000001QP\"}"
+}
+{
+  "code" :202,
+  "msg": "{\"CmdId\":\"QueryTransDetail\",\"RespCode\":\"000\",\"RespDesc\":\"%E6%88%90%E5%8A%9F\",\"ChkValue\":\"2DF3923E0C96C68365690FB5A308CE19575424F8F57138000928D4F14ECF07D095DD24D4742659DA17EBE5B355E2D297513D62D275D651F7AA310BEDB162AF1FB01AA20E2E2C4DBF56A8FDAA38E825DFFBE484CA6F2545BC30FCD646A358A626750E1B26CD2C423F9C38815ECBA1A9AA555C074968D620FD120E870EA1E5924A\",\"Version\":null,\"MerCustId\":\"6000060004492053\",\"UsrCustId\":\"6000060006403270\",\"OrdId\":\"111000100320160000335\",\"OrdDate\":\"20161226\",\"QueryTransType\":\"SAVE\",\"TransAmt\":\"3416.90\",\"TransStat\":\"F\",\"FeeAmt\":\"0.00\",\"FeeCustId\":\"\",\"FeeAcctId\":\"\",\"GateBusiId\":\"\",\"RespExt\":\"\",\"PlainStr\":\"QueryTransDetail0006000060004492053600006000640327011100010032016000033520161226SAVE3416.90F0.00\"}"
+}
+```
