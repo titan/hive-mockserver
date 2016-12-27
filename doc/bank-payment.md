@@ -2633,7 +2633,7 @@ See [example](../data/bank-payment/queryCardInfo.json)
 
 ```javascript
 
-rpc.call("bank_payment", "QueryTransDetail", ordId, true)
+rpc.call("bank_payment", "queryTransDetail", ordId, true)
   .then(function (result) {
 
   }, function (error) {
