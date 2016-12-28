@@ -27,6 +27,10 @@
 
 # ChangeLog
 
+1. 2016-12-28
+  * 改名字 charge_amount改成 service_fee
+    cashoutStatus改成cashout_status
+
 1. 2016-12-27
   * applyCashOut 增加两个参数
   * cashout增加charge_amount字段
@@ -114,7 +118,7 @@
 | occurred\_at | timestamp |      | now     |         |           |
 | data         | json      |      |         |         |           |
 
-## cashout_status
+## cashout\_status
 
 | field           | type         | null | default | index   | reference |
 | ----            | ----         | ---- | ----    | ----    | ----      |
