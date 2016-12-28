@@ -89,10 +89,10 @@
 | id              | uuid      |      |         | primary |           |
 | no              | string    |      |         |         |           |
 | state           | smallint  |      |         |         |           |
-| amount          | float     |      |         |         |           |
-| charge\_amount  | float     |      |         |         |           |
+| amount          | float     |  0   |         |         |           |
+| service\_fee    | float     |  0   |         |         |           |
 | reason          | text      | ✓    |         |         |           |
-| user\_id        | uuid      |      |         |         | users     |
+| uid             | uuid      |      |         |         | users     |
 | last\_event\_id | uuid      | ✓    |         |         |           |
 | created\_at     | timestamp |      | now     |         |           |
 | updated\_at     | timestamp |      | now     |         |           |
@@ -114,16 +114,16 @@
 | occurred\_at | timestamp |      | now     |         |           |
 | data         | json      |      |         |         |           |
 
-## cashoutStatus
+## cashout_status
 
 | field           | type         | null | default | index   | reference |
 | ----            | ----         | ---- | ----    | ----    | ----      |
 | id              | uuid         |      |         | primary |           |
 | coid            | uuid         |      |         |         |  cashout  |
 | vid             | uuid         |      |         |         |  vehicles |
-| o_state         | smallint     |      |         |         |           |
-| price           | float        |      |         |         |           |
-| charge_price    | float |      |      |         |           |
+| order\_state    | smallint     |      |         |         |           |
+| price           | float        |      |  0      |         |           |
+| service\_price  | float        |      |  0      |         |           |
 | created\_at     | timestamp    |      | now     |         |           |
 | updated\_at     | timestamp    |      | now     |         |           |
 
@@ -133,9 +133,9 @@
 | ----                | ----       | ----                    | ----         |
 | cashout-counter     | hash       | date => counter         | 当日提现计数 |
 | cashout-entities    | hash       | coid => cashout         | 所有提现实体 |
-| applied-cashouts    | sorted set | (提现生成时间, 提现ID)  | 提现申请汇总 |
-| agreed-cashouts     | sorted set | (提现生成时间, 提现ID)  | 提现同意汇总 |
-| refused-cashouts    | sorted set | (提现生成时间, 提现ID)  | 提现拒绝汇总 |
+| applied-cashouts    | sorted set | (提现生成时间, 提现ID)     | 提现申请汇总 |
+| agreed-cashouts     | sorted set | (提现生成时间, 提现ID)     | 提现同意汇总 |
+| refused-cashouts    | sorted set | (提现生成时间, 提现ID)     | 提现拒绝汇总 |
 
 # API
 
