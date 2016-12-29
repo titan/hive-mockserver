@@ -33,6 +33,11 @@
 
 # ChangeLog
 
+1. 2016-12-28
+  * 增加了解冻交易类型
+  * 调整 createAccount 接口参数
+  * 调整 updateAccountBalance 接口参数
+
 1. 2016-12-21
   * 移除cashout
 
@@ -75,15 +80,10 @@
 | id       | uuid    | 帐号 ID      |
 | type     | integer | 帐号类型     |
 | vehicle  | vehicle | 帐号对应车辆 |
-| balance0 | float   | 余额0        |
-| balance1 | float   | 余额1        |
-
-帐号类型
-
-| code | name     | balance0 | balance1 |
-| ---  | ---      | ---      | ---      |
-| 0    | 普通类型 | 帐号余额 | 无效     |
-| 1    | 池类型   | 小池余额 | 大池余额 |
+| plan     | plan    | 对应的计划   |
+| balance0 | float   | 小池余额     |
+| balance1 | float   | 大池余额     |
+| balance2 | float   | 优惠余额     |
 
 ## Transaction
 
@@ -100,10 +100,11 @@
 
 | code | name           |
 | ---- | ----           |
-| 1    | 普通帐号充值   |
-| 2    | 池帐号小池充值 |
-| 3    | 池帐号大池充值 |
-| -1   | 普通帐号扣款   |
+| 1    | 帐号充值       |
+| 2    | 池帐号小池调整 |
+| 3    | 池帐号大池调整 |
+| 4    | 池帐号小池解冻 |
+| 5    | 池帐号大池解冻 |
 | -2   | 池帐号小池扣款 |
 | -3   | 池帐号大池扣款 |
 | -4   | 池帐号小池冻结 |
@@ -128,7 +129,7 @@
 
 | type | name         | note     |
 | ---- | ----         | ----     |
-| 0    | create       | 创建     |
+| 0    | CREATE       | 创建     |
 | 1    | RECHARGE     | 充值     |
 | 2    | FREEZE       | 冻结资金 |
 | 3    | UNFREEZE     | 解冻资金 |
@@ -141,7 +142,7 @@
 
 | type | amount | maid | oid  | aid  |
 | ---- | ----   | ---- | ---- | ---- |
-| 0    | ✓      |      | ✓    | ✓    |
+| 0    |        |      |      |      |
 | 1    | ✓      |      | ✓    |      |
 | 2    | ✓      | ✓    |      | ✓    |
 | 3    | ✓      | ✓    |      | ✓    |
@@ -174,8 +175,10 @@
 | uid         | uuid      |      |         |         | users     |
 | type        | smallint  |      |         |         |           |
 | vid         | uuid      | ✓    |         |         | vehicles  |
+| pid         | uuid      | ✓    |         |         | plans     |
 | balance0    | float     |      |         |         |           |
 | balance1    | float     |      |         |         |           |
+| balance2    | float     |      |         |         |           |
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
 | deleted     | boolean   |      | false   |         |           |
@@ -262,8 +265,6 @@ rpc.call("wallet", "getWallet")
 | ---- | ----       |
 | 500  | 未知错误   |
 
-注意: 帐号对应 balance0，balance1 的含义请参考前文的数据结构。
-
 See [example](../data/wallet/getWallet.json)
 
 ## createAccount
@@ -281,20 +282,19 @@ See [example](../data/wallet/getWallet.json)
 
 | name     | type    | note          |
 | ----     | ----    | ----          |
-| type     | integer | 帐号类型      |
-| balance0 | float   | 余额0         |
-| balance1 | float   | 余额1         |
 | vid      | uuid    | Vehicle ID    |
+| pid      | uuid    | Plan ID       |
 | uid      | uuid    | 仅 admin 有效 |
 
-vid 在普通帐号类型下保持为 null。
 ```javascript
 
-let type = 1;
-let vid = "00000000-0000-0000-0000-000000000000";
+const vid = "00000000-0000-0000-0000-000000000000";
+const pid = "00000000-0000-0000-0000-000000000000";
+const uid = "00000000-0000-0000-0000-000000000000";
 
-创建一个初始化的帐号，订单提交时创建．
-rpc.call("wallet", "createAccount", uid, type, vid, order_id)
+// 创建一个初始化的帐号，订单提交时创建．
+
+rpc.call("wallet", "createAccount", vid, pid, uid)
   .then(function (result) {
 
   }, function (error) {
@@ -329,14 +329,31 @@ rpc.call("wallet", "createAccount", uid, type, vid, order_id)
 
 See [example](../data/wallet/createAccount.json)
 
+## updateAccountBalance
 
-## updateAccountbalance
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
 
-注意: 帐号对应 balance0，balance1 的含义请参考前文的数据结构.
-type表示交易类型，type1表示 wallet 事件类型。
+#### request
 
-rpc.callu"wallet", "updateAccountbalance", uid, vid, type, type1, balance0, balance1, order_id)
-.then(function(result){
+| name  | type | note            |
+| ----  | ---- | ----            |
+| vid   | uuid | Vehicle ID      |
+| pid   | uuid | Plan ID         |
+| type0 | uuid | 交易类型        |
+| type1 | uuid | Wallet 事件类型 |
+| pid   | uuid | Plan ID         |
+| uid   | uuid | 仅 admin 有效   |
+
+注意:
+
+type0 表示交易类型，type1 表示 wallet 事件类型。
+
+```javascript
+rpc.call("wallet", "updateAccountBalance", vid, pid, type0, type1, balance0, balance1, balance2, uid)
+.then(function (result) {
 
 },function (error) {
 
@@ -344,11 +361,12 @@ rpc.callu"wallet", "updateAccountbalance", uid, vid, type, type1, balance0, bala
 
 ```
 #### response
+
 成功:
 
-| name |  type  |   note  |
-| ---- |  ----  |   ----  |       |
-| code |  int   |   200   |
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
 | data | string | success |
 
 失败：
@@ -358,9 +376,9 @@ rpc.callu"wallet", "updateAccountbalance", uid, vid, type, type1, balance0, bala
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning   |
-| ---- | ----       |
-| 500  | 未知错误   |
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
 
 ## getTransactions
 
