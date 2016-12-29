@@ -7,11 +7,10 @@
   - [Wallet](#wallet)
   - [Account](#account)
   - [Transaction](#transaction)
-- [Event](#event)
   - [WalletEvent](#walletevent)
-    - [Event Data Structure](#event-data-structure-1)
-    - [Event Type](#event-type-1)
-    - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix-1)
+    - [Event Data Structure](#event-data-structure)
+    - [Event Type](#event-type)
+    - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix)
 - [Database](#database)
   - [wallets](#wallets)
   - [accounts](#accounts)
@@ -25,9 +24,12 @@
   - [createAccount](#createaccount)
       - [request](#request-1)
       - [response](#response-1)
-  - [getTransactions](#gettransactions)
+  - [updateAccountBalance](#updateaccountbalance)
       - [request](#request-2)
       - [response](#response-2)
+  - [getTransactions](#gettransactions)
+      - [request](#request-3)
+      - [response](#response-3)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
