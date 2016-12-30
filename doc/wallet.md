@@ -35,6 +35,9 @@
 
 # ChangeLog
 
+1. 2016-12-30
+  * account 去掉 type
+
 1. 2016-12-28
   * 增加了解冻交易类型
   * 调整 createAccount 接口参数
@@ -80,7 +83,6 @@
 | name     | type    | note         |
 | ----     | ----    | ----         |
 | id       | uuid    | 帐号 ID      |
-| type     | integer | 帐号类型     |
 | vehicle  | vehicle | 帐号对应车辆 |
 | plan     | plan    | 对应的计划   |
 | balance0 | float   | 小池余额     |
@@ -175,7 +177,6 @@
 | ----        | ----      | ---- | ----    | ----    | ----      |
 | id          | uuid      |      |         | primary |           |
 | uid         | uuid      |      |         |         | users     |
-| type        | smallint  |      |         |         |           |
 | vid         | uuid      | ✓    |         |         | vehicles  |
 | pid         | uuid      | ✓    |         |         | plans     |
 | balance0    | float     |      |         |         |           |
