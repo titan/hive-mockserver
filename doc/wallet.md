@@ -24,12 +24,33 @@
   - [createAccount](#createaccount)
       - [request](#request-1)
       - [response](#response-1)
-  - [updateAccountBalance](#updateaccountbalance)
+  - [createWallet](#createwallet)
       - [request](#request-2)
       - [response](#response-2)
-  - [getTransactions](#gettransactions)
+  - [recharge](#recharge)
       - [request](#request-3)
       - [response](#response-3)
+  - [freeze](#freeze)
+      - [request](#request-4)
+      - [response](#response-4)
+  - [unfreeze](#unfreeze)
+      - [request](#request-5)
+      - [response](#response-5)
+  - [debit](#debit)
+      - [request](#request-6)
+      - [response](#response-6)
+  - [cashin](#cashin)
+      - [request](#request-7)
+      - [response](#response-7)
+  - [cashout](#cashout)
+      - [request](#request-8)
+      - [response](#response-8)
+  - [updateAccountBalance](#updateaccountbalance)
+      - [request](#request-9)
+      - [response](#response-9)
+  - [getTransactions](#gettransactions)
+      - [request](#request-10)
+      - [response](#response-10)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -37,6 +58,13 @@
 
 1. 2016-12-30
   * account 去掉 type
+  * 增加 createWallet
+  * 增加 recharge
+  * 增加 freeze
+  * 增加 unfreeze
+  * 增加 debit
+  * 增加 cashin
+  * 增加 cashout
 
 1. 2016-12-28
   * 增加了解冻交易类型
@@ -131,16 +159,15 @@
 
 ### Event Type
 
-| type | name         | note     |
-| ---- | ----         | ----     |
-| 0    | CREATE       | 创建     |
-| 1    | RECHARGE     | 充值     |
-| 2    | FREEZE       | 冻结资金 |
-| 3    | UNFREEZE     | 解冻资金 |
-| 4    | DEBIT_PUBLIC | 大池扣款 |
-| 5    | DEBIT_GROUP  | 小池扣款 |
-| 6    | CASH_IN      | 增加提现 |
-| 7    | CASH_OUT     | 提现     |
+| type | name     | note     |
+| ---- | ----     | ----     |
+| 0    | CREATE   | 创建     |
+| 1    | RECHARGE | 充值     |
+| 2    | FREEZE   | 冻结资金 |
+| 3    | UNFREEZE | 解冻资金 |
+| 4    | DEBIT    | 扣款     |
+| 5    | CASH_IN  | 增加提现 |
+| 6    | CASH_OUT | 提现     |
 
 ### Event Type And Data Structure Matrix
 
@@ -151,9 +178,8 @@
 | 2    | ✓      | ✓    |      | ✓    |
 | 3    | ✓      | ✓    |      | ✓    |
 | 4    | ✓      | ✓    |      |      |
-| 5    | ✓      | ✓    |      |      |
-| 6    | ✓      |      | ✓    |      |
-| 7    | ✓      |      |      |      |
+| 5    | ✓      |      | ✓    |      |
+| 6    | ✓      |      |      |      |
 
 # Database
 
@@ -283,11 +309,11 @@ See [example](../data/wallet/getWallet.json)
 
 #### request
 
-| name     | type    | note          |
-| ----     | ----    | ----          |
-| vid      | uuid    | Vehicle ID    |
-| pid      | uuid    | Plan ID       |
-| uid      | uuid    | 仅 admin 有效 |
+| name | type | note          |
+| ---- | ---- | ----          |
+| vid  | uuid | Vehicle ID    |
+| pid  | uuid | Plan ID       |
+| uid  | uuid | 仅 admin 有效 |
 
 ```javascript
 
@@ -313,7 +339,7 @@ rpc.call("wallet", "createAccount", vid, pid, uid)
 | name | type | note       |
 | ---- | ---- | ----       |
 | code | int  | 200        |
-| aid  | uuid | Account ID |
+| data | uuid | Account ID |
 
 失败：
 
@@ -331,6 +357,271 @@ rpc.call("wallet", "createAccount", vid, pid, uid)
 
 
 See [example](../data/wallet/createAccount.json)
+
+## createWallet
+
+创建钱包
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note          |
+| ---- | ---- | ----          |
+| uid  | uuid | 仅 admin 有效 |
+
+#### response
+
+成功：
+
+| name | type | note      |
+| ---- | ---- | ----      |
+| code | int  | 200       |
+| data | uuid | Wallet ID |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 408  | 请求超时   |
+| 409  | 钱包已存在 |
+| 500  | 未知错误   |
+
+## recharge
+
+钱包充值
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note     |
+| ---- | ---- | ----     |
+| oid  | uuid | Order Id |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
+## freeze
+
+冻结资金
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name   | type   | note        |
+| ----   | ----   | ----        |
+| amount | number | 冻结金额    |
+| maid   | uuid   | 互助事件 ID |
+| aid    | uuid   | 钱包帐号 ID |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
+## unfreeze
+
+解冻资金
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name   | type   | note        |
+| ----   | ----   | ----        |
+| amount | number | 解冻金额    |
+| maid   | uuid   | 互助事件 ID |
+| aid    | uuid   | 钱包帐号 ID |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
+## debit
+
+扣款
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name   | type   | note        |
+| ----   | ----   | ----        |
+| amount | number | 扣款金额    |
+| maid   | uuid   | 互助事件 ID |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
+## cashin
+
+用户退出计划或计划到期后，增加可提现金额。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| amount | number | 提现金额 |
+| oid    | uuid   | Order ID |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
+## cashout
+
+用户将可提现金额提现后，同步钱包的状态。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| amount | number | 提现金额 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
 
 ## updateAccountBalance
 
