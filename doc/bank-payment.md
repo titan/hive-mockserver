@@ -2699,7 +2699,7 @@ rpc.call("bank_payment", "queryTransDetail", ordId, true)
 | name      | type     | note                  | rule |
 | ----      | ----     | ----                  | ---  |
 | bidName   | char(50)  | 标的名称  | "收取" + usrCustId + "管理费" |
-| proId     | char(16) | 项目 ID，标的信息录入标的的唯一标识（注意：”标的“为专有名词），为英文和数字组合 | usrCustId 后10位 + 时间日期14位 |
+| proId     | char(16) | 项目 ID，标的信息录入标的的唯一标识（注意：”标的“为专有名词），为英文和数字组合 | usrCustId 后10位 + 时间6位 |
 | autoTenderOrdId     | char(30) | 自动投标订单号，必须保证唯一，请使用纯数字 | 时间日期14位 + usrCustId 后10位 |
 | loansOrdId     | char(30) | 自动扣款(放款)订单号，必须保证唯一，请使用纯数字 | 时间日期14位 + usrCustId 后10位 + "0" |
 
