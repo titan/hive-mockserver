@@ -77,6 +77,10 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-01-03
+  * plan order 增加推荐人和推荐 ticket
+
 1. 2016-12-02
   * 移除核保模块
 
@@ -162,6 +166,8 @@
 | outside-quotation2 | float        | 人保报价          |
 | screenshot1        | string       | 安盛天平报价截屏  |
 | screenshot2        | string       | 人保报价截屏      |
+| recommend          | string       | 推荐人            |
+| ticket             | string       | 扫码 ticket       |
 
 ## order-item
 
@@ -208,23 +214,25 @@
 
 ## plan\_order\_ext
 
-| field                | type       | null | default | index   | reference  |
-| ----                 | ----       | ---- | ----    | ----    | ----       |
-| id                   | serial     |      |         | primary |            |
-| oid                  | uuid       |      |         |         | orders     |
-| pid                  | uuid       |      |         |         | plans      |
-| qid                  | uuid       |      |         |         | quotations |
-| pmid                 | uuid       | ✓    |         |         | promotions |
-| promotion            | real       | ✓    |         |         | promotion  |
-| service\_ratio       | float      |      |         |         |            |
-| expect\_at           | timestamp  |      | now     |         |            |
-| created\_at          | timestamp  |      | now     |         |            |
-| updated\_at          | timestamp  |      | now     |         |            |
-| vehicle\_real\_value | real       |      | 0.0     |         |            |
-| outside\_quotation1  | real       |      | 0.0     |         |            |
-| outside\_quotation2  | real       |      | 0.0     |         |            |
-| screenshot1          | char(1024) | ✓    | 0.0     |         |            |
-| screenshot2          | char(1024) | ✓    | 0.0     |         |            |
+| field                | type          | null | default | index   | reference  |
+| ----                 | ----          | ---- | ----    | ----    | ----       |
+| id                   | serial        |      |         | primary |            |
+| oid                  | uuid          |      |         |         | orders     |
+| pid                  | uuid          |      |         |         | plans      |
+| qid                  | uuid          |      |         |         | quotations |
+| pmid                 | uuid          | ✓    |         |         | promotions |
+| promotion            | real          | ✓    |         |         | promotion  |
+| service\_ratio       | float         |      |         |         |            |
+| expect\_at           | timestamp     |      | now     |         |            |
+| created\_at          | timestamp     |      | now     |         |            |
+| updated\_at          | timestamp     |      | now     |         |            |
+| vehicle\_real\_value | real          |      | 0.0     |         |            |
+| outside\_quotation1  | real          |      | 0.0     |         |            |
+| outside\_quotation2  | real          |      | 0.0     |         |            |
+| screenshot1          | varchar(1024) | ✓    | 0.0     |         |            |
+| screenshot2          | varchar(1024) | ✓    | 0.0     |         |            |
+| ticket               | char(96)      | ✓    |         |         |            |
+| recommend            | varchar(32)   | ✓    |         |         |            |
 
 ## driver\_order\_ext
 

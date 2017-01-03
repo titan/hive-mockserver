@@ -168,9 +168,9 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 
 ## vid-qid
 
-| key             | type | value          | note                   |
-| ----            | ---- | ----           | ----                   |
-| vid-qid         | hash | vid => qid     | vehicle与quotation的外键 |
+| key     | type | value      | note                     |
+| ----    | ---- | ----       | ----                     |
+| vid-qid | hash | vid => qid | vehicle与quotation的外键 |
 
 ## quotation-entities
 
