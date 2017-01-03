@@ -65,6 +65,7 @@
   * 增加 debit
   * 增加 cashin
   * 增加 cashout
+  * 增加 apportions 表
 
 1. 2016-12-28
   * 增加了解冻交易类型
@@ -233,6 +234,19 @@
 | uid          | uuid      | ✓    |         |         |           |
 | occurred\_at | timestamp |      | now     |         |           |
 | data         | json      |      |         |         |           |
+
+## apportions
+
+| field       | type      | null | default | index   | reference |
+| ----        | ----      | ---- | ----    | ----    | ----      |
+| id          | uuid      |      |         | primary |           |
+| maid        | smallint  |      |         |         |           |
+| uid         | uuid      |      |         |         | users     |
+| apportion0  | numeric   |      |         |         |           |
+| apportion1  | numeric   |      |         |         |           |
+| created\_at | timestamp |      | now     |         |           |
+| updated\_at | timestamp |      | now     |         |           |
+| deleted     | boolean   |      | false   |         |           |
 
 # Cache
 
