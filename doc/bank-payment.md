@@ -2665,3 +2665,120 @@ rpc.call("bank_payment", "queryTransDetail", ordId, true)
   "msg": "{\"CmdId\":\"QueryTransDetail\",\"RespCode\":\"000\",\"RespDesc\":\"%E6%88%90%E5%8A%9F\",\"ChkValue\":\"2DF3923E0C96C68365690FB5A308CE19575424F8F57138000928D4F14ECF07D095DD24D4742659DA17EBE5B355E2D297513D62D275D651F7AA310BEDB162AF1FB01AA20E2E2C4DBF56A8FDAA38E825DFFBE484CA6F2545BC30FCD646A358A626750E1B26CD2C423F9C38815ECBA1A9AA555C074968D620FD120E870EA1E5924A\",\"Version\":null,\"MerCustId\":\"6000060004492053\",\"UsrCustId\":\"6000060006403270\",\"OrdId\":\"111000100320160000335\",\"OrdDate\":\"20161226\",\"QueryTransType\":\"SAVE\",\"TransAmt\":\"3416.90\",\"TransStat\":\"F\",\"FeeAmt\":\"0.00\",\"FeeCustId\":\"\",\"FeeAcctId\":\"\",\"GateBusiId\":\"\",\"RespExt\":\"\",\"PlainStr\":\"QueryTransDetail0006000060004492053600006000640327011100010032016000033520161226SAVE3416.90F0.00\"}"
 }
 ```
+
+## chargeFeeForRefund
+
+在汇付天下扣除用户的管理费
+
+接口包含三个步骤，其中任何一个步骤出错便会停止后续步骤：
+
+1. 标的信息录入
+2. 自动投标
+3. 自动扣款(放款)
+
+上述步骤具体见汇付天下文档。
+某个步骤出错可重新单独调用该接口，具体操作见本文档的该接口的获取链接接口。
+
+
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type     | note                  |
+| ----      | ----     | ----                  |
+| usrCustId       | char(16)    | 汇付天下生成的用户 ID                                                                                           |
+| BorrTotAmt     | char(14)  | 手续费金额,单位为元,精确到分,例如 1000.01，注意格式！小数点后必须包含两位小数                                                                                                               |
+| test      | boolean  | 是否开启测试模式      |
+
+##### 以下参数由系统自动生成,生成规则如下
+
+| name      | type     | note                  | rule |
+| ----      | ----     | ----                  | ---  |
+| bidName   | char(50)  | 标的名称  | "收取" + usrCustId + "管理费" |
+| proId     | char(16) | 项目 ID，标的信息录入标的的唯一标识（注意：”标的“为专有名词），为英文和数字组合 | usrCustId 后10位 + 时间日期14位 |
+| autoTenderOrdId     | char(30) | 自动投标订单号，必须保证唯一，请使用纯数字 | 时间日期14位 + usrCustId 后10位 |
+| loansOrdId     | char(30) | 自动扣款(放款)订单号，必须保证唯一，请使用纯数字 | 时间日期14位 + usrCustId 后10位 + "0" |
+
+
+```javascript
+
+rpc.call("bank_payment", "chargeFeeForRefund", "6000060005583988", "110.01",  true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 见下      |
+| data  | string | 汇付天下的回调报文 |
+
+| code | meanning |
+| ---- | ----     |
+| 200  | 成功 |
+| 500  | 出错 |
+
+```
+{
+    "code": 200,
+    "data": {
+        "CmdId": "Loans",
+        "RespCode": "000",
+        "RespDesc": "%E6%88%90%E5%8A%9F",
+        "ChkValue": "3B156BF5F281FA488903B45930C4E57CAC188DB0F6F183DA465922892083908305239DB7CAB216C7B9AEDDD6C52FFA0B2482383AD9A1C2A2361EEA78C0213D79D8E2B0BAC707850BA097AC809E9A3415A05BDC776DD88F699647585FD43D61E74D648D5DFAB4D0C6598D49B6EC1CAD4E3CD17D88C61D7CF603A0F353F3AA8B76",
+        "Version": "20",
+        "MerCustId": "6000060004492053",
+        "OrdId": "201701030040",
+        "OrdDate": "20170103",
+        "OutCustId": "6000060005583988",
+        "OutAcctId": "MDT000001",
+        "TransAmt": "110.01",
+        "Fee": "0.00",
+        "InCustId": "6000060005793396",
+        "InAcctId": "MDT000001",
+        "SubOrdId": "20170103004",
+        "SubOrdDate": "20170103",
+        "IsDefault": "Y",
+        "BgRetUrl": "http%3A%2F%2Fdev.fengchaohuzhu.com%2Fbank%2Floans",
+        "MerPriv": "test",
+        "IsUnFreeze": "N",
+        "UnFreezeOrdId": "",
+        "FreezeTrxId": "",
+        "FeeObjFlag": "",
+        "RespExt": "%7B%22ProId%22%3A%22REF17010304%22%7D",
+        "PlainStr": "Loans0006000060004492053201701030040201701036000060005583988MDT000001110.010.006000060005793396MDT0000012017010300420170103YNhttp%3A%2F%2Fdev.fengchaohuzhu.com%2Fbank%2Floanstest%7B%22ProId%22%3A%22REF17010304%22%7D"
+    }
+}
+{
+    "code": 500,
+    "data": {
+        "CmdId": "AddBidInfo",
+        "RespCode": "395",
+        "RespDesc": "%E6%A0%87%E7%9A%84%E4%BF%A1%E6%81%AF%E5%B7%B2%E5%AD%98%E5%9C%A8",
+        "ChkValue": "810D1FD973C9EBC44BCC5DD8BD7A7347BC7A3E01BD9B2F773D5B5672B245E2C3D35DF61EE6154C6EBA217BB7D041639F172A66D0E30308CC7757BEF7F408AA23DAC7CA0659B86F6047DCEEA0DB2E175718583BA040B63747F160C1EE0F994F330C86D9CB5C72A4BFA50530447DCEF38B0A0FC59A90E14A0D8289746E198C72C6",
+        "Version": "20",
+        "MerCustId": "6000060004492053",
+        "ProId": "REF17010304",
+        "BorrCustId": "6000060005793396",
+        "BorrTotAmt": "110.01",
+        "GuarCompId": "",
+        "GuarAmt": "",
+        "ProArea": "",
+        "BgRetUrl": "http%3A%2F%2Fdev.fengchaohuzhu.com%2Fbank%2Faddbidinfo",
+        "MerPriv": "test",
+        "RespExt": "",
+        "AuditStat": null,
+        "AuditDesc": "",
+        "PlainStr": "AddBidInfo3956000060004492053REF170103046000060005793396110.01http%3A%2F%2Fdev.fengchaohuzhu.com%2Fbank%2Faddbidinfotest",
+        "PlainStr2": "AddBidInfo3956000060004492053REF17010304http%3A%2F%2Fdev.fengchaohuzhu.com%2Fbank%2Faddbidinfotest"
+    }
+}
+```
