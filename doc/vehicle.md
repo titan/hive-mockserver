@@ -72,6 +72,11 @@
 
 # ChangeLog
 
+1. 2017-01-05
+  * person 增加 verified
+  * person 增加 email
+  * person 增加 address
+
 1. 2016-12-17
   * Rename fetchVehicleModelByLicense to fetchVehicleAndModelByLicense
   * Rename getCarInfoByLicense to fetchVehicleModelByLicense
@@ -155,16 +160,19 @@
 
 ## person
 
-| name                  | type   | note         |
-| ----                  | ----   | ----         |
-| id                    | uuid   | personID     |
-| name                  | string | 姓名         |
-| identity-no           | string | 身份证       |
-| phone                 | string | 手机号       |
-| identity-frontal-view | string | 身份证正面照 |
-| identity-rear-view    | string | 身份证背面照 |
-| license-frontal-view  | string | 驾照正面照   |
-| license-rear-view     | string | 驾照背面照   |
+| name                  | type    | note                 |
+| ----                  | ----    | ----                 |
+| id                    | uuid    | personID             |
+| name                  | string  | 姓名                 |
+| identity-no           | string  | 身份证               |
+| phone                 | string  | 手机号               |
+| email                 | string  | 电子邮箱             |
+| address               | string  | 寄件地址             |
+| identity-frontal-view | string  | 身份证正面照         |
+| identity-rear-view    | string  | 身份证背面照         |
+| license-frontal-view  | string  | 驾照正面照           |
+| license-rear-view     | string  | 驾照背面照           |
+| verified              | boolean | 是否通过权威机构认证 |
 
 # Database
 
@@ -228,10 +236,13 @@
 | name                    | char(20)      |      |         |         |           |
 | identity\_no            | char(18)      |      |         |         |           |
 | phone                   | char(16)      | ✓    |         |         |           |
+| email                   | varchar(128)  | ✓    |         |         |           |
+| address                 | varchar(128)  | ✓    |         |         |           |
 | identity\_frontal\_view | varchar(1024) | ✓    |         |         |           |
 | identity\_rear\_view    | varchar(1024) | ✓    |         |         |           |
 | license\_frontal\_view  | varchar(1024) | ✓    |         |         |           |
 | license\_rear\_view     | varchar(1024) | ✓    |         |         |           |
+| verified                | boolean       |      | false   |         |           |
 | created\_at             | timestamp     |      | now     |         |           |
 | updated\_at             | timestamp     |      | now     |         |           |
 | deleted                 | boolean       |      | false   |         |           |
