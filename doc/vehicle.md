@@ -70,6 +70,7 @@
   * person 增加 email
   * person 增加 address
   * 删除 addVehicleModels
+  * 增加 setPersonVerified
 
 1. 2016-12-17
   * Rename fetchVehicleModelByLicense to fetchVehicleAndModelByLicense
