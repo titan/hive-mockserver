@@ -58,4 +58,6 @@ MockServer 是蜂巢互助服务仿真程序，通过 vue-hive-rpc 插件在页�
 
 [核保模块](doc/underwrite.md)
 
+[提现模块](doc/cashout.md)
+
 ![模块结构图](img/models.png)

@@ -39,6 +39,9 @@
 
 # ChangeLog
 
+1. 2016-12-17
+  * createQuotation 返回的结果增加了创建时间
+
 1. 2016-12-15
   * 删除 vin-qid 索引
   * 删除 createQuotation 中的 vin 参数
@@ -165,9 +168,9 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 
 ## vid-qid
 
-| key             | type | value          | note                   |
-| ----            | ---- | ----           | ----                   |
-| vid-qid         | hash | vid => qid     | vehicle与quotation的外键 |
+| key     | type | value      | note                     |
+| ----    | ---- | ----       | ----                     |
+| vid-qid | hash | vid => qid | vehicle与quotation的外键 |
 
 ## quotation-entities
 
@@ -194,9 +197,9 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 
 #### request
 
-| name | type   | note       |
-| ---- | ----   | ----       |
-| vid  | uuid   | 车辆 ID    |
+| name | type | note    |
+| ---- | ---- | ----    |
+| vid  | uuid | 车辆 ID |
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
@@ -214,10 +217,17 @@ rpc.call("quotation", "createQuotation", vid)
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | object | 见下 |
+
+data 的定义
+
+| name        | type | note     |
+| ----        | ---- | ----     |
+| qid         | uuid | 报价ID   |
+| created\_at | date | 创建时间 |
 
 失败：
 
@@ -226,10 +236,10 @@ rpc.call("quotation", "createQuotation", vid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/createQuotation.json)
 

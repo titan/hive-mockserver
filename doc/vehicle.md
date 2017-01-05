@@ -60,7 +60,7 @@
       - [example](#example-9)
     - [request](#request-6)
     - [response](#response-13)
-  - [fetchVehicleModelByLicense](#fetchvehiclemodelbylicense)
+  - [fetchVehicleAndModelByLicense](#fetchvehicleandmodelbylicense)
     - [request](#request-7)
     - [response](#response-14)
   - [添加车型 addVehicleModels](#%E6%B7%BB%E5%8A%A0%E8%BD%A6%E5%9E%8B-addvehiclemodels)
@@ -73,6 +73,7 @@
 # ChangeLog
 
 1. 2016-12-17
+  * Rename fetchVehicleModelByLicense to fetchVehicleAndModelByLicense
   * Rename getCarInfoByLicense to fetchVehicleModelByLicense
   * 删除 addVehicleModels 的 vin 参数
 
@@ -473,8 +474,9 @@ See [example](../data/vehicle/getDriver.json)
 | is\_transfer             | boolean | 是否过户       |
 | last\_insurance\_company | string  | 上次投保的公司 |
 | insurance\_due\_date     | iso8601 | 保险到期时间   |
-| fuel_type                | string  | 燃油类型       |
+| fuel\_type               | string  | 燃油类型       |
 | vin                      | string  | vin码         |
+| accident\_status         | smallint| 出险次数       |
 
 #### example
 
@@ -494,9 +496,10 @@ let last_insurance_company = null;
 let insurance_due_date = new Date("2016-12-06 18:26:54");
 let fuel_type = "汽油";
 let vin = "WBAZV4101BL456778";
+let accident_status = 1;
 
 rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
-  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, fuel_type, vin)
+  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -786,44 +789,6 @@ rpc.call("vehicle", "getUserVehicles")
 
 See [example](../data/vehicle/getVehicles.json)
 
-## 提交出险次数 damageCount
-
-```javascript
-
-var vid = "00000000-0000-0000-0000-000000000000";
-var count = 2;
-
-rpc.call("vehicle", "damageCount", vid, count)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
-
-See [example](../data/vehicle/setVehicle.json)
-
 ## 通过车牌号获取车辆信息 getVehicleInfoByLicense
 
 测试用，以后移除
@@ -968,7 +933,7 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 | 500  | 未知错误          |
 
 
-## fetchVehicleModelByLicense
+## fetchVehicleAndModelByLicense
 
 通过车牌号获取车辆信息、车型信息列表
 
@@ -1165,35 +1130,3 @@ let vehicle_models = [
     "drivenType" : "前置前驱"
   },
 ];
-
-rpc.call("vehicle", "addVehicleModels", vehicle_models)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-### response
-
-成功：
-
-| name | type             | note    |
-| ---- | ----             | ----    |
-| code | int              | 200     |
-| data | [vehicle_code]   |         |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
-
-See [example](../data/vehicle/setDrivers.json)
