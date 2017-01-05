@@ -45,6 +45,7 @@
 1. 2017-01-05
   * user 增加自动投标开通标志
   * 增加 setTenderOpened
+  * 删除 getUserOpenId
 
 1. 2016-12-05
   * 增加getUserForInvite接口
@@ -252,48 +253,6 @@ rpc.call("profile", "getUserByUserId", user_id)
 | other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/profile/getUserByUserId.json)
-
-## getUserOpenId
-
-获得用户openid
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-### request
-
-| name | type | note    |
-| ---- | ---- | ----    |
-| uid  | uuid | 用户 ID |
-
-Example
-
-```javascript
-
-var uid = "00000000-0000-0000-0000-000000000001"
-rpc.call("profile", "getUserOpenId", uid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
-| data/msg | string | 结果内容 |
-
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
-
-See 成功返回数据：[example](../data/profile/getUserOpenId.json)
 
 ## refresh
 
