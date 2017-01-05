@@ -15,58 +15,51 @@
   - [vehicle-model](#vehicle-model-1)
   - [vehicle](#vehicle-1)
 - [API](#api)
-  - [查看用户上传证件情况  uploadStatus](#%E6%9F%A5%E7%9C%8B%E7%94%A8%E6%88%B7%E4%B8%8A%E4%BC%A0%E8%AF%81%E4%BB%B6%E6%83%85%E5%86%B5--uploadstatus)
-    - [request](#request)
-      - [example](#example)
-    - [response](#response)
-  - [获取某个车型信息 getVehicleModel](#%E8%8E%B7%E5%8F%96%E6%9F%90%E4%B8%AA%E8%BD%A6%E5%9E%8B%E4%BF%A1%E6%81%AF-getvehiclemodel)
-      - [example](#example-1)
-    - [response](#response-1)
-  - [获取某个车信息 getVehicle](#%E8%8E%B7%E5%8F%96%E6%9F%90%E4%B8%AA%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicle)
-      - [example](#example-2)
-    - [response](#response-2)
-  - [获取所有车信息 getVehicles](#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%BD%A6%E4%BF%A1%E6%81%AF-getvehicles)
-      - [example](#example-3)
-    - [response](#response-3)
-  - [获取驾驶人信息 getDriver](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriver)
-    - [response](#response-4)
-  - [获取报价提交表单(新车已上牌)(个人) setVehicleOnCard](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E5%B7%B2%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicleoncard)
-    - [request](#request-1)
-      - [example](#example-4)
-    - [response](#response-5)
-  - [获取报价提交表单(新车未上牌)(个人) setVehicle](#%E8%8E%B7%E5%8F%96%E6%8A%A5%E4%BB%B7%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%E6%96%B0%E8%BD%A6%E6%9C%AA%E4%B8%8A%E7%89%8C%E4%B8%AA%E4%BA%BA-setvehicle)
-    - [request](#request-2)
-      - [example](#example-5)
-    - [response](#response-6)
-  - [添加驾驶人信息 addDrivers](#%E6%B7%BB%E5%8A%A0%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-adddrivers)
-    - [request](#request-3)
-    - [response](#response-7)
-  - [获得车型 getVehicleModelsByMake](#%E8%8E%B7%E5%BE%97%E8%BD%A6%E5%9E%8B-getvehiclemodelsbymake)
-    - [request](#request-4)
-      - [example](#example-6)
-    - [response](#response-8)
-  - [上传证件照 uploadDriverImages](#%E4%B8%8A%E4%BC%A0%E8%AF%81%E4%BB%B6%E7%85%A7-uploaddriverimages)
-    - [response](#response-9)
-  - [获取用户车信息 getUserVehicles](#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E8%BD%A6%E4%BF%A1%E6%81%AF-getuservehicles)
-      - [example](#example-7)
-    - [response](#response-10)
-  - [提交出险次数 damageCount](#%E6%8F%90%E4%BA%A4%E5%87%BA%E9%99%A9%E6%AC%A1%E6%95%B0-damagecount)
-    - [response](#response-11)
-  - [通过车牌号获取车辆信息 getVehicleInfoByLicense](#%E9%80%9A%E8%BF%87%E8%BD%A6%E7%89%8C%E5%8F%B7%E8%8E%B7%E5%8F%96%E8%BD%A6%E8%BE%86%E4%BF%A1%E6%81%AF-getvehicleinfobylicense)
-      - [example](#example-8)
-    - [request](#request-5)
-    - [response](#response-12)
-  - [通过响应码获取车型信息 getVehicleInfoByResponseNumber](#%E9%80%9A%E8%BF%87%E5%93%8D%E5%BA%94%E7%A0%81%E8%8E%B7%E5%8F%96%E8%BD%A6%E5%9E%8B%E4%BF%A1%E6%81%AF-getvehicleinfobyresponsenumber)
-      - [example](#example-9)
-    - [request](#request-6)
-    - [response](#response-13)
+  - [uploadStatus](#uploadstatus)
+      - [request](#request)
+      - [response](#response)
+  - [getVehicleModel](#getvehiclemodel)
+      - [request](#request-1)
+      - [response](#response-1)
+  - [getVehicle](#getvehicle)
+      - [request](#request-2)
+      - [response](#response-2)
+  - [getVehicles](#getvehicles)
+      - [request](#request-3)
+      - [response](#response-3)
+  - [getDriver](#getdriver)
+      - [request](#request-4)
+      - [response](#response-4)
+  - [setVehicleOnCard](#setvehicleoncard)
+      - [request](#request-5)
+      - [response](#response-5)
+  - [setVehicle](#setvehicle)
+      - [request](#request-6)
+      - [response](#response-6)
+  - [addDrivers](#adddrivers)
+      - [request](#request-7)
+      - [response](#response-7)
+  - [getVehicleModelsByMake](#getvehiclemodelsbymake)
+      - [request](#request-8)
+      - [response](#response-8)
+  - [uploadDriverImages](#uploaddriverimages)
+      - [request](#request-9)
+      - [response](#response-9)
+  - [getUserVehicles](#getuservehicles)
+      - [request](#request-10)
+      - [response](#response-10)
+  - [getVehicleInfoByLicense](#getvehicleinfobylicense)
+      - [request](#request-11)
+      - [response](#response-11)
+  - [getVehicleInfoByResponseNumber](#getvehicleinfobyresponsenumber)
+      - [request](#request-12)
+      - [response](#response-12)
   - [fetchVehicleAndModelByLicense](#fetchvehicleandmodelbylicense)
-    - [request](#request-7)
-    - [response](#response-14)
-  - [添加车型 addVehicleModels](#%E6%B7%BB%E5%8A%A0%E8%BD%A6%E5%9E%8B-addvehiclemodels)
-    - [request](#request-8)
-      - [example](#example-10)
-    - [response](#response-15)
+      - [request](#request-13)
+      - [response](#response-13)
+  - [setPersonVerified](#setpersonverified)
+      - [request](#request-14)
+      - [response](#response-14)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -76,6 +69,7 @@
   * person 增加 verified
   * person 增加 email
   * person 增加 address
+  * 删除 addVehicleModels
 
 1. 2016-12-17
   * Rename fetchVehicleModelByLicense to fetchVehicleAndModelByLicense
@@ -266,15 +260,22 @@
 
 # API
 
-## 查看用户上传证件情况  uploadStatus
+## uploadStatus
 
-### request
+查看用户上传证件情况
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
 
 | name      | type | note   |
 | ----      | ---- | ----   |
 | order\_id | uuid | 订单id |
 
-#### example
+Example:
 
 ```javascript
 
@@ -289,7 +290,7 @@ rpc.call("vehicle", "uploadStatus", order_id)
 
 ```
 
-### response
+#### response
 
 成功：
 
@@ -312,9 +313,22 @@ rpc.call("vehicle", "uploadStatus", order_id)
 
 See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
 
-## 获取某个车型信息 getVehicleModel
+## getVehicleModel
 
-#### example
+获取某个车型信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note         |
+| ---- | ----   | ----         |
+| code | string | vehicle code |
+
+Example:
 
 ```javascript
 
@@ -329,7 +343,7 @@ rpc.call("vehicle", "getVehicleModel", vid)
 
 ```
 
-### response
+#### response
 
 成功：
 
@@ -352,9 +366,22 @@ rpc.call("vehicle", "getVehicleModel", vid)
 
 See [example](../data/vehicle/getVehicleModel.json)
 
-## 获取某个车信息 getVehicle
+## getVehicle
 
-#### example
+获取某个车信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note       |
+| ---- | ---- | ----       |
+| vid  | uuid | vehicle id |
+
+Example:
 
 ```javascript
 
@@ -369,7 +396,7 @@ rpc.call("vehicle", "getVehicle", vid)
 
 ```
 
-### response
+#### response
 
 成功：
 
@@ -392,9 +419,21 @@ rpc.call("vehicle", "getVehicle", vid)
 
 See [example](../data/vehicle/getVehicle.json)
 
-## 获取所有车信息 getVehicles
+## getVehicles
 
-#### example
+获取所有车信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note       |
+| ---- | ---- | ----       |
+
+Example:
 
 ```javascript
 
@@ -407,7 +446,7 @@ rpc.call("vehicle", "getVehicles")
 
 ```
 
-### response
+#### response
 
 成功：
 
@@ -430,7 +469,21 @@ rpc.call("vehicle", "getVehicles")
 
 See [example](../data/vehicle/getVehicles.json)
 
-## 获取驾驶人信息 getDriver
+## getDriver
+
+获取驾驶人信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note       |
+| ---- | ---- | ----       |
+| vid  | uuid | vehicle id |
+| pid  | uuid | person id  |
 
 ```javascript
 
@@ -444,7 +497,8 @@ rpc.call("vehicle", "getDriver", vid, pid)
 
   });
 ```
-### response
+
+#### response
 
 成功：
 
@@ -467,9 +521,16 @@ rpc.call("vehicle", "getDriver", vid, pid)
 
 See [example](../data/vehicle/getDriver.json)
 
-## 获取报价提交表单(新车已上牌)(个人) setVehicleOnCard
+## setVehicleOnCard
 
-### request
+添加车辆信息（已上牌）
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
 
 | name                     | type    | note           |
 | ----                     | ----    | ----           |
@@ -489,7 +550,7 @@ See [example](../data/vehicle/getDriver.json)
 | vin                      | string  | vin码         |
 | accident\_status         | smallint| 出险次数       |
 
-#### example
+Example:
 
 ```javascript
 
@@ -519,7 +580,7 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 
 ```
 
-### response
+#### response
 
 成功：
 
@@ -535,19 +596,26 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 400  | 参数错误          |
-| 403  | 请求接口不存在     |
-| 404  | 未找到资源        |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning       |
+| ---- | ----           |
+| 400  | 参数错误       |
+| 403  | 请求接口不存在 |
+| 404  | 未找到资源     |
+| 408  | 请求超时       |
+| 500  | 未知错误       |
 
 See [example](../data/vehicle/setVehicle.json)
 
-## 获取报价提交表单(新车未上牌)(个人) setVehicle
+## setVehicle
 
-### request
+添加车辆信息(新车未上牌)
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
 
 | name                     | type    | note           |
 | ----                     | ----    | ----           |
@@ -565,7 +633,7 @@ See [example](../data/vehicle/setVehicle.json)
 | fuel_type                | string  | 燃油类型       |
 | vin                      | string  | vin码         |
 
-#### example
+Example:
 
 ```javascript
 
@@ -593,7 +661,7 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 
 ```
 
-### response
+#### response
 
 成功：
 
@@ -609,20 +677,27 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 400  | 参数错误          |
-| 403  | 请求接口不存在     |
-| 404  | 未找到资源        |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning       |
+| ---- | ----           |
+| 400  | 参数错误       |
+| 403  | 请求接口不存在 |
+| 404  | 未找到资源     |
+| 408  | 请求超时       |
+| 500  | 未知错误       |
 
 See [example](../data/vehicle/setVehicle.json)
 
 
-## 添加驾驶人信息 addDrivers
+## addDrivers
 
-### request
+添加驾驶人信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
 
 | name    | type     | note       |
 | ----    | ----     | ----       |
@@ -649,7 +724,7 @@ rpc.call("vehicle", "addDrivers", vid, drivers)
 
 ```
 
-### response
+#### response
 
 成功：
 
@@ -665,22 +740,29 @@ rpc.call("vehicle", "addDrivers", vid, drivers)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/setDrivers.json)
 
-## 获得车型 getVehicleModelsByMake
+## getVehicleModelsByMake
 
-### request
+获得车型
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
 
 | name          | type   | note     |
 | ----          | ----   | ----     |
 | vehicle\_code | string | 车型代码 |
 
-#### example
+Example:
 
 ```javascript
 
@@ -695,14 +777,14 @@ rpc.call("vehicle", "getVehicleModelsByMake", code)
 
 ```
 
-### response
+#### response
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | json   |         |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
+| data | json |      |
 
 失败：
 
@@ -711,14 +793,32 @@ rpc.call("vehicle", "getVehicleModelsByMake", code)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicleModelsByMake.json)
 
-## 上传证件照 uploadDriverImages
+## uploadDriverImages
+
+上传证件照
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name                  | type         | note           |
+| ----                  | ----         | ----           |
+| vid                   | string       | vehicle id     |
+| driving-frontal-view  | string       | 行驶证正面照   |
+| driving-rear-view     | string       | 行驶证背面照   |
+| identity-frontal-view | string       | 身份证件正面照 |
+| identity-rear-view    | string       | 身份证件背面照 |
+| license-frontal-view  | {pid => url} | 驾照           |
 
 ```javascript
 
@@ -740,7 +840,8 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
   });
 
 ```
-### response
+
+#### response
 
 成功：
 
@@ -756,16 +857,25 @@ rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rea
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/uploadDriverImages.json)
 
-## 获取用户车信息 getUserVehicles
+## getUserVehicles
 
-#### example
+获取用户所有车信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+Example:
 
 ```javascript
 
@@ -777,7 +887,7 @@ rpc.call("vehicle", "getUserVehicles")
   });
 
 ```
-### response
+#### response
 
 成功：
 
@@ -793,18 +903,41 @@ rpc.call("vehicle", "getUserVehicles")
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicles.json)
 
-## 通过车牌号获取车辆信息 getVehicleInfoByLicense
+## getVehicleInfoByLicense
+
+通过车牌号获取车辆信息
 
 测试用，以后移除
 
-#### example
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type      | note               |
+| ----      | ----      | ----               |
+| licenseNo | String(8) | 车牌号码, 豫JCC522 |
+
+测试只能用 豫JCC522，其他车牌请求超时。
+
+如下参数不用调用者提供，但是在请求报文中必须出现：
+
+| name          | type       | note                                                |
+| ----          | ----       | ----                                                |
+| applicationID | String(32) | 请求方标识，由智通引擎提供                          |
+| operType      | String(32) | 接口类型, 固定值:BDB                                |
+| sendTime      | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
+
+Example:
 
 ```javascript
 rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
@@ -814,55 +947,71 @@ rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
 
   });
 ```
-### request
-| name | type   | note |
-| ---- | ----   | ---- |
-| licenseNo | String(8) | 车牌号码, 豫JCC522 |
 
-测试只能用 豫JCC522，其他车牌请求超时。
-
-如下参数不用调用者提供，但是在请求报文中必须出现：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| applicationID | String(32) | 请求方标识，由智通引擎提供 |
-| operType | String(32) |  接口类型, 固定值:BDB |
-| sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
-
-### response
+#### response
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
 | data | JSON | 见下 |
 
-```
-{ responseNo: 'ecef20bc-9379-478f-bf4a-4015a35a904f',
-     engineNo: '870**86',
-     licenseNo: '豫JCC522',
-     frameNo: 'LSGPC52****013740',
-     firstRegisterDate: '2011-01-14' }
+```json
+{
+  "responseNo": "ecef20bc-9379-478f-bf4a-4015a35a904f",
+  "engineNo": "870**86",
+  "licenseNo": "豫JCC522",
+  "frameNo": "LSGPC52****013740",
+  "firstRegisterDate": "2011-01-14"
+}
 ```
 
 失败：
 
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
+| name     | type   | note |
+| ----     | ----   | ---- |
+| code     | int    |      |
+| data/msg | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 400  | 数据不存在          |
-| 500  | 未知错误          |
+| code | meanning   |
+| ---- | ----       |
+| 400  | 数据不存在 |
+| 500  | 未知错误   |
 
-## 通过响应码获取车型信息 getVehicleInfoByResponseNumber
+## getVehicleInfoByResponseNumber
+
+通过响应码获取车型信息
 
 测试用，以后移除
 
-#### example
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name       | type       | note     |
+| ----       | ----       | ----     |
+| licenseNo  | String(8)  | 车牌号码 |
+| responseNo | String(36) | 响应码   |
+
+响应码通过调用 getVehicleInfoByLicense 返回。 如.8f250190-31b9-4cf9-bea7-99f586ce31f1
+
+测试只能用 豫JCC522，ecef20bc-9379-478f-bf4a-4015a35a904f，其他车牌请求超时。
+
+如下参数不用调用者提供，但是在请求报文中必须出现：
+
+| name          | type       | note                       |
+| ----          | ----       | ----                       |
+| applicationID | String(32) | 请求方标识，由智通引擎提供 |
+| operType      | String(32) | 接口类型, 固定值:JYK       |
+| sendTime      | String(20) | 请求时间                   |
+
+请求时间，调用接口时系统时间, 如:2016-05-01 16:10:10
+
+Example:
 
 ```javascript
 rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNumber)
@@ -872,23 +1021,8 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 
   });
 ```
-### request
-| name | type   | note |
-| ---- | ----   | ---- |
-| licenseNo | String(8) | 车牌号码, 豫JCC522 |
-| responseNo | String(36) | 响应码。调用 getVehicleInfoByLicense 返回。 如.8f250190-31b9-4cf9-bea7-99f586ce31f1 |
 
-测试只能用 豫JCC522，ecef20bc-9379-478f-bf4a-4015a35a904f，其他车牌请求超时。
-
-如下参数不用调用者提供，但是在请求报文中必须出现：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| applicationID | String(32) | 请求方标识，由智通引擎提供 |
-| operType | String(32) |  接口类型, 固定值:JYK |
-| sendTime | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
-
-### response
+#### response
 
 成功：
 
@@ -898,37 +1032,43 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 | data | JSON | 见下 |
 
 
-```
-{ vehicleFgwCode: 'SGM7150DMAA',
-       brandCode: '3fe5c096-a157-4b69-8917-b2f168fbd571',
-       brandName: '上汽通用雪佛兰',
-       engineDesc: '1.5L',
-       familyName: '科鲁兹',
-       gearboxType: '手动档',
-       remark: '手动档 经典版 SE 国Ⅴ',
-       newCarPrice: '85900',
-       purchasePriceTax: '89571',
-       importFlag: '1',
-       purchasePrice: '85900',
-       seat: '5',
-       standardName: '雪佛兰SGM7150DMAA轿车',
-       vehicleFgwName: null,
-       parentVehName: null },
-     { vehicleFgwCode: 'SGM7150DMAA',
-       brandCode: '563e87a3-3109-4d38-a330-db45be35d673',
-       brandName: '上汽通用雪佛兰',
-       engineDesc: '1.5L',
-       familyName: '科鲁兹',
-       gearboxType: '手动档',
-       remark: '手动档 经典版 SL 国Ⅴ',
-       newCarPrice: '75900',
-       purchasePriceTax: '79144',
-       importFlag: '1',
-       purchasePrice: '75900',
-       seat: '5',
-       standardName: '雪佛兰SGM7150DMAA轿车',
-       vehicleFgwName: null,
-       parentVehName: null }
+```json
+[
+  {
+    "vehicleFgwCode": "SGM7150DMAA",
+    "brandCode": "3fe5c096-a157-4b69-8917-b2f168fbd571",
+    "brandName": "上汽通用雪佛兰",
+    "engineDesc": "1.5L",
+    "familyName": "科鲁兹",
+    "gearboxType": "手动档",
+    "remark": "手动档 经典版 SE 国Ⅴ",
+    "newCarPrice": "85900",
+    "purchasePriceTax": "89571",
+    "importFlag": "1",
+    "purchasePrice": "85900",
+    "seat": "5",
+    "standardName": "雪佛兰SGM7150DMAA轿车",
+    "vehicleFgwName": null,
+    "parentVehName": null
+  },
+  {
+    "vehicleFgwCode": "SGM7150DMAA",
+    "brandCode": "563e87a3-3109-4d38-a330-db45be35d673",
+    "brandName": "上汽通用雪佛兰",
+    "engineDesc": "1.5L",
+    "familyName": "科鲁兹",
+    "gearboxType": "手动档",
+    "remark": "手动档 经典版 SL 国Ⅴ",
+    "newCarPrice": "75900",
+    "purchasePriceTax": "79144",
+    "importFlag": "1",
+    "purchasePrice": "75900",
+    "seat": "5",
+    "standardName": "雪佛兰SGM7150DMAA轿车",
+    "vehicleFgwName": null,
+    "parentVehName": null
+  }
+]
 ```
 
 失败：
@@ -938,17 +1078,22 @@ rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNu
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 400  | 数据不存在          |
-| 500  | 未知错误          |
+| code | meanning   |
+| ---- | ----       |
+| 400  | 数据不存在 |
+| 500  | 未知错误   |
 
 
 ## fetchVehicleAndModelByLicense
 
 通过车牌号获取车辆信息、车型信息列表
 
-### request
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
 
 | name    | type      | note               |
 | ----    | ----      | ----               |
@@ -973,7 +1118,7 @@ rpc.call("vehicle", "fetchVehicleModelByLicense", license)
   });
 ```
 
-### response
+#### response
 
 成功：
 
@@ -1025,7 +1170,7 @@ data 字段解释
 
 
 
-```
+```json
 {
     "responseNo": "97c75995-0dd0-45d1-ad03-cf42396410a7",
     "engineNo": "870**86",
@@ -1084,60 +1229,37 @@ data 字段解释
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 400  | 数据不存在，具体见返回的 msg 内容          |
-| 500  | 未知错误          |
+| code | meanning                          |
+| ---- | ----                              |
+| 400  | 数据不存在，具体见返回的 msg 内容 |
+| 500  | 未知错误                          |
 
-## 添加车型 addVehicleModels
+## setPersonVerified
 
-### request
+设置人员认证标志
 
-| name                | type    | note         |
-| ----                | ----    | ----         |
-| vehicle\_models     | [json]  | 车型数组      |
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
 
-#### example
+#### request
 
-```javascript
+| name       | type    | note             |
+| ----       | ----    | ----             |
+| identiy-no | string  | 用户身份证件号码 |
+| flag       | boolean | 认证是否开通     |
 
-let vehicle_models = [
-  {
-    "vehicleCode" : "I0000000000000000250000000000041",
-    "vehicleName" : "北京BJ7230C7GA轿车",
-    "brandName" : "北汽绅宝",
-    "familyName" : "北汽绅宝D70",
-    "bodyType" : "三厢",
-    "engineDesc" : "2.3T",
-    "gearboxName" : "手自一体",
-    "yearPattern" : "2013",
-    "groupName" : "绅宝D70(13/05-)"
-    "cfgLevel" : "豪华版",
-    "purchasePrice" : 172600,
-    "purchasePriceTax" : 187400,
-    "seat" : 5,
-    "effluentStandard" : "国五",
-    "pl": "2.29",
-    "fuelJetType" : "多点电喷",
-    "drivenType" : "前置前驱"
-  },
-  {
-    "vehicleCode" : "I0000000000000000250000000000021",
-    "vehicleName" : "北京BJ7230C7GA轿车",
-    "brandName" : "北汽绅宝",
-    "familyName" : "北汽绅宝D70",
-    "bodyType" : "三厢",
-    "engineDesc" : "2.3T",
-    "gearboxName" : "手自一体",
-    "yearPattern" : "2013",
-    "groupName" : "绅宝D70(13/05-)"
-    "cfgLevel" : "豪华版",
-    "purchasePrice" : 172600,
-    "purchasePriceTax" : 187400,
-    "seat" : 5,
-    "effluentStandard" : "国五",
-    "pl": "2.29",
-    "fuelJetType" : "多点电喷",
-    "drivenType" : "前置前驱"
-  },
-];
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
+
+| code | meaning          |
+| ---- | ----             |
+| 200  | Success          |
+| 404  | Person not found |
+| 500  | 错误信息         |
+
