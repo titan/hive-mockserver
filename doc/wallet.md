@@ -653,15 +653,15 @@ See [example](../data/wallet/createAccount.json)
 | type0 | uuid   | 交易类型        |
 | type1 | uuid   | Wallet 事件类型 |
 | pid   | uuid   | Plan ID         |
-| uid   | uuid   | 仅 admin 有效   |
 | title | string | 充值途径        |
 | oid   | uuid   | 订单id          |
+| uid   | uuid   | 仅 admin 有效   |
 注意:
 
 type0 表示交易类型，type1 表示 wallet 事件类型。
 
 ```javascript
-rpc.call("wallet", "updateAccountBalance", vid, pid, type0, type1, balance0, balance1, balance2, uid, title, oid)
+rpc.call("wallet", "updateAccountBalance", vid, pid, type0, type1, balance0, balance1, balance2, title, oid,uid)
 .then(function (result) {
 
 },function (error) {
