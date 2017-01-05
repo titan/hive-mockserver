@@ -2697,14 +2697,16 @@ rpc.call("bank_payment", "queryNetSaveBgDetail", ordId, true)
 | name | type   | note     |
 | ---- | ----   | ----     |
 | code | int    | 见下      |
-| msg  | string | 汇付天下的回调报文 |
+| data/msg  | string | 汇付天下的回调报文 |
 
-| code | meanning |
-| ---- | ----     |
-| 200  | 成功 |
-| 201  | 初始状态 |
-| 202  | 失败 |
-| 500  | 出错 |
+| code | meanning | data/msg  |
+| ---- | ----     | ----     |
+| 200  | 订单支付成功 | data |
+| 201  | 订单处于初始状态 | data |
+| 202  | 订单支付失败 | data |
+| 300  | 订单是新订单，在汇付天下后台不存在 | data |
+| 400  | 出错，见 msg 字段 | msg |
+| 500  | 未知错误，见 msg 字段 | msg |
 
 ```
 {"code":200,"data":"{\"CmdId\":\"QueryTransDetail\",\"RespCode\":\"000\",\"RespDesc\":\"%E6%88%90%E5%8A%9F\",\"ChkValue\":\"48387CB376406FBF33915ADBA2C64A589064F3051CEED5FF427934F235B48F0F2A566CD435317C5605631E7F98DFAC9F06E482098CA9FBF0F6E8FCC827F92228F519382212089E9DE5FFC58B972708DEA7CDEE4FF93B062F4D79A4EFD1CCCEA5F1A829005D70FE47154EBED5FD44EE7906D237D6EDF6B5218E4478D753527064\",\"Version\":null,\"MerCustId\":\"6000060004492053\",\"UsrCustId\":\"6000060005583988\",\"OrdId\":\"2017010400000\",\"OrdDate\":\"20170104\",\"QueryTransType\":\"SAVE\",\"TransAmt\":\"823.35\",\"TransStat\":\"S\",\"FeeAmt\":\"1.24\",\"FeeCustId\":\"6000060004492053\",\"FeeAcctId\":\"MDT000001\",\"GateBusiId\":\"QP\",\"RespExt\":\"\",\"PlainStr\":\"QueryTransDetail00060000600044920536000060005583988201701040000020170104SAVE823.35S1.246000060004492053MDT000001QP\"}"}
@@ -2714,11 +2716,6 @@ rpc.call("bank_payment", "queryNetSaveBgDetail", ordId, true)
 {"code":201,"data":"{\"CmdId\":\"QueryTransDetail\",\"RespCode\":\"000\",\"RespDesc\":\"%E6%88%90%E5%8A%9F\",\"ChkValue\":\"0C4706FF1AC0C09D1B7921BF9B7583F47FB66438B4C5588AA84B7EC8F4F795C84B2A5DAAD6E0F9C627007257083DB5339023008DB41731A0BAAB4DE79B3B1AE03EC08A77D2D82639B58D3E06BF06E516F9704FF958B6BD76A3ABF4965196DF9D57FF6C3AAA5290DF75B9E7E5008A137BF9C65C6BCCDD11C0E7CC9F4DAB1C3FE0\",\"Version\":null,\"MerCustId\":\"6000060004492053\",\"UsrCustId\":\"6000060006415846\",\"OrdId\":\"2017010400002\",\"OrdDate\":\"20170104\",\"QueryTransType\":\"SAVE\",\"TransAmt\":\"823.35\",\"TransStat\":\"I\",\"FeeAmt\":\"0.00\",\"FeeCustId\":\"\",\"FeeAcctId\":\"\",\"GateBusiId\":\"\",\"RespExt\":\"\",\"PlainStr\":\"QueryTransDetail00060000600044920536000060006415846201701040000220170104SAVE823.35I0.00\"}"}
 
 {"code":202,"data":"F"}
-
-{
-  "code" :202,
-  "msg": "{\"CmdId\":\"QueryTransDetail\",\"RespCode\":\"000\",\"RespDesc\":\"%E6%88%90%E5%8A%9F\",\"ChkValue\":\"2DF3923E0C96C68365690FB5A308CE19575424F8F57138000928D4F14ECF07D095DD24D4742659DA17EBE5B355E2D297513D62D275D651F7AA310BEDB162AF1FB01AA20E2E2C4DBF56A8FDAA38E825DFFBE484CA6F2545BC30FCD646A358A626750E1B26CD2C423F9C38815ECBA1A9AA555C074968D620FD120E870EA1E5924A\",\"Version\":null,\"MerCustId\":\"6000060004492053\",\"UsrCustId\":\"6000060006403270\",\"OrdId\":\"111000100320160000335\",\"OrdDate\":\"20161226\",\"QueryTransType\":\"SAVE\",\"TransAmt\":\"3416.90\",\"TransStat\":\"F\",\"FeeAmt\":\"0.00\",\"FeeCustId\":\"\",\"FeeAcctId\":\"\",\"GateBusiId\":\"\",\"RespExt\":\"\",\"PlainStr\":\"QueryTransDetail0006000060004492053600006000640327011100010032016000033520161226SAVE3416.90F0.00\"}"
-}
 ```
 
 ## chargeFeeForRefund
