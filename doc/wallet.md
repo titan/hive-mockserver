@@ -646,21 +646,22 @@ See [example](../data/wallet/createAccount.json)
 
 #### request
 
-| name  | type | note            |
-| ----  | ---- | ----            |
-| vid   | uuid | Vehicle ID      |
-| pid   | uuid | Plan ID         |
-| type0 | uuid | 交易类型        |
-| type1 | uuid | Wallet 事件类型 |
-| pid   | uuid | Plan ID         |
-| uid   | uuid | 仅 admin 有效   |
-
+| name  | type   | note            |
+| ----  | ----   | ----            |
+| vid   | uuid   | Vehicle ID      |
+| pid   | uuid   | Plan ID         |
+| type0 | uuid   | 交易类型        |
+| type1 | uuid   | Wallet 事件类型 |
+| pid   | uuid   | Plan ID         |
+| uid   | uuid   | 仅 admin 有效   |
+| title | string | 充值途径        |
+| oid   | uuid   | 订单id          |
 注意:
 
 type0 表示交易类型，type1 表示 wallet 事件类型。
 
 ```javascript
-rpc.call("wallet", "updateAccountBalance", vid, pid, type0, type1, balance0, balance1, balance2, uid)
+rpc.call("wallet", "updateAccountBalance", vid, pid, type0, type1, balance0, balance1, balance2, uid, title, oid)
 .then(function (result) {
 
 },function (error) {
