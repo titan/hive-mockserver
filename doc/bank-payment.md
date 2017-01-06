@@ -2896,6 +2896,3 @@ rpc.call("bank_payment", "getNetSaveUrlByPnrId", "quwnz3qkdp0tqoyejvuufckme", "æ
 {"code":200,"url":"http://mertest.chinapnr.com/muser/publicRequests?Version=10&CmdId=NetSave&MerCustId=6000060004492053&UsrCustId=6000060006443520&OrdId=201701061626000000006&OrdDate=20170104&GateBusiId=QP&OpenBankId=&DcFlag=&TransAmt=823.35&RetUrl=http%3A%2F%2Fdev.fengchaohuzhu.com%2Fbank%2FNetSaveCallback&BgRetUrl=http%3A%2F%2Fdev.fengchaohuzhu.com%2Fbank%2Fnetsave&OpenAcctId=&CertId=&MerPriv=test&ReqExt=&PageType=2&ChkValue=66BD6C6BFD658ABC89B9E376D9BF9F97AD76E534CBDB1960E7AA62A1EDAA0C5AB6E2333388E80A6B9229A4CE9330AF8EFD62AB85E8AC99B9FC8EEA70E23106275DFBCBFF93965BCE804C7F76FAB14C2B1BA181F75E3C1B1CE0FD255F38C3BF09F6E05788AAC55A476FEBC315F30D3961D835B4133DA45168B42FE6734499F449"}
 
 ```
-
-
-See [example](../data/bank-payment/generateNetSaveUrl.json)
