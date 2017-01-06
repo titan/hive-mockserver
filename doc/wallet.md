@@ -138,6 +138,7 @@
 | 3    | 池帐号大池调整 |
 | 4    | 池帐号小池解冻 |
 | 5    | 池帐号大池解冻 |
+| -1   | 帐号扣款       |
 | -2   | 池帐号小池扣款 |
 | -3   | 池帐号大池扣款 |
 | -4   | 池帐号小池冻结 |
@@ -457,11 +458,12 @@ See [example](../data/wallet/createAccount.json)
 
 #### request
 
-| name   | type   | note        |
-| ----   | ----   | ----        |
-| amount | number | 冻结金额    |
-| maid   | uuid   | 互助事件 ID |
-| aid    | uuid   | 钱包帐号 ID |
+| name   | type     | note        |
+| ----   | ----     | ----        |
+| amount | number   | 冻结金额    |
+| maid   | uuid     | 互助事件 ID |
+| aid    | uuid     | 钱包帐号 ID |
+| type   | number   | 交易类型    |
 
 #### response
 
@@ -501,6 +503,7 @@ See [example](../data/wallet/createAccount.json)
 | amount | number | 解冻金额    |
 | maid   | uuid   | 互助事件 ID |
 | aid    | uuid   | 钱包帐号 ID |
+| type   | number   | 交易类型    |
 
 #### response
 
@@ -646,21 +649,22 @@ See [example](../data/wallet/createAccount.json)
 
 #### request
 
-| name  | type | note            |
-| ----  | ---- | ----            |
-| vid   | uuid | Vehicle ID      |
-| pid   | uuid | Plan ID         |
-| type0 | uuid | 交易类型        |
-| type1 | uuid | Wallet 事件类型 |
-| pid   | uuid | Plan ID         |
-| uid   | uuid | 仅 admin 有效   |
-
+| name  | type   | note            |
+| ----  | ----   | ----            |
+| vid   | uuid   | Vehicle ID      |
+| pid   | uuid   | Plan ID         |
+| type0 | uuid   | 交易类型        |
+| type1 | uuid   | Wallet 事件类型 |
+| pid   | uuid   | Plan ID         |
+| title | string | 充值途径        |
+| oid   | uuid   | 订单id          |
+| uid   | uuid   | 仅 admin 有效   |
 注意:
 
 type0 表示交易类型，type1 表示 wallet 事件类型。
 
 ```javascript
-rpc.call("wallet", "updateAccountBalance", vid, pid, type0, type1, balance0, balance1, balance2, uid)
+rpc.call("wallet", "updateAccountBalance", vid, pid, type0, type1, balance0, balance1, balance2, title, oid,uid)
 .then(function (result) {
 
 },function (error) {

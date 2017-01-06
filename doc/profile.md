@@ -157,6 +157,13 @@ See 成功返回数据：[example](../data/profile/getUser.json)
 
 #### request
 
+rpc.call("profile", "getDiscountStatus",recommend)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
 | name      | type   | note           |
 | ----      | ----   | ----           |
 | recommend | string | 推荐码或推荐人 |
