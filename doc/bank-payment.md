@@ -2834,3 +2834,59 @@ rpc.call("bank_payment", "chargeFeeForRefund", "6000060005583988", "110.01",  tr
     }
 }
 ```
+
+## getNetSaveUrlByPnrId
+
+获取汇付天下的用户充值链接，若用户没有开户，则获取开户链接再跳转到充值。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name         | type     | note                  |
+| ----         | ----     | ----                  |
+| pnrid  | char(25) | 用于汇付天下开户的 ID |
+| name  | char(50) | 用户姓名           |
+| idNo | char(30) | 用户身份证号       |
+| ordId     | char(21) | 订单编号              |
+| ordDate   | char(8)  | 订单日期 YYYYMMDD     |
+| transAmt | char(14) | 交易金额 ###.##       |
+| test         | boolean  | 是否开启测试模式      |
+
+开启测试模式后，返回汇付天下提供的测试链接。
+
+```javascript
+
+rpc.call("bank_payment", "getNetSaveUrlByPnrId", "quwnz3qkdp0tqoyejvuufckme", "朱哲瀚", "340825197303114656", "201701061626000000006", "20170104", "823.35", true)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+成功：
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 200      |
+| url  | string | 跳转链接 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 400  | 见 msg |
+| 500  | 未知错误 |
+
+See [example](../data/bank-payment/generateNetSaveUrl.json)
