@@ -71,8 +71,6 @@
 | created\_at | timestamp |      | now     |         |           |
 | updated\_at | timestamp |      | now     |         |           |
 
-### 
-
 ## 接口
 
 ### 获取可加入计划

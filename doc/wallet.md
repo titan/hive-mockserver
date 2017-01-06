@@ -458,11 +458,12 @@ See [example](../data/wallet/createAccount.json)
 
 #### request
 
-| name   | type   | note        |
-| ----   | ----   | ----        |
-| amount | number | 冻结金额    |
-| maid   | uuid   | 互助事件 ID |
-| aid    | uuid   | 钱包帐号 ID |
+| name   | type     | note        |
+| ----   | ----     | ----        |
+| amount | number   | 冻结金额    |
+| maid   | uuid     | 互助事件 ID |
+| aid    | uuid     | 钱包帐号 ID |
+| type   | number   | 交易类型    |
 
 #### response
 
@@ -502,6 +503,7 @@ See [example](../data/wallet/createAccount.json)
 | amount | number | 解冻金额    |
 | maid   | uuid   | 互助事件 ID |
 | aid    | uuid   | 钱包帐号 ID |
+| type   | number   | 交易类型    |
 
 #### response
 
