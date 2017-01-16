@@ -37,6 +37,9 @@
 
 # ChangeLog
 
+1. 2017-01-16
+  * getPlan 增加 fat 参数
+
 1. 2017-01-14
   * 增加 plan-entities 缓存
   * 增加 plan-slim-entities 缓存
@@ -230,15 +233,16 @@ See [example](../data/plan/getJoinedPlans.json)
 
 #### request
 
-| name | type | note    |
-| ---- | ---- | ----    |
-| pid  | uuid | 计划 ID |
+| name | type    | note                   |
+| ---- | ----    | ----                   |
+| pid  | uuid    | 计划 ID                |
+| fat  | boolean | 是否显示完整数据(可选) |
 
 Example:
 
 ```javascript
 var pid = "00000000-0000-0000-0000-000000000000";
-rpc.call("plan", "getPlan", pid)
+rpc.call("plan", "getPlan", pid, true)
   .then(function (data) {
 
   }, function (error) {
