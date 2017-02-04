@@ -15,7 +15,7 @@ PLAN = ../data/plan/getPlan.json
 PLAN_DEPS = plan-item-main1.yaml plan-item-main2.yaml plan-items-main.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-main.yaml
 
 VEHICLE = ../data/vehicle/getVehicle.json
-VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml vehicle-model1.yaml vehicle-model2.yaml vehicle-models.yaml vehicle-model.yaml vehicle.yaml
+VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model1.yaml vehicle-model2.yaml vehicle-models.yaml vehicle-model.yaml vehicle.yaml
 
 PROFILE = ../data/profile/getProfile.json
 PROFILE_DEPS = profile.yaml

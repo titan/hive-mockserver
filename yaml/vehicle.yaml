@@ -5,6 +5,7 @@ drivers: !include drivers.yaml
 engine_no: xxxx
 is_transfer: true
 owner: !include owner.yaml
+applicant: !include applicant.yaml
 last_insurance_company: 中国人保
 model: !include vehicle-model.yaml
 receipt_no: xxx

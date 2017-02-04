@@ -78,6 +78,9 @@
 
 # ChangeLog
 
+1. 2017-02-04
+  * order 增加投保人
+
 1. 2017-01-03
   * plan order 增加推荐人和推荐 ticket
 
@@ -206,6 +209,7 @@
 | state       | string    | ✓    |         |         |           |
 | summary     | float     |      | 0.0     |         |           |
 | payment     | float     |      | 0.0     |         |           |
+| apid        | uuid      |      |         |         | person    |
 | start\_at   | timestamp |      | now     |         |           |
 | stop\_at    | timestamp |      | now     |         |           |
 | created\_at | timestamp |      | now     |         |           |
