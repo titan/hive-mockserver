@@ -12,6 +12,9 @@
 
 # ChangeLog
 
+1. 2017-02-06
+  * 增加 getLastQuotation
+
 1. 2017-02-04
   * 增加 createQuotation
 
@@ -59,10 +62,10 @@
 
 成功：
 
-| name | type | note   |
-| ---- | ---- | ----   |
-| code | int  | 200    |
-| data | uuid | qid |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
+| data | uuid | qid  |
 
 失败：
 
@@ -74,4 +77,51 @@
 | code | meanning |
 | ---- | ----     |
 | 500  | 未知错误 |
+
+## getLastQuotation
+
+得到用户最后一次的报价，流程如下：
+
+1. 获得用户名下的所有车辆;
+
+2. 遍历所有车辆，得到最后一次的报价。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note |
+| ---- | ---- | ---- |
+
+#### response
+
+成功：
+
+| name | type | note       |
+| ---- | ---- | ----       |
+| code | int  | 200        |
+| data |      | 结构见下面 |
+
+data 的属性:
+
+| name       | type | note                |
+| ----       | ---- | ----                |
+| vehicles   | hash | {vid => vehicle}    |
+| quotations | hash | {vid => quotations} |
+
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
 

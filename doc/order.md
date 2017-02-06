@@ -209,7 +209,7 @@
 | state       | string    | ✓    |         |         |           |
 | summary     | float     |      | 0.0     |         |           |
 | payment     | float     |      | 0.0     |         |           |
-| apid        | uuid      |      |         |         | person    |
+| applicant   | uuid      |      |         |         | person    |
 | start\_at   | timestamp |      | now     |         |           |
 | stop\_at    | timestamp |      | now     |         |           |
 | created\_at | timestamp |      | now     |         |           |
