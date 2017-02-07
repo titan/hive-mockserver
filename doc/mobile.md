@@ -7,6 +7,9 @@
   - [createQuotation](#createquotation)
       - [request](#request)
       - [response](#response)
+  - [getLastQuotation](#getlastquotation)
+      - [request](#request-1)
+      - [response](#response-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -100,18 +103,10 @@
 
 成功：
 
-| name | type | note       |
-| ---- | ---- | ----       |
-| code | int  | 200        |
-| data |      | 结构见下面 |
-
-data 的属性:
-
-| name       | type | note                |
-| ----       | ---- | ----                |
-| vehicles   | hash | {vid => vehicle}    |
-| quotations | hash | {vid => quotations} |
-
+| name | type        | note |
+| ---- | ----        | ---- |
+| code | int         | 200  |
+| data | [quotation] |      |
 
 失败：
 
