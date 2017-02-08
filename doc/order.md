@@ -78,6 +78,9 @@
 
 # ChangeLog
 
+1. 2017-01-09
+  * plan order 增加根据订单号获取订单信息
+
 1. 2017-01-03
   * plan order 增加推荐人和推荐 ticket
 
@@ -850,6 +853,48 @@ rpc.call("order", "ValidOrder")
 | 500  | 未知错误          |
 
 See [example](../data/quotation/ValidOrder.json)
+
+
+
+### 根据订单号获取订单信息
+
+#### request
+
+```javascript
+
+rpc.call("order", "getOrderByOrderNo", order_no)
+
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | object | order   |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning          |
+| ---- | ----              |
+| 404  |  未找到对应订单信息  |
+| 408  | 请求超时   　    　 |
+| 500  | 未知错误      　    |
+
+See [example](../data/order/Order.json)
 
 
 
