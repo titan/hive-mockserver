@@ -65,6 +65,11 @@
 
 # ChangeLog
 
+1. 2017-02-04
+  * vehicles 增加投保人
+  * setVehicleOnCard 增加投保人信息
+  * setVehicle 增加投保人信息
+
 1. 2017-01-05
   * person 增加 verified
   * person 增加 email
@@ -92,7 +97,6 @@
 1. 2016-10-26
   * vin-code 从 vehicle-model 移到 vehicle
   * vin-code 改名为 vin
-
 
 1. 2016-10-10
   * vehicle 增加去年出险次数属性
@@ -131,6 +135,7 @@
 | owner                  | person        | 车主                   |
 | owner-type             | int           | 车主类型               |
 | recommend              | string        | 推荐人                 |
+| applicant              | person        | 投保人                 |
 | drivers                | [person]      | 驾驶人                 |
 | vehicle-code           | string        | 车型代码               |
 | license-no             | string        | 车牌                   |
@@ -202,7 +207,8 @@
 | ----                     | ----          | ---- | ----    | ----    | ----      |
 | id                       | uuid          |      |         | primary |           |
 | uid                      | uuid          |      |         |         | users     |
-| owner                    | uuid          |      |         |         |           |
+| owner                    | uuid          |      |         |         | person    |
+| applicant                | uuid          |      |         |         | person    |
 | vehicle\_code            | char(32)      |      |         |         |           |
 | license\_no              | char(16)      | ✓    |         |         |           |
 | engine\_no               | char(32)      | ✓    |         |         |           |
@@ -295,10 +301,10 @@ rpc.call("vehicle", "uploadStatus", order_id)
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | json   |         |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
+| data | json |      |
 
 失败：
 
@@ -307,10 +313,10 @@ rpc.call("vehicle", "uploadStatus", order_id)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
 
@@ -348,10 +354,10 @@ rpc.call("vehicle", "getVehicleModel", vid)
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | json   |         |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
+| data | json |      |
 
 失败：
 
@@ -360,10 +366,10 @@ rpc.call("vehicle", "getVehicleModel", vid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicleModel.json)
 
@@ -413,10 +419,10 @@ rpc.call("vehicle", "getVehicle", vid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicle.json)
 
@@ -431,8 +437,8 @@ See [example](../data/vehicle/getVehicle.json)
 
 #### request
 
-| name | type | note       |
-| ---- | ---- | ----       |
+| name | type | note |
+| ---- | ---- | ---- |
 
 Example:
 
@@ -463,10 +469,10 @@ rpc.call("vehicle", "getVehicles")
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicles.json)
 
@@ -515,10 +521,10 @@ rpc.call("vehicle", "getDriver", vid, pid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/vehicle/getDriver.json)
 
@@ -533,31 +539,37 @@ See [example](../data/vehicle/getDriver.json)
 
 #### request
 
-| name                     | type    | note           |
-| ----                     | ----    | ----           |
-| name                     | string  | 驾驶人姓名     |
-| identity\_no             | string  | 身份证编号     |
-| phone                    | string  | 电话号码       |
-| recommend                | string  | 推荐人         |
-| vehicle\_code            | string  | 车型代码       |
-| license\_no              | string  | 车牌           |
-| engine\_no               | string  | 发动机号       |
-| register\_date           | iso8601 | 注册日期       |
-| average\_mileage         | string  | 年平均行驶里程 |
-| is\_transfer             | boolean | 是否过户       |
-| last\_insurance\_company | string  | 上次投保的公司 |
-| insurance\_due\_date     | iso8601 | 保险到期时间   |
-| fuel\_type               | string  | 燃油类型       |
-| vin                      | string  | vin码         |
-| accident\_status         | smallint| 出险次数       |
+| name                     | type     | note             |
+| ----                     | ----     | ----             |
+| owner\_name              | string   | 车主姓名         |
+| owner\_identity\_no      | string   | 车主身份证编号   |
+| owner\_phone             | string   | 车主电话号码     |
+| applicant\_name          | string   | 投保人姓名       |
+| applicant\_identity\_no  | string   | 投保人身份证编号 |
+| applicant\_phone         | string   | 投保人电话号码   |
+| recommend                | string   | 推荐人           |
+| vehicle\_code            | string   | 车型代码         |
+| license\_no              | string   | 车牌             |
+| engine\_no               | string   | 发动机号         |
+| register\_date           | iso8601  | 注册日期         |
+| average\_mileage         | string   | 年平均行驶里程   |
+| is\_transfer             | boolean  | 是否过户         |
+| last\_insurance\_company | string   | 上次投保的公司   |
+| insurance\_due\_date     | iso8601  | 保险到期时间     |
+| fuel\_type               | string   | 燃油类型         |
+| vin                      | string   | vin码            |
+| accident\_status         | smallint | 出险次数         |
 
 Example:
 
 ```javascript
 
-let name = "aaa";
-let identity_no = "440308197406255611";
-let phone = "18713575980";
+let owner_name = "aaa";
+let owner_identity_no = "440308197406255611";
+let owner_phone = "18713575980";
+let applicant_name = "aaa";
+let applicant_identity_no = "440308197406255611";
+let applicant_phone = "18713575980";
 let recommend = null;
 let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let license_no = "a5678";
@@ -571,8 +583,7 @@ let fuel_type = "汽油";
 let vin = "WBAZV4101BL456778";
 let accident_status = 1;
 
-rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, vehicle_code, license_no, engine_no,
-  register_date, average_mileage, is_transfer,last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
+rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -585,10 +596,10 @@ rpc.call("vehicle", "setVehicleOnCard", name, identity_no, phone, recommend, veh
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | vid     |
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | vid  |
 
 失败：
 
@@ -618,29 +629,35 @@ See [example](../data/vehicle/setVehicle.json)
 
 #### request
 
-| name                     | type    | note           |
-| ----                     | ----    | ----           |
-| name                     | string  | 驾驶人姓名     |
-| identity\_no             | string  | 身份证编号     |
-| phone                    | string  | 电话号码       |
-| recommend                | string  | 推荐人         |
-| vehicle\_code            | string  | 车型代码       |
-| engine\_no               | string  | 发动机号       |
-| receipt\_no              | string  | 发票编号       |
-| receipt\_date            | iso8601 | 发票开具时间   |
-| average\_mileage         | string  | 年平均行驶里程 |
-| is\_transfer             | boolean | 是否过户       |
-| last\_insurance\_company | string  | 上次投保的公司 |
-| fuel_type                | string  | 燃油类型       |
-| vin                      | string  | vin码         |
+| name                     | type    | note             |
+| ----                     | ----    | ----             |
+| owner\_name              | string  | 车主姓名         |
+| owner\_identity\_no      | string  | 车主身份证编号   |
+| owner\_phone             | string  | 车主电话号码     |
+| applicant\_name          | string  | 投保人姓名       |
+| applicant\_identity\_no  | string  | 投保人身份证编号 |
+| applicant\_phone         | string  | 投保人电话号码   |
+| recommend                | string  | 推荐人           |
+| vehicle\_code            | string  | 车型代码         |
+| engine\_no               | string  | 发动机号         |
+| receipt\_no              | string  | 发票编号         |
+| receipt\_date            | iso8601 | 发票开具时间     |
+| average\_mileage         | string  | 年平均行驶里程   |
+| is\_transfer             | boolean | 是否过户         |
+| last\_insurance\_company | string  | 上次投保的公司   |
+| fuel\_type               | string  | 燃油类型         |
+| vin                      | string  | vin码            |
 
 Example:
 
 ```javascript
 
-let name = "aaa";
-let identity_no = "440308197406255611";
-let phone = "18713575980";
+let owner_name = "aaa";
+let owner_identity_no = "440308197406255611";
+let owner_phone = "18713575980";
+let applicant_name = "aaa";
+let applicant_identity_no = "440308197406255611";
+let applicant_phone = "18713575980";
 let recommend = null;
 let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let engine_no = "5555";
@@ -652,8 +669,7 @@ let last_insurance_company = null;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
 
-rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_code, engine_no,
-  receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
+rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -666,10 +682,10 @@ rpc.call("vehicle", "setVehicle", name, identity_no, phone, recommend, vehicle_c
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | vid     |
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | vid  |
 
 失败：
 

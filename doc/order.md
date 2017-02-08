@@ -78,6 +78,9 @@
 
 # ChangeLog
 
+1. 2017-02-04
+  * order 增加投保人
+
 1. 2017-01-09
   * plan order 增加根据订单号获取订单信息
 
@@ -209,6 +212,7 @@
 | state       | string    | ✓    |         |         |           |
 | summary     | float     |      | 0.0     |         |           |
 | payment     | float     |      | 0.0     |         |           |
+| applicant   | uuid      |      |         |         | person    |
 | start\_at   | timestamp |      | now     |         |           |
 | stop\_at    | timestamp |      | now     |         |           |
 | created\_at | timestamp |      | now     |         |           |
