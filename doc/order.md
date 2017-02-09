@@ -9,9 +9,12 @@
   - [plan-order](#plan-order)
   - [order-item](#order-item)
   - [order-event](#order-event)
-  - [underwrite](#underwrite)
-  - [photo](#photo)
-  - [order states](#order-states)
+    - [order states](#order-states)
+- [Event](#event)
+  - [OrderEvent](#orderevent)
+    - [Event Data Structure](#event-data-structure)
+    - [Event Type](#event-type)
+    - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix)
 - [Database](#database)
   - [orders](#orders)
   - [plan\_order\_ext](#plan%5C_order%5C_ext)
@@ -19,8 +22,6 @@
   - [sale\_order\_ext](#sale%5C_order%5C_ext)
   - [order\_items](#order%5C_items)
   - [order\_events](#order%5C_events)
-  - [underwrite](#underwrite-1)
-  - [underwrite-photos](#underwrite-photos)
 - [Cache](#cache)
   - [driver-order](#driver-order-1)
   - [sale-order](#sale-order-1)
@@ -28,55 +29,63 @@
   - [orders](#orders-1)
   - [order-entities](#order-entities)
   - [order-driver-entities](#order-driver-entities)
-  - [underwrite](#underwrite-2)
-  - [underwrite-entities](#underwrite-entities)
-  - [new-orders](#new-orders)
+    - [new-orders](#new-orders)
   - [new-pays](#new-pays)
   - [VIN-orderID](#vin-orderid)
-- [接口](#%E6%8E%A5%E5%8F%A3)
-  - [下计划单 placeAnPlanOrder](#%E4%B8%8B%E8%AE%A1%E5%88%92%E5%8D%95-placeanplanorder)
-    - [request](#request)
-    - [response](#response)
-  - [下司机单 placeAnDriverOrder](#%E4%B8%8B%E5%8F%B8%E6%9C%BA%E5%8D%95-placeandriverorder)
-    - [request](#request-1)
-    - [response](#response-1)
-  - [下代售单 placeAnSaleOrder](#%E4%B8%8B%E4%BB%A3%E5%94%AE%E5%8D%95-placeansaleorder)
-    - [request](#request-2)
-  - [修改代售单 updateSaleOrder](#%E4%BF%AE%E6%94%B9%E4%BB%A3%E5%94%AE%E5%8D%95-updatesaleorder)
-    - [request](#request-3)
-  - [修改订单编号 updatePlanOrderNo](#%E4%BF%AE%E6%94%B9%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7-updateplanorderno)
-    - [request](#request-4)
-    - [response](#response-2)
-  - [根据vid获取代售单 getSaleOrder](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E4%BB%A3%E5%94%AE%E5%8D%95-getsaleorder)
-    - [request](#request-5)
-  - [根据vid获取已生效计划单 getPlanOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%B7%B2%E7%94%9F%E6%95%88%E8%AE%A1%E5%88%92%E5%8D%95-getplanorderbyvehicle)
-    - [request](#request-6)
-  - [根据vid获取司机单 getDriverOrderByVehicle](#%E6%A0%B9%E6%8D%AEvid%E8%8E%B7%E5%8F%96%E5%8F%B8%E6%9C%BA%E5%8D%95-getdriverorderbyvehicle)
-    - [request](#request-7)
-  - [更新订单状态 updateOrderState](#%E6%9B%B4%E6%96%B0%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-updateorderstate)
-    - [request](#request-8)
-    - [response](#response-3)
-  - [获取订单列表 getOrders](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8-getorders)
-    - [request](#request-9)
-    - [response](#response-4)
-  - [获取订单详情 getOrder](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85-getorder)
-    - [request](#request-10)
-    - [response](#response-5)
-  - [获取驾驶人信息 getDriverOrders](#%E8%8E%B7%E5%8F%96%E9%A9%BE%E9%A9%B6%E4%BA%BA%E4%BF%A1%E6%81%AF-getdriverorders)
-    - [request](#request-11)
-    - [response](#response-6)
-  - [获取订单状态 getOrderState](#%E8%8E%B7%E5%8F%96%E8%AE%A2%E5%8D%95%E7%8A%B6%E6%80%81-getorderstate)
-    - [request](#request-12)
-    - [response](#response-7)
-      - [没有对应订单](#%E6%B2%A1%E6%9C%89%E5%AF%B9%E5%BA%94%E8%AE%A2%E5%8D%95)
-      - [有对应订单](#%E6%9C%89%E5%AF%B9%E5%BA%94%E8%AE%A2%E5%8D%95)
-  - [判断一个VIN码是否有订单 ValidOrder](#%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AAvin%E7%A0%81%E6%98%AF%E5%90%A6%E6%9C%89%E8%AE%A2%E5%8D%95-validorder)
-    - [request](#request-24)
-    - [response](#response-19)
+  - [vehicle-plan-order](#vehicle-plan-order)
+  - [vehicle-sale-order](#vehicle-sale-order)
+- [External Queue](#external-queue)
+- [API](#api)
+  - [placeAnPlanOrder](#placeanplanorder)
+      - [request](#request)
+      - [response](#response)
+  - [placeAnDriverOrder](#placeandriverorder)
+      - [request](#request-1)
+      - [response](#response-1)
+  - [placeAnSaleOrder](#placeansaleorder)
+      - [request](#request-2)
+  - [updateSaleOrder](#updatesaleorder)
+      - [request](#request-3)
+  - [updatePlanOrderNo](#updateplanorderno)
+      - [request](#request-4)
+      - [response](#response-2)
+  - [getSaleOrder](#getsaleorder)
+      - [request](#request-5)
+  - [getPlanOrderByVehicle](#getplanorderbyvehicle)
+      - [request](#request-6)
+  - [getDriverOrderByVehicle](#getdriverorderbyvehicle)
+      - [request](#request-7)
+  - [updateOrderState](#updateorderstate)
+      - [request](#request-8)
+      - [response](#response-3)
+  - [getAllOrders](#getallorders)
+      - [request](#request-9)
+      - [response](#response-4)
+  - [getOrders](#getorders)
+      - [request](#request-10)
+      - [response](#response-5)
+  - [getOrder](#getorder)
+      - [request](#request-11)
+      - [response](#response-6)
+  - [getDriverForVehicle](#getdriverforvehicle)
+      - [request](#request-12)
+      - [response](#response-7)
+  - [getOrderState](#getorderstate)
+      - [request](#request-13)
+      - [response](#response-8)
+  - [ValidOrder](#validorder)
+      - [request](#request-14)
+      - [response](#response-9)
+  - [refresh_order](#refresh_order)
+      - [request](#request-15)
+      - [response](#response-10)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-02-09
+  * 增加 OrderEvent
 
 1. 2017-02-04
   * order 增加投保人
@@ -195,6 +204,61 @@
 [![订单状态转换图](../img/order-states.svg)](订单状态转换图)
 [![订单状态转换图](../img/order-states.png)](订单状态转换图)
 
+# Event
+
+## OrderEvent
+
+### Event Data Structure
+
+| name               | type     | note         |
+| ----               | ----     | ----         |
+| id                 | uuid     | event id     |
+| type               | smallint | event type   |
+| opid               | uuid     | operator id  |
+| oid                | uuid     | order id     |
+| occurred-at        | iso8601  | 事件发生时间 |
+| amount             | float    | 金额         |
+| qid                | uuid     | quotation id |
+| expect-at          | iso8601  | 期盼生效时间 |
+| real-value         | float    | 车辆实际价值 |
+| recommend          | string   | 推荐人       |
+| ticket             | string   | 推荐码       |
+| outside-quotation1 | float    | 第三方报价1  |
+| outside-quotation2 | float    | 第三方报价2  |
+| screenshot1        | string   | 第三方截图1  |
+| screenshot2        | string   | 第三方截图2  |
+| reason             | text     | 拒绝理由     |
+
+### Event Type
+
+| type | name            | note         |
+| ---- | ----            | ----         |
+| 0    | CANCEL          | 取消订单     |
+| 1    | CREATE          | 创建订单     |
+| 2    | PAY             | 支付订单     |
+| 3    | UNDERWRITE      | 订单核保     |
+| 4    | TAKE_EFFECT     | 订单生效     |
+| 5    | EXPIRED         | 订单到期     |
+| 6    | APPLY_WITHDRAW  | 申请提现     |
+| 7    | REFUSE_WITHDRAW | 拒绝提现申请 |
+| 8    | PASS_WITHDRAW   | 提现申请通过 |
+| 9    | REFUND          | 银行退款     |
+
+### Event Type And Data Structure Matrix
+
+| type | amount | qid  | expect-at | real-value | recommend | ticket | outside-quotations | reason |
+| ---- | ----   | ---- | ----      | ----       | ----      | ----   | ----               | ----   |
+| 0    |        |      |           |            |           |        |                    |        |
+| 1    | ✓      | ✓    | ✓         | ✓          | ?         | ?      | ?                  |        |
+| 2    | ✓      |      |           |            |           |        |                    |        |
+| 3    |        |      |           |            |           |        |                    |        |
+| 4    |        |      |           |            |           |        |                    |        |
+| 5    |        |      |           |            |           |        |                    |        |
+| 6    |        |      |           |            |           |        |                    |        |
+| 7    |        |      |           |            |           |        |                    | ✓      |
+| 8    |        |      |           |            |           |        |                    |        |
+| 9    |        |      |           |            |           |        |                    |        |
+
 # Database
 
 ## orders
@@ -279,7 +343,7 @@
 | data         | json      |      |         |         |           |
 | occurred\_at | timestamp |      | now     |         |           |
 
-## 缓存结构
+# Cache
 
 ## driver-order
 
@@ -772,15 +836,12 @@ See [example](../data/order/getOrders.json)
 
 | name    | type   | note           |
 | ----    | ----   | ----           |
-| drivers | driver | 驾驶人详情详情   |
- 
-| name    | type   | note           |
-| ----    | ----   | ----           |
-| code    | 500    | 系统内部错误     | 
+| drivers | driver | 驾驶人详情详情 |
 
-| name    | type   | note            |
-| ----    | ----   | ----            |
-| code    | 404    | 没有找到对应信息   |
+| name | type | note             |
+| ---- | ---- | ----             |
+| code | 404  | 没有找到对应信息 |
+| code | 500  | 系统内部错误     |
 
 ## getOrderState
 
@@ -816,7 +877,9 @@ See [司机订单](../data/order/getDriverOrder.json)
 
 See [代售订单](../data/order/getSaleOrder.json)
 
-### 判断一个VIN码是否有订单 ValidOrder
+## ValidOrder
+
+ 判断一个VIN码是否有订单
 
 #### request
 
@@ -848,28 +911,29 @@ rpc.call("order", "ValidOrder")
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时          |
-| 500  | 未知错误          |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 See [example](../data/quotation/ValidOrder.json)
 
+## refresh_order
 
-
-### 刷新单个订单
+刷新单个订单
 
 #### request
 
-| name    | type          | note     |
-| ----    | ----          | ----     |
-| type    | number        | 订单类型  |
-| uid     | uuid          | 用户id    |
+| name | type   | note     |
+| ---- | ----   | ----     |
+| type | number | 订单类型 |
+| uid  | uuid   | 用户id   |
+
 ```javascript
 
 其中计划单type为1,司机单为2,代售单为3
 
-let type = 1; 
+let type = 1;
 let uid  = "00000000-0000-0000-0000-000000000000";
 let oid  = "00000000-0000-0000-0000-000000000000";
 rpc.call("order", "refresh_order", type, uid, oid)
@@ -897,6 +961,6 @@ rpc.call("order", "refresh_order", type, uid, oid)
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning          |
-| ---- | ----              |
-| 408  | 请求超时           |
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
