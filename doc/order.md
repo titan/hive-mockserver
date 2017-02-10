@@ -23,15 +23,8 @@
   - [order\_items](#order%5C_items)
   - [order\_events](#order%5C_events)
 - [Cache](#cache)
-  - [driver-order](#driver-order-1)
-  - [sale-order](#sale-order-1)
-  - [plan-order](#plan-order-1)
-  - [orders](#orders-1)
   - [order-entities](#order-entities)
   - [order-driver-entities](#order-driver-entities)
-    - [new-orders](#new-orders)
-  - [new-pays](#new-pays)
-  - [VIN-orderID](#vin-orderid)
   - [vehicle-plan-order](#vehicle-plan-order)
   - [vehicle-sale-order](#vehicle-sale-order)
 - [External Queue](#external-queue)
@@ -83,6 +76,15 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-02-10
+  * 删除 driver-order 缓存
+  * 删除 plan-order 缓存
+  * 删除 sale-order 缓存
+  * 删除 orders 缓存
+  * 删除 new-orders 缓存
+  * 删除 new-pays 缓存
+  * 删除 VIN-orderID 缓存
 
 1. 2017-02-09
   * 增加 OrderEvent
@@ -345,31 +347,6 @@
 
 # Cache
 
-## driver-order
-
-| key           | type       | value                  | note         |
-| ----          | ----       | ----                   | ----         |
-| driver-orders | sorted set | (订单更新时间, 订单ID) | 司机订单汇总 |
-
-## sale-order
-
-| key         | type       | value                  | note         |
-| ----        | ----       | ----                   | ----         |
-| sale-orders | sorted set | (订单更新时间, 订单ID) | 代售订单汇总 |
-
-## plan-order
-
-| key         | type       | value                  | note         |
-| ----        | ----       | ----                   | ----         |
-| plan-orders | sorted set | (订单更新时间, 订单ID) | 计划订单汇总 |
-
-## orders
-
-| key          | type       | value                  | note           |
-| ----         | ----       | ----                   | ----           |
-| orders       | sorted set | (订单更新时间, 订单ID) | 订单汇总       |
-| orders-{uid} | sorted set | (订单更新时间, 订单ID) | 每个用户的订单 |
-
 ## order-entities
 
 | key            | type | value               | note         |
@@ -381,24 +358,6 @@
 | key                   | type | value               | note                 |
 | ----                  | ---- | ----                | ----                 |
 | order-driver-entities | hash | VID =>  驾驶人 JSON | 所有车辆已生效驾驶人 |
-
-### new-orders
-
-| key           | type       | value                  | note       |
-| ----          | ----       | ----                   | ----       |
-| new-orders-id | sorted set | (订单生成时间, 订单ID) | 新订单汇总 |
-
-## new-pays
-
-| key         | type       | value                  | note       |
-| ----        | ----       | ----                   | ----       |
-| new-pays-id | sorted set | (订单更新时间, 订单ID) | 新支付汇总 |
-
-## VIN-orderID
-
-| key         | type | value          | note   |
-| ----        | ---- | ----           | ----   |
-| VIN-orderID | hash | VIN => orderID | 订单ID |
 
 ## vehicle-plan-order
 
