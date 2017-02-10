@@ -8,62 +8,67 @@
   - [vehicle](#vehicle)
   - [person](#person)
 - [Database](#database)
-  - [vehicle\_models](#vehicle%5C_models)
+  - [vehicle_models](#vehicle_models)
   - [vehicles](#vehicles)
   - [person](#person-1)
 - [Cache](#cache)
   - [vehicle-model](#vehicle-model-1)
   - [vehicle](#vehicle-1)
 - [API](#api)
-  - [uploadStatus](#uploadstatus)
+  - [fetchVehicleModelByVin](#fetchvehiclemodelbyvin)
       - [request](#request)
       - [response](#response)
   - [getVehicleModel](#getvehiclemodel)
       - [request](#request-1)
       - [response](#response-1)
-  - [getVehicle](#getvehicle)
+  - [fetchVehicleAndModelByLicense](#fetchvehicleandmodelbylicense)
       - [request](#request-2)
       - [response](#response-2)
-  - [getVehicles](#getvehicles)
+  - [createNewVehicle](#createnewvehicle)
       - [request](#request-3)
       - [response](#response-3)
-  - [getDriver](#getdriver)
+  - [createVehicle](#createvehicle)
       - [request](#request-4)
       - [response](#response-4)
-  - [setVehicleOnCard](#setvehicleoncard)
+  - [getVehicle](#getvehicle)
       - [request](#request-5)
       - [response](#response-5)
-  - [setVehicle](#setvehicle)
+  - [getVehiclesByUser](#getvehiclesbyuser)
       - [request](#request-6)
       - [response](#response-6)
   - [addDrivers](#adddrivers)
       - [request](#request-7)
       - [response](#response-7)
-  - [getVehicleModelsByMake](#getvehiclemodelsbymake)
+  - [delDrivers](#deldrivers)
       - [request](#request-8)
       - [response](#response-8)
-  - [uploadDriverImages](#uploaddriverimages)
+  - [uploadImages](#uploadimages)
       - [request](#request-9)
       - [response](#response-9)
-  - [getUserVehicles](#getuservehicles)
+  - [setPersonVerified](#setpersonverified)
       - [request](#request-10)
       - [response](#response-10)
-  - [getVehicleInfoByLicense](#getvehicleinfobylicense)
-      - [request](#request-11)
-      - [response](#response-11)
-  - [getVehicleInfoByResponseNumber](#getvehicleinfobyresponsenumber)
-      - [request](#request-12)
-      - [response](#response-12)
-  - [fetchVehicleAndModelByLicense](#fetchvehicleandmodelbylicense)
-      - [request](#request-13)
-      - [response](#response-13)
-  - [setPersonVerified](#setpersonverified)
-      - [request](#request-14)
-      - [response](#response-14)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-02-10
+  * 修改 vehicle 数据结构，去掉了 owner_type 和 vehicle_code
+  * 重构 vehicle_models 数据库
+  * 删除 vehicles 缓存
+  * 删除 uploadStatus 方法
+  * 增加 fetchVehicleModelByVin 方法
+  * 重命名 setVehicle 为 createNewVehicle
+  * 重命名 setVehicleOnCard 为 createVehicle
+  * 删除 getVehicles 方法
+  * 删除 getDriver 方法
+  * 增加 delDrivers 方法
+  * 删除 getVehicleModelsByMake 方法
+  * 重命名 getUserVehicles 为 getVehicleByUser
+  * 重命名 uploadDriverImages 为 uploadImages
+  * 删除 getVehicleInfoByLicense 方法
+  * 删除 getVehicleInfoByResponseNumber 方法
 
 1. 2017-02-04
   * vehicles 增加投保人
@@ -133,11 +138,9 @@
 | vin                    | string        | VIN码                  |
 | user-id                | user          | 用户                   |
 | owner                  | person        | 车主                   |
-| owner-type             | int           | 车主类型               |
 | recommend              | string        | 推荐人                 |
 | applicant              | person        | 投保人                 |
 | drivers                | [person]      | 驾驶人                 |
-| vehicle-code           | string        | 车型代码               |
 | license-no             | string        | 车牌                   |
 | engine-no              | string        | 发动机号               |
 | register-date          | iso8601       | 车辆注册日期           |
@@ -176,100 +179,84 @@
 
 # Database
 
-## vehicle\_models
+## vehicle_models
 
-| field                | type      | null | default | index   | reference |
-| ----                 | ----      | ---- | ----    | ----    | ----      |
-| vehicle\_code        | char(32)  |      |         | primary |           |
-| vehicle\_name        | char(64)  | ✓    |         |         |           |
-| brand\_name          | char(32)  | ✓    |         |         |           |
-| family\_name         | char(32)  | ✓    |         |         |           |
-| body\_type           | char(16)  | ✓    |         |         |           |
-| engine\_desc         | char(16)  | ✓    |         |         |           |
-| gearbox\_name        | char(16)  | ✓    |         |         |           |
-| year\_pattern        | char(8)   | ✓    |         |         |           |
-| group\_name          | char(32)  | ✓    |         |         |           |
-| cfg\_level           | char(16)  | ✓    |         |         |           |
-| purchase\_price      | real      |      | 0.0     |         |           |
-| purchase\_price\_tax | real      |      | 0.0     |         |           |
-| seat                 | smallint  |      | 0       |         |           |
-| effluent\_standard   | char(8)   | ✓    |         |         |           |
-| pl                   | char(16)  | ✓    |         |         |           |
-| fuel\_jet\_type      | char(16)  | ✓    |         |         |           |
-| driven\_type         | char(8)   | ✓    |         |         |           |
-| created\_at          | timestamp |      | now     |         |           |
-| updated\_at          | timestamp |      | now     |         |           |
-| deleted              | boolean   |      | false   |         |           |
+| field      | type      | null | default | index   | reference |
+| ----       | ----      | ---- | ----    | ----    | ----      |
+| code       | char(32)  |      |         | primary |           |
+| data       | json      | ✓    |         |         |           |
+| created_at | timestamp |      | now     |         |           |
+| updated_at | timestamp |      | now     |         |           |
+| deleted    | boolean   |      | false   |         |           |
 
 ## vehicles
 
-| field                    | type          | null | default | index   | reference |
-| ----                     | ----          | ---- | ----    | ----    | ----      |
-| id                       | uuid          |      |         | primary |           |
-| uid                      | uuid          |      |         |         | users     |
-| owner                    | uuid          |      |         |         | person    |
-| applicant                | uuid          |      |         |         | person    |
-| vehicle\_code            | char(32)      |      |         |         |           |
-| license\_no              | char(16)      | ✓    |         |         |           |
-| engine\_no               | char(32)      | ✓    |         |         |           |
-| register\_date           | timestamp     | ✓    |         |         |           |
-| average\_mileage         | char(16)      | ✓    |         |         |           |
-| is_transfer              | boolean       | ✓    |         |         |           |
-| receipt\_no              | char(32)      | ✓    |         |         |           |
-| receipt\_data            | timestamp     |      | 0.0     |         |           |
-| last\_insurance\_company | char(16)      |      | 0.0     |         |           |
-| insurance\_due\_date     | timestamp     |      | 0       |         |           |
-| driving\_frontal\_view   | varchar(1024) | ✓    |         |         |           |
-| driving\_rear\_view      | varchar(1024) | ✓    |         |         |           |
-| recommend                | char(32)      | ✓    |         |         |           |
-| fuel\_type               | char(16)      | ✓    |         |         |           |
-| accident\_status         | smallint      | ✓    |         |         |           |
-| vin                      | char(17)      | ✓    |         |         |           |
-| created\_at              | timestamp     |      | now     |         |           |
-| updated\_at              | timestamp     |      | now     |         |           |
-| deleted                  | boolean       |      | false   |         |           |
+| field                  | type          | null | default | index   | reference |
+| ----                   | ----          | ---- | ----    | ----    | ----      |
+| id                     | uuid          |      |         | primary |           |
+| uid                    | uuid          |      |         |         | users     |
+| owner                  | uuid          |      |         |         | person    |
+| applicant              | uuid          |      |         |         | person    |
+| vehicle_code           | char(32)      |      |         |         |           |
+| license_no             | char(16)      | ✓    |         |         |           |
+| engine_no              | char(32)      | ✓    |         |         |           |
+| register_date          | timestamp     | ✓    |         |         |           |
+| average_mileage        | char(16)      | ✓    |         |         |           |
+| is_transfer            | boolean       | ✓    |         |         |           |
+| receipt_no             | char(32)      | ✓    |         |         |           |
+| receipt_data           | timestamp     |      | 0.0     |         |           |
+| last_insurance_company | char(16)      |      | 0.0     |         |           |
+| insurance_due_date     | timestamp     |      | 0       |         |           |
+| driving_frontal_view   | varchar(1024) | ✓    |         |         |           |
+| driving_rear_view      | varchar(1024) | ✓    |         |         |           |
+| recommend              | char(32)      | ✓    |         |         |           |
+| fuel_type              | char(16)      | ✓    |         |         |           |
+| accident_status        | smallint      | ✓    |         |         |           |
+| vin                    | char(17)      | ✓    |         |         |           |
+| created_at             | timestamp     |      | now     |         |           |
+| updated_at             | timestamp     |      | now     |         |           |
+| deleted                | boolean       |      | false   |         |           |
 
 ## person
 
-| field                   | type          | null | default | index   | reference |
-| ----                    | ----          | ---- | ----    | ----    | ----      |
-| id                      | uuid          |      |         | primary |           |
-| name                    | char(20)      |      |         |         |           |
-| identity\_no            | char(18)      |      |         |         |           |
-| phone                   | char(16)      | ✓    |         |         |           |
-| email                   | varchar(128)  | ✓    |         |         |           |
-| address                 | varchar(128)  | ✓    |         |         |           |
-| identity\_frontal\_view | varchar(1024) | ✓    |         |         |           |
-| identity\_rear\_view    | varchar(1024) | ✓    |         |         |           |
-| license\_frontal\_view  | varchar(1024) | ✓    |         |         |           |
-| license\_rear\_view     | varchar(1024) | ✓    |         |         |           |
-| verified                | boolean       |      | false   |         |           |
-| created\_at             | timestamp     |      | now     |         |           |
-| updated\_at             | timestamp     |      | now     |         |           |
-| deleted                 | boolean       |      | false   |         |           |
+| field                 | type          | null | default | index   | reference |
+| ----                  | ----          | ---- | ----    | ----    | ----      |
+| id                    | uuid          |      |         | primary |           |
+| name                  | char(20)      |      |         |         |           |
+| identity_no           | char(18)      |      |         |         |           |
+| phone                 | char(16)      | ✓    |         |         |           |
+| email                 | varchar(128)  | ✓    |         |         |           |
+| address               | varchar(128)  | ✓    |         |         |           |
+| identity_frontal_view | varchar(1024) | ✓    |         |         |           |
+| identity_rear_view    | varchar(1024) | ✓    |         |         |           |
+| license_frontal_view  | varchar(1024) | ✓    |         |         |           |
+| license_rear_view     | varchar(1024) | ✓    |         |         |           |
+| verified              | boolean       |      | false   |         |           |
+| created_at            | timestamp     |      | now     |         |           |
+| updated_at            | timestamp     |      | now     |         |           |
+| deleted               | boolean       |      | false   |         |           |
 
 # Cache
 
 ## vehicle-model
 
-| key                    | type | value                            | note       |
-| ----                   | ---- | ----                             | ----       |
-| vehicle-model-entities | hash | VehicleCode => VehicleModel JSON | 车型数据   |
-| vehicle-vin-codes      | has  | vin => [VehicleCode] JSON        | vin 码映射 |
-| vehicle-model          | set  | vin                              | vin 码     |
+| key                    | type | value                   | note       |
+| ----                   | ---- | ----                    | ----       |
+| vehicle-model-entities | hash | {code => vehicle-model} | 车型数据   |
+| vehicle-vin-codes      | hash | {vin => [code]}         | vin 码映射 |
+| vehicle-model          | set  | vin                     | vin 码     |
 
 ## vehicle
 
-| key              | type  | value                           | note       |
-| ----             | ----  | ----                            | ----       |
-| vehicle-entities | hash  | ID => Vehicle JSON              | 车数据      |
-| vehicles         | list  | ID                              | 车ID       |
+| key              | type | value            | note   |
+| ----             | ---- | ----             | ----   |
+| vehicle-entities | hash | {vid => vehicle} | 车数据 |
 
 # API
 
-## uploadStatus
+## fetchVehicleModelByVin
 
-查看用户上传证件情况
+根据 vin 获取车型信息
 
 | domain | accessable |
 | ----   | ----       |
@@ -278,33 +265,18 @@
 
 #### request
 
-| name      | type | note   |
-| ----      | ---- | ----   |
-| order\_id | uuid | 订单id |
-
-Example:
-
-```javascript
-
-var order_id = "94845290-901d-11e6-baa4-e13a142bc7ae";
-
-rpc.call("vehicle", "uploadStatus", order_id)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
+| name | type   | note  |
+| ---- | ----   | ----  |
+| vin  | string | vin码 |
 
 #### response
 
 成功：
 
-| name | type | note |
-| ---- | ---- | ---- |
-| code | int  | 200  |
-| data | json |      |
+| name | type          | note     |
+| ---- | ----          | ----     |
+| code | int           | 200      |
+| data | vehicle-model | 车型数据 |
 
 失败：
 
@@ -318,11 +290,9 @@ rpc.call("vehicle", "uploadStatus", order_id)
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
-See 成功返回数据：[example](../data/vehicle/uploadStatus.json)
-
 ## getVehicleModel
 
-获取某个车型信息
+根据 vehicle code 获取车型信息
 
 | domain | accessable |
 | ----   | ----       |
@@ -341,7 +311,7 @@ Example:
 
 let vehicle_code = "I0000000000000000250000000000041";
 
-rpc.call("vehicle", "getVehicleModel", vid)
+rpc.call("vehicle", "getVehicleModel", vehicle_code)
   .then(function (result) {
 
   }, function (error) {
@@ -372,734 +342,6 @@ rpc.call("vehicle", "getVehicleModel", vid)
 | 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicleModel.json)
-
-## getVehicle
-
-获取某个车信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note       |
-| ---- | ---- | ----       |
-| vid  | uuid | vehicle id |
-
-Example:
-
-```javascript
-
-let vid = "00000000-0000-0000-0000-000000000000";
-
-rpc.call("vehicle", "getVehicle", vid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | json   |         |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/getVehicle.json)
-
-## getVehicles
-
-获取所有车信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note |
-| ---- | ---- | ---- |
-
-Example:
-
-```javascript
-
-rpc.call("vehicle", "getVehicles")
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/getVehicles.json)
-
-## getDriver
-
-获取驾驶人信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note       |
-| ---- | ---- | ----       |
-| vid  | uuid | vehicle id |
-| pid  | uuid | person id  |
-
-```javascript
-
-var vid = "00000000-0000-0000-0000-000000000000";
-var pid = "00000000-0000-0000-0000-000000000000";
-
-rpc.call("vehicle", "getDriver", vid, pid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/getDriver.json)
-
-## setVehicleOnCard
-
-添加车辆信息（已上牌）
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name                     | type     | note             |
-| ----                     | ----     | ----             |
-| owner\_name              | string   | 车主姓名         |
-| owner\_identity\_no      | string   | 车主身份证编号   |
-| owner\_phone             | string   | 车主电话号码     |
-| applicant\_name          | string   | 投保人姓名       |
-| applicant\_identity\_no  | string   | 投保人身份证编号 |
-| applicant\_phone         | string   | 投保人电话号码   |
-| recommend                | string   | 推荐人           |
-| vehicle\_code            | string   | 车型代码         |
-| license\_no              | string   | 车牌             |
-| engine\_no               | string   | 发动机号         |
-| register\_date           | iso8601  | 注册日期         |
-| average\_mileage         | string   | 年平均行驶里程   |
-| is\_transfer             | boolean  | 是否过户         |
-| last\_insurance\_company | string   | 上次投保的公司   |
-| insurance\_due\_date     | iso8601  | 保险到期时间     |
-| fuel\_type               | string   | 燃油类型         |
-| vin                      | string   | vin码            |
-| accident\_status         | smallint | 出险次数         |
-
-Example:
-
-```javascript
-
-let owner_name = "aaa";
-let owner_identity_no = "440308197406255611";
-let owner_phone = "18713575980";
-let applicant_name = "aaa";
-let applicant_identity_no = "440308197406255611";
-let applicant_phone = "18713575980";
-let recommend = null;
-let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
-let license_no = "a5678";
-let engine_no = "5555";
-let register_date = new Date("2016-12-06 18:26:54");
-let average_mileage = "3万以上";
-let is_transfer = false;
-let last_insurance_company = null;
-let insurance_due_date = new Date("2016-12-06 18:26:54");
-let fuel_type = "汽油";
-let vin = "WBAZV4101BL456778";
-let accident_status = 1;
-
-rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 200  |
-| data | string | vid  |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning       |
-| ---- | ----           |
-| 400  | 参数错误       |
-| 403  | 请求接口不存在 |
-| 404  | 未找到资源     |
-| 408  | 请求超时       |
-| 500  | 未知错误       |
-
-See [example](../data/vehicle/setVehicle.json)
-
-## setVehicle
-
-添加车辆信息(新车未上牌)
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name                     | type    | note             |
-| ----                     | ----    | ----             |
-| owner\_name              | string  | 车主姓名         |
-| owner\_identity\_no      | string  | 车主身份证编号   |
-| owner\_phone             | string  | 车主电话号码     |
-| applicant\_name          | string  | 投保人姓名       |
-| applicant\_identity\_no  | string  | 投保人身份证编号 |
-| applicant\_phone         | string  | 投保人电话号码   |
-| recommend                | string  | 推荐人           |
-| vehicle\_code            | string  | 车型代码         |
-| engine\_no               | string  | 发动机号         |
-| receipt\_no              | string  | 发票编号         |
-| receipt\_date            | iso8601 | 发票开具时间     |
-| average\_mileage         | string  | 年平均行驶里程   |
-| is\_transfer             | boolean | 是否过户         |
-| last\_insurance\_company | string  | 上次投保的公司   |
-| fuel\_type               | string  | 燃油类型         |
-| vin                      | string  | vin码            |
-
-Example:
-
-```javascript
-
-let owner_name = "aaa";
-let owner_identity_no = "440308197406255611";
-let owner_phone = "18713575980";
-let applicant_name = "aaa";
-let applicant_identity_no = "440308197406255611";
-let applicant_phone = "18713575980";
-let recommend = null;
-let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
-let engine_no = "5555";
-let receipt_no = "123456";
-let receipt_date = new Date("2016-12-06 18:26:54");
-let average_mileage = "3万以上";
-let is_transfer = false;
-let last_insurance_company = null;
-let fuel_type = "汽油"
-let vin = "WBAZV4101BL456778";
-
-rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 200  |
-| data | string | vid  |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning       |
-| ---- | ----           |
-| 400  | 参数错误       |
-| 403  | 请求接口不存在 |
-| 404  | 未找到资源     |
-| 408  | 请求超时       |
-| 500  | 未知错误       |
-
-See [example](../data/vehicle/setVehicle.json)
-
-
-## addDrivers
-
-添加驾驶人信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name    | type     | note       |
-| ----    | ----     | ----       |
-| vid     | uuid     | 车辆 ID    |
-| drivers | [person] | 驾驶人信息 |
-
-```javascript
-
-var drivers = [
-  {
-    name: "",
-    identity_no: "",
-    phone: "",
-    is_primary: ""
-  }
-];
-
-rpc.call("vehicle", "addDrivers", vid, drivers)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/setDrivers.json)
-
-## getVehicleModelsByMake
-
-获得车型
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name          | type   | note     |
-| ----          | ----   | ----     |
-| vehicle\_code | string | 车型代码 |
-
-Example:
-
-```javascript
-
-var code = "I0000000000000000250000000000041";
-
-rpc.call("vehicle", "getVehicleModelsByMake", code)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type | note |
-| ---- | ---- | ---- |
-| code | int  | 200  |
-| data | json |      |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/getVehicleModelsByMake.json)
-
-## uploadDriverImages
-
-上传证件照
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name                  | type         | note           |
-| ----                  | ----         | ----           |
-| vid                   | string       | vehicle id     |
-| driving-frontal-view  | string       | 行驶证正面照   |
-| driving-rear-view     | string       | 行驶证背面照   |
-| identity-frontal-view | string       | 身份证件正面照 |
-| identity-rear-view    | string       | 身份证件背面照 |
-| license-frontal-view  | {pid => url} | 驾照           |
-
-```javascript
-
-var vid = "00000000-0000-0000-0000-000000000000";
-var driving_frontal_view = "";
-var driving_rear_view = "";
-var identity_frontal_view = "";
-var identity_rear_view = "";
-var license_frontal_views = {
-  "00000000-0000-0000-0000-000000000000": "http://www.xxxxxxxxx",
-  "00000000-0000-0000-0000-000000000001": "http://www.xxxxxxxxx"
-};
-
-rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rear_view, identity_frontal_view, identity_rear_view, license_frontal_views)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/uploadDriverImages.json)
-
-## getUserVehicles
-
-获取用户所有车信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  |            |
-| mobile | ✓          |
-
-#### request
-
-Example:
-
-```javascript
-
-rpc.call("vehicle", "getUserVehicles")
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/getVehicles.json)
-
-## getVehicleInfoByLicense
-
-通过车牌号获取车辆信息
-
-测试用，以后移除
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name      | type      | note               |
-| ----      | ----      | ----               |
-| licenseNo | String(8) | 车牌号码, 豫JCC522 |
-
-测试只能用 豫JCC522，其他车牌请求超时。
-
-如下参数不用调用者提供，但是在请求报文中必须出现：
-
-| name          | type       | note                                                |
-| ----          | ----       | ----                                                |
-| applicationID | String(32) | 请求方标识，由智通引擎提供                          |
-| operType      | String(32) | 接口类型, 固定值:BDB                                |
-| sendTime      | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
-
-Example:
-
-```javascript
-rpc.call("vehicle", "getVehicleInfoByLicense", licenseNumber)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-成功：
-
-| name | type | note |
-| ---- | ---- | ---- |
-| code | int  | 200  |
-| data | JSON | 见下 |
-
-```json
-{
-  "responseNo": "ecef20bc-9379-478f-bf4a-4015a35a904f",
-  "engineNo": "870**86",
-  "licenseNo": "豫JCC522",
-  "frameNo": "LSGPC52****013740",
-  "firstRegisterDate": "2011-01-14"
-}
-```
-
-失败：
-
-| name     | type   | note |
-| ----     | ----   | ---- |
-| code     | int    |      |
-| data/msg | string |      |
-
-| code | meanning   |
-| ---- | ----       |
-| 400  | 数据不存在 |
-| 500  | 未知错误   |
-
-## getVehicleInfoByResponseNumber
-
-通过响应码获取车型信息
-
-测试用，以后移除
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name       | type       | note     |
-| ----       | ----       | ----     |
-| licenseNo  | String(8)  | 车牌号码 |
-| responseNo | String(36) | 响应码   |
-
-响应码通过调用 getVehicleInfoByLicense 返回。 如.8f250190-31b9-4cf9-bea7-99f586ce31f1
-
-测试只能用 豫JCC522，ecef20bc-9379-478f-bf4a-4015a35a904f，其他车牌请求超时。
-
-如下参数不用调用者提供，但是在请求报文中必须出现：
-
-| name          | type       | note                       |
-| ----          | ----       | ----                       |
-| applicationID | String(32) | 请求方标识，由智通引擎提供 |
-| operType      | String(32) | 接口类型, 固定值:JYK       |
-| sendTime      | String(20) | 请求时间                   |
-
-请求时间，调用接口时系统时间, 如:2016-05-01 16:10:10
-
-Example:
-
-```javascript
-rpc.call("vehicle", "getVehicleInfoByResponseNumber", licenseNumber，responseNumber)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | JSON | 见下 |
-
-
-```json
-[
-  {
-    "vehicleFgwCode": "SGM7150DMAA",
-    "brandCode": "3fe5c096-a157-4b69-8917-b2f168fbd571",
-    "brandName": "上汽通用雪佛兰",
-    "engineDesc": "1.5L",
-    "familyName": "科鲁兹",
-    "gearboxType": "手动档",
-    "remark": "手动档 经典版 SE 国Ⅴ",
-    "newCarPrice": "85900",
-    "purchasePriceTax": "89571",
-    "importFlag": "1",
-    "purchasePrice": "85900",
-    "seat": "5",
-    "standardName": "雪佛兰SGM7150DMAA轿车",
-    "vehicleFgwName": null,
-    "parentVehName": null
-  },
-  {
-    "vehicleFgwCode": "SGM7150DMAA",
-    "brandCode": "563e87a3-3109-4d38-a330-db45be35d673",
-    "brandName": "上汽通用雪佛兰",
-    "engineDesc": "1.5L",
-    "familyName": "科鲁兹",
-    "gearboxType": "手动档",
-    "remark": "手动档 经典版 SL 国Ⅴ",
-    "newCarPrice": "75900",
-    "purchasePriceTax": "79144",
-    "importFlag": "1",
-    "purchasePrice": "75900",
-    "seat": "5",
-    "standardName": "雪佛兰SGM7150DMAA轿车",
-    "vehicleFgwName": null,
-    "parentVehName": null
-  }
-]
-```
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning   |
-| ---- | ----       |
-| 400  | 数据不存在 |
-| 500  | 未知错误   |
-
 
 ## fetchVehicleAndModelByLicense
 
@@ -1186,7 +428,6 @@ data 字段解释
 | parentVehName    | String(100) | 年份款型, 2008 款 豪华型                              |
 
 
-
 ```json
 {
     "responseNo": "97c75995-0dd0-45d1-ad03-cf42396410a7",
@@ -1250,6 +491,435 @@ data 字段解释
 | ---- | ----                              |
 | 400  | 数据不存在，具体见返回的 msg 内容 |
 | 500  | 未知错误                          |
+
+## createNewVehicle
+
+创建车辆信息(新车未上牌)
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name                   | type    | note             |
+| ----                   | ----    | ----             |
+| owner_name             | string  | 车主姓名         |
+| owner_identity_no      | string  | 车主身份证编号   |
+| owner_phone            | string  | 车主电话号码     |
+| applicant_name         | string  | 投保人姓名       |
+| applicant_identity_no  | string  | 投保人身份证编号 |
+| applicant_phone        | string  | 投保人电话号码   |
+| recommend              | string  | 推荐人           |
+| vehicle_code           | string  | 车型代码         |
+| engine_no              | string  | 发动机号         |
+| receipt_no             | string  | 发票编号         |
+| receipt_date           | iso8601 | 发票开具时间     |
+| average_mileage        | string  | 年平均行驶里程   |
+| is_transfer            | boolean | 是否过户         |
+| last_insurance_company | string  | 上次投保的公司   |
+| fuel_type              | string  | 燃油类型         |
+| vin                    | string  | vin码            |
+
+Example:
+
+```javascript
+
+let owner_name = "aaa";
+let owner_identity_no = "440308197406255611";
+let owner_phone = "18713575980";
+let applicant_name = "aaa";
+let applicant_identity_no = "440308197406255611";
+let applicant_phone = "18713575980";
+let recommend = null;
+let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
+let engine_no = "5555";
+let receipt_no = "123456";
+let receipt_date = new Date("2016-12-06 18:26:54");
+let average_mileage = "3万以上";
+let is_transfer = false;
+let last_insurance_company = null;
+let fuel_type = "汽油"
+let vin = "WBAZV4101BL456778";
+
+rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | vid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning       |
+| ---- | ----           |
+| 400  | 参数错误       |
+| 403  | 请求接口不存在 |
+| 404  | 未找到资源     |
+| 408  | 请求超时       |
+| 500  | 未知错误       |
+
+## createVehicle
+
+创建车辆信息（已上牌）
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name                   | type     | note             |
+| ----                   | ----     | ----             |
+| owner_name             | string   | 车主姓名         |
+| owner_identity_no      | string   | 车主身份证编号   |
+| owner_phone            | string   | 车主电话号码     |
+| applicant_name         | string   | 投保人姓名       |
+| applicant_identity_no  | string   | 投保人身份证编号 |
+| applicant_phone        | string   | 投保人电话号码   |
+| recommend              | string   | 推荐人           |
+| vehicle_code           | string   | 车型代码         |
+| license_no             | string   | 车牌             |
+| engine_no              | string   | 发动机号         |
+| register_date          | iso8601  | 注册日期         |
+| average_mileage        | string   | 年平均行驶里程   |
+| is_transfer            | boolean  | 是否过户         |
+| last_insurance_company | string   | 上次投保的公司   |
+| insurance_due_date     | iso8601  | 保险到期时间     |
+| fuel_type              | string   | 燃油类型         |
+| vin                    | string   | vin码            |
+| accident_status        | smallint | 出险次数         |
+
+Example:
+
+```javascript
+
+let owner_name = "aaa";
+let owner_identity_no = "440308197406255611";
+let owner_phone = "18713575980";
+let applicant_name = "aaa";
+let applicant_identity_no = "440308197406255611";
+let applicant_phone = "18713575980";
+let recommend = null;
+let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
+let license_no = "a5678";
+let engine_no = "5555";
+let register_date = new Date("2016-12-06 18:26:54");
+let average_mileage = "3万以上";
+let is_transfer = false;
+let last_insurance_company = null;
+let insurance_due_date = new Date("2016-12-06 18:26:54");
+let fuel_type = "汽油";
+let vin = "WBAZV4101BL456778";
+let accident_status = 1;
+
+rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | vid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning       |
+| ---- | ----           |
+| 400  | 参数错误       |
+| 403  | 请求接口不存在 |
+| 404  | 未找到资源     |
+| 408  | 请求超时       |
+| 500  | 未知错误       |
+
+## getVehicle
+
+获取某辆车信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note       |
+| ---- | ---- | ----       |
+| vid  | uuid | vehicle id |
+
+Example:
+
+```javascript
+
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("vehicle", "getVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | json   |         |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/vehicle/getVehicle.json)
+
+## getVehiclesByUser
+
+获取用户所有车信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+Example:
+
+```javascript
+
+rpc.call("vehicle", "getVehiclesByUser")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/vehicle/getVehicles.json)
+
+## addDrivers
+
+添加驾驶人信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name    | type     | note       |
+| ----    | ----     | ----       |
+| vid     | uuid     | 车辆 ID    |
+| drivers | [person] | 驾驶人信息 |
+
+```javascript
+
+var drivers = [
+  {
+    name: "",
+    identity_no: "",
+    phone: "",
+    is_primary: ""
+  }
+];
+
+rpc.call("vehicle", "addDrivers", vid, drivers)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+## delDrivers
+
+删除驾驶人信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name    | type  | note           |
+| ----    | ----  | ----           |
+| vid     | uuid  | 车辆 ID        |
+| drivers | [did] | 驾驶人 ID 列表 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+## uploadImages
+
+上传证件照
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name                  | type         | note           |
+| ----                  | ----         | ----           |
+| vid                   | string       | vehicle id     |
+| driving-frontal-view  | string       | 行驶证正面照   |
+| driving-rear-view     | string       | 行驶证背面照   |
+| identity-frontal-view | string       | 身份证件正面照 |
+| identity-rear-view    | string       | 身份证件背面照 |
+| license-frontal-view  | {pid => url} | 驾照           |
+
+```javascript
+
+var vid = "00000000-0000-0000-0000-000000000000";
+var driving_frontal_view = "";
+var driving_rear_view = "";
+var identity_frontal_view = "";
+var identity_rear_view = "";
+var license_frontal_views = {
+  "00000000-0000-0000-0000-000000000000": "http://www.xxxxxxxxx",
+  "00000000-0000-0000-0000-000000000001": "http://www.xxxxxxxxx"
+};
+
+rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rear_view, identity_frontal_view, identity_rear_view, license_frontal_views)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/vehicle/uploadDriverImages.json)
 
 ## setPersonVerified
 
