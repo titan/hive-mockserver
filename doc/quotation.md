@@ -5,14 +5,12 @@
 - [ChangeLog](#changelog)
 - [Data Structure](#data-structure)
   - [quotation](#quotation)
-  - [quotation-group](#quotation-group)
   - [quotation-item](#quotation-item)
   - [quotation-item-price](#quotation-item-price)
   - [quotation-item-quota](#quotation-item-quota)
-  - [后台提醒](#%E5%90%8E%E5%8F%B0%E6%8F%90%E9%86%92)
 - [Database](#database)
   - [quotations](#quotations)
-  - [quotation\_item_list](#quotation%5C_item_list)
+  - [quotation_items](#quotation_items)
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
   - [quotation-entities](#quotation-entities)
@@ -30,20 +28,25 @@
   - [refresh](#refresh)
       - [request](#request-3)
       - [response](#response-3)
-  - [newMessageNotify](#newmessagenotify)
+  - [getReferenceQuotation](#getreferencequotation)
       - [request](#request-4)
       - [response](#response-4)
-  - [getReferenceQuotation](#getreferencequotation)
+  - [getAccurateQuotation](#getaccuratequotation)
       - [request](#request-5)
       - [response](#response-5)
-  - [getAccurateQuotation](#getaccuratequotation)
-      - [request](#request-6)
-      - [response](#response-6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # ChangeLog
+
+1. 2017-02-10
+  * 删除 quotation-group 数据结构
+  * 删除后台提醒
+  * 删除 quotations 表中 pid 和 fu_total_price
+  * quotation_item_list 重命名为 quotation_items 表
+  * quotation_items 表中，piid 改为 pid
+  * 删除 newMessageNotify 方法
 
 1. 2017-01-16
   * getQuotationByVid 改名为 getLastQuotationByVid
@@ -83,35 +86,25 @@
 
 ## quotation
 
-| name    | type              | note         |
-| ----    | ----              | ----         |
-| id      | uuid              | 主键         |
-| state   | int               | 报价状态     |
-| groups  | [quotation-group] | 对应计划集合 |
-| vehicle | vehicle           | 对应的车辆   |
+| name    | type             | note         |
+| ----    | ----             | ----         |
+| id      | uuid             | 主键         |
+| state   | int              | 报价状态     |
+| items   | [quotation-item] | 对应计划集合 |
+| vehicle | vehicle          | 对应的车辆   |
 
 报价的 ID 与 vehicle 的 ID 是一致的。
 
 [![报价状态转换图](../img/quotation-states.png)](报价状态转换图)
 
-## quotation-group
-
-| name         | type             | note         |
-| ----         | ----             | ----         |
-| id           | uuid             | 主键         |
-| plan         | plan             | 对应的计划   |
-| is-must-have | boolean          | 是否必选     |
-| items        | [quotation-item] | 包含的 items |
-
 ## quotation-item
 
-| name         | type                   | note             |
-| ----         | ----                   | ----             |
-| id           | uuid                   | 主键             |
-| item         | plan-item              | 对应的 plan-item |
-| is-must-have | boolean                | 是否必选         |
-| quotas       | [quotation-item-quota] | 限额列表         |
-| prices       | [quotation-item-price] | 价格列表         |
+| name   | type                   | note        |
+| ----   | ----                   | ----        |
+| id     | uuid                   | 主键        |
+| plan   | plan                   | 对应的 plan |
+| quotas | [quotation-item-quota] | 限额列表    |
+| prices | [quotation-item-price] | 价格列表    |
 
 注意，[quotation-item-quota] 中，大多数情况都是只有一个元素，甚至为空。只有第三者险有多个元素。
 prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
@@ -132,10 +125,6 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | num  | float  | 数量 |
 | unit | string | 单位 |
 
-## 后台提醒
-
-[![后台提醒状态](../img/new-message-states.svg)](后台提醒状态)
-
 # Database
 
 ## quotations
@@ -145,33 +134,32 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | id                 | uuid          |      |         | primary |           |
 | vid                | uuid          |      |         |         | vehicles  |
 | state              | int           |      | 0       |         |           |
-| created\_at        | timestamp     |      | now     |         |           |
-| updated\_at        | timestamp     |      | now     |         |           |
+| created_at         | timestamp     |      | now     |         |           |
+| updated_at         | timestamp     |      | now     |         |           |
 | outside_quotation1 | real          |      | 0.0     |         |           |
 | outside_quotation2 | real          |      | 0.0     |         |           |
 | screenshot1        | varchar(1024) | ✓    |         |         |           |
 | screenshot2        | varchar(1024) | ✓    |         |         |           |
-| pid                | uuid          |      |         |         | plans     |
-| total\_price       | real          |      |         |         |           |
-| fu\_total\_price   | real          |      |         |         |           |
+| total_price        | real          |      |         |         |           |
 | insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
 
-## quotation\_item_list
+## quotation_items
 
-| field          | type      | null | default | index   | reference   |
-| ----           | ----      | ---- | ----    | ----    | ----        |
-| id             | uuid      |      |         | primary |             |
-| piid           | uuid      |      |         |         | plan\_items |
-| is\_must\_have | bool      |      | false   |         |             |
-| price          | real      |      |         |         |             |
-| num            | real      |      |         |         |             |
-| unit           | char(16)  |      |         |         |             |
-| real\_price    | real      |      |         |         |             |
-| type           | smallint  |      |         |         |             |
-| insure         | smallint  |      |         |         |             |
-| created\_at    | timestamp |      | now     |         |             |
-| updated\_at    | timestamp |      | now     |         |             |
+| field      | type      | null | default | index   | reference |
+| ----       | ----      | ---- | ----    | ----    | ----      |
+| id         | uuid      |      |         | primary |           |
+| pid        | integer   |      |         |         | plans     |
+| price      | real      |      |         |         |           |
+| num        | real      |      |         |         |           |
+| unit       | char(16)  |      |         |         |           |
+| real_price | real      |      |         |         |           |
+| type       | smallint  |      |         |         |           |
+| insure     | smallint  |      |         |         |           |
+| created_at | timestamp |      | now     |         |           |
+| updated_at | timestamp |      | now     |         |           |
+
+其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"]
 
 # Cache
 
@@ -183,9 +171,9 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 
 ## quotation-entities
 
-| key                | type | value               | note         |
-| ----               | ---- | ----                | ----         |
-| quotation-entities | hash | 报价ID => 报价 JSON | 所有报价实体 |
+| key                | type | value            | note         |
+| ----               | ---- | ----             | ----         |
+| quotation-entities | hash | qid => quotation | 所有报价实体 |
 
 # External Queue
 
@@ -391,48 +379,7 @@ rpc.call("quotation", "refresh")
 | 200   | null     | 成功    |
 | other | 错误信息 | 失败    |
 
-See 成功返回数据：[example](../data/quotation/sucessful.json)
-
-
-## newMessageNotify
-
-后台提醒
-
-#### request
-
-```javascript
-
-rpc.call("quotation", "newMessageNotify")
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/quotation/newMessageNotify.json)
+See 成功返回数据：[example](../data/quotation/successful.json)
 
 ## getReferenceQuotation
 
