@@ -16,6 +16,11 @@
     - [Event Type](#event-type)
     - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix)
 - [Database](#database)
+  - [plan_orders](#plan_orders)
+  - [plan\_order\_items](#plan%5C_order%5C_items)
+  - [driver_orders](#driver_orders)
+  - [driver\_order\_items](#driver%5C_order%5C_items)
+  - [sale_orders](#sale_orders)
   - [orders](#orders)
   - [plan\_order\_ext](#plan%5C_order%5C_ext)
   - [driver\_order\_ext](#driver%5C_order%5C_ext)
@@ -85,6 +90,11 @@
   * 删除 new-orders 缓存
   * 删除 new-pays 缓存
   * 删除 VIN-orderID 缓存
+  * 增加 plan-orders 表
+  * 增加 plan-order-items 表
+  * 增加 driver-orders 表
+  * 增加 driver-order-items 表
+  * 增加 sale-orders 表
 
 1. 2017-02-09
   * 增加 OrderEvent
@@ -218,6 +228,7 @@
 | type               | smallint | event type   |
 | opid               | uuid     | operator id  |
 | oid                | uuid     | order id     |
+| order-type         | smallint | order type   |
 | occurred-at        | iso8601  | 事件发生时间 |
 | amount             | float    | 金额         |
 | qid                | uuid     | quotation id |
@@ -262,6 +273,93 @@
 | 9    |        |      |           |            |           |        |                    |        |
 
 # Database
+
+## plan_orders
+
+| field                | type          | null | default | index   | reference  |
+| ----                 | ----          | ---- | ----    | ----    | ----       |
+| id                   | uuid          |      |         | primary |            |
+| no                   | char(32)      |      |         | ✓       |            |
+| uid                  | uuid          |      |         |         | users      |
+| pgid                 | uuid          | ✓    |         |         | plangroups |
+| qid                  | uuid          |      |         |         | quotations |
+| vid                  | uuid          |      |         |         | vehicles   |
+| state                | smallint      |      | 0       |         |            |
+| state\_description   | string        | ✓    |         |         |            |
+| summary              | float         |      | 0.0     |         |            |
+| payment              | float         |      | 0.0     |         |            |
+| applicant            | uuid          |      |         |         | person     |
+| promotion            | float         | ✓    |         |         |            |
+| service\_ratio       | float         |      |         |         |            |
+| vehicle\_real\_value | real          |      | 0.0     |         |            |
+| outside\_quotation1  | real          |      | 0.0     |         |            |
+| outside\_quotation2  | real          |      | 0.0     |         |            |
+| screenshot1          | varchar(1024) | ✓    | 0.0     |         |            |
+| screenshot2          | varchar(1024) | ✓    | 0.0     |         |            |
+| ticket               | char(96)      | ✓    |         |         |            |
+| recommend            | varchar(32)   | ✓    |         |         |            |
+| expect\_at           | timestamp     |      | now     |         |            |
+| start\_at            | timestamp     | ✓    |         |         |            |
+| stop\_at             | timestamp     | ✓    |         |         |            |
+| paid\_at             | timestamp     | ✓    |         |         |            |
+| created\_at          | timestamp     |      | now     |         |            |
+| updated\_at          | timestamp     |      | now     |         |            |
+
+## plan\_order\_items
+
+| field | type  | null | default | index   | reference    |
+| ----  | ----  | ---- | ----    | ----    | ----         |
+| id    | uuid  |      |         | primary |              |
+| oid   | uuid  |      |         |         | plan\_orders |
+| pid   | uuid  |      |         |         | plans        |
+| price | float |      | 0.0     |         |              |
+
+## driver_orders
+
+| field              | type      | null | default | index   | reference |
+| ----               | ----      | ---- | ----    | ----    | ----      |
+| id                 | uuid      |      |         | primary |           |
+| no                 | char(32)  |      |         | ✓       |           |
+| vid                | uuid      |      |         |         | vehicles  |
+| state              | smallint  |      | 0       |         |           |
+| state\_description | string    | ✓    |         |         |           |
+| summary            | float     |      | 0.0     |         |           |
+| payment            | float     |      | 0.0     |         |           |
+| applicant          | uuid      |      |         |         | person    |
+| paid\_at           | timestamp | ✓    |         |         |           |
+| start\_at          | timestamp |      | now     |         |           |
+| stop\_at           | timestamp |      | now     |         |           |
+| created\_at        | timestamp |      | now     |         |           |
+| updated\_at        | timestamp |      | now     |         |           |
+
+## driver\_order\_items
+
+| field | type  | null | default | index   | reference      |
+| ----  | ----  | ---- | ----    | ----    | ----           |
+| id    | uuid  |      |         | primary |                |
+| oid   | uuid  |      |         |         | driver\_orders |
+| pid   | uuid  |      |         |         | person         |
+| price | float |      | 0.0     |         |                |
+
+## sale_orders
+
+| field              | type      | null | default | index   | reference |
+| ----               | ----      | ---- | ----    | ----    | ----      |
+| id                 | uuid      |      |         | primary |           |
+| no                 | char(32)  |      |         | ✓       |           |
+| vid                | uuid      |      |         |         | vehicles  |
+| type               | smallint  |      | 0       |         |           |
+| state              | smallint  |      | 0       |         |           |
+| state\_description | string    | ✓    |         |         |           |
+| summary            | float     |      | 0.0     |         |           |
+| payment            | float     |      | 0.0     |         |           |
+| applicant          | uuid      |      |         |         | person    |
+| paid\_at           | timestamp | ✓    |         |         |           |
+| start\_at          | timestamp |      | now     |         |           |
+| stop\_at           | timestamp |      | now     |         |           |
+| created\_at        | timestamp |      | now     |         |           |
+| updated\_at        | timestamp |      | now     |         |           |
+
 
 ## orders
 
