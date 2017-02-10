@@ -10,6 +10,9 @@
   - [getLastQuotation](#getlastquotation)
       - [request](#request-1)
       - [response](#response-1)
+  - [createDriverOrder](#createdriverorder)
+      - [request](#request-2)
+      - [response](#response-2)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
