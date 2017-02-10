@@ -15,6 +15,9 @@
 
 # ChangeLog
 
+1. 2017-02-10
+  * 增加 createDriverOrder
+
 1. 2017-02-06
   * 增加 getLastQuotation
 
@@ -107,6 +110,54 @@
 | ---- | ----        | ---- |
 | code | int         | 200  |
 | data | [quotation] |      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+## createDriverOrder
+
+创建司机订单，流程如下：
+
+1. 保存司机到 person;
+
+2. 创建司机订单。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name    | type                          | note       |
+| ----    | ----                          | ----       |
+| vid     | uuid                          | 车辆 ID    |
+| drivers | [[person](vehicle.md#person)] | 驾驶人信息 |
+| summary | float                         | 总价       |
+| payment | float                         | 实付       |
+
+#### response
+
+成功：
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| code | int    | 200    |
+| data | object | 见下面 |
+
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| order-id | uuid   | Order ID |
+| order-no | string | Order No |
 
 失败：
 
