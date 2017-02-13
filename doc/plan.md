@@ -31,6 +31,10 @@
 
 # ChangeLog
 
+1. 2017-02-13
+  * 增加 plan-group-entities 缓存
+  * 增加 getJoinedCount 方法
+
 1. 2017-02-10
   * 增加 plan-group 数据结构
   * 修改 plan 数据结构
@@ -110,10 +114,11 @@
 
 # Cache
 
-| name              | type         | note         |
-| ----              | ----         | ----         |
-| plan-entities     | {id => plan} | 计划实体缓存 |
-| plan-joined-count | number       | 已加入车辆数 |
+| name                | type               | note             |
+| ----                | ----               | ----             |
+| plan-entities       | {id => plan}       | 计划实体缓存     |
+| plan-group-entities | {id => plan-group} | 计划套餐实体缓存 |
+| plan-joined-count   | number             | 已加入车辆数     |
 
 # API
 
@@ -278,3 +283,42 @@ rpc.call("plan", "setJoinedCount", count)
 | other | 错误信息 | 失败    |
 
 See [example](../data/plan/setJoinedCount.json)
+
+## getJoinedCount
+
+获得已加入车辆数量
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name  | type   | note     |
+| ----  | ----   | ----     |
+
+
+Example:
+
+```javascript
+rpc.call("plan", "getJoinedCount")
+  .then(function (data) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| msg/data | string | 结果内容 |
+
+| code  | msg/data | meaning |
+| ----  | ----     | ----    |
+| 200   | 车辆数   | 成功    |
+| other | 错误信息 | 失败    |
+
