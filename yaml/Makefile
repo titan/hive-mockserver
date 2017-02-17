@@ -5,20 +5,56 @@ QUOTATION_GROUPS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-ite
 QUOTATION = ../data/quotation/getQuotation.json
 QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_GROUPS_DEPS) $(VEHICLE_DEPS)
 
-PLANS = ../data/plan/getPlans.json
-JOINED_PLANS_DEPS = plans.yaml
+PLANS_DEPS = plans.yaml
 
-PLAN_GROUPS = ../data/plan/getPlanGroups.json
+GET_PLANS = ../data/plan/getPlans.json
+GET_PLANS_DEPS = get-plans.yaml $(PLANS_DEPS)
+
 PLAN_GROUPS_DEPS = plan-groups.yaml
 
-VEHICLE = ../data/vehicle/getVehicle.json
+GET_PLAN_GROUPS = ../data/plan/getPlanGroups.json
+GET_PLAN_GROUPS_DEPS = get-plan-groups.yaml $(PLAN_GROUPS_DEPS)
+
 VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model.yaml vehicle.yaml
+
+GET_VEHICLE = ../data/vehicle/getVehicle.json
+GET_VEHICLES_DEPS = get-vehicle.yaml $(VEHICLE_DEPS)
+
+VEHICLES_DEPS = vehicles.yaml $(VEHICLE_DEPS)
+
+GET_VEHICLES = ../data/vehicle/getVehicles.json
+GET_VEHICLES_DEPS = get-vehicles.yaml $(VEHICLES_DEPS)
 
 FETCH_VEHICLE_MODELS = ../data/vehicle/fetchVehicleModelByVin.json
 FETCH_VEHICLE_MODELS_DEPS = vehicle-models.yaml vehicle-model1.yaml vehicle-model2.yaml
 
 FETCH_VEHICLE_AND_MODELS = ../data/vehicle/fetchVehicleAndModelByLicense.json
 FETCH_VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-vehicle-models.yaml zt-vehicle-model1.yaml zt-vehicle-model2.yaml
+
+PROFILE = ../data/profile/getProfile.json
+PROFILE_DEPS = profile.yaml
+
+
+VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model.yaml vehicle.yaml
+
+GET_VEHICLE = ../data/vehicle/getVehicle.json
+GET_VEHICLES_DEPS = get-vehicle.yaml $(VEHICLE_DEPS)
+
+VEHICLES_DEPS = vehicles.yaml $(VEHICLE_DEPS)
+
+GET_VEHICLES = ../data/vehicle/getVehicles.json
+GET_VEHICLES_DEPS = get-vehicles.yaml $(VEHICLES_DEPS)
+
+
+VEHICLE_MODELS_DEPS = vehicle-models.yaml vehicle-model1.yaml vehicle-model2.yaml
+
+FETCH_VEHICLE_MODELS = ../data/vehicle/fetchVehicleModelsByVin.json
+FETCH_VEHICLE_MODELS_DEPS = fetch-vehicle-models-by-vin.yaml $(VEHICLE_MODELS_DEPS)
+
+VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-vehicle-models.yaml zt-vehicle-model1.yaml zt-vehicle-model2.yaml
+
+FETCH_VEHICLE_AND_MODELS = ../data/vehicle/fetchVehicleAndModelsByLicense.json
+FETCH_VEHICLE_AND_MODELS_DEPS = fetch-vehicle-and-models-by-license.yaml $(VEHICLE_AND_MODELS_DEPS)
 
 PROFILE = ../data/profile/getProfile.json
 PROFILE_DEPS = profile.yaml
@@ -63,25 +99,28 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(QUOTATION) $(PLANS) $(PLAN_GROUPS) $(VEHICLE) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(QUOTATION): $(QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
 
-$(PLANS): $(PLANS_DEPS)
-	$(YAML2JSON) plans.yaml | aeson-pretty > $@
+$(GET_PLANS): $(GET_PLANS_DEPS)
+	$(YAML2JSON) get-plans.yaml | aeson-pretty > $@
 
-$(PLAN_GROUPS): $(PLAN_GROUPS_DEPS)
-	$(YAML2JSON) plan-groups.yaml | aeson-pretty > $@
+$(GET_PLAN_GROUPS): $(GET_PLAN_GROUPS_DEPS)
+	$(YAML2JSON) get-plan-groups.yaml | aeson-pretty > $@
 
-$(VEHICLE): $(VEHICLE_DEPS)
-	$(YAML2JSON) vehicle.yaml | aeson-pretty > $@
+$(GET_VEHICLE): $(VEHICLE_DEPS)
+	$(YAML2JSON) get-vehicle.yaml | aeson-pretty > $@
+
+$(GET_VEHICLES): $(GET_VEHICLES_DEPS)
+	$(YAML2JSON) get-vehicles.yaml | aeson-pretty > $@
 
 $(FETCH_VEHICLE_MODELS): $(FETCH_VEHICLE_MODELS_DEPS)
-	$(YAML2JSON) vehicle-models.yaml | aeson-pretty > $@
+	$(YAML2JSON) fetch-vehicle-models-by-vin.yaml | aeson-pretty > $@
 
 $(FETCH_VEHICLE_AND_MODELS): $(FETCH_VEHICLE_AND_MODELS_DEPS)
-	$(YAML2JSON) zt-vehicle-and-models.yaml | aeson-pretty > $@
+	$(YAML2JSON) fetch-vehicle-and-models-by-license.yaml | aeson-pretty > $@
 
 $(GET_GROUP): $(GET_GROUP_DEPS)
 	$(YAML2JSON) get-group.yaml | aeson-pretty > $@
@@ -122,9 +161,10 @@ $(GET_MUTUAL_AIDS): $(GET_MUTUAL_AIDS_DEPS)
 
 clean:
 	rm $(QUOTATION)
-	rm $(PLANS)
-	rm $(PLAN_GROUPS)
-	rm $(VEHICLE)
+	rm $(GET_PLANS)
+	rm $(GET_PLAN_GROUPS)
+	rm $(GET_VEHICLE)
+	rm $(GET_VEHICLES)
 	rm $(FETCH_VEHICLE_MODELS)
 	rm $(FETCH_VEHICLE_AND_MODELS)
 	rm $(GET_GROUP)

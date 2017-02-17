@@ -15,13 +15,13 @@
   - [vehicle-model](#vehicle-model-1)
   - [vehicle](#vehicle-1)
 - [API](#api)
-  - [fetchVehicleModelByVin](#fetchvehiclemodelbyvin)
+  - [fetchVehicleModelsByVin](#fetchvehiclemodelsbyvin)
       - [request](#request)
       - [response](#response)
   - [getVehicleModel](#getvehiclemodel)
       - [request](#request-1)
       - [response](#response-1)
-  - [fetchVehicleAndModelByLicense](#fetchvehicleandmodelbylicense)
+  - [fetchVehicleAndModelsByLicense](#fetchvehicleandmodelsbylicense)
       - [request](#request-2)
       - [response](#response-2)
   - [createNewVehicle](#createnewvehicle)
@@ -55,6 +55,8 @@
 
 1. 2017-02-17
   * 增加 zt-response-code 缓存
+  * 重命名 fetchVehicleModelByVin 为 fetchVehicleModelsByVin
+  * 重命名 fetchVehicleAndModelByLicense 为 fetchVehicleAndModelsByLicense
 
 1. 2017-02-10
   * 修改 vehicle 数据结构，去掉了 owner_type 和 vehicle_code
@@ -258,7 +260,7 @@
 
 # API
 
-## fetchVehicleModelByVin
+## fetchVehicleModelsByVin
 
 根据 vin 获取车型信息
 
@@ -294,7 +296,7 @@
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
-See [example](../data/vehicle/fetchVehicleModelByVin.json)
+See [example](../data/vehicle/fetchVehicleModelsByVin.json)
 
 ## getVehicleModel
 
@@ -349,7 +351,7 @@ rpc.call("vehicle", "getVehicleModel", vehicle_code)
 
 See [example](../data/vehicle/getVehicleModel.json)
 
-## fetchVehicleAndModelByLicense
+## fetchVehicleAndModelsByLicense
 
 通过车牌号获取车辆信息、车型信息列表
 
@@ -365,7 +367,7 @@ See [example](../data/vehicle/getVehicleModel.json)
 | license | String(8) | 车牌号码, 豫JCC522 |
 
 ```javascript
-rpc.call("vehicle", "fetchVehicleModelByLicense", license)
+rpc.call("vehicle", "fetchVehicleAndModelsByLicense", license)
   .then(function (result) {
 
   }, function (error) {
@@ -382,7 +384,7 @@ rpc.call("vehicle", "fetchVehicleModelByLicense", license)
 | code | int    | 200  |
 | data | object | 见下 |
 
-See [example](../data/vehicle/fetchVehicleAndModelByLicense.json)
+See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 
 失败：
 
