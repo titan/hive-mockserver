@@ -14,9 +14,8 @@ package Group {
   object GroupPollItem
 }
 package Plan {
+  object PlanGroup
   object Plan
-  object PlanItem
-  object PlanRule
 }
 package Vehicle {
   object Person
@@ -35,24 +34,25 @@ package Wallet {
   object Transaction
   object Account
   object WalletEvent
+  object Cashout
+  object CashoutEvent
 }
 package Order {
-  object Order
   object PlanOrder {
-    type = 0
-  }
-  object SaleOrder {
-    type = 2
-  }
-  object DriverOrder {
     type = 1
   }
-  object OrderItem
+  object SaleOrder {
+    type = 3
+  }
+  object DriverOrder {
+    type = 2
+  }
+  object PlanOrderItem
+  object DriverOrderItem
   object OrderEvent
 }
 package Quotation {
   object Quotation
-  object QuotationGroup
   object QuotationItem
   object QuotationItemQuota
   object QuotationItemPrice
@@ -60,25 +60,23 @@ package Quotation {
 package Underwrite {
   object Underwrite
 }
-package Cashout {
-  object Cashout
-  object CashoutEvent
-}
 
-Plan "1" --> "*" PlanItem
-Plan "1" --> "*" PlanRule
+PlanGroup "1" --> "*" Plan
 
-Order <|-- PlanOrder
-Order <|-- SaleOrder
-Order <|-- DriverOrder
-Order "1" --> "*" OrderEvent
+PlanOrder "1" --> "*" OrderEvent
+SaleOrder "1" --> "*" OrderEvent
+DriverOrder "1" --> "*" OrderEvent
 
-User "1" --> "*" Order
+User "1" --> "*" PlanOrder
+User "1" --> "*" DriverOrder
+User "1" --> "*" SaleOrder
 User "1" --> "*" Quotation
 User --> Wallet
 User --> Group
 
-Order -> Vehicle
+PlanOrder -> Vehicle
+SaleOrder -> Vehicle
+DriverOrder -> Vehicle
 Group "1" <- "*" PlanOrder
 Group "1" --> "*" GroupItem
 Group "1" --> "*" WaitingVehicle
@@ -92,29 +90,28 @@ AppliedVehicle - Vehicle
 JoinedVehicle - Vehicle
 QuittedVehicle - Vehicle
 
-PlanOrder "1" --> "*" Plan
-OrderItem "*" --> "1" Plan
+PlanOrder --> PlanGroup
+PlanOrderItem -> Plan
 
-PlanOrder "1" --> "*" OrderItem
+PlanOrder "1" --> "*" PlanOrderItem
 
-PlanItem <- OrderItem
-
-DriverOrder "1" -> "*" Driver
+DriverOrder "1" --> "*" DriverOrderItem
+DriverOrderItem -> Driver
 
 User "1" --> "*" MutualAid
 
 Person <|-- Driver
 Person <|-- Owner
 Person <|-- Applicant
-VehicleModel <-- Vehicle
+Vehicle --> VehicleModel
 Vehicle "1" --> "*" Driver
 Vehicle --> Owner
 Vehicle --> Applicant
 
 Wallet "1" --> "*" Account
-Wallet "1" --> "*" WalletEvent
 Account "1" --> "*" Transaction
 Wallet "1" -> "*" Cashout
+Wallet "1" --> "*" WalletEvent
 
 PlanOrder - Account
 
@@ -122,17 +119,14 @@ MutualAid -> Driver
 MutualAid -> Vehicle
 MutualAid "1" --> "*" Recompense
 
-Quotation "1" --> "*" QuotationGroup
-QuotationGroup -> Plan
-QuotationGroup "1" --> "*" QuotationItem
+Quotation "1" --> "*" QuotationItem
+QuotationItem -> Plan
 QuotationItem "1" --> "*" QuotationItemQuota
 QuotationItem "1" --> "*" QuotationItemPrice
 
-PlanItem <- QuotationItem
-
 Quotation -> Vehicle
 
-Underwrite --> PlanOrder
+Underwrite -> PlanOrder
 
 Cashout "1" -- "*" CashoutEvent
 
