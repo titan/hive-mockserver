@@ -174,6 +174,8 @@
 | 200   | [plan]   | 成功    |
 | other | 错误信息 | 失败    |
 
+See [example](../data/plan/getPlans.json)
+
 ## increaseJoinedCount
 
 增加已加入车辆数量

@@ -5,11 +5,8 @@ QUOTATION_GROUPS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-ite
 QUOTATION = ../data/quotation/getQuotation.json
 QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_GROUPS_DEPS) $(VEHICLE_DEPS)
 
-AVAILABLE_PLANS = ../data/plan/getAvailablePlans.json
-AVAILABLE_PLANS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-item-additional2.yaml plan-item-additional3.yaml plan-item-additional4.yaml plan-item-main1.yaml plan-item-main2.yaml plan-items-additional.yaml plan-items-main.yaml plan-items-third.yaml plan-item-third1.yaml plan-item-third2.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-additional.yaml plan-rules-main.yaml plans-available.yaml plan-third.yaml
-
-JOINED_PLANS = ../data/plan/getJoinedPlans.json
-JOINED_PLANS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-item-additional2.yaml plan-item-additional3.yaml plan-item-additional4.yaml plan-item-main1.yaml plan-item-main2.yaml plan-items-additional.yaml plan-items-main.yaml plan-items-third.yaml plan-item-third1.yaml plan-item-third2.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-additional.yaml plan-rules-main.yaml plans-available.yaml plans-joined.yaml plan-third.yaml
+PLANS = ../data/plan/getPlans.json
+JOINED_PLANS_DEPS = plans.yaml
 
 PLAN = ../data/plan/getPlan.json
 PLAN_DEPS = plan-item-main1.yaml plan-item-main2.yaml plan-items-main.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-main.yaml
@@ -60,16 +57,13 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(QUOTATION) $(AVAILABLE_PLANS) $(JOINED_PLANS) $(PLAN) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(QUOTATION) $(PLANS) $(PLAN) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(QUOTATION): $(QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
 
-$(AVAILABLE_PLANS): $(AVAILABLE_PLANS_DEPS)
-	$(YAML2JSON) plans-available.yaml | aeson-pretty > $@
-
-$(JOINED_PLANS): $(JOINED_PLANS_DEPS)
-	$(YAML2JSON) plans-joined.yaml | aeson-pretty > $@
+$(PLANS): $(PLANS_DEPS)
+	$(YAML2JSON) plans.yaml | aeson-pretty > $@
 
 $(PLAN): $(PLAN_DEPS)
 	$(YAML2JSON) plan-main.yaml | aeson-pretty > $@
