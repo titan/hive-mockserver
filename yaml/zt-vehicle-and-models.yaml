@@ -1,0 +1,3 @@
+responseNo: "97c75995-0dd0-45d1-ad03-cf42396410a7"
+vehicle: !include zt-vehicle.yaml
+models: !include zt-vehicle-models.yaml

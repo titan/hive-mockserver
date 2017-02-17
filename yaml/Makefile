@@ -17,6 +17,9 @@ VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model.
 FETCH_VEHICLE_MODELS = ../data/vehicle/fetchVehicleModelByVin.json
 FETCH_VEHICLE_MODELS_DEPS = vehicle-models.yaml vehicle-model1.yaml vehicle-model2.yaml
 
+FETCH_VEHICLE_AND_MODELS = ../data/vehicle/fetchVehicleAndModelByLicense.json
+FETCH_VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-vehicle-models.yaml zt-vehicle-model1.yaml zt-vehicle-model2.yaml
+
 PROFILE = ../data/profile/getProfile.json
 PROFILE_DEPS = profile.yaml
 
@@ -60,7 +63,7 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(QUOTATION) $(PLANS) $(PLAN_GROUPS) $(VEHICLE) $(FETCH_VEHICLE_MODELS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(QUOTATION) $(PLANS) $(PLAN_GROUPS) $(VEHICLE) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(QUOTATION): $(QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
@@ -76,6 +79,9 @@ $(VEHICLE): $(VEHICLE_DEPS)
 
 $(FETCH_VEHICLE_MODELS): $(FETCH_VEHICLE_MODELS_DEPS)
 	$(YAML2JSON) vehicle-models.yaml | aeson-pretty > $@
+
+$(FETCH_VEHICLE_AND_MODELS): $(FETCH_VEHICLE_AND_MODELS_DEPS)
+	$(YAML2JSON) zt-vehicle-and-models.yaml | aeson-pretty > $@
 
 $(GET_GROUP): $(GET_GROUP_DEPS)
 	$(YAML2JSON) get-group.yaml | aeson-pretty > $@
@@ -120,6 +126,7 @@ clean:
 	rm $(PLAN_GROUPS)
 	rm $(VEHICLE)
 	rm $(FETCH_VEHICLE_MODELS)
+	rm $(FETCH_VEHICLE_AND_MODELS)
 	rm $(GET_GROUP)
 	rm $(GROUP_TRIGGER)
 	rm $(PROFILE)

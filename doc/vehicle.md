@@ -360,16 +360,6 @@ See [example](../data/vehicle/getVehicleModel.json)
 | ----    | ----      | ----               |
 | license | String(8) | 车牌号码, 豫JCC522 |
 
-测试只能用 豫JCC522，其他车牌请求超时。
-
-如下参数不用调用者提供，但是在请求报文中必须出现：
-
-| name          | type       | note                                                |
-| ----          | ----       | ----                                                |
-| applicationID | String(32) | 请求方标识，由智通引擎提供                          |
-| operType      | String(32) | 接口类型, 固定值:BDB                                |
-| sendTime      | String(20) | 请求时间，调用接口时系统时间,如:2016-05-01 16:10:10 |
-
 ```javascript
 rpc.call("vehicle", "fetchVehicleModelByLicense", license)
   .then(function (result) {
@@ -383,104 +373,12 @@ rpc.call("vehicle", "fetchVehicleModelByLicense", license)
 
 成功：
 
-| name | type | note |
-| ---- | ---- | ---- |
-| code | int  | 200  |
-| data | JSON | 见下 |
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | object | 见下 |
 
-
-data 字段解释
-
-| name              | type       | note                                            |
-| ----              | ----       | ----                                            |
-| responseNo        | String(36) | 响应码,如.8f250190-31b9-4cf9-bea7-99f586ce31f1  |
-| engineNo          | String(25) | 发动机号,8 位以上 100****00,8 位及以下 004**761 |
-| licenseNo         | String(8)  | 车牌号 如. 渝 GF8853                            |
-| frameNo           | String(17) | 车架号(VIN 码), LJVA34D****010008               |
-| firstRegisterDate | String(20) | 初登日期, 如. 2013-09-01,获取不到返回为 null    |
-| modelList         | JSON       | 车型列表，见下                                  |
-
-
-modelList 字段解释
-
-| name    | type       | note                                  |
-| ----    | ----       | ----                                  |
-| state   | String(1)  | 请求状态,0-失败;1-成功                |
-| msgCode | String(12) | 错误编码,8 位编码,State 为 0 时才有值 |
-| msg     | String(80) | 返回信息,失败原因等信息               |
-
-data 字段解释
-
-| name             | type        | note                                                  |
-| ----             | ----        | ----                                                  |
-| vehicleFgwCode   | String(50)  | 发改委编码,SGM7181ATA                                 |
-| brandCode        | String(36)  | 品牌型号编码,如. 16a65866-4fe2-49d3-b9f9-bd512c3274f9 |
-| brandName        | String(50)  | 品牌型号名称,一汽红旗                                 |
-| engineDesc       | String(10)  | 排量,2.4L                                             |
-| familyName       | String(100) | 车系名称, 世纪星                                      |
-| gearboxType      | String(100) | 车挡类型, 手动档                                      |
-| remark           | String(200) | 备注, 手动档 老款                                     |
-| newCarPrice      | String(11)  | 新车购置价,如.215000                                  |
-| purchasePriceTax | String(11)  | 含税价格,如.233400                                    |
-| importFlag       | String(1) 0 | 进口标识,:国产,1:合资,2:进口                          |
-| purchasePrice    | String(18)  | 参考价,215000                                         |
-| seat             | String(50)  | 座位数,5                                              |
-| standardName     | String(100) | 款型名称, 红旗 CA7242E6L1 轿车                        |
-| vehicleFgwName   | String(100) | 发改委名称, 红旗                                      |
-| parentVehName    | String(100) | 年份款型, 2008 款 豪华型                              |
-
-
-```json
-{
-    "responseNo": "97c75995-0dd0-45d1-ad03-cf42396410a7",
-    "engineNo": "870**86",
-    "licenseNo": "豫JCC522",
-    "frameNo": "LSGPC52****013740",
-    "firstRegisterDate": "2011-01-14",
-    "modelList": {
-        "state": "1",
-        "msg": "success",
-        "msgCode": null,
-        "data": [
-            {
-                "vehicleFgwCode": "SGM7150DMAA",
-                "brandCode": "3fe5c096-a157-4b69-8917-b2f168fbd571",
-                "brandName": "上汽通用雪佛兰",
-                "engineDesc": "1.5L",
-                "familyName": "科鲁兹",
-                "gearboxType": "手动档",
-                "remark": "手动档 经典版 SE 国Ⅴ",
-                "newCarPrice": "85900",
-                "purchasePriceTax": "89571",
-                "importFlag": "1",
-                "purchasePrice": "85900",
-                "seat": "5",
-                "standardName": "雪佛兰SGM7150DMAA轿车",
-                "vehicleFgwName": null,
-                "parentVehName": null
-            },
-            {
-                "vehicleFgwCode": "SGM7150DMAA",
-                "brandCode": "563e87a3-3109-4d38-a330-db45be35d673",
-                "brandName": "上汽通用雪佛兰",
-                "engineDesc": "1.5L",
-                "familyName": "科鲁兹",
-                "gearboxType": "手动档",
-                "remark": "手动档 经典版 SL 国Ⅴ",
-                "newCarPrice": "75900",
-                "purchasePriceTax": "79144",
-                "importFlag": "1",
-                "purchasePrice": "75900",
-                "seat": "5",
-                "standardName": "雪佛兰SGM7150DMAA轿车",
-                "vehicleFgwName": null,
-                "parentVehName": null
-            }
-        ]
-    }
-}
-
-```
+See [example](../data/vehicle/fetchVehicleAndModelByLicense.json)
 
 失败：
 
@@ -489,10 +387,9 @@ data 字段解释
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning                          |
-| ---- | ----                              |
-| 400  | 数据不存在，具体见返回的 msg 内容 |
-| 500  | 未知错误                          |
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
 
 ## createNewVehicle
 
