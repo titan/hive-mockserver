@@ -290,6 +290,8 @@
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
+See [example](../data/vehicle/fetchVehicleModelByVin.json)
+
 ## getVehicleModel
 
 根据 vehicle code 获取车型信息
