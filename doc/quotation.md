@@ -40,6 +40,12 @@
 
 # ChangeLog
 
+1. 2017-02-17
+  * 增加 quotation-item-pair 数据结构
+  * 删除 quotation-item-price 数据结构
+  * 删除 quotation-item-quota 数据结构
+  * 删除外部队列
+
 1. 2017-02-10
   * 删除 quotation-group 数据结构
   * 删除后台提醒
@@ -86,12 +92,19 @@
 
 ## quotation
 
-| name    | type             | note         |
-| ----    | ----             | ----         |
-| id      | uuid             | 主键         |
-| state   | int              | 报价状态     |
-| items   | [quotation-item] | 对应计划集合 |
-| vehicle | vehicle          | 对应的车辆   |
+| name               | type             | note            |
+| ----               | ----             | ----            |
+| id                 | uuid             | 主键            |
+| state              | int              | 报价状态        |
+| items              | [quotation-item] | 对应计划集合    |
+| vehicle            | vehicle          | 对应的车辆      |
+| outside_quotation1 | float            | 第三方报价1     |
+| outside_quotation2 | float            | 第三方报价2     |
+| screenshot1        | string           | 第三方报价截图1 |
+| screenshot2        | string           | 第三方报价截图2 |
+| total_price        | real             | 总价            |
+| insure             | int              | 保险公司        |
+| auto               | int              | 是否是自动报价  |
 
 报价的 ID 与 vehicle 的 ID 是一致的。
 
@@ -99,31 +112,20 @@
 
 ## quotation-item
 
-| name   | type                   | note        |
-| ----   | ----                   | ----        |
-| id     | uuid                   | 主键        |
-| plan   | plan                   | 对应的 plan |
-| quotas | [quotation-item-quota] | 限额列表    |
-| prices | [quotation-item-price] | 价格列表    |
+| name  | type                  | note           |
+| ----  | ----                  | ----           |
+| id    | uuid                  | 主键           |
+| plan  | plan                  | 对应的 plan    |
+| pairs | [quotation-item-pair] | 限价与价格组合 |
 
-注意，[quotation-item-quota] 中，大多数情况都是只有一个元素，甚至为空。只有第三者险有多个元素。
-prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
+## quotation-item-pair
 
-## quotation-item-price
-
-| name       | type  | note     |
-| ----       | ----  | ----     |
-| id         | uuid  | 主键     |
-| price      | float | 原价     |
-| real-price | float | 真实价格 |
-
-## quotation-item-quota
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| id   | uuid   | 主键 |
-| num  | float  | 数量 |
-| unit | string | 单位 |
+| name       | type   | note     |
+| ----       | ----   | ----     |
+| price      | float  | 原价     |
+| real-price | float  | 真实价格 |
+| amount     | float  | 数量     |
+| unit       | string | 单位     |
 
 # Database
 
@@ -146,18 +148,18 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 
 ## quotation_items
 
-| field      | type      | null | default | index   | reference |
-| ----       | ----      | ---- | ----    | ----    | ----      |
-| id         | uuid      |      |         | primary |           |
-| pid        | integer   |      |         |         | plans     |
-| price      | real      |      |         |         |           |
-| num        | real      |      |         |         |           |
-| unit       | char(16)  |      |         |         |           |
-| real_price | real      |      |         |         |           |
-| type       | smallint  |      |         |         |           |
-| insure     | smallint  |      |         |         |           |
-| created_at | timestamp |      | now     |         |           |
-| updated_at | timestamp |      | now     |         |           |
+| field      | type         | null | default | index   | reference |
+| ----       | ----         | ---- | ----    | ----    | ----      |
+| id         | uuid         |      |         | primary |           |
+| pid        | integer      |      |         |         | plans     |
+| price      | real         |      |         |         |           |
+| num        | real         |      |         |         |           |
+| unit       | varhchar(16) |      |         |         |           |
+| real_price | real         |      |         |         |           |
+| type       | smallint     |      |         |         |           |
+| insure     | smallint     |      |         |         |           |
+| created_at | timestamp    |      | now     |         |           |
+| updated_at | timestamp    |      | now     |         |           |
 
 其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"]
 
@@ -174,12 +176,6 @@ prices 的长度与 quotas 相同，其内部的元素与 quotas 一一对应。
 | key                | type | value            | note         |
 | ----               | ---- | ----             | ----         |
 | quotation-entities | hash | qid => quotation | 所有报价实体 |
-
-# External Queue
-
-当报价状态改变时，报价模块通过外部消息队列给分销系统提供对应的消息。
-
-具体的内容见 [分销系统](http://git.fengchaohuzhu.com:10080/agent/document/src/master/doc/recommend.md#external-queue)
 
 # API
 

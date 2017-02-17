@@ -1,11 +1,11 @@
 YAML2JSON = /usr/local/bin/yaml2json-include
 
-QUOTATION_GROUPS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-item-additional2.yaml plan-item-additional3.yaml plan-item-additional4.yaml plan-item-main1.yaml plan-item-main2.yaml plan-items-additional.yaml plan-items-main.yaml plan-items-third.yaml plan-item-third1.yaml plan-item-third2.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-additional.yaml plan-rules-main.yaml plan-third.yaml quotation-group-additional.yaml quotation-group-main.yaml quotation-groups.yaml quotation-group-third.yaml quotation-item-additional1.yaml quotation-item-additional2.yaml quotation-item-additional3.yaml quotation-item-additional4.yaml quotation-item-main1.yaml quotation-item-main2.yaml quotation-item-price-additional1.yaml quotation-item-price-additional2.yaml quotation-item-price-additional3.yaml quotation-item-price-additional4.yaml quotation-item-price-main1.yaml quotation-item-price-main2.yaml quotation-item-prices-additional1.yaml quotation-item-prices-additional2.yaml quotation-item-prices-additional3.yaml quotation-item-prices-additional4.yaml quotation-item-prices-main1.yaml quotation-item-prices-main2.yaml quotation-item-prices-third1.yaml quotation-item-prices-third2.yaml quotation-item-price-third1.yaml quotation-item-price-third2-1.yaml quotation-item-price-third2-2.yaml quotation-item-price-third2-3.yaml quotation-item-price-third2-4.yaml quotation-item-price-third2-5.yaml quotation-item-quota-additional1.yaml quotation-item-quota-additional3.yaml quotation-item-quota-additional4.yaml quotation-item-quota-main1.yaml quotation-item-quota-main2.yaml quotation-item-quotas-additional1.yaml quotation-item-quotas-additional2.yaml quotation-item-quotas-additional3.yaml quotation-item-quotas-additional4.yaml quotation-item-quotas-main1.yaml quotation-item-quotas-main2.yaml quotation-item-quotas-third1.yaml quotation-item-quotas-third2.yaml quotation-item-quota-third2-1.yaml quotation-item-quota-third2-2.yaml quotation-item-quota-third2-3.yaml quotation-item-quota-third2-4.yaml quotation-item-quota-third2-5.yaml quotation-items-additional.yaml quotation-items-main.yaml quotation-items-third.yaml quotation-item-third1.yaml quotation-item-third2.yaml
+QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-8.yaml quotation-item-16.yaml quotation-item-32.yaml quotation-item-32.yaml
 
-QUOTATION = ../data/quotation/getQuotation.json
-QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_GROUPS_DEPS) $(VEHICLE_DEPS)
+GET_QUOTATION = ../data/quotation/getQuotation.json
+GET_QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_DEPS)
 
-PLANS_DEPS = plans.yaml
+PLANS_DEPS = plans.yaml plan-1.yaml plan-2.yaml plan-4.yaml plan-8.yaml plan-16.yaml plan-32.yaml plan-64.yaml
 
 GET_PLANS = ../data/plan/getPlans.json
 GET_PLANS_DEPS = get-plans.yaml $(PLANS_DEPS)
@@ -33,7 +33,6 @@ FETCH_VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-ve
 
 PROFILE = ../data/profile/getProfile.json
 PROFILE_DEPS = profile.yaml
-
 
 VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model.yaml vehicle.yaml
 
@@ -99,9 +98,9 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
-$(QUOTATION): $(QUOTATION_DEPS)
+$(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
 
 $(GET_PLANS): $(GET_PLANS_DEPS)
@@ -160,7 +159,7 @@ $(GET_MUTUAL_AIDS): $(GET_MUTUAL_AIDS_DEPS)
 	$(YAML2JSON) get-mutual-aids.yaml | aeson-pretty > $@
 
 clean:
-	rm $(QUOTATION)
+	rm $(GET_QUOTATION)
 	rm $(GET_PLANS)
 	rm $(GET_PLAN_GROUPS)
 	rm $(GET_VEHICLE)

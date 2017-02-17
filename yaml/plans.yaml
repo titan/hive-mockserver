@@ -1,21 +1,7 @@
-- id: 1
-  title: 车损
-  description:
-- id: 2
-  title: 机动车全车盗抢
-  description:
-- id: 4
-  title: 无法找到第三方特约
-  description:
-- id: 8
-  title: 机动车自燃损失
-  description:
-- id: 16
-  title: 机动车发动机涉水损失
-  description:
-- id: 32
-  title: 机动车车身划痕损失
-  description:
-- id: 64
-  title: 玻璃单独破碎
-  description:
+- !include plan-1.yaml
+- !include plan-2.yaml
+- !include plan-4.yaml
+- !include plan-8.yaml
+- !include plan-16.yaml
+- !include plan-32.yaml
+- !include plan-64.yaml
