@@ -53,6 +53,9 @@
 
 # ChangeLog
 
+1. 2017-02-17
+  * 增加 zt-response-code 缓存
+
 1. 2017-02-10
   * 修改 vehicle 数据结构，去掉了 owner_type 和 vehicle_code
   * 重构 vehicle_models 数据库
@@ -240,11 +243,12 @@
 
 ## vehicle-model
 
-| key                    | type | value                   | note       |
-| ----                   | ---- | ----                    | ----       |
-| vehicle-model-entities | hash | {code => vehicle-model} | 车型数据   |
-| vehicle-vin-codes      | hash | {vin => [code]}         | vin 码映射 |
-| vehicle-model          | set  | vin                     | vin 码     |
+| key                         | type   | value                   | note                 |
+| ----                        | ----   | ----                    | ----                 |
+| vehicle-model-entities      | hash   | {code => vehicle-model} | 车型数据             |
+| vehicle-vin-codes           | hash   | {vin => [code]}         | vin 码映射           |
+| vehicle-model               | set    | vin                     | vin 码               |
+| zt-response-code:${license} | string | response code           | 智通响应码(三天有效) |
 
 ## vehicle
 
