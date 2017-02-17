@@ -32,6 +32,8 @@ MockServer 是蜂巢互助服务仿真程序，通过 vue-hive-rpc 插件在页�
 
 [计划模块](doc/plan.md)
 
+[车辆模块](doc/vehicle.md)
+
 [报价模块](doc/quotation.md)
 
 [订单模块](doc/order.md)
@@ -40,13 +42,9 @@ MockServer 是蜂巢互助服务仿真程序，通过 vue-hive-rpc 插件在页�
 
 [互助模块](doc/mutual-aid.md)
 
-[车辆模块](doc/vehicle.md)
-
 [用户模块](doc/profile.md)
 
 [互助组模块](doc/group.md)
-
-[管理员模块](doc/operator.md)
 
 [银行支付模块](doc/bank-payment.md)
 

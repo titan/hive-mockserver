@@ -148,6 +148,8 @@
 | 200   | [plan-group] | 成功    |
 | other | 错误信息     | 失败    |
 
+See [example](../data/plan/getPlanGroups.json)
+
 ## getPlans
 
 获取所有计划

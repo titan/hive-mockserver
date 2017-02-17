@@ -8,8 +8,8 @@ QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_GROUPS_DEPS) $(VEHICLE_DEPS)
 PLANS = ../data/plan/getPlans.json
 JOINED_PLANS_DEPS = plans.yaml
 
-PLAN = ../data/plan/getPlan.json
-PLAN_DEPS = plan-item-main1.yaml plan-item-main2.yaml plan-items-main.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-main.yaml
+PLAN_GROUPS = ../data/plan/getPlanGroups.json
+PLAN_GROUPS_DEPS = plan-groups.yaml
 
 VEHICLE = ../data/vehicle/getVehicle.json
 VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model1.yaml vehicle-model2.yaml vehicle-models.yaml vehicle-model.yaml vehicle.yaml
@@ -57,7 +57,7 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(QUOTATION) $(PLANS) $(PLAN) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(QUOTATION) $(PLANS) $(PLAN_GROUPS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(QUOTATION): $(QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
@@ -65,8 +65,8 @@ $(QUOTATION): $(QUOTATION_DEPS)
 $(PLANS): $(PLANS_DEPS)
 	$(YAML2JSON) plans.yaml | aeson-pretty > $@
 
-$(PLAN): $(PLAN_DEPS)
-	$(YAML2JSON) plan-main.yaml | aeson-pretty > $@
+$(PLAN_GROUPS): $(PLAN_GROUPS_DEPS)
+	$(YAML2JSON) plan-groups.yaml | aeson-pretty > $@
 
 $(GET_GROUP): $(GET_GROUP_DEPS)
 	$(YAML2JSON) get-group.yaml | aeson-pretty > $@
