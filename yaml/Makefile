@@ -25,26 +25,6 @@ VEHICLES_DEPS = vehicles.yaml $(VEHICLE_DEPS)
 GET_VEHICLES = ../data/vehicle/getVehicles.json
 GET_VEHICLES_DEPS = get-vehicles.yaml $(VEHICLES_DEPS)
 
-FETCH_VEHICLE_MODELS = ../data/vehicle/fetchVehicleModelByVin.json
-FETCH_VEHICLE_MODELS_DEPS = vehicle-models.yaml vehicle-model1.yaml vehicle-model2.yaml
-
-FETCH_VEHICLE_AND_MODELS = ../data/vehicle/fetchVehicleAndModelByLicense.json
-FETCH_VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-vehicle-models.yaml zt-vehicle-model1.yaml zt-vehicle-model2.yaml
-
-PROFILE = ../data/profile/getProfile.json
-PROFILE_DEPS = profile.yaml
-
-VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model.yaml vehicle.yaml
-
-GET_VEHICLE = ../data/vehicle/getVehicle.json
-GET_VEHICLES_DEPS = get-vehicle.yaml $(VEHICLE_DEPS)
-
-VEHICLES_DEPS = vehicles.yaml $(VEHICLE_DEPS)
-
-GET_VEHICLES = ../data/vehicle/getVehicles.json
-GET_VEHICLES_DEPS = get-vehicles.yaml $(VEHICLES_DEPS)
-
-
 VEHICLE_MODELS_DEPS = vehicle-models.yaml vehicle-model1.yaml vehicle-model2.yaml
 
 FETCH_VEHICLE_MODELS = ../data/vehicle/fetchVehicleModelsByVin.json
@@ -66,20 +46,18 @@ GROUP_ITEM_DEPS = group-item.yaml $(VEHICLE_DEPS)
 GROUP_TRIGGER = ../data/group/group-trigger.json
 GROUP_TRIGGER_DEPS = group-trigger.yaml $(GROUP_DEPS)
 
-ORDER_ITEMS_PLAN_DEPS = order-items-plan.yaml order-item-plan1.yaml order-item-plan2.yaml order-item-plan3.yaml order-item-plan4.yaml order-item-plan5.yaml order-item-plan6.yaml
-ORDER_ITEMS_SALE_DEPS = order-items-sale.yaml order-item-sale1.yaml order-item-sale2.yaml
+PLAN_ORDER_DEPS = plan-order.yaml plan-order-items.yaml
 
-PLAN_ORDER = ../data/order/getPlanOrder.json
-PLAN_ORDER_DEPS = plan-order.yaml $(VEHICLE_DEPS) $(PLAN_DEPS) promotion.yaml $(ORDER_ITEMS_PLAN_DEPS)
+GET_PLAN_ORDER = ../data/order/getPlanOrder.json
+GET_PLAN_ORDER_DEPS = get-plan-order.yaml $(PLAN_ORDER_DEPS)
 
-DRIVER_ORDER = ../data/order/getDriverOrder.json
+GET_PLAN_ORDERS = ../data/order/getPlanOrders.json
+GET_PLAN_ORDERS_DEPS = get-plan-orders.yaml $(PLAN_ORDER_DEPS)
+
 DRIVER_ORDER_DEPS = driver-order.yaml $(VEHICLE_DEPS)
 
-SALE_ORDER = ../data/order/getSaleOrder.json
-SALE_ORDER_DEPS = sale-order.yaml $(VEHICLE_DEPS) $(PLAN_DEPS) $(ORDER_ITEMS_PLAN_DEPS)
-
-ORDERS = ../data/order/getOrders.json
-ORDERS_DEPS = orders.yaml $(PLAN_ORDER_DEPS) $(DRIVER_ORDER_DEPS) $(THIRD_ORDER_DEPS)
+GET_DRIVER_ORDERS = ../data/order/getDriverOrders.json
+GET_DRIVER_ORDERS_DEPS = get-driver-orders.yaml $(DRIVER_ORDER_DEPS)
 
 GET_WALLET = ../data/wallet/getWallet.json
 GET_WALLET_DEPS = get-wallet.yaml wallet.yaml accounts.yaml account.yaml $(VEHICLE_DEPS)
@@ -98,7 +76,7 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
@@ -131,17 +109,14 @@ $(GROUP_TRIGGER): $(GROUP_TRIGGER_DEPS)
 $(PROFILE): $(PROFILE_DEPS)
 	$(YAML2JSON) profile.yaml | aeson-pretty > $@
 
-$(ORDERS): $(ORDERS_DEPS)
-	$(YAML2JSON) orders.yaml | aeson-pretty > $@
+$(GET_PLAN_ORDER): $(GET_PLAN_ORDER_DEPS)
+	$(YAML2JSON) get-plan-order.yaml | aeson-pretty > $@
 
-$(PLAN_ORDER): $(PLAN_ORDER_DEPS)
-	$(YAML2JSON) plan-order.yaml | aeson-pretty > $@
+$(GET_PLAN_ORDERS): $(GET_PLAN_ORDERS_DEPS)
+	$(YAML2JSON) get-plan-orders.yaml | aeson-pretty > $@
 
-$(DRIVER_ORDER): $(DRIVER_ORDER_DEPS)
-	$(YAML2JSON) driver-order.yaml | aeson-pretty > $@
-
-$(SALE_ORDER): $(SALE_ORDER_DEPS)
-	$(YAML2JSON) sale-order.yaml | aeson-pretty > $@
+$(GET_DRIVER_ORDERS): $(GET_DRIVER_ORDERS_DEPS)
+	$(YAML2JSON) get-driver-orders.yaml | aeson-pretty > $@
 
 $(GET_WALLET): $(GET_WALLET_DEPS)
 	$(YAML2JSON) get-wallet.yaml | aeson-pretty > $@
@@ -169,10 +144,9 @@ clean:
 	rm $(GET_GROUP)
 	rm $(GROUP_TRIGGER)
 	rm $(PROFILE)
-	rm $(PLAN_ORDER)
-	rm $(DRIVER_ORDER)
-	rm $(SALE_ORDER)
-	rm $(ORDERS)
+	rm $(GET_PLAN_ORDER)
+	rm $(GET_PLAN_ORDERS)
+	rm $(GET_DRIVER_ORDERS)
 	rm $(GET_WALLET)
 	rm $(GET_TRANSACTIONS)
 	rm $(SIGN)

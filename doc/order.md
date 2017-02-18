@@ -7,7 +7,7 @@
   - [driver-order](#driver-order)
   - [sale-order](#sale-order)
   - [plan-order](#plan-order)
-  - [order-item](#order-item)
+  - [plan-order-item](#plan-order-item)
   - [order-event](#order-event)
     - [order states](#order-states)
 - [Event](#event)
@@ -27,7 +27,6 @@
   - [order-driver-entities](#order-driver-entities)
   - [vehicle-plan-order](#vehicle-plan-order)
   - [vehicle-sale-order](#vehicle-sale-order)
-- [External Queue](#external-queue)
 - [API](#api)
   - [createPlanOrder](#createplanorder)
       - [request](#request)
@@ -77,22 +76,33 @@
   - [getOrder](#getorder)
       - [request](#request-15)
       - [response](#response-15)
-  - [getDriverForVehicle](#getdriverforvehicle)
+  - [getOrderByQid](#getorderbyqid)
       - [request](#request-16)
       - [response](#response-16)
-  - [getOrderByQid](#getorderbyqid)
+  - [getOrdersByVid](#getordersbyvid)
       - [request](#request-17)
       - [response](#response-17)
-  - [getOrdersByVid](#getordersbyvid)
+  - [refresh](#refresh)
       - [request](#request-18)
       - [response](#response-18)
-  - [refresh](#refresh)
-      - [request](#request-19)
-      - [response](#response-19)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-02-18
+  * 去掉 plan-order 数据结构中的 quotation, promotion 和 plans 字段
+  * 重命名 order-item 为 plan-order-item
+  * 重命名 plan-order-item 的 plan-item 属性为 plan
+  * 删除 driver-order-items 表中的 price 字段
+  * 删除外部队列
+  * 删除 getDriverForVehicle 方法
+  * 重命名 getPlanOrderByVehicle 方法为 getPlanOrdersByVehicle
+  * 重命名 getDriverOrderByVehicle 方法为 getDriverOrdersByVehicle
+  * 删除 getOrdersByVid 方法
+  * 重命名 getOrders 方法为 getPlanOrdersByUser
+  * 重命名 getOrder 方法为 getPlanOrder
+  * 重命名 getOrderByQid 方法为 getPlanOrderByQid
 
 1. 2017-02-11
 	* 重命名 placeAnDriverOrder 方法为 createDriverOrder
@@ -179,7 +189,7 @@
 | ----       | ----     | ----         |
 | id         | uuid     | 主键         |
 | no         | string   | 订单编号     |
-| type       | int      | 订单类型 1   |
+| type       | int      | 订单类型 2   |
 | state-code | int      | 订单状态编码 |
 | state      | string   | 订单状态     |
 | vehicle    | vehicle  | 车辆         |
@@ -196,7 +206,7 @@
 | ----       | ----         | ----              |
 | id         | uuid         | 主键              |
 | no         | string       | 订单编号          |
-| type       | int          | 订单类型 2        |
+| type       | int          | 订单类型 3        |
 | state-code | int          | 订单状态编码      |
 | state      | string       | 订单状态          |
 | vehicle    | vehicle      | 车辆              |
@@ -211,40 +221,37 @@
 
 ## plan-order
 
-| name               | type         | note              |
-| ----               | ----         | ----              |
-| id                 | uuid         | 主键              |
-| no                 | string       | 订单编号          |
-| type               | int          | 订单类型 0        |
-| state-code         | int          | 订单状态编码      |
-| state              | string       | 订单状态          |
-| vehicle            | vehicle      | 车辆              |
-| plans              | [plan]       | 包含的 plan       |
-| items              | [order-item] | 包含的 order-item |
-| quotation          | quotation    | 报价              |
-| promotion          | promotion    | 促销              |
-| service-ratio      | float        | 服务费率          |
-| summary            | float        | 订单总额          |
-| payment            | float        | 订单实付          |
-| expect-at          | date         | 预计生效日期      |
-| start-at           | date         | 合约生效时间      |
-| stop-at            | date         | 合约失效时间      |
-| real-value         | float        | 车辆真实价格      |
-| paid-at            | date         | 订单支付时间      |
-| outside-quotation1 | float        | 安盛天平报价      |
-| outside-quotation2 | float        | 人保报价          |
-| screenshot1        | string       | 安盛天平报价截屏  |
-| screenshot2        | string       | 人保报价截屏      |
-| recommend          | string       | 推荐人            |
-| ticket             | string       | 扫码 ticket       |
+| name               | type              | note              |
+| ----               | ----              | ----              |
+| id                 | uuid              | 主键              |
+| no                 | string            | 订单编号          |
+| type               | int               | 订单类型 1        |
+| state-code         | int               | 订单状态编码      |
+| state              | string            | 订单状态          |
+| vehicle            | vehicle           | 车辆              |
+| items              | [plan-order-item] | 包含的 order-item |
+| service-ratio      | float             | 服务费率          |
+| summary            | float             | 订单总额          |
+| payment            | float             | 订单实付          |
+| expect-at          | date              | 预计生效日期      |
+| start-at           | date              | 合约生效时间      |
+| stop-at            | date              | 合约失效时间      |
+| real-value         | float             | 车辆真实价格      |
+| paid-at            | date              | 订单支付时间      |
+| outside-quotation1 | float             | 安盛天平报价      |
+| outside-quotation2 | float             | 人保报价          |
+| screenshot1        | string            | 安盛天平报价截屏  |
+| screenshot2        | string            | 人保报价截屏      |
+| recommend          | string            | 推荐人            |
+| ticket             | string            | 扫码 ticket       |
 
-## order-item
+## plan-order-item
 
-| name      | type      | note             |
-| ----      | ----      | ----             |
-| id        | uuid      | 主键             |
-| plan-item | plan-item | 对应的 plan-item |
-| price     | float     | 价格             |
+| name  | type  | note        |
+| ----  | ----  | ----        |
+| id    | uuid  | 主键        |
+| plan  | plan  | 对应的 plan |
+| price | float | 价格        |
 
 ## order-event
 
@@ -391,7 +398,6 @@
 | id    | uuid  |      |         | primary |               |
 | oid   | uuid  |      |         |         | driver_orders |
 | pid   | uuid  |      |         |         | person        |
-| price | float |      | 0.0     |         |               |
 
 ## sale_orders
 
@@ -454,12 +460,6 @@
 | ----     | ---- | ----            | ---- |
 | vid-soid | hash | vid => sale oid |      |
 
-# External Queue
-
-当报价状态改变时，订单模块通过外部消息队列给分销系统提供对应的消息。
-
-具体的内容见 [分销系统](http://git.fengchaohuzhu.com:10080/agent/document/src/master/doc/recommend.md#external-queue)
-
 # API
 
 ## createPlanOrder
@@ -512,10 +512,11 @@ rpc.call("order", "createPlanOrder", vid, plans, qid, pm_price, service_ratio, s
 | code | number | 状态码   |
 | data | object | 结构如下 |
 
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| order-id | uuid   | Order Id |
-| order-no | string | Order No |
+| name       | type   | note     |
+| ----       | ----   | ----     |
+| order-id   | uuid   | Order Id |
+| order-no   | string | Order No |
+| created-at | Date   | 创建时间 |
 
 ## createDriverOrder
 
@@ -562,10 +563,11 @@ rpc.call("order", "createDriverOrder", vid, dids, summary, payment)
 | code | number | 状态码   |
 | data | object | 结构如下 |
 
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| order-id | uuid   | Order ID |
-| order-no | string | Order No |
+| name       | type   | note     |
+| ----       | ----   | ----     |
+| order-id   | uuid   | Order Id |
+| order-no   | string | Order No |
+| created-at | Date   | 创建时间 |
 
 ## createSaleOrder
 
@@ -578,24 +580,22 @@ rpc.call("order", "createDriverOrder", vid, dids, summary, payment)
 
 #### request
 
-| name       | type          | note     |
-| ----       | ----          | ----     |
-| vid        | uuid          | 车辆 ID  |
-| pid        | uuid          | plan ID  |
-| qid        | uuid          | 报价 ID  |
-| items      | {piid: price} | 代售条目 |
-| summary    | float         | 总价     |
-| payment    | float         | 实付     |
-| opr\_level | int           | 等级     |
+| name       | type         | note     |
+| ----       | ----         | ----     |
+| vid        | uuid         | 车辆 ID  |
+| qid        | uuid         | 报价 ID  |
+| items      | {pid: price} | 代售条目 |
+| summary    | float        | 总价     |
+| payment    | float        | 实付     |
+| opr\_level | int          | 等级     |
 
 
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
-let pid = "00000000-0000-0000-0000-000000000004";
 let qid = "00000000-0000-0000-0000-000000000000";
 let items = {
-  "00000000-0000-0000-0000-000000000008": 1000,
-  "00000000-0000-0000-0000-000000000009": 2000
+  "16777216": 1000,
+  "33554432": 2000
 };
 let summary = 2000;
 let payment = 2000;
@@ -617,10 +617,11 @@ rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr
 | code | number | 状态码   |
 | data | object | 结构如下 |
 
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| order-id | uuid   | Order ID |
-| order-no | string | Order No |
+| name       | type   | note     |
+| ----       | ----   | ----     |
+| order-id   | uuid   | Order Id |
+| order-no   | string | Order No |
+| created-at | Date   | 创建时间 |
 
 ## pay
 
@@ -938,9 +939,9 @@ rpc.call("order", "renameNo", order_no)
 | code | number | 状态码     |
 | data | string | newOrderNo |
 
-## getPlanOrderByVehicle
+## getPlanOrdersByVehicle
 
-根据vid获取已生效计划单
+根据vid获取所有计划订单
 
 | domain | accessable |
 | ----   | ----       |
@@ -956,7 +957,7 @@ rpc.call("order", "renameNo", order_no)
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("order", "getPlanOrderByVehicle", vid)
+rpc.call("order", "getPlanOrdersByVehicle", vid)
   .then(function (result) {
 
   }, function (error) {
@@ -973,9 +974,11 @@ rpc.call("order", "getPlanOrderByVehicle", vid)
 | code | number  | 状态码 |
 | data | [order] | Orders |
 
-## getDriverOrderByVehicle
+See [example](../data/order/getPlanOrders.json)
 
-根据vid获取司机单
+## getDriverOrdersByVehicle
+
+根据vid获取所有司机订单
 
 | domain | accessable |
 | ----   | ----       |
@@ -991,7 +994,7 @@ rpc.call("order", "getPlanOrderByVehicle", vid)
 ```javascript
 let vid = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("order", "getDriverOrderByVehicle", vid)
+rpc.call("order", "getDriverOrdersByVehicle", vid)
   .then(function (result) {
 
   }, function (error) {
@@ -1007,9 +1010,11 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 | code | number  | 状态码 |
 | data | [order] | Orders |
 
-## getOrders
+See [example](../data/order/getDriverOrders.json)
 
-获取订单列表
+## getPlanOrdersByUser
+
+获取用户的订单列表
 
 | domain | accessable |
 | ----   | ----       |
@@ -1021,8 +1026,6 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 | name   | type | note           |
 | ----   | ---- | ----           |
 | uid    | uuid | User ID        |
-| offset | int  | 结果集起始地址 |
-| limit  | int  | 结果集大小     |
 
 #### response
 
@@ -1031,7 +1034,9 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 | code | number  | 状态码 |
 | data | [order] | Orders |
 
-## getOrder
+See [example](../data/order/getPlanOrders.json)
+
+## getPlanOrder
 
 获取订单详情
 
@@ -1053,36 +1058,9 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 | code | number | 状态码     |
 | data | order  | Order 详情 |
 
-## getDriverForVehicle
+See [example](../data/order/getPlanOrder.json)
 
-获取对应车的驾驶人信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  |            |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note       |
-| ---- | ---- | ----       |
-| vid  | uuid | vehicle ID |
-
-#### response
-
-返回信息
-
-| name | type     | note           |
-| ---- | ----     | ----           |
-| code | number   | 状态码         |
-| data | [driver] | 驾驶人详情详情 |
-
-| name | type | note             |
-| ---- | ---- | ----             |
-| code | 404  | 没有找到对应信息 |
-| code | 500  | 系统内部错误     |
-
-## getOrderByQid
+## getPlanOrderByQid
 
 根据报价获取订单
 
@@ -1113,53 +1091,7 @@ rpc.call("order", "getDriverOrderByVehicle", vid)
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
-## getOrdersByVid
-
-获得某 vehicle 对应的所有订单
-
-| domain | accessable |
-| ----   | ----       |
-| admin  |            |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note       |
-| ---- | ---- | ----       |
-| vid  | uuid | vehicle ID |
-
-```javascript
-
-rpc.call("order", "getOrdersByVid")
-
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type    | note   |
-| ---- | ----    | ----   |
-| code | int     | 200    |
-| data | [order] | Orders |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
+See [example](../data/order/getPlanOrder.json)
 
 ## refresh
 
