@@ -6,15 +6,13 @@
 - [Data Structure](#data-structure)
   - [quotation](#quotation)
   - [quotation-item](#quotation-item)
-  - [quotation-item-price](#quotation-item-price)
-  - [quotation-item-quota](#quotation-item-quota)
+  - [quotation-item-pair](#quotation-item-pair)
 - [Database](#database)
   - [quotations](#quotations)
   - [quotation_items](#quotation_items)
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
   - [quotation-entities](#quotation-entities)
-- [External Queue](#external-queue)
 - [API](#api)
   - [createQuotation](#createquotation)
       - [request](#request)
@@ -39,6 +37,9 @@
 
 
 # ChangeLog
+
+1. 2017-02-18
+  * 修改 getAccurateQuotation 的返回结果
 
 1. 2017-02-17
   * 增加 quotation-item-pair 数据结构
@@ -267,10 +268,10 @@ rpc.call("quotation", "getQuotation", qid)
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
+| name | type      | note     |
+| ---- | ----      | ----     |
+| code | int       | 200      |
+| data | quotation | 报价内容 |
 
 失败：
 
@@ -375,8 +376,6 @@ rpc.call("quotation", "refresh")
 | 200   | null     | 成功    |
 | other | 错误信息 | 失败    |
 
-See 成功返回数据：[example](../data/quotation/successful.json)
-
 ## getReferenceQuotation
 
 通过车辆信息获取参考报价的商业险起期与交强险起期
@@ -416,6 +415,7 @@ data 字段解释
 | ciBeginDate | String(20) | 交强险起期 2016-09-01 |
 
 data 例：
+
 ```
 {
     "biBeginDate": "2017-01-11",
@@ -483,156 +483,10 @@ rpc.call("quotation", "getAccurateQuotation", "110105196206130017", "周南", "1
 
 成功：
 
-| name | type | note |
-| ---- | ---- | ---- |
-| code | int  | 200  |
-| data | JSON | 见下 |
-
-data 字段解释
-
-| name          | type       | note                                           |
-| ----          | ----       | ----                                           |
-| msg           | String(80) | 返回信息,失败原因等信息                        |
-| thpBizID      | String(36) | 请求方业务号,第三方业务唯一标识                |
-| bizID         | String(36) | 智通引擎业务号,智通引擎业务唯一标识            |
-| insurerCode   | String(20) | 保险人代码,详见文档最下方“保险人代码”          |
-| channelCode   | String(32) | 渠道编码,由智通引擎提供(如: REQUESTER_SERVICE) |
-| biBeginDate   | String(20) | 商业险起期,2016-09-01                          |
-| biPremium     | String(20) | 商业险总保费,两位小数, 如:5000.00              |
-| coverageList  | JSON       | 商业险险别列表,详见”险别信息 coverage 说明”    |
-| integr        | String(20) | al 积分,保险公司返的佣金,和人民币是 1:1 的关系 |
-| ciBeginDate   | String(20) | 交强险起期,2016-09-01                          |
-| ciPremium     | String(20) | 交强险保费,两位小数,如:950.00                  |
-| carshipTax    | String(20) | 车船税金额,两位小数:如:200.00                  |
-| state         | String(1)  | 0 请求状态,-失败;1-成功                        |
-| msgCode       | String(12) | 错误编码,8 位编码,State 为 0 时才有值          |
-| purchasePrice | String     | 参考价                                         |
-
-其中， coverageList 结构如下，注意其格式，详见下例：
-
-| name            | type        | note                                                                                                                                           |
-| ----            | ----        | ----                                                                                                                                           |
-| coverageCode    | String(20)  | 险别代码, 详见文档最下方“险别代码”                                                                                                             |
-| coverageName    | String(100) | 险别名称, 如:机动车损失保险                                                                                                                    |
-| insuredAmount   | String(10)  | 保额,如无保额险别:”Y”投保,”N”:未投保;如有保额险别:具体金额,保留两位小数 (如:61460.80 或 0.00)                                                  |
-| insuredPremium  | String(10)  | 保费 3427.00                                                                                                                                   |
-| flag            | String(20)  | 标识. 如下险别需要给定 flag 值,具体约定如下: 玻璃单独破碎险:1 是国产,2 是进口 ;修理期间费用补偿险:格式: ” 天,金额”,如:“1,50”表示 1 天 50 元钱; |
-| modifiedPremium | string      | 经公式运算后的报价                                                                                                                             |
-
-```json
-{
-    "insurerCode": "APIC",
-    "thpBizID": "20161213fuyuhintest",
-    "bizID": "30500777",
-    "biBeginDate": "2017-01-11",
-    "biPremium": "4652.00",
-    "state": "1",
-    "msg": null,
-    "channelCode": "YC_INSURE",
-    "msgCode": null,
-    "coverageList": {
-        "A": {
-            "coverageCode": "A",
-            "coverageName": "机动车损失保险",
-            "insuredAmount": "Y",
-            "insuredPremium": "2393.00",
-            "flag": null,
-            "modifiedPremium": "1788.77"
-        },
-        "B": {
-            "coverageCode": "B",
-            "coverageName": "商业第三者责任险",
-            "insuredAmount": "300000.00",
-            "insuredPremium": "753.00",
-            "flag": null,
-            "modifiedPremium": {
-                "5万": "372.81",
-                "10万": "538.65",
-                "15万": "613.58",
-                "20万": "667.63",
-                "30万": "753.00",
-                "50万": "904.09",
-                "100万": "1177.41"
-            }
-        },
-        "F": {
-            "coverageCode": "F",
-            "coverageName": "玻璃单独破碎险",
-            "insuredAmount": "Y",
-            "insuredPremium": "305.00",
-            "flag": null,
-            "modifiedPremium": "198.25"
-        },
-        "FORCEPREMIUM": {
-            "coverageCode": "FORCEPREMIUM",
-            "coverageName": "交强险",
-            "insuredAmount": "Y",
-            "insuredPremium": "753.38",
-            "flag": null,
-            "modifiedPremium": "753.38"
-        },
-        "G1": {
-            "coverageCode": "G1",
-            "coverageName": "全车盗抢险",
-            "insuredAmount": "Y",
-            "insuredPremium": "679.00",
-            "flag": null,
-            "modifiedPremium": "537.77"
-        },
-        "X1": {
-            "coverageCode": "X1",
-            "coverageName": "发动机涉水损失险",
-            "insuredAmount": "Y",
-            "insuredPremium": "120.00",
-            "flag": null,
-            "modifiedPremium": "89.70"
-        },
-        "Z": {
-            "coverageCode": "Z",
-            "coverageName": "自燃损失险",
-            "insuredAmount": "Y",
-            "insuredPremium": "342.00",
-            "flag": null,
-            "modifiedPremium": "266.76"
-        },
-        "Z3": {
-            "coverageCode": "Z3",
-            "coverageName": "机动车损失保险无法找到第三方特约险",
-            "insuredAmount": "Y",
-            "insuredPremium": "60.00",
-            "flag": null,
-            "modifiedPremium": "39.00"
-        },
-        "Scratch3": {
-            "coverageCode": "Scratch3",
-            "coverageName": "车身划痕损失（3块漆)",
-            "insuredAmount": "",
-            "insuredPremium": "380",
-            "flag": null,
-            "modifiedPremium": "380"
-        },
-        "Scratch6": {
-            "coverageCode": "Scratch6",
-            "coverageName": "车身划痕损失（6块漆)",
-            "insuredAmount": "",
-            "insuredPremium": "551",
-            "flag": null,
-            "modifiedPremium": "551"
-        }
-    },
-    "integral": "1371.68",
-    "ciBeginDate": "2017-01-11",
-    "ciPremium": "753.38",
-    "carshipTax": "750.00",
-    "spAgreement": [],
-    "cIntegral": null,
-    "bIntegral": null,
-    "showCiCost": null,
-    "showBiCost": null,
-    "showSumIntegral": null,
-    "purchasePrice": "260900"
-}
-```
+| name | type      | note     |
+| ---- | ----      | ----     |
+| code | int       | 200      |
+| data | quotation | 报价内容 |
 
 失败：
 
@@ -647,3 +501,4 @@ data 字段解释
 | 408  | 请求超时             |
 | 500  | 未知错误             |
 
+See [example](../data/quotation/getQuotation.json)

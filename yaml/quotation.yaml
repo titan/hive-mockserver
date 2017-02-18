@@ -8,3 +8,5 @@ items:
   - !include quotation-item-16.yaml
   - !include quotation-item-32.yaml
   - !include quotation-item-64.yaml
+  - !include quotation-item-16777216.yaml
+  - !include quotation-item-33554432.yaml

@@ -1,11 +1,11 @@
 YAML2JSON = /usr/local/bin/yaml2json-include
 
-QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-8.yaml quotation-item-16.yaml quotation-item-32.yaml quotation-item-32.yaml
+QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-8.yaml quotation-item-16.yaml quotation-item-32.yaml quotation-item-64.yaml quotation-item-16777216.yaml quotation-item-33554432.yaml
 
 GET_QUOTATION = ../data/quotation/getQuotation.json
 GET_QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_DEPS)
 
-PLANS_DEPS = plans.yaml plan-1.yaml plan-2.yaml plan-4.yaml plan-8.yaml plan-16.yaml plan-32.yaml plan-64.yaml
+PLANS_DEPS = plans.yaml plan-1.yaml plan-2.yaml plan-4.yaml plan-8.yaml plan-16.yaml plan-32.yaml plan-64.yaml plan-16777216.yaml plan-33554432.yaml
 
 GET_PLANS = ../data/plan/getPlans.json
 GET_PLANS_DEPS = get-plans.yaml $(PLANS_DEPS)

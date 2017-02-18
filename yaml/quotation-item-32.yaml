@@ -3,5 +3,9 @@ plan: !include plan-32.yaml
 pairs:
   - price: 0
     real-price: 0
-    amount: 0
-    unit: 元
+    amount: 3
+    unit: "块漆"
+  - price: 0
+    real-price: 0
+    amount: 6
+    unit: "块漆"
