@@ -53,6 +53,10 @@
 
 # ChangeLog
 
+1. 2017-02-20
+  * 删除 addDrivers 方法
+  * 删除 delDrivers 方法
+
 1. 2017-02-17
   * 增加 zt-response-code 缓存
   * 重命名 fetchVehicleModelByVin 为 fetchVehicleModelsByVin
@@ -667,100 +671,6 @@ rpc.call("vehicle", "getVehiclesByUser")
 | 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicles.json)
-
-## addDrivers
-
-添加驾驶人信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name    | type     | note       |
-| ----    | ----     | ----       |
-| vid     | uuid     | 车辆 ID    |
-| drivers | [person] | 驾驶人信息 |
-
-```javascript
-
-var drivers = [
-  {
-    name: "",
-    identity_no: "",
-    phone: "",
-    is_primary: ""
-  }
-];
-
-rpc.call("vehicle", "addDrivers", vid, drivers)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-## delDrivers
-
-删除驾驶人信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name    | type  | note           |
-| ----    | ----  | ----           |
-| vid     | uuid  | 车辆 ID        |
-| drivers | [did] | 驾驶人 ID 列表 |
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
 
 ## uploadImages
 
