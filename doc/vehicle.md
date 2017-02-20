@@ -210,7 +210,7 @@
 | is_transfer            | boolean       | ✓    |         |         |           |
 | receipt_no             | char(32)      | ✓    |         |         |           |
 | receipt_data           | timestamp     |      | 0.0     |         |           |
-| last_insurance_company | char(16)      |      | 0.0     |         |           |
+| last_insurance_company | char(16)      |      |        |         |           |
 | insurance_due_date     | timestamp     |      | 0       |         |           |
 | driving_frontal_view   | varchar(1024) | ✓    |         |         |           |
 | driving_rear_view      | varchar(1024) | ✓    |         |         |           |
