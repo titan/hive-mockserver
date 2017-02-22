@@ -38,6 +38,9 @@
 
 # ChangeLog
 
+1. 2017-02-22
+  * 增加 qid 和 pgid 到 quotation_items 表
+
 1. 2017-02-18
   * 修改 getAccurateQuotation 的返回结果
 
@@ -149,18 +152,20 @@
 
 ## quotation_items
 
-| field      | type         | null | default | index   | reference |
-| ----       | ----         | ---- | ----    | ----    | ----      |
-| id         | uuid         |      |         | primary |           |
-| pid        | integer      |      |         |         | plans     |
-| price      | real         |      |         |         |           |
-| num        | real         |      |         |         |           |
-| unit       | varhchar(16) |      |         |         |           |
-| real_price | real         |      |         |         |           |
-| type       | smallint     |      |         |         |           |
-| insure     | smallint     |      |         |         |           |
-| created_at | timestamp    |      | now     |         |           |
-| updated_at | timestamp    |      | now     |         |           |
+| field      | type         | null | default | index   | reference   |
+| ----       | ----         | ---- | ----    | ----    | ----        |
+| id         | uuid         |      |         | primary |             |
+| qid        | uuid         |      |         |         | quotations  |
+| pid        | integer      |      |         |         | plans       |
+| pgid       | uuid         | ✓    |         |         | plan-groups |
+| price      | real         |      |         |         |             |
+| num        | real         |      |         |         |             |
+| unit       | varhchar(16) |      |         |         |             |
+| real_price | real         |      |         |         |             |
+| type       | smallint     |      |         |         |             |
+| insure     | smallint     |      |         |         |             |
+| created_at | timestamp    |      | now     |         |             |
+| updated_at | timestamp    |      | now     |         |             |
 
 其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"]
 
