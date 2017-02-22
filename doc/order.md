@@ -974,7 +974,7 @@ rpc.call("order", "getPlanOrdersByVehicle", vid)
 | code | number  | 状态码 |
 | data | [order] | Orders |
 
-See [example](../data/order/getPlanOrders.json)
+See [example](../data/order/getPlanOrdersByVehicle.json)
 
 ## getDriverOrdersByVehicle
 
@@ -1010,7 +1010,7 @@ rpc.call("order", "getDriverOrdersByVehicle", vid)
 | code | number  | 状态码 |
 | data | [order] | Orders |
 
-See [example](../data/order/getDriverOrders.json)
+See [example](../data/order/getDriverOrdersByVehicle.json)
 
 ## getPlanOrdersByUser
 
@@ -1034,7 +1034,7 @@ See [example](../data/order/getDriverOrders.json)
 | code | number  | 状态码 |
 | data | [order] | Orders |
 
-See [example](../data/order/getPlanOrders.json)
+See [example](../data/order/getPlanOrdersByUser.json)
 
 ## getPlanOrder
 
@@ -1091,7 +1091,7 @@ See [example](../data/order/getPlanOrder.json)
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
-See [example](../data/order/getPlanOrder.json)
+See [example](../data/order/getPlanOrderByQid.json)
 
 ## refresh
 

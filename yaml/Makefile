@@ -119,12 +119,16 @@ $(GET_INSURED): $(GET_INSURED_DEPS)
 
 $(GET_PLAN_ORDER): $(GET_PLAN_ORDER_DEPS)
 	$(YAML2JSON) get-plan-order.yaml | aeson-pretty > $@
+	cp $@ ../data/order/getPlanOrderByQid.json
 
 $(GET_PLAN_ORDERS): $(GET_PLAN_ORDERS_DEPS)
 	$(YAML2JSON) get-plan-orders.yaml | aeson-pretty > $@
+	cp $@ ../data/order/getPlanOrdersByUser.json
+	cp $@ ../data/order/getPlanOrdersByVehicle.json
 
 $(GET_DRIVER_ORDERS): $(GET_DRIVER_ORDERS_DEPS)
 	$(YAML2JSON) get-driver-orders.yaml | aeson-pretty > $@
+	cp $@ ../data/order/getDriverOrdersByVehicle.json
 
 $(GET_WALLET): $(GET_WALLET_DEPS)
 	$(YAML2JSON) get-wallet.yaml | aeson-pretty > $@
