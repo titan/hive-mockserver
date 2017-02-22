@@ -16,15 +16,21 @@
   - [getInviter](#getinviter)
       - [request](#request-1)
       - [response](#response-1)
-  - [refresh](#refresh)
+  - [getUserByUserIds](#getuserbyuserids)
       - [request](#request-2)
       - [response](#response-2)
-  - [getUserByUserIds](#getuserbyuserids)
+  - [setTenderOpened](#settenderopened)
       - [request](#request-3)
       - [response](#response-3)
-  - [setTenderOpened](#settenderopened)
+  - [getInsured](#getinsured)
       - [request](#request-4)
       - [response](#response-4)
+  - [setInsured](#setinsured)
+      - [request](#request-5)
+      - [response](#response-5)
+  - [refresh](#refresh)
+      - [request](#request-6)
+      - [response](#response-6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -39,6 +45,8 @@
   * 增加 ticket 字段到 users 表中
   * 删除 getDiscountStatus 方法
   * 增加 getInsured 方法
+  * 增加 setInsured 方法
+  * 增加 insured 字段到 users 表中
 
 1. 2017-01-05
   * user 增加自动投标开通标志
@@ -58,20 +66,21 @@
 
 ## User
 
-| name          | type   | note                     |
-| ----          | ----   | ----                     |
-| id            | uuid   | 用户 ID                  |
-| openid        | string | openid                   |
-| passsword     | string | 密码                     |
-| name          | string | 姓名                     |
-| gender        | string | 性别                     |
-| identity_no   | string | 身份证                   |
-| phone         | string | 手机号                   |
-| nickname      | string | 昵称                     |
-| portrait      | string | 头像                     |
-| pnrid         | string | 汇付天下 ID              |
-| ticket        | string | 微信扫码                 |
-| tender_opened | string | 汇付天下自动投标是否开启 |
+| name          | type                        | note                     |
+| ----          | ----                        | ----                     |
+| id            | uuid                        | 用户 ID                  |
+| openid        | string                      | openid                   |
+| passsword     | string                      | 密码                     |
+| name          | string                      | 姓名                     |
+| gender        | string                      | 性别                     |
+| identity_no   | string                      | 身份证                   |
+| phone         | string                      | 手机号                   |
+| nickname      | string                      | 昵称                     |
+| portrait      | string                      | 头像                     |
+| pnrid         | string                      | 汇付天下 ID              |
+| ticket        | string                      | 微信扫码                 |
+| tender_opened | string                      | 汇付天下自动投标是否开启 |
+| insured       | [person](vehicle.md#person) | 投保人                   |
 
 # Database
 
@@ -93,6 +102,7 @@
 | pnrid         | char(25)      |      |         | unique  |           |
 | ticket        | char(96)      | ✓    |         |         |           |
 | tender_opened | boolean       |      | false   |         |           |
+| insured       | uuid          | ✓    |         |         | person    |
 
 # Cache
 
@@ -188,47 +198,6 @@ rpc.call("profile", "getInviter", token)
 | other | 错误信息 | 失败    |
 
 See 成功返回数据：[example](../data/profile/getUser.json)
-
-## refresh
-
-刷新用户缓存
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile |            |
-
-#### request
-
-| name | type | note   |
-| ---- | ---- | ----   |
-| uid? | uuid | 用户ID |
-
-Example:
-
-```javascript
-
-rpc.call("profile", "refresh")
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
-| data/msg | string | 结果内容 |
-
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
-
-See 成功返回数据：[example](../data/profile/sucessful.json)
 
 ## getUserByUserIds
 
@@ -332,3 +301,72 @@ See 成功返回数据：[example](../data/profile/getUserByUserIds.json)
 | 500  | 错误信息          |
 
 [Example](../data/profile/getInsured.json)
+
+## setInsured
+
+设置投保人信息，只能绑定一次。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name    | type | note      |
+| ----    | ---- | ----      |
+| insured | uuid | 投保人 Id |
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
+
+| code | meaning           |
+| ---- | ----              |
+| 200  | okay              |
+| 404  | Insured not found |
+| 500  | 错误信息          |
+
+## refresh
+
+刷新用户缓存
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+| uid? | uuid | 用户ID |
+
+Example:
+
+```javascript
+
+rpc.call("profile", "refresh")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
+
+| code  | msg      | meaning |
+| ----  | ----     | ----    |
+| 200   | null     | 成功    |
+| other | 错误信息 | 失败    |
+
+See 成功返回数据：[example](../data/profile/sucessful.json)
