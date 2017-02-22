@@ -45,6 +45,9 @@
 
 # ChangeLog
 
+1. 2017-02-22
+  * deduct 方法增加 aid 参数
+
 1. 2017-02-21
   * 删除 WalletEvent
   * 删除 wallet_events 表
@@ -327,9 +330,9 @@ See [example](../data/wallet/getWallet.json)
 
 | name   | type     | note        |
 | ----   | ----     | ----        |
+| aid    | uuid     | 钱包帐号 ID |
 | amount | number   | 冻结金额    |
 | maid   | uuid     | 互助事件 ID |
-| aid    | uuid     | 钱包帐号 ID |
 
 #### response
 
@@ -366,9 +369,9 @@ See [example](../data/wallet/getWallet.json)
 
 | name   | type   | note        |
 | ----   | ----   | ----        |
+| aid    | uuid   | 钱包帐号 ID |
 | amount | number | 解冻金额    |
 | maid   | uuid   | 互助事件 ID |
-| aid    | uuid   | 钱包帐号 ID |
 
 #### response
 
@@ -405,6 +408,7 @@ See [example](../data/wallet/getWallet.json)
 
 | name   | type   | note             |
 | ----   | ----   | ----             |
+| aid    | uuid   | 钱包帐号 ID      |
 | amount | number | 扣款金额         |
 | maid   | uuid   | 互助事件 ID      |
 | type   | number | 0: 小池, 1: 大池 |
