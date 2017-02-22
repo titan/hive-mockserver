@@ -53,6 +53,9 @@
 
 # ChangeLog
 
+1. 2017-02-22
+  * 重命名 applicant 为 insured
+
 1. 2017-02-20
   * 删除 addDrivers 方法
   * 删除 delDrivers 方法
@@ -148,7 +151,7 @@
 | user-id                | user          | 用户                   |
 | owner                  | person        | 车主                   |
 | recommend              | string        | 推荐人                 |
-| applicant              | person        | 投保人                 |
+| insured                | person        | 投保人                 |
 | drivers                | [person]      | 驾驶人                 |
 | license-no             | string        | 车牌                   |
 | engine-no              | string        | 发动机号               |
@@ -205,7 +208,7 @@
 | id                     | uuid          |      |         | primary |           |
 | uid                    | uuid          |      |         |         | users     |
 | owner                  | uuid          |      |         |         | person    |
-| applicant              | uuid          |      |         |         | person    |
+| insured                | uuid          |      |         |         | person    |
 | vehicle_code           | char(32)      |      |         |         |           |
 | license_no             | char(16)      | ✓    |         |         |           |
 | engine_no              | char(32)      | ✓    |         |         |           |
@@ -214,7 +217,7 @@
 | is_transfer            | boolean       | ✓    |         |         |           |
 | receipt_no             | char(32)      | ✓    |         |         |           |
 | receipt_data           | timestamp     |      | 0.0     |         |           |
-| last_insurance_company | char(16)      |      |        |         |           |
+| last_insurance_company | char(16)      |      |         |         |           |
 | insurance_due_date     | timestamp     |      | 0       |         |           |
 | driving_frontal_view   | varchar(1024) | ✓    |         |         |           |
 | driving_rear_view      | varchar(1024) | ✓    |         |         |           |
@@ -417,9 +420,9 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 | owner_name             | string  | 车主姓名         |
 | owner_identity_no      | string  | 车主身份证编号   |
 | owner_phone            | string  | 车主电话号码     |
-| applicant_name         | string  | 投保人姓名       |
-| applicant_identity_no  | string  | 投保人身份证编号 |
-| applicant_phone        | string  | 投保人电话号码   |
+| insured_name           | string  | 投保人姓名       |
+| insured_identity_no    | string  | 投保人身份证编号 |
+| insured_phone          | string  | 投保人电话号码   |
 | recommend              | string  | 推荐人           |
 | vehicle_code           | string  | 车型代码         |
 | engine_no              | string  | 发动机号         |
@@ -438,9 +441,9 @@ Example:
 let owner_name = "aaa";
 let owner_identity_no = "440308197406255611";
 let owner_phone = "18713575980";
-let applicant_name = "aaa";
-let applicant_identity_no = "440308197406255611";
-let applicant_phone = "18713575980";
+let insured_name = "aaa";
+let insured_identity_no = "440308197406255611";
+let insured_phone = "18713575980";
 let recommend = null;
 let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let engine_no = "5555";
@@ -452,7 +455,7 @@ let last_insurance_company = null;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
 
-rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
+rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -501,9 +504,9 @@ rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, ap
 | owner_name             | string   | 车主姓名         |
 | owner_identity_no      | string   | 车主身份证编号   |
 | owner_phone            | string   | 车主电话号码     |
-| applicant_name         | string   | 投保人姓名       |
-| applicant_identity_no  | string   | 投保人身份证编号 |
-| applicant_phone        | string   | 投保人电话号码   |
+| insured_name           | string   | 投保人姓名       |
+| insured_identity_no    | string   | 投保人身份证编号 |
+| insured_phone          | string   | 投保人电话号码   |
 | recommend              | string   | 推荐人           |
 | vehicle_code           | string   | 车型代码         |
 | license_no             | string   | 车牌             |
@@ -524,9 +527,9 @@ Example:
 let owner_name = "aaa";
 let owner_identity_no = "440308197406255611";
 let owner_phone = "18713575980";
-let applicant_name = "aaa";
-let applicant_identity_no = "440308197406255611";
-let applicant_phone = "18713575980";
+let insured_name = "aaa";
+let insured_identity_no = "440308197406255611";
+let insured_phone = "18713575980";
 let recommend = null;
 let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let license_no = "a5678";
@@ -540,7 +543,7 @@ let fuel_type = "汽油";
 let vin = "WBAZV4101BL456778";
 let accident_status = 1;
 
-rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, owner_phone, applicant_name, applicant_identity_no, applicant_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
+rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, owner_phone, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {

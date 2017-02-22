@@ -87,6 +87,9 @@
 
 # ChangeLog
 
+1. 2017-02-22
+  * 重命名 applicant 为 insured
+
 1. 2017-02-18
   * 去掉 plan-order 数据结构中的 quotation, promotion 和 plans 字段
   * 重命名 order-item 为 plan-order-item
@@ -341,7 +344,7 @@
 | state_description  | string        | ✓    |         |         |              |
 | summary            | float         |      | 0.0     |         |              |
 | payment            | float         |      | 0.0     |         |              |
-| applicant          | uuid          |      |         |         | person       |
+| insured            | uuid          |      |         |         | person       |
 | promotion          | float         | ✓    |         |         |              |
 | service_ratio      | float         |      |         |         |              |
 | vehicle_real_value | real          |      | 0.0     |         |              |
@@ -380,7 +383,7 @@
 | state_description | string    | ✓    |         |         |              |
 | summary           | float     |      | 0.0     |         |              |
 | payment           | float     |      | 0.0     |         |              |
-| applicant         | uuid      |      |         |         | person       |
+| insured           | uuid      |      |         |         | person       |
 | paid_at           | timestamp | ✓    |         |         |              |
 | start_at          | timestamp |      | now     |         |              |
 | stop_at           | timestamp |      | now     |         |              |
@@ -409,7 +412,7 @@
 | state_description | string    | ✓    |         |         |              |
 | summary           | float     |      | 0.0     |         |              |
 | payment           | float     |      | 0.0     |         |              |
-| applicant         | uuid      |      |         |         | person       |
+| insured           | uuid      |      |         |         | person       |
 | paid_at           | timestamp | ✓    |         |         |              |
 | start_at          | timestamp |      | now     |         |              |
 | stop_at           | timestamp |      | now     |         |              |
