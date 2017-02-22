@@ -13,34 +13,32 @@
   - [getUser](#getuser)
       - [request](#request)
       - [response](#response)
-  - [getDiscountStatus](#getdiscountstatus)
+  - [getInviter](#getinviter)
       - [request](#request-1)
       - [response](#response-1)
-  - [getUserForInvite](#getuserforinvite)
+  - [refresh](#refresh)
       - [request](#request-2)
       - [response](#response-2)
-  - [getUserByUserId](#getuserbyuserid)
+  - [getUserByUserIds](#getuserbyuserids)
       - [request](#request-3)
       - [response](#response-3)
-  - [getUserOpenId](#getuseropenid)
-    - [request](#request-4)
-      - [response](#response-4)
-  - [refresh](#refresh)
-      - [request](#request-5)
-      - [response](#response-5)
-  - [getAllUsers](#getallusers)
-      - [request](#request-6)
-      - [response](#response-6)
-  - [getUserByUserIds](#getuserbyuserids)
-      - [request](#request-7)
-      - [response](#response-7)
   - [setTenderOpened](#settenderopened)
-      - [request](#request-8)
-      - [response](#response-8)
+      - [request](#request-4)
+      - [response](#response-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-02-22
+  * 删除 getAllUsers 方法
+  * 重命名 getUserForInvite 方法为 getInviter
+  * 增加 getUser 方法的可选参数 uid
+  * 删除 getUserByUserId 方法
+  * 修改 users 表中的 portrait 字段类型为 varchar(1024)
+  * 增加 ticket 字段到 users 表中
+  * 删除 getDiscountStatus 方法
+  * 增加 getInsured 方法
 
 1. 2017-01-05
   * user 增加自动投标开通标志
@@ -60,39 +58,41 @@
 
 ## User
 
-| name           | type   | note                     |
-| ----           | ----   | ----                     |
-| id             | uuid   | 用户 ID                  |
-| openid         | string | openid                   |
-| passsword      | string | 密码                     |
-| name           | string | 姓名                     |
-| gender         | string | 性别                     |
-| identity\_no   | string | 身份证                   |
-| phone          | string | 手机号                   |
-| nickname       | string | 昵称                     |
-| portrait       | string | 头像                     |
-| pnrid          | string | 汇付天下 ID              |
-| tender\_opened | string | 汇付天下自动投标是否开启 |
+| name          | type   | note                     |
+| ----          | ----   | ----                     |
+| id            | uuid   | 用户 ID                  |
+| openid        | string | openid                   |
+| passsword     | string | 密码                     |
+| name          | string | 姓名                     |
+| gender        | string | 性别                     |
+| identity_no   | string | 身份证                   |
+| phone         | string | 手机号                   |
+| nickname      | string | 昵称                     |
+| portrait      | string | 头像                     |
+| pnrid         | string | 汇付天下 ID              |
+| ticket        | string | 微信扫码                 |
+| tender_opened | string | 汇付天下自动投标是否开启 |
 
 # Database
 
 ## users
 
-| field          | type       | null | default | index   | reference |
-| ----           | ----       | ---- | ----    | ----    | ----      |
-| id             | uuid       |      |         | primary |           |
-| openid         | char(28)   |      |         | unique  |           |
-| passsword      | char(32)   | ✓    |         |         |           |
-| name           | char(64)   | ✓    |         |         |           |
-| gender         | char(4)    | ✓    |         |         |           |
-| identity\_no   | char(18)   | ✓    |         |         |           |
-| phone          | char(16)   | ✓    |         |         |           |
-| nickname       | char(64)   | ✓    |         |         |           |
-| portrait       | char(1024) | ✓    |         |         |           |
-| created\_at    | timestamp  |      | now     |         |           |
-| updated\_at    | timestamp  |      | now     |         |           |
-| pnrid          | char(25)   |      |         | unique  |           |
-| tender\_opened | boolean    |      | false   |         |           |
+| field         | type          | null | default | index   | reference |
+| ----          | ----          | ---- | ----    | ----    | ----      |
+| id            | uuid          |      |         | primary |           |
+| openid        | char(28)      |      |         | unique  |           |
+| passsword     | char(32)      | ✓    |         |         |           |
+| name          | char(64)      | ✓    |         |         |           |
+| gender        | char(4)       | ✓    |         |         |           |
+| identity_no   | char(18)      | ✓    |         |         |           |
+| phone         | char(16)      | ✓    |         |         |           |
+| nickname      | varchar(64)   | ✓    |         |         |           |
+| portrait      | varchar(1024) | ✓    |         |         |           |
+| created_at    | timestamp     |      | now     |         |           |
+| updated_at    | timestamp     |      | now     |         |           |
+| pnrid         | char(25)      |      |         | unique  |           |
+| ticket        | char(96)      | ✓    |         |         |           |
+| tender_opened | boolean       |      | false   |         |           |
 
 # Cache
 
@@ -106,7 +106,7 @@
 
 ## getUser
 
-获得当前用户信息
+获得用户信息
 
 | domain | accessable |
 | ----   | ----       |
@@ -115,8 +115,9 @@
 
 #### request
 
-| name    | type   | note    |
-| ----    | ----   | ----    |
+| name | type | note           |
+| ---- | ---- | ----           |
+| uid? | uuid | 不填取当前用户 |
 
 Example
 
@@ -145,39 +146,7 @@ rpc.call("profile", "getUser")
 
 See 成功返回数据：[example](../data/profile/getUser.json)
 
-
-## getDiscountStatus
-
-获得当前用户优惠情况
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-rpc.call("profile", "getDiscountStatus",recommend)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-| name      | type   | note           |
-| ----      | ----   | ----           |
-| recommend | string | 推荐码或推荐人 |
-
-#### response
-
-注: code 200时，返回结果data是布尔型，满足情况为true,否则为false
-
-| name | type    | note |
-| ---- | ----    | ---- |
-| code | int     | 200  |
-| data | boolean | true |
-
-## getUserForInvite
+## getInviter
 
 获取邀请好友信息
 
@@ -188,17 +157,17 @@ rpc.call("profile", "getDiscountStatus",recommend)
 
 #### request
 
-| name | type   | note       |
-| ---- | ----   | ----       |
-| key  | string | invite key |
+| name  | type   | note          |
+| ----  | ----   | ----          |
+| token | string | session token |
 
 Example
 
 ```javascript
 
-var key = "79e577b731c71aa23d1954c5f701aac3";
+var token = "79e577b731c71aa23d1954c5f701aac3";
 
-rpc.call("profile", "getUserForInvite", key)
+rpc.call("profile", "getInviter", token)
   .then(function (result) {
 
   }, function (error) {
@@ -220,47 +189,6 @@ rpc.call("profile", "getUserForInvite", key)
 
 See 成功返回数据：[example](../data/profile/getUser.json)
 
-## getUserByUserId
-
-根据userid获得某个用户信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name     | type | note   |
-| ----     | ---- | ----   |
-| user\_id | uuid | 用户id |
-
-Example:
-
-```javascript
-
-rpc.call("profile", "getUserByUserId", user_id)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
-| data/msg | string | 结果内容 |
-
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
-
-See 成功返回数据：[example](../data/profile/getUserByUserId.json)
-
 ## refresh
 
 刷新用户缓存
@@ -272,9 +200,9 @@ See 成功返回数据：[example](../data/profile/getUserByUserId.json)
 
 #### request
 
-| name | type | note         |
-| ---- | ---- | ----         |
-| uid  | uuid | 用户ID(可选) |
+| name | type | note   |
+| ---- | ---- | ----   |
+| uid? | uuid | 用户ID |
 
 Example:
 
@@ -302,50 +230,6 @@ rpc.call("profile", "refresh")
 
 See 成功返回数据：[example](../data/profile/sucessful.json)
 
-## getAllUsers
-
-获取所有用户信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile |            |
-
-#### request
-
-| name    | type   | note    |
-| ----    | ----   | ----    |
-| start   | int    | 起始记录 |
-| limit   | int    | 记录条数 |
-
-Example
-
-```javascript
-
-var start = 1;
-var limit = 20;
-rpc.call("profile", "getAllUsers", start, limit)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-```
-
-#### response
-
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
-| data/msg | string | 结果内容 |
-
-| code  | msg      | meaning |
-| ----  | ----     | ----    |
-| 200   | null     | 成功    |
-| other | 错误信息 | 失败    |
-
-See 成功返回数据：[example](../data/profile/getAllUsers.json)
-
 ## getUserByUserIds
 
 根据userid数组获得一些用户信息
@@ -357,18 +241,18 @@ See 成功返回数据：[example](../data/profile/getAllUsers.json)
 
 #### request
 
-| name      | type   | note   |
-| ----      | ----   | ----   |
-| user\_ids | [uuid] | 用户id |
+| name | type   | note       |
+| ---- | ----   | ----       |
+| uids | [uuid] | 用户id集合 |
 
 Example
 
 ```javascript
 
-var user_ids = [
+var uids = [
+];
 
-]
-rpc.call("profile", "getUserByUserIds")
+rpc.call("profile", "getUserByUserIds", uids)
   .then(function (result) {
 
   }, function (error) {
@@ -420,3 +304,31 @@ See 成功返回数据：[example](../data/profile/getUserByUserIds.json)
 | 404  | User not found |
 | 500  | 错误信息       |
 
+## getInsured
+
+获取投保人信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note |
+| ---- | ---- | ---- |
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
+
+| code | meaning           |
+| ---- | ----              |
+| 200  | person            |
+| 404  | Insured not found |
+| 500  | 错误信息          |
+
+[Example](../data/profile/getInsured.json)

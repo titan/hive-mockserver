@@ -15,7 +15,7 @@ PLAN_GROUPS_DEPS = plan-groups.yaml
 GET_PLAN_GROUPS = ../data/plan/getPlanGroups.json
 GET_PLAN_GROUPS_DEPS = get-plan-groups.yaml $(PLAN_GROUPS_DEPS)
 
-VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model.yaml vehicle.yaml
+VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml vehicle-model.yaml vehicle.yaml $(INSURED_DEPS)
 
 GET_VEHICLE = ../data/vehicle/getVehicle.json
 GET_VEHICLES_DEPS = get-vehicle.yaml $(VEHICLE_DEPS)
@@ -35,8 +35,13 @@ VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-vehicle-
 FETCH_VEHICLE_AND_MODELS = ../data/vehicle/fetchVehicleAndModelsByLicense.json
 FETCH_VEHICLE_AND_MODELS_DEPS = fetch-vehicle-and-models-by-license.yaml $(VEHICLE_AND_MODELS_DEPS)
 
-PROFILE = ../data/profile/getProfile.json
-PROFILE_DEPS = profile.yaml
+USER_DEPS = user.yaml
+
+GET_USER = ../data/profile/getUser.json
+GET_USER_DEPS = get-user.yaml $(USER_DEPS)
+
+GET_INSURED = ../data/profile/getInsured.json
+GET_INSURED_DEPS = get-insured.yaml $(INSURED_DEPS)
 
 GET_GROUP = ../data/group/getGroup.json
 GET_GROUP_DEPS = get-group.yaml group.yaml group-items.yaml $(GROUP_ITEM) $(VEHICLE_DEPS) $(PROFILE_DEPS)
@@ -76,7 +81,7 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(PROFILE) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
@@ -106,8 +111,11 @@ $(GET_GROUP): $(GET_GROUP_DEPS)
 $(GROUP_TRIGGER): $(GROUP_TRIGGER_DEPS)
 	$(YAML2JSON) group-trigger.yaml | aeson-pretty > $@
 
-$(PROFILE): $(PROFILE_DEPS)
-	$(YAML2JSON) profile.yaml | aeson-pretty > $@
+$(GET_USER): $(GET_USER_DEPS)
+	$(YAML2JSON) get-user.yaml | aeson-pretty > $@
+
+$(GET_INSURED): $(GET_INSURED_DEPS)
+	$(YAML2JSON) get-insured.yaml | aeson-pretty > $@
 
 $(GET_PLAN_ORDER): $(GET_PLAN_ORDER_DEPS)
 	$(YAML2JSON) get-plan-order.yaml | aeson-pretty > $@
@@ -143,7 +151,7 @@ clean:
 	rm $(FETCH_VEHICLE_AND_MODELS)
 	rm $(GET_GROUP)
 	rm $(GROUP_TRIGGER)
-	rm $(PROFILE)
+	rm $(GET_USER)
 	rm $(GET_PLAN_ORDER)
 	rm $(GET_PLAN_ORDERS)
 	rm $(GET_DRIVER_ORDERS)

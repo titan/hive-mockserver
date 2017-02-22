@@ -1,0 +1,13 @@
+{
+    "data": {
+        "ticket": null,
+        "gender": 0,
+        "name": "vivian",
+        "portrait": "https://www.baidu.com/img/bd_logo1.png",
+        "id": "00000000-0000-0000-0000-000000000000",
+        "nickname": "vivian",
+        "tender_opened": true,
+        "pnrid": "xxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "code": 200
+}
