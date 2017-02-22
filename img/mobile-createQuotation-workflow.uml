@@ -1,0 +1,42 @@
+@startuml
+
+start
+
+if (验证码有效) then (yes)
+  if (车主信息已存在) then (yes)
+    if (车主未验证) then (yes)
+      :更新车主信息;
+    else (no)
+    endif
+  else (no)
+    :保存车主信息;
+  endif
+  if (投保人信息已存在) then (yes)
+    if (投保人未验证) then (yes)
+      :更新投保人信息;
+    else (no)
+    endif
+  else (no)
+    :保存投保人信息;
+  endif
+  if (车辆信息已存在) then (yes)
+    :复用车辆信息;
+  else (no)
+    :保存车辆信息;
+  endif
+  if (车辆有已生效订单) then (yes)
+    if (已生效订单到期时间超过3个月) then (yes)
+      :返回错误信息;
+    else (no)
+      :创建报价;
+    endif
+  else (no)
+    :创建报价;
+  endif
+else (no)
+  :返回错误信息;
+endif
+
+stop
+
+@enduml

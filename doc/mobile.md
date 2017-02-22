@@ -23,6 +23,12 @@
 
 1. 2017-02-22
   * 增加 checkTicketOrRecommender 方法
+  * 删除 createQuotation 方法的 phone 参数
+  * 重命名 createQuotation 方法的 owner 参数为 owner_name
+  * 重命名 createQuotation 方法的 identity_no 参数为 owner_identity_no
+  * 增加 insured_name 参数到 createQuotation
+  * 增加 insured_identity_no 参数到 createQuotation
+  * 增加 insured_phone 参数到 createQuotation
 
 1. 2017-02-10
   * 增加 createDriverOrder
@@ -39,13 +45,8 @@
 
 创建报价，流程如下：
 
-1. 检查验证码是否有效
+![报价流程](../img/mobile-createQuotation-workflow.png)
 
-2. 添加车辆信息
-
-3. 添加车主信息
-
-4. 创建报价
 
 | domain | accessable |
 | ----   | ----       |
@@ -68,9 +69,11 @@
 | insurance_due_date     | date    | 保险到期日期           |
 | fuel_type              | string  | 燃油类型               |
 | accident_status        | string  | 最近出险状况           |
-| owner                  | string  | 车主姓名               |
-| identity_no            | string  | 车主身份证件编号       |
-| phone                  | string  | 车主电话               |
+| owner_name             | string  | 车主姓名               |
+| owner_identity_no      | string  | 车主身份证件编号       |
+| insured_name           | string  | 投保人姓名             |
+| insured_identity_no    | string  | 投保人身份证件编号     |
+| insured_phone          | string  | 投保人电话号码         |
 | recommend              | string  | 推荐人                 |
 
 #### response
