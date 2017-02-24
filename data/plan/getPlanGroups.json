@@ -1,0 +1,67 @@
+{
+    "data": [
+        {
+            "plans": [
+                {
+                    "id": 1,
+                    "title": "车损",
+                    "description": "",
+                    "optional": false
+                },
+                {
+                    "id": 2,
+                    "title": "机动车全车盗抢",
+                    "description": "",
+                    "optional": false
+                },
+                {
+                    "id": 4,
+                    "title": "无法找到第三方特约",
+                    "description": "",
+                    "optional": false
+                },
+                {
+                    "id": 8,
+                    "title": "机动车自燃损失",
+                    "description": "",
+                    "optional": true
+                },
+                {
+                    "id": 16,
+                    "title": "机动车发动机涉水损失",
+                    "description": "",
+                    "optional": true
+                },
+                {
+                    "id": 32,
+                    "title": "机动车车身划痕损失",
+                    "description": "",
+                    "optional": true
+                },
+                {
+                    "id": 64,
+                    "title": "玻璃单独破碎",
+                    "description": "",
+                    "optional": true
+                },
+                {
+                    "id": 16777216,
+                    "title": "交强险",
+                    "description": "",
+                    "optional": true
+                },
+                {
+                    "id": 33554432,
+                    "title": "商业第三者责任险",
+                    "description": "",
+                    "optional": true
+                }
+            ],
+            "mask": 128,
+            "id": "00000000-0000-0000-0000-000000000000",
+            "title": "计划套餐",
+            "description": "计划套餐"
+        }
+    ],
+    "code": 200
+}

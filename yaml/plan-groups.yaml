@@ -1,0 +1,5 @@
+- id: 00000000-0000-0000-0000-000000000000
+  title: 计划套餐
+  description: 计划套餐
+  mask: 128
+  plans: !include plans.yaml

@@ -1,24 +1,47 @@
 YAML2JSON = /usr/local/bin/yaml2json-include
 
-QUOTATION_GROUPS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-item-additional2.yaml plan-item-additional3.yaml plan-item-additional4.yaml plan-item-main1.yaml plan-item-main2.yaml plan-items-additional.yaml plan-items-main.yaml plan-items-third.yaml plan-item-third1.yaml plan-item-third2.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-additional.yaml plan-rules-main.yaml plan-third.yaml quotation-group-additional.yaml quotation-group-main.yaml quotation-groups.yaml quotation-group-third.yaml quotation-item-additional1.yaml quotation-item-additional2.yaml quotation-item-additional3.yaml quotation-item-additional4.yaml quotation-item-main1.yaml quotation-item-main2.yaml quotation-item-price-additional1.yaml quotation-item-price-additional2.yaml quotation-item-price-additional3.yaml quotation-item-price-additional4.yaml quotation-item-price-main1.yaml quotation-item-price-main2.yaml quotation-item-prices-additional1.yaml quotation-item-prices-additional2.yaml quotation-item-prices-additional3.yaml quotation-item-prices-additional4.yaml quotation-item-prices-main1.yaml quotation-item-prices-main2.yaml quotation-item-prices-third1.yaml quotation-item-prices-third2.yaml quotation-item-price-third1.yaml quotation-item-price-third2-1.yaml quotation-item-price-third2-2.yaml quotation-item-price-third2-3.yaml quotation-item-price-third2-4.yaml quotation-item-price-third2-5.yaml quotation-item-quota-additional1.yaml quotation-item-quota-additional3.yaml quotation-item-quota-additional4.yaml quotation-item-quota-main1.yaml quotation-item-quota-main2.yaml quotation-item-quotas-additional1.yaml quotation-item-quotas-additional2.yaml quotation-item-quotas-additional3.yaml quotation-item-quotas-additional4.yaml quotation-item-quotas-main1.yaml quotation-item-quotas-main2.yaml quotation-item-quotas-third1.yaml quotation-item-quotas-third2.yaml quotation-item-quota-third2-1.yaml quotation-item-quota-third2-2.yaml quotation-item-quota-third2-3.yaml quotation-item-quota-third2-4.yaml quotation-item-quota-third2-5.yaml quotation-items-additional.yaml quotation-items-main.yaml quotation-items-third.yaml quotation-item-third1.yaml quotation-item-third2.yaml
+QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-8.yaml quotation-item-16.yaml quotation-item-32.yaml quotation-item-64.yaml quotation-item-16777216.yaml quotation-item-33554432.yaml
 
-QUOTATION = ../data/quotation/getQuotation.json
-QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_GROUPS_DEPS) $(VEHICLE_DEPS)
+GET_QUOTATION = ../data/quotation/getQuotation.json
+GET_QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_DEPS)
 
-AVAILABLE_PLANS = ../data/plan/getAvailablePlans.json
-AVAILABLE_PLANS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-item-additional2.yaml plan-item-additional3.yaml plan-item-additional4.yaml plan-item-main1.yaml plan-item-main2.yaml plan-items-additional.yaml plan-items-main.yaml plan-items-third.yaml plan-item-third1.yaml plan-item-third2.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-additional.yaml plan-rules-main.yaml plans-available.yaml plan-third.yaml
+PLANS_DEPS = plans.yaml plan-1.yaml plan-2.yaml plan-4.yaml plan-8.yaml plan-16.yaml plan-32.yaml plan-64.yaml plan-16777216.yaml plan-33554432.yaml
 
-JOINED_PLANS = ../data/plan/getJoinedPlans.json
-JOINED_PLANS_DEPS = plan-additional.yaml plan-item-additional1.yaml plan-item-additional2.yaml plan-item-additional3.yaml plan-item-additional4.yaml plan-item-main1.yaml plan-item-main2.yaml plan-items-additional.yaml plan-items-main.yaml plan-items-third.yaml plan-item-third1.yaml plan-item-third2.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-additional.yaml plan-rules-main.yaml plans-available.yaml plans-joined.yaml plan-third.yaml
+GET_PLANS = ../data/plan/getPlans.json
+GET_PLANS_DEPS = get-plans.yaml $(PLANS_DEPS)
 
-PLAN = ../data/plan/getPlan.json
-PLAN_DEPS = plan-item-main1.yaml plan-item-main2.yaml plan-items-main.yaml plan-main.yaml plan-rule-main1.yaml plan-rule-main2.yaml plan-rule-main3.yaml plan-rule-main4.yaml plan-rules-main.yaml
+PLAN_GROUPS_DEPS = plan-groups.yaml
 
-VEHICLE = ../data/vehicle/getVehicle.json
-VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml applicant.yaml vehicle-model1.yaml vehicle-model2.yaml vehicle-models.yaml vehicle-model.yaml vehicle.yaml
+GET_PLAN_GROUPS = ../data/plan/getPlanGroups.json
+GET_PLAN_GROUPS_DEPS = get-plan-groups.yaml $(PLAN_GROUPS_DEPS)
 
-PROFILE = ../data/profile/getProfile.json
-PROFILE_DEPS = profile.yaml
+VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml vehicle-model.yaml vehicle.yaml $(INSURED_DEPS)
+
+GET_VEHICLE = ../data/vehicle/getVehicle.json
+GET_VEHICLES_DEPS = get-vehicle.yaml $(VEHICLE_DEPS)
+
+VEHICLES_DEPS = vehicles.yaml $(VEHICLE_DEPS)
+
+GET_VEHICLES = ../data/vehicle/getVehicles.json
+GET_VEHICLES_DEPS = get-vehicles.yaml $(VEHICLES_DEPS)
+
+VEHICLE_MODELS_DEPS = vehicle-models.yaml vehicle-model1.yaml vehicle-model2.yaml
+
+FETCH_VEHICLE_MODELS = ../data/vehicle/fetchVehicleModelsByVin.json
+FETCH_VEHICLE_MODELS_DEPS = fetch-vehicle-models-by-vin.yaml $(VEHICLE_MODELS_DEPS)
+
+VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-vehicle-models.yaml zt-vehicle-model1.yaml zt-vehicle-model2.yaml
+
+FETCH_VEHICLE_AND_MODELS = ../data/vehicle/fetchVehicleAndModelsByLicense.json
+FETCH_VEHICLE_AND_MODELS_DEPS = fetch-vehicle-and-models-by-license.yaml $(VEHICLE_AND_MODELS_DEPS)
+
+USER_DEPS = user.yaml
+
+GET_USER = ../data/profile/getUser.json
+GET_USER_DEPS = get-user.yaml $(USER_DEPS)
+
+GET_INSURED = ../data/profile/getInsured.json
+GET_INSURED_DEPS = get-insured.yaml $(INSURED_DEPS)
 
 GET_GROUP = ../data/group/getGroup.json
 GET_GROUP_DEPS = get-group.yaml group.yaml group-items.yaml $(GROUP_ITEM) $(VEHICLE_DEPS) $(PROFILE_DEPS)
@@ -28,20 +51,18 @@ GROUP_ITEM_DEPS = group-item.yaml $(VEHICLE_DEPS)
 GROUP_TRIGGER = ../data/group/group-trigger.json
 GROUP_TRIGGER_DEPS = group-trigger.yaml $(GROUP_DEPS)
 
-ORDER_ITEMS_PLAN_DEPS = order-items-plan.yaml order-item-plan1.yaml order-item-plan2.yaml order-item-plan3.yaml order-item-plan4.yaml order-item-plan5.yaml order-item-plan6.yaml
-ORDER_ITEMS_SALE_DEPS = order-items-sale.yaml order-item-sale1.yaml order-item-sale2.yaml
+PLAN_ORDER_DEPS = plan-order.yaml plan-order-items.yaml
 
-PLAN_ORDER = ../data/order/getPlanOrder.json
-PLAN_ORDER_DEPS = plan-order.yaml $(VEHICLE_DEPS) $(PLAN_DEPS) promotion.yaml $(ORDER_ITEMS_PLAN_DEPS)
+GET_PLAN_ORDER = ../data/order/getPlanOrder.json
+GET_PLAN_ORDER_DEPS = get-plan-order.yaml $(PLAN_ORDER_DEPS)
 
-DRIVER_ORDER = ../data/order/getDriverOrder.json
+GET_PLAN_ORDERS = ../data/order/getPlanOrders.json
+GET_PLAN_ORDERS_DEPS = get-plan-orders.yaml $(PLAN_ORDER_DEPS)
+
 DRIVER_ORDER_DEPS = driver-order.yaml $(VEHICLE_DEPS)
 
-SALE_ORDER = ../data/order/getSaleOrder.json
-SALE_ORDER_DEPS = sale-order.yaml $(VEHICLE_DEPS) $(PLAN_DEPS) $(ORDER_ITEMS_PLAN_DEPS)
-
-ORDERS = ../data/order/getOrders.json
-ORDERS_DEPS = orders.yaml $(PLAN_ORDER_DEPS) $(DRIVER_ORDER_DEPS) $(THIRD_ORDER_DEPS)
+GET_DRIVER_ORDERS = ../data/order/getDriverOrders.json
+GET_DRIVER_ORDERS_DEPS = get-driver-orders.yaml $(DRIVER_ORDER_DEPS)
 
 GET_WALLET = ../data/wallet/getWallet.json
 GET_WALLET_DEPS = get-wallet.yaml wallet.yaml accounts.yaml account.yaml $(VEHICLE_DEPS)
@@ -60,19 +81,28 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(QUOTATION) $(AVAILABLE_PLANS) $(JOINED_PLANS) $(PLAN) $(GET_GROUP) $(PROFILE) $(ORDERS) $(PLAN_ORDER) $(DRIVER_ORDER) $(SALE_ORDER) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
-$(QUOTATION): $(QUOTATION_DEPS)
+$(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
 
-$(AVAILABLE_PLANS): $(AVAILABLE_PLANS_DEPS)
-	$(YAML2JSON) plans-available.yaml | aeson-pretty > $@
+$(GET_PLANS): $(GET_PLANS_DEPS)
+	$(YAML2JSON) get-plans.yaml | aeson-pretty > $@
 
-$(JOINED_PLANS): $(JOINED_PLANS_DEPS)
-	$(YAML2JSON) plans-joined.yaml | aeson-pretty > $@
+$(GET_PLAN_GROUPS): $(GET_PLAN_GROUPS_DEPS)
+	$(YAML2JSON) get-plan-groups.yaml | aeson-pretty > $@
 
-$(PLAN): $(PLAN_DEPS)
-	$(YAML2JSON) plan-main.yaml | aeson-pretty > $@
+$(GET_VEHICLE): $(VEHICLE_DEPS)
+	$(YAML2JSON) get-vehicle.yaml | aeson-pretty > $@
+
+$(GET_VEHICLES): $(GET_VEHICLES_DEPS)
+	$(YAML2JSON) get-vehicles.yaml | aeson-pretty > $@
+
+$(FETCH_VEHICLE_MODELS): $(FETCH_VEHICLE_MODELS_DEPS)
+	$(YAML2JSON) fetch-vehicle-models-by-vin.yaml | aeson-pretty > $@
+
+$(FETCH_VEHICLE_AND_MODELS): $(FETCH_VEHICLE_AND_MODELS_DEPS)
+	$(YAML2JSON) fetch-vehicle-and-models-by-license.yaml | aeson-pretty > $@
 
 $(GET_GROUP): $(GET_GROUP_DEPS)
 	$(YAML2JSON) get-group.yaml | aeson-pretty > $@
@@ -81,20 +111,24 @@ $(GET_GROUP): $(GET_GROUP_DEPS)
 $(GROUP_TRIGGER): $(GROUP_TRIGGER_DEPS)
 	$(YAML2JSON) group-trigger.yaml | aeson-pretty > $@
 
-$(PROFILE): $(PROFILE_DEPS)
-	$(YAML2JSON) profile.yaml | aeson-pretty > $@
+$(GET_USER): $(GET_USER_DEPS)
+	$(YAML2JSON) get-user.yaml | aeson-pretty > $@
 
-$(ORDERS): $(ORDERS_DEPS)
-	$(YAML2JSON) orders.yaml | aeson-pretty > $@
+$(GET_INSURED): $(GET_INSURED_DEPS)
+	$(YAML2JSON) get-insured.yaml | aeson-pretty > $@
 
-$(PLAN_ORDER): $(PLAN_ORDER_DEPS)
-	$(YAML2JSON) plan-order.yaml | aeson-pretty > $@
+$(GET_PLAN_ORDER): $(GET_PLAN_ORDER_DEPS)
+	$(YAML2JSON) get-plan-order.yaml | aeson-pretty > $@
+	cp $@ ../data/order/getPlanOrderByQid.json
 
-$(DRIVER_ORDER): $(DRIVER_ORDER_DEPS)
-	$(YAML2JSON) driver-order.yaml | aeson-pretty > $@
+$(GET_PLAN_ORDERS): $(GET_PLAN_ORDERS_DEPS)
+	$(YAML2JSON) get-plan-orders.yaml | aeson-pretty > $@
+	cp $@ ../data/order/getPlanOrdersByUser.json
+	cp $@ ../data/order/getPlanOrdersByVehicle.json
 
-$(SALE_ORDER): $(SALE_ORDER_DEPS)
-	$(YAML2JSON) sale-order.yaml | aeson-pretty > $@
+$(GET_DRIVER_ORDERS): $(GET_DRIVER_ORDERS_DEPS)
+	$(YAML2JSON) get-driver-orders.yaml | aeson-pretty > $@
+	cp $@ ../data/order/getDriverOrdersByVehicle.json
 
 $(GET_WALLET): $(GET_WALLET_DEPS)
 	$(YAML2JSON) get-wallet.yaml | aeson-pretty > $@
@@ -112,17 +146,19 @@ $(GET_MUTUAL_AIDS): $(GET_MUTUAL_AIDS_DEPS)
 	$(YAML2JSON) get-mutual-aids.yaml | aeson-pretty > $@
 
 clean:
-	rm $(QUOTATION)
-	rm $(AVAILABLE_PLANS)
-	rm $(JOINED_PLANS)
-	rm $(PLAN)
+	rm $(GET_QUOTATION)
+	rm $(GET_PLANS)
+	rm $(GET_PLAN_GROUPS)
+	rm $(GET_VEHICLE)
+	rm $(GET_VEHICLES)
+	rm $(FETCH_VEHICLE_MODELS)
+	rm $(FETCH_VEHICLE_AND_MODELS)
 	rm $(GET_GROUP)
 	rm $(GROUP_TRIGGER)
-	rm $(PROFILE)
-	rm $(PLAN_ORDER)
-	rm $(DRIVER_ORDER)
-	rm $(SALE_ORDER)
-	rm $(ORDERS)
+	rm $(GET_USER)
+	rm $(GET_PLAN_ORDER)
+	rm $(GET_PLAN_ORDERS)
+	rm $(GET_DRIVER_ORDERS)
 	rm $(GET_WALLET)
 	rm $(GET_TRANSACTIONS)
 	rm $(SIGN)

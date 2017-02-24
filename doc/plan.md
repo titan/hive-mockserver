@@ -4,38 +4,56 @@
 
 - [ChangeLog](#changelog)
 - [Data Structure](#data-structure)
+  - [plan-group](#plan-group)
   - [plan](#plan)
-  - [plan-slim](#plan-slim)
-  - [plan-rule](#plan-rule)
-  - [plan-item](#plan-item)
 - [Database](#database)
+  - [plan_groups](#plan_groups)
   - [plans](#plans)
-  - [plan\_rules](#plan%5C_rules)
-  - [plan\_items](#plan%5C_items)
 - [Cache](#cache)
 - [API](#api)
-  - [getAvailablePlans](#getavailableplans)
+  - [getPlanGroups](#getplangroups)
       - [request](#request)
       - [response](#response)
-  - [getJoinedPlans](#getjoinedplans)
+  - [getPlans](#getplans)
       - [request](#request-1)
       - [response](#response-1)
-  - [getPlan](#getplan)
+  - [increaseJoinedCount](#increasejoinedcount)
       - [request](#request-2)
       - [response](#response-2)
-  - [increaseJoinedCount](#increasejoinedcount)
+  - [decreaseJoinedCount](#decreasejoinedcount)
       - [request](#request-3)
       - [response](#response-3)
-  - [decreaseJoinedCount](#decreasejoinedcount)
+  - [setJoinedCount](#setjoinedcount)
       - [request](#request-4)
       - [response](#response-4)
-  - [setJoinedCounts](#setjoinedcounts)
-      - [request](#request-5)
-      - [response](#response-5)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-02-13
+  * 增加 plan-group-entities 缓存
+  * 增加 getJoinedCount 方法
+
+1. 2017-02-10
+  * 增加 plan-group 数据结构
+  * 修改 plan 数据结构
+  * 删除 plan-slim 数据结构
+  * 删除 plan-rule 数据结构
+  * 删除 plan-item 数据结构
+  * 增加 plan_group 数据库
+  * 删除 plan_rules 数据库
+  * 删除 plan_items 数据库
+  * 删除 plan-slim-entities 缓存
+  * 修改 plan-joined-count 缓存类型
+  * 增加 getPlanGroups 方法
+  * 增加 getPlans 方法
+  * 删除 getAvailablePlans 方法
+  * 删除 getJoinedPlans 方法
+  * 删除 getPlan 方法
+  * 修改 increaseJoinedCount 方法
+  * 修改 descreaseJoinedCount 方法
+  * 修改 setJoinedCount 方法
 
 1. 2017-01-16
   * getPlan 增加 fat 参数
@@ -50,141 +68,63 @@
 
 # Data Structure
 
+## plan-group
+
+| name        | type   | note         |
+| ----        | ----   | ----         |
+| title       | string | 标题         |
+| description | string | 描述         |
+| mask        | number | 关联计划掩码 |
+| discount    | number | 折扣         |
+
+掩码保存了打包的 plan 编号
+
 ## plan
 
-| name            | type        | note           |
-| ----            | ----        | ----           |
-| title           | string      | 标题           |
-| description     | string      | 描述           |
-| image           | string      | 头图           |
-| thumbnail       | string      | 缩略图         |
-| period          | integer     | 互助期         |
-| rules           | [plan-rule] | 互助规则       |
-| items           | [plan-item] | 计划条目       |
-| joined-count    | integer     | 已加入车辆     |
-| show\_in\_index | boolean     | 是否在首页显示 |
-
-## plan-slim
-
-plan-slim 是 plan 的精简版，去掉了 rules 和 items
-
-| name            | type    | note           |
-| ----            | ----    | ----           |
-| title           | string  | 标题           |
-| description     | string  | 描述           |
-| image           | string  | 头图           |
-| thumbnail       | string  | 缩略图         |
-| period          | integer | 互助期         |
-| joined-count    | integer | 已加入车辆     |
-| show\_in\_index | boolean | 是否在首页显示 |
-
-## plan-rule
-
-| name        | type   | note |
-| ----        | ----   | ---- |
-| name        | string | 名称 |
-| title       | string | 标题 |
-| description | string | 描述 |
-
-## plan-item
-
-| name        | type   | note |
-| ----        | ----   | ---- |
-| title       | string | 标题 |
-| description | string | 描述 |
+| name        | type    | note     |
+| ----        | ----    | ----     |
+| title       | string  | 标题     |
+| description | string  | 描述     |
+| optional    | boolean | 是否可选 |
 
 # Database
 
+## plan_groups
+
+| field       | type         | null | default | index   | reference |
+| ----        | ----         | ---- | ----    | ----    | ----      |
+| id          | uuid         |      |         | primary |           |
+| title       | vchar(128)   |      |         |         |           |
+| description | text         | ✓    |         |         |           |
+| mask        | integer      |      |         |         |           |
+| discount    | numeric(2,2) | ✓    |         |         |           |
+| created_at  | timestamp    |      | now     |         |           |
+| updated_at  | timestamp    |      | now     |         |           |
+
 ## plans
 
-| field           | type       | null | default | index   | reference |
-| ----            | ----       | ---- | ----    | ----    | ----      |
-| id              | uuid       |      |         | primary |           |
-| title           | char(128)  |      |         |         |           |
-| description     | text       | ✓    |         |         |           |
-| image           | char(1024) | ✓    |         |         |           |
-| thumbnail       | char(1024) | ✓    |         |         |           |
-| period          | integer    |      | 365     |         |           |
-| show\_in\_index | boolean    | ✓    | false   |         |           |
-| created\_at     | timestamp  |      | now     |         |           |
-| updated\_at     | timestamp  |      | now     |         |           |
-
-## plan\_rules
-
-| field       | type      | null | default | index   | reference |
-| ----        | ----      | ---- | ----    | ----    | ----      |
-| id          | uuid      |      |         | primary |           |
-| pid         | uuid      |      |         |         | plans     |
-| name        | char(128) | ✓    |         |         |           |
-| title       | char(128) |      |         |         |           |
-| description | text      | ✓    |         |         |           |
-| created\_at | timestamp |      | now     |         |           |
-| updated\_at | timestamp |      | now     |         |           |
-
-## plan\_items
-
-| field       | type      | null | default | index   | reference |
-| ----        | ----      | ---- | ----    | ----    | ----      |
-| id          | uuid      |      |         | primary |           |
-| pid         | uuid      |      |         |         | plans     |
-| title       | char(128) |      |         |         |           |
-| description | text      | ✓    |         |         |           |
-| created\_at | timestamp |      | now     |         |           |
-| updated\_at | timestamp |      | now     |         |           |
+| field       | type       | null | default | index   | reference |
+| ----        | ----       | ---- | ----    | ----    | ----      |
+| id          | smallint   |      |         | primary |           |
+| title       | vchar(128) |      |         |         |           |
+| description | text       | ✓    |         |         |           |
+| optional    | boolean    |      | false   |         |           |
+| created_at  | timestamp  |      | now     |         |           |
+| updated_at  | timestamp  |      | now     |         |           |
 
 # Cache
 
-| name               | type              | note             |
-| ----               | ----              | ----             |
-| plan-entities      | {id => plan}      | 完整计划实体缓存 |
-| plan-slim-entities | {id => plan-slim} | 精简计划实体缓存 |
-| plan-joined-count  | {id => count}     | 已加入车辆数     |
+| name                | type               | note             |
+| ----                | ----               | ----             |
+| plan-entities       | {id => plan}       | 计划实体缓存     |
+| plan-group-entities | {id => plan-group} | 计划套餐实体缓存 |
+| plan-joined-count   | number             | 已加入车辆数     |
 
 # API
 
-## getAvailablePlans
+## getPlanGroups
 
-获取可加入计划
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name | type    | note                   |
-| ---- | ----    | ----                   |
-| fat  | boolean | 是否显示完整数据(可选) |
-
-Example:
-
-```javascript
-rpc.call("plan", "getAvailablePlans")
-  .then(function (data) {
-
-  }, function (err) {
-
-  });
-```
-
-#### response
-
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
-| data/msg | string | 结果内容 |
-
-| code  | data/msg           | meaning |
-| ----  | ----               | ----    |
-| 200   | [plan]/[plan-slim] | 成功    |
-| other | 错误信息           | 失败    |
-
-See [example](../data/plan/getAvailablePlans.json)
-
-## getJoinedPlans
-
-获取已加入计划
+获取所有计划套餐
 
 | domain | accessable |
 | ----   | ----       |
@@ -193,20 +133,8 @@ See [example](../data/plan/getAvailablePlans.json)
 
 #### request
 
-| name | type    | note                   |
-| ---- | ----    | ----                   |
-| fat  | boolean | 是否显示完整数据(可选) |
-
-Example:
-
-```javascript
-rpc.call("plan", "getJoinedPlans")
-  .then(function (data) {
-
-  }, function (err) {
-
-  });
-```
+| name | type | note |
+| ---- | ---- | ---- |
 
 #### response
 
@@ -215,16 +143,16 @@ rpc.call("plan", "getJoinedPlans")
 | code     | int    | 结果编码 |
 | data/msg | string | 结果内容 |
 
-| code  | data/msg           | meaning |
-| ----  | ----               | ----    |
-| 200   | [plan]/[plan-slim] | 成功    |
-| other | 错误信息           | 失败    |
+| code  | data/msg     | meaning |
+| ----  | ----         | ----    |
+| 200   | [plan-group] | 成功    |
+| other | 错误信息     | 失败    |
 
-See [example](../data/plan/getJoinedPlans.json)
+See [example](../data/plan/getPlanGroups.json)
 
-## getPlan
+## getPlans
 
-获取计划详情
+获取所有计划
 
 | domain | accessable |
 | ----   | ----       |
@@ -233,22 +161,8 @@ See [example](../data/plan/getJoinedPlans.json)
 
 #### request
 
-| name | type    | note                   |
-| ---- | ----    | ----                   |
-| pid  | uuid    | 计划 ID                |
-| fat  | boolean | 是否显示完整数据(可选) |
-
-Example:
-
-```javascript
-var pid = "00000000-0000-0000-0000-000000000000";
-rpc.call("plan", "getPlan", pid, true)
-  .then(function (data) {
-
-  }, function (error) {
-
-  });
-```
+| name | type | note |
+| ---- | ---- | ---- |
 
 #### response
 
@@ -257,13 +171,12 @@ rpc.call("plan", "getPlan", pid, true)
 | code     | int    | 结果编码 |
 | data/msg | string | 结果内容 |
 
-| code  | data/msg  | meaning    |
-| ----  | ----      | ----       |
-| 200   | plan      | 计划       |
-| 404   | not found | 计划未找到 |
-| other | 错误信息  | 失败       |
+| code  | data/msg | meaning |
+| ----  | ----     | ----    |
+| 200   | [plan]   | 成功    |
+| other | 错误信息 | 失败    |
 
-See [example](../data/plan/getPlan.json)
+See [example](../data/plan/getPlans.json)
 
 ## increaseJoinedCount
 
@@ -278,13 +191,11 @@ See [example](../data/plan/getPlan.json)
 
 | name | type | note    |
 | ---- | ---- | ----    |
-| pid  | uuid | 计划 ID |
 
 Example:
 
 ```javascript
-var pid = "00000000-0000-0000-0000-000000000000";
-rpc.call("plan", "increaseJoinedCount", pid )
+rpc.call("plan", "increaseJoinedCount")
   .then(function (data) {
 
   }, function (error) {
@@ -297,7 +208,6 @@ rpc.call("plan", "increaseJoinedCount", pid )
 | code  | data/msg  | meaning        |
 | ----  | ----      | ----           |
 | 200   | count     | 增加后的车辆数 |
-| 404   | not found | 计划未找到     |
 | other | 错误信息  | 失败           |
 
 See [example](../data/plan/increaseJoinedCount.json)
@@ -315,13 +225,11 @@ See [example](../data/plan/increaseJoinedCount.json)
 
 | name | type | note    |
 | ---- | ---- | ----    |
-| pid  | uuid | 计划 ID |
 
 Example:
 
 ```javascript
-var pid = "00000000-0000-0000-0000-000000000000";
-rpc.call("plan", "decreaseJoinedCount", pid )
+rpc.call("plan", "decreaseJoinedCount")
   .then(function (data) {
 
   }, function (error) {
@@ -331,15 +239,14 @@ rpc.call("plan", "decreaseJoinedCount", pid )
 
 #### response
 
-| code  | data/msg  | meaning        |
-| ----  | ----      | ----           |
-| 200   | count     | 减少后的车辆数 |
-| 404   | not found | 计划未找到     |
-| other | 错误信息  | 失败           |
+| code  | data/msg | meaning        |
+| ----  | ----     | ----           |
+| 200   | count    | 减少后的车辆数 |
+| other | 错误信息 | 失败           |
 
 See [example](../data/plan/decreaseJoinedCount.json)
 
-## setJoinedCounts
+## setJoinedCount
 
 设置已加入车辆数量
 
@@ -350,18 +257,16 @@ See [example](../data/plan/decreaseJoinedCount.json)
 
 #### request
 
-| name   | type              | note    |
-| ----   | ----              | ----    |
-| params | [{uuid, integer}] | 计划 ID |
-
-{uuid, integer} 是 TypeScript 里的 tuple 类型，在 JavaScript 里用 [uuid, integer] 来代替。
+| name  | type   | note     |
+| ----  | ----   | ----     |
+| count | number | 车辆数量 |
 
 
 Example:
 
 ```javascript
-let params = [["00000000-0000-0000-0000-000000000000", 1000], ["00000000-0000-0000-0000-000000000001", 200]];
-rpc.call("plan", "setJoinedCount", params)
+const count = 1000;
+rpc.call("plan", "setJoinedCount", count)
   .then(function (data) {
 
   }, function (error) {
@@ -371,14 +276,53 @@ rpc.call("plan", "setJoinedCount", params)
 
 #### response
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| code   | int    | 结果编码 |
-| status | string | 结果内容 |
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| msg/data | string | 结果内容 |
 
-| code  | status   | meaning |
+| code  | msg/data | meaning |
 | ----  | ----     | ----    |
-| 200   | null     | 成功    |
+| 200   | 车辆数   | 成功    |
 | other | 错误信息 | 失败    |
 
 See [example](../data/plan/setJoinedCount.json)
+
+## getJoinedCount
+
+获得已加入车辆数量
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name  | type   | note     |
+| ----  | ----   | ----     |
+
+
+Example:
+
+```javascript
+rpc.call("plan", "getJoinedCount")
+  .then(function (data) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| msg/data | string | 结果内容 |
+
+| code  | msg/data | meaning |
+| ----  | ----     | ----    |
+| 200   | 车辆数   | 成功    |
+| other | 错误信息 | 失败    |
+
