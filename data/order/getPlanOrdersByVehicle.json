@@ -140,6 +140,8 @@
                     "vehicle_code": "I0000000000000000250000000000040",
                     "engine_number": "BWG 058892",
                     "driven_type": "前置前驱",
+                    "code": "I0000000000000000250000000000040",
+                    "source": 1,
                     "vehicle_name": "宝来FV7162F轿车",
                     "engine_desc": "1.6L",
                     "year_pattern": "2006",

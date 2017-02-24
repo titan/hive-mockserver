@@ -49,6 +49,8 @@
 
 1. 2017-02-24
   * 增加 vehicle-license-vin 缓存
+  * 增加 source 字段到 vehicle_models 表
+  * 重命名 vehicle 表的 vehicle_code 字段为 vehicle_model_code
 
 1. 2017-02-22
   * 重命名 applicant 为 insured
@@ -121,6 +123,7 @@
 
 | name               | type    | note           |
 | ----               | ----    | ----           |
+| source             | integer | 数据来源       |
 | vehicle-code       | string  | 车型代码       |
 | vehicle-name       | string  | 车型名称       |
 | brand-name         | string  | 品牌名称       |
@@ -138,6 +141,11 @@
 | pl                 | string  | 排量           |
 | fuel-jet-type      | string  | 燃油类型       |
 | driven-type        | string  | 驱动形式       |
+
+| code | meaning |
+| ---- | ----    |
+| 1    | 京友    |
+| 2    | 智通    |
 
 ## vehicle
 
@@ -193,6 +201,7 @@
 | field      | type      | null | default | index   | reference |
 | ----       | ----      | ---- | ----    | ----    | ----      |
 | code       | char(32)  |      |         | primary |           |
+| source     | smallint  |      | 1       |         |           |
 | data       | json      | ✓    |         |         |           |
 | created_at | timestamp |      | now     |         |           |
 | updated_at | timestamp |      | now     |         |           |
@@ -206,7 +215,7 @@
 | uid                    | uuid          |      |         |         | users     |
 | owner                  | uuid          |      |         |         | person    |
 | insured                | uuid          |      |         |         | person    |
-| vehicle_code           | char(32)      |      |         |         |           |
+| vehicle_model_code     | char(32)      |      |         |         |           |
 | license_no             | char(16)      | ✓    |         |         |           |
 | engine_no              | char(32)      | ✓    |         |         |           |
 | register_date          | timestamp     | ✓    |         |         |           |
@@ -258,9 +267,9 @@
 
 ## vehicle
 
-| key              | type | value            | note   |
-| ----             | ---- | ----             | ----   |
-| vehicle-entities | hash | {vid => vehicle} | 车数据 |
+| key                 | type | value            | note          |
+| ----                | ---- | ----             | ----          |
+| vehicle-entities    | hash | {vid => vehicle} | 车数据        |
 | vehicle-license-vin | hash | {license => vin} | 车牌号vin映射 |
 
 # API
