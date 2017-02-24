@@ -47,6 +47,9 @@
 
 # ChangeLog
 
+1. 2017-02-24
+  * 增加 vehicle-license-vin 缓存
+
 1. 2017-02-22
   * 重命名 applicant 为 insured
 
@@ -258,6 +261,7 @@
 | key              | type | value            | note   |
 | ----             | ---- | ----             | ----   |
 | vehicle-entities | hash | {vid => vehicle} | 车数据 |
+| vehicle-license-vin | hash | {license => vin} | 车牌号vin映射 |
 
 # API
 
