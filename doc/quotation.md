@@ -39,7 +39,8 @@
 # ChangeLog
 
 1. 2017-02-24
-  * 增加 two-dates-entities 缓存
+  * 增加 license-two-dates 缓存
+
 1. 2017-02-22
   * 增加 qid 和 pgid 到 quotation_items 表
 
@@ -185,7 +186,7 @@
 | ----               | ---- | ----             | ----         |
 | quotation-entities | hash | qid => quotation | 所有报价实体 |
 
-## two-dates-entities
+## license-two-dates
 | key                | type | value            | note         |
 | ----               | ---- | ----             | ----         |
 | license-two-dates | hash | license => two-date | 商业险和车险起期 |
