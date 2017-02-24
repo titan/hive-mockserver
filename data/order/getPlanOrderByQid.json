@@ -8,84 +8,77 @@
         "outside-quotation2": 2200,
         "service_ratio": 0,
         "items": [
-                {
-                    "plan": {
-                        "id": 1,
-                        "title": "车损",
-                        "description": "",
-                        "optional": false
-                    },
-                    "id": "00000000-0000-0000-0000-000000000001",
+            {
+                "plan": {
+                    "id": 1,
                     "title": "车损",
-                    "price": 0
+                    "description": "",
+                    "optional": false
                 },
-                {
-                    "plan": {
-                        "id": 2,
-                        "title": "机动车全车盗抢",
-                        "description": "",
-                        "optional": false
-                    },
-                    "id": "00000000-0000-0000-0000-000000000002",
+                "id": "00000000-0000-0000-0000-000000000001",
+                "price": 0
+            },
+            {
+                "plan": {
+                    "id": 2,
                     "title": "机动车全车盗抢",
-                    "price": 0
+                    "description": "",
+                    "optional": false
                 },
-                {
-                    "plan": {
-                        "id": 4,
-                        "title": "无法找到第三方特约",
-                        "description": "",
-                        "optional": false
-                    },
-                    "id": "00000000-0000-0000-0000-000000000004",
+                "id": "00000000-0000-0000-0000-000000000002",
+                "price": 0
+            },
+            {
+                "plan": {
+                    "id": 4,
                     "title": "无法找到第三方特约",
-                    "price": 0
+                    "description": "",
+                    "optional": false
                 },
-                {
-                    "plan": {
-                        "id": 8,
-                        "title": "机动车自燃损失",
-                        "description": "",
-                        "optional": true
-                    },
-                    "id": "00000000-0000-0000-0000-000000000008",
+                "id": "00000000-0000-0000-0000-000000000004",
+                "price": 0
+            },
+            {
+                "plan": {
+                    "id": 8,
                     "title": "机动车自燃损失",
-                    "price": 0
+                    "description": "",
+                    "optional": true
                 },
-                {
-                    "plan": {
-                        "id": 16,
-                        "title": "机动车发动机涉水损失",
-                        "description": "",
-                        "optional": true
-                    },
-                    "id": "00000000-0000-0000-0000-000000000016",
+                "id": "00000000-0000-0000-0000-000000000008",
+                "price": 0
+            },
+            {
+                "plan": {
+                    "id": 16,
                     "title": "机动车发动机涉水损失",
-                    "price": 0
+                    "description": "",
+                    "optional": true
                 },
-                {
-                    "plan": {
-                        "id": 32,
-                        "title": "机动车车身划痕损失",
-                        "description": "",
-                        "optional": true
-                    },
-                    "id": "00000000-0000-0000-0000-000000000032",
+                "id": "00000000-0000-0000-0000-000000000016",
+                "price": 0
+            },
+            {
+                "plan": {
+                    "id": 32,
                     "title": "机动车车身划痕损失",
-                    "price": 0
+                    "description": "",
+                    "optional": true
                 },
-                {
-                    "plan": {
-                        "id": 64,
-                        "title": "玻璃单独破碎",
-                        "description": "",
-                        "optional": true
-                    },
-                    "id": "00000000-0000-0000-0000-000000000064",
+                "id": "00000000-0000-0000-0000-000000000032",
+                "price": 0
+            },
+            {
+                "plan": {
+                    "id": 64,
                     "title": "玻璃单独破碎",
-                    "price": 0
-                }
-            ],
+                    "description": "",
+                    "optional": true
+                },
+                "id": "00000000-0000-0000-0000-000000000064",
+                "price": 0
+            }
+        ],
         "screenshot2": "http://hive-data.fengchaohuzhu.com/screenshot2.png",
         "no": "000000000000000000000000000000",
         "updated_at": "2016-08-01T00:00:00.000Z",
