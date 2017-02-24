@@ -21,7 +21,7 @@ package Vehicle {
   object Person
   object Driver
   object Owner
-  object Applicant
+  object Insured
   object Vehicle
   object VehicleModel
 }
@@ -33,7 +33,6 @@ package Wallet {
   object Wallet
   object Transaction
   object Account
-  object WalletEvent
   object Cashout
   object CashoutEvent
 }
@@ -102,16 +101,15 @@ User "1" --> "*" MutualAid
 
 Person <|-- Driver
 Person <|-- Owner
-Person <|-- Applicant
+Person <|-- Insured
 Vehicle --> VehicleModel
 Vehicle "1" --> "*" Driver
 Vehicle --> Owner
-Vehicle --> Applicant
+Vehicle --> Insured
 
 Wallet "1" --> "*" Account
 Account "1" --> "*" Transaction
 Wallet "1" -> "*" Cashout
-Wallet "1" --> "*" WalletEvent
 
 PlanOrder - Account
 
