@@ -139,6 +139,7 @@
 | ----  | ----    |
 | 1     | 开始    |
 | 2     | 结束    |
+| 3     | 失效    |
 
 user 是收到申请的互助组成员。
 
@@ -183,6 +184,7 @@ user 是收到申请的互助组成员。
 | id          | uuid      |      |         | primary |           |
 | uid         | uuid      |      |         |         | users     |
 | vid         | uuid      |      |         |         | vehicles  |
+| gid         | uuid      |      |         |         | groups    |
 | type        | smallint  |      | 1       |         |           |
 | state       | smallint  |      | 1       |         |           |
 | result      | boolean   | ✓    |         |         |           |

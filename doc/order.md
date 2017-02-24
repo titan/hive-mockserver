@@ -87,6 +87,11 @@
 
 # ChangeLog
 
+1. 2017-02-24
+  * 删除plan-order中outside-quotation1, outside-quotation2, screenshot1, screenshot2字段 
+  * 往order-event表里增加字段　last_state 
+  * 往plan_order_items表里增加字段　title 
+
 1. 2017-02-22
   * 重命名 applicant 为 insured
 
@@ -156,6 +161,9 @@
 
 1. 2017-02-04
   * order 增加投保人
+
+1. 2017-01-09
+  * plan order 增加根据订单号获取订单信息
 
 1. 2017-01-03
   * plan order 增加推荐人和推荐 ticket
@@ -238,10 +246,6 @@
 | stop-at            | date              | 合约失效时间      |
 | real-value         | float             | 车辆真实价格      |
 | paid-at            | date              | 订单支付时间      |
-| outside-quotation1 | float             | 安盛天平报价      |
-| outside-quotation2 | float             | 人保报价          |
-| screenshot1        | string            | 安盛天平报价截屏  |
-| screenshot2        | string            | 人保报价截屏      |
 | recommend          | string            | 推荐人            |
 | ticket             | string            | 扫码 ticket       |
 
@@ -260,6 +264,7 @@
 | id          | uuid | 主键                |
 | oid         | uuid | 订单 ID             |
 | uid         | uuid | 触发事件的人        |
+| last_state  | int  |上一个事件订单状态    |  
 | data        | json | JSON 格式的事件数据 |
 | occurred-at | date | 事件发生时间        |
 
@@ -348,10 +353,6 @@
 | promotion          | float         | ✓    |         |         |              |
 | service_ratio      | float         |      |         |         |              |
 | vehicle_real_value | real          |      | 0.0     |         |              |
-| outside_quotation1 | real          |      | 0.0     |         |              |
-| outside_quotation2 | real          |      | 0.0     |         |              |
-| screenshot1        | varchar(1024) | ✓    | 0.0     |         |              |
-| screenshot2        | varchar(1024) | ✓    | 0.0     |         |              |
 | ticket             | char(96)      | ✓    |         |         |              |
 | recommend          | varchar(32)   | ✓    |         |         |              |
 | expect_at          | timestamp     |      | now     |         |              |
@@ -369,6 +370,7 @@
 | id    | uuid  |      |         | primary |             |
 | oid   | uuid  |      |         |         | plan_orders |
 | pid   | uuid  |      |         |         | plans       |
+| title | string|      |         |         |             |
 | price | float |      | 0.0     |         |             |
 
 ## driver_orders
@@ -427,6 +429,7 @@
 | id          | uuid      |      |         | primary |           |
 | oid         | uuid      |      |         |         |           |
 | uid         | uuid      |      |         |         |           |
+| last_state  |smallint   |      |         |         |           |
 | data        | json      |      |         |         |           |
 | occurred_at | timestamp |      | now     |         |           |
 
