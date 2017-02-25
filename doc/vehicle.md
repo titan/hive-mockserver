@@ -775,3 +775,30 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | 404  | Person not found |
 | 500  | 错误信息         |
 
+## createPerson
+
+创建司机
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name       | type    | note             |
+| ----       | ----    | ----             |
+| drivers | [person]  | 司机 |
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | [string] | 结果内容 |
+
+| code | meaning          |
+| ---- | ----             |
+| 200  | Success          |
+| 500  | 错误信息         |
+

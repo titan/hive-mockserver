@@ -397,12 +397,13 @@ rpc.call("quotation", "refresh")
 
 | name           | type      | note                        |
 | ----           | ----      | ----                        |
-| licenseNumber  | String(8) | 车牌号, 京N3U419            |
-| modelListOrder | Number    | 车型信息列表序号，从 0 开始 |
+| vid  | string | vehicle id            |
 
 ```javascript
 
-rpc.call("quotation", "getReferenceQuotation", "京N3U419", 14)
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("quotation", "getReferenceQuotation", vid)
   .then(function (result) {
 
   }, function (error) {
@@ -465,11 +466,7 @@ data 例：
 
 | name           | type       | note                            |
 | ----           | ----       | ----                            |
-| ownerName      | String(32) | 车主姓名 张某某                 |
-| ownerID        | String(18) | 车主身份证号 429001198902024810 |
-| ownerMobile    | String(11) | 车主手机号 18610077627          |
-| licenseNumber  | String(8)  | 车牌号, 京N3U419                |
-| modelListOrder | Number     | 车型信息列表序号，从 0 开始     |
+| vid  | string | vehicle id            |
 
 固定的参数，不用再传
 
@@ -483,7 +480,9 @@ data 例：
 
 ```javascript
 
-rpc.call("quotation", "getAccurateQuotation", "110105196206130017", "周南", "18618495662", "京N3U419", 14)
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("quotation", "getAccurateQuotation", vid)
   .then(function (result) {
 
   }, function (error) {
