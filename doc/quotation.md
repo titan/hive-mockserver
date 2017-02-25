@@ -404,6 +404,8 @@ rpc.call("quotation", "refresh")
 | name           | type      | note                        |
 | ----           | ----      | ----                        |
 | vid  | string | vehicle id            |
+| cityCode  | string | 行驶城市代码            |
+| insurerCode  | string | 保险人代码            |
 
 ```javascript
 
@@ -473,6 +475,8 @@ data 例：
 | name           | type       | note                            |
 | ----           | ----       | ----                            |
 | vid  | string | vehicle id            |
+| cityCode  | string | 行驶城市代码            |
+| insurerCode  | string | 保险人代码            |
 
 固定的参数，不用再传
 
