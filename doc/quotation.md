@@ -38,6 +38,12 @@
 
 # ChangeLog
 
+1. 2017-02-25
+  * 删除 getReferenceQuotation 的入参 licenseNumber, modelListOrder
+  * 增加 getReferenceQuotation 的入参 vid
+  * 删除 getAccurateQuotation 的入参 ownerName, ownerID, ownerMobile, licenseNumber, modelListOrder
+  * 增加 getAccurateQuotation 的入参 vid
+
 1. 2017-02-24
   * 增加 license-two-dates 缓存
 
