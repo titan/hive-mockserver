@@ -21,6 +21,9 @@
 
 # ChangeLog
 
+1. 2017-02-25
+  * 增加 receipt_no,receipt_date 参数到　createQuotation
+
 1. 2017-02-22
   * 增加 checkTicketOrRecommender 方法
   * 删除 createQuotation 方法的 phone 参数
