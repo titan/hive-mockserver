@@ -23,6 +23,7 @@
 
 1. 2017-02-25
   * 增加 receipt_no,receipt_date 参数到　createQuotation
+  * 修改 createQuotation 流程图中对是否创建报价的逻辑判断
 
 1. 2017-02-22
   * 增加 checkTicketOrRecommender 方法
