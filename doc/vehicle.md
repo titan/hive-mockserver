@@ -49,6 +49,8 @@
 
 1. 2017-02-25
   * 删除 createVehicle 和 createNewVehicle　入参中的 owner_phone
+  * 增加 createVehicle 和 createNewVehicle　入参 transfer_date
+  * vehicle 增加 transfer_date
 
 1. 2017-02-24
   * 增加 vehicle-license-vin 缓存
@@ -167,6 +169,7 @@
 | average-mileage        | string        | 年平均行驶里程         |
 | model                  | vehicle-model | 车型                   |
 | is-transfer            | boolean       | 是否过户车             |
+| transfer_date            | iso8601       | 过户日期             |
 | receipt-no             | string        | 新车购置发票号         |
 | receipt-date           | iso8601       | 发票开票日期           |
 | last-insurance-company | string        | 最近一次投保的保险公司 |
@@ -224,6 +227,7 @@
 | register_date          | timestamp     | ✓    |         |         |           |
 | average_mileage        | char(16)      | ✓    |         |         |           |
 | is_transfer            | boolean       | ✓    |         |         |           |
+| transfer_date          | timestamp   | ✓    |         |         |           |
 | receipt_no             | char(32)      | ✓    |         |         |           |
 | receipt_data           | timestamp     |      | 0.0     |         |           |
 | last_insurance_company | char(16)      |      |         |         |           |
@@ -439,6 +443,7 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 | receipt_date           | iso8601 | 发票开具时间     |
 | average_mileage        | string  | 年平均行驶里程   |
 | is_transfer            | boolean | 是否过户         |
+| transfer_date            | boolean | 过户日期，不是过户车传 null       |
 | last_insurance_company | string  | 上次投保的公司   |
 | fuel_type              | string  | 燃油类型         |
 | vin                    | string  | vin码            |
@@ -522,6 +527,7 @@ rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, in
 | register_date          | iso8601  | 注册日期         |
 | average_mileage        | string   | 年平均行驶里程   |
 | is_transfer            | boolean  | 是否过户         |
+| transfer_date          | boolean | 过户日期，不是过户车传 null       |
 | last_insurance_company | string   | 上次投保的公司   |
 | insurance_due_date     | iso8601  | 保险到期时间     |
 | fuel_type              | string   | 燃油类型         |
