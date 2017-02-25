@@ -47,6 +47,9 @@
 
 # ChangeLog
 
+1. 2017-02-25
+  * 删除 createVehicle 和 createNewVehicle　入参中的 owner_phone
+
 1. 2017-02-24
   * 增加 vehicle-license-vin 缓存
 
@@ -417,7 +420,6 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 | ----                   | ----    | ----             |
 | owner_name             | string  | 车主姓名         |
 | owner_identity_no      | string  | 车主身份证编号   |
-| owner_phone            | string  | 车主电话号码     |
 | insured_name           | string  | 投保人姓名       |
 | insured_identity_no    | string  | 投保人身份证编号 |
 | insured_phone          | string  | 投保人电话号码   |
@@ -501,7 +503,6 @@ rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, in
 | ----                   | ----     | ----             |
 | owner_name             | string   | 车主姓名         |
 | owner_identity_no      | string   | 车主身份证编号   |
-| owner_phone            | string   | 车主电话号码     |
 | insured_name           | string   | 投保人姓名       |
 | insured_identity_no    | string   | 投保人身份证编号 |
 | insured_phone          | string   | 投保人电话号码   |
