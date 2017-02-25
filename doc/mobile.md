@@ -75,7 +75,8 @@
 | insured_identity_no    | string  | 投保人身份证件编号     |
 | insured_phone          | string  | 投保人电话号码         |
 | recommend              | string  | 推荐人                 |
-
+| receipt_no             | string  | 发票编号　　　　　　　　　|
+| receipt_date           | date    |发票开具日期　　　　　　　　|
 #### response
 
 成功：
