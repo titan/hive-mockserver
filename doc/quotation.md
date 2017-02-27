@@ -40,6 +40,7 @@
 
 1. 2017-02-27
   * 修改 getAccurateQuotation 的固定参数说明
+  * 修改　getReferenceQuotation 和　getAccurateQuotation　的示例
 
 1. 2017-02-25
   * 删除 getReferenceQuotation 的入参 licenseNumber, modelListOrder
@@ -413,8 +414,10 @@ rpc.call("quotation", "refresh")
 ```javascript
 
 let vid = "00000000-0000-0000-0000-000000000000";
+let cityCode = "110100";
+let insurerCode = "APIC";
 
-rpc.call("quotation", "getReferenceQuotation", vid)
+rpc.call("quotation", "getReferenceQuotation", vid, cityCode, insurerCode)
   .then(function (result) {
 
   }, function (error) {
@@ -485,8 +488,6 @@ data 例：
 
 | name        | type        | note                                                  |
 | ----        | ----        | ----                                                  |
-| isTrans     | String(2)   | 是否过户车 0 否,1 是,固定为 "0"                       |
-| transDate   | String(20)  | 过户日期 null 或 2017-09-01，固定为 null              |
 | cityCode    | String(6)   | 行驶城市代码 国标码,到二级城市, 固定为 "110100"，北京 |
 | insurerCode | String(100) | 固定为 "APIC"，永诚保险公司                           |
 
@@ -494,8 +495,10 @@ data 例：
 ```javascript
 
 let vid = "00000000-0000-0000-0000-000000000000";
+let cityCode = "110100";
+let insurerCode = "APIC";
 
-rpc.call("quotation", "getAccurateQuotation", vid)
+rpc.call("quotation", "getAccurateQuotation", vid, cityCode, insurerCode)
   .then(function (result) {
 
   }, function (error) {
