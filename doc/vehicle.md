@@ -47,6 +47,15 @@
 
 # ChangeLog
 
+1. 2017-02-25
+  * 修改 createPerson 的入参 drivers 为 people
+  * 删除　createVehicle 示例的入参 ownerphone
+
+1. 2017-02-25
+  * 删除 createVehicle 和 createNewVehicle　入参中的 owner_phone
+  * 增加 createVehicle 和 createNewVehicle　入参 transfer_date
+  * vehicle 增加 transfer_date
+
 1. 2017-02-24
   * 增加 vehicle-license-vin 缓存
   * 增加 source 字段到 vehicle_models 表
@@ -164,6 +173,7 @@
 | average-mileage        | string        | 年平均行驶里程         |
 | model                  | vehicle-model | 车型                   |
 | is-transfer            | boolean       | 是否过户车             |
+| transfer_date            | iso8601       | 过户日期             |
 | receipt-no             | string        | 新车购置发票号         |
 | receipt-date           | iso8601       | 发票开票日期           |
 | last-insurance-company | string        | 最近一次投保的保险公司 |
@@ -221,6 +231,7 @@
 | register_date          | timestamp     | ✓    |         |         |           |
 | average_mileage        | char(16)      | ✓    |         |         |           |
 | is_transfer            | boolean       | ✓    |         |         |           |
+| transfer_date          | timestamp   | ✓    |         |         |           |
 | receipt_no             | char(32)      | ✓    |         |         |           |
 | receipt_data           | timestamp     |      | 0.0     |         |           |
 | last_insurance_company | char(16)      |      |         |         |           |
@@ -426,7 +437,6 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 | ----                   | ----    | ----             |
 | owner_name             | string  | 车主姓名         |
 | owner_identity_no      | string  | 车主身份证编号   |
-| owner_phone            | string  | 车主电话号码     |
 | insured_name           | string  | 投保人姓名       |
 | insured_identity_no    | string  | 投保人身份证编号 |
 | insured_phone          | string  | 投保人电话号码   |
@@ -437,6 +447,7 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 | receipt_date           | iso8601 | 发票开具时间     |
 | average_mileage        | string  | 年平均行驶里程   |
 | is_transfer            | boolean | 是否过户         |
+| transfer_date            | boolean | 过户日期，不是过户车传 null       |
 | last_insurance_company | string  | 上次投保的公司   |
 | fuel_type              | string  | 燃油类型         |
 | vin                    | string  | vin码            |
@@ -510,7 +521,6 @@ rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, in
 | ----                   | ----     | ----             |
 | owner_name             | string   | 车主姓名         |
 | owner_identity_no      | string   | 车主身份证编号   |
-| owner_phone            | string   | 车主电话号码     |
 | insured_name           | string   | 投保人姓名       |
 | insured_identity_no    | string   | 投保人身份证编号 |
 | insured_phone          | string   | 投保人电话号码   |
@@ -521,6 +531,7 @@ rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, in
 | register_date          | iso8601  | 注册日期         |
 | average_mileage        | string   | 年平均行驶里程   |
 | is_transfer            | boolean  | 是否过户         |
+| transfer_date          | boolean | 过户日期，不是过户车传 null       |
 | last_insurance_company | string   | 上次投保的公司   |
 | insurance_due_date     | iso8601  | 保险到期时间     |
 | fuel_type              | string   | 燃油类型         |
@@ -533,7 +544,6 @@ Example:
 
 let owner_name = "aaa";
 let owner_identity_no = "440308197406255611";
-let owner_phone = "18713575980";
 let insured_name = "aaa";
 let insured_identity_no = "440308197406255611";
 let insured_phone = "18713575980";
@@ -550,7 +560,7 @@ let fuel_type = "汽油";
 let vin = "WBAZV4101BL456778";
 let accident_status = 1;
 
-rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, owner_phone, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
+rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -773,5 +783,32 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | ---- | ----             |
 | 200  | Success          |
 | 404  | Person not found |
+| 500  | 错误信息         |
+
+## createPerson
+
+创建人员信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name       | type    | note             |
+| ----       | ----    | ----             |
+| people | [person]  | 人员信息数组 |
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | [string] | 结果内容 |
+
+| code | meaning          |
+| ---- | ----             |
+| 200  | Success          |
 | 500  | 错误信息         |
 

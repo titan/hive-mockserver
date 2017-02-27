@@ -38,6 +38,16 @@
 
 # ChangeLog
 
+1. 2017-02-27
+  * 修改 getAccurateQuotation 的固定参数说明
+  * 修改　getReferenceQuotation 和　getAccurateQuotation　的示例
+
+1. 2017-02-25
+  * 删除 getReferenceQuotation 的入参 licenseNumber, modelListOrder
+  * 增加 getReferenceQuotation 的入参 vid
+  * 删除 getAccurateQuotation 的入参 ownerName, ownerID, ownerMobile, licenseNumber, modelListOrder
+  * 增加 getAccurateQuotation 的入参 vid
+
 1. 2017-02-24
   * 增加 license-two-dates 缓存
 
@@ -397,12 +407,17 @@ rpc.call("quotation", "refresh")
 
 | name           | type      | note                        |
 | ----           | ----      | ----                        |
-| licenseNumber  | String(8) | 车牌号, 京N3U419            |
-| modelListOrder | Number    | 车型信息列表序号，从 0 开始 |
+| vid  | string | vehicle id            |
+| cityCode  | string | 行驶城市代码            |
+| insurerCode  | string | 保险人代码            |
 
 ```javascript
 
-rpc.call("quotation", "getReferenceQuotation", "京N3U419", 14)
+let vid = "00000000-0000-0000-0000-000000000000";
+let cityCode = "110100";
+let insurerCode = "APIC";
+
+rpc.call("quotation", "getReferenceQuotation", vid, cityCode, insurerCode)
   .then(function (result) {
 
   }, function (error) {
@@ -465,25 +480,25 @@ data 例：
 
 | name           | type       | note                            |
 | ----           | ----       | ----                            |
-| ownerName      | String(32) | 车主姓名 张某某                 |
-| ownerID        | String(18) | 车主身份证号 429001198902024810 |
-| ownerMobile    | String(11) | 车主手机号 18610077627          |
-| licenseNumber  | String(8)  | 车牌号, 京N3U419                |
-| modelListOrder | Number     | 车型信息列表序号，从 0 开始     |
+| vid  | string | vehicle id            |
+| cityCode  | string | 行驶城市代码            |
+| insurerCode  | string | 保险人代码            |
 
-固定的参数，不用再传
+固定的参数
 
 | name        | type        | note                                                  |
 | ----        | ----        | ----                                                  |
-| isTrans     | String(2)   | 是否过户车 0 否,1 是,固定为 "0"                       |
-| transDate   | String(20)  | 过户日期 null 或 2017-09-01，固定为 null              |
 | cityCode    | String(6)   | 行驶城市代码 国标码,到二级城市, 固定为 "110100"，北京 |
-| insurerCode | String(100) | 固定为 "ASTP"，永城保险公司                           |
+| insurerCode | String(100) | 固定为 "APIC"，永诚保险公司                           |
 
 
 ```javascript
 
-rpc.call("quotation", "getAccurateQuotation", "110105196206130017", "周南", "18618495662", "京N3U419", 14)
+let vid = "00000000-0000-0000-0000-000000000000";
+let cityCode = "110100";
+let insurerCode = "APIC";
+
+rpc.call("quotation", "getAccurateQuotation", vid, cityCode, insurerCode)
   .then(function (result) {
 
   }, function (error) {
