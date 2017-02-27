@@ -293,10 +293,6 @@
 | real-value         | float    | 车辆实际价值 |
 | recommend          | string   | 推荐人       |
 | ticket             | string   | 推荐码       |
-| outside-quotation1 | float    | 第三方报价1  |
-| outside-quotation2 | float    | 第三方报价2  |
-| screenshot1        | string   | 第三方截图1  |
-| screenshot2        | string   | 第三方截图2  |
 | reason             | text     | 拒绝理由     |
 | no                 | string   | 订单编号     |
 
@@ -319,19 +315,19 @@
 
 ### Event Type And Data Structure Matrix
 
-| type | amount | qid  | expect-at | real-value | recommend | ticket | outside-quotations | reason | no   |
-| ---- | ----   | ---- | ----      | ----       | ----      | ----   | ----               | ----   | ---- |
-| 0    |        |      |           |            |           |        |                    |        |      |
-| 1    | ✓      | ✓    | ✓         | ✓          | ?         | ?      | ?                  |        | ✓    |
-| 2    | ✓      |      |           |            |           |        |                    |        |      |
-| 3    |        |      |           |            |           |        |                    |        |      |
-| 4    |        |      |           |            |           |        |                    |        |      |
-| 5    |        |      |           |            |           |        |                    |        |      |
-| 6    |        |      |           |            |           |        |                    |        |      |
-| 7    |        |      |           |            |           |        |                    | ✓      |      |
-| 8    |        |      |           |            |           |        |                    |        |      |
-| 9    |        |      |           |            |           |        |                    |        |      |
-| 10   |        |      |           |            |           |        |                    |        | ✓    |
+| type | amount | qid  | expect-at | real-value | recommend | ticket | reason | no   |
+| ---- | ----   | ---- | ----      | ----       | ----      | ----   | ----   | ---- |
+| 0    |        |      |           |            |           |        |        |      |
+| 1    | ✓      | ✓    | ✓         | ✓          | ?         | ?     |        | ✓    |
+| 2    | ✓      |      |           |            |           |        |        |      |
+| 3    |        |      |           |            |           |        |        |      |
+| 4    |        |      |           |            |           |        |        |      |
+| 5    |        |      |           |            |           |        |        |      |
+| 6    |        |      |           |            |           |        |        |      |
+| 7    |        |      |           |            |           |        | ✓      |      |
+| 8    |        |      |           |            |           |        |        |      |
+| 9    |        |      |           |            |           |        |        |      |
+| 10   |        |      |           |            |           |        |        | ✓    |
 
 # Database
 
@@ -498,8 +494,10 @@ let service_ratio = 0;
 let summary = 6000;
 let payment = 6000;
 let expect_at = "2016-08-01T00:00:00.000+800Z";
+let v_value = 1000;
+let recommend = 王阿波;
 
-rpc.call("order", "createPlanOrder", vid, plans, qid, pm_price, service_ratio, summary, payment, expect_at)
+rpc.call("order", "createPlanOrder", vid, plans, qid, pm_price, service_ratio, summary, payment, expect_at,v_value,recommend)
   .then(function (result) {
 
   }, function (error) {
@@ -639,8 +637,9 @@ rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr
 
 | name   | type   | note     |
 | ----   | ----   | ----     |
-| oid    | uuid   | 订单 ID  |
-| amount | number | 支付金额 |
+| uid    | uuid   | 用户ID    |
+| oid    | uuid   | 订单 ID   |
+| amount | number | 支付金额  |
 
 #### response
 
@@ -673,10 +672,11 @@ rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr
 
 #### request
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| oid    | uuid   | 订单 ID  |
-
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| oid      | uuid   | 订单 ID   |
+| start-at | date   | 生效时间  |
+| stop-at  | date   | 失效时间  |
 #### response
 
 成功：
@@ -939,7 +939,7 @@ rpc.call("order", "renameNo", order_no)
 
 | name | type   | note       |
 | ---- | ----   | ----       |
-| code | number | 状态码     |
+| code | number | 状态码      |
 | data | string | newOrderNo |
 
 ## getPlanOrdersByVehicle
