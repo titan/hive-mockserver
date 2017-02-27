@@ -59,11 +59,6 @@ GET_PLAN_ORDER_DEPS = get-plan-order.yaml $(PLAN_ORDER_DEPS)
 GET_PLAN_ORDERS = ../data/order/getPlanOrders.json
 GET_PLAN_ORDERS_DEPS = get-plan-orders.yaml $(PLAN_ORDER_DEPS)
 
-DRIVER_ORDER_DEPS = driver-order.yaml $(VEHICLE_DEPS)
-
-GET_DRIVER_ORDERS = ../data/order/getDriverOrders.json
-GET_DRIVER_ORDERS_DEPS = get-driver-orders.yaml $(DRIVER_ORDER_DEPS)
-
 GET_WALLET = ../data/wallet/getWallet.json
 GET_WALLET_DEPS = get-wallet.yaml wallet.yaml accounts.yaml account.yaml $(VEHICLE_DEPS)
 
@@ -81,7 +76,7 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
@@ -126,10 +121,6 @@ $(GET_PLAN_ORDERS): $(GET_PLAN_ORDERS_DEPS)
 	cp $@ ../data/order/getPlanOrdersByUser.json
 	cp $@ ../data/order/getPlanOrdersByVehicle.json
 
-$(GET_DRIVER_ORDERS): $(GET_DRIVER_ORDERS_DEPS)
-	$(YAML2JSON) get-driver-orders.yaml | aeson-pretty > $@
-	cp $@ ../data/order/getDriverOrdersByVehicle.json
-
 $(GET_WALLET): $(GET_WALLET_DEPS)
 	$(YAML2JSON) get-wallet.yaml | aeson-pretty > $@
 
@@ -158,7 +149,6 @@ clean:
 	rm $(GET_USER)
 	rm $(GET_PLAN_ORDER)
 	rm $(GET_PLAN_ORDERS)
-	rm $(GET_DRIVER_ORDERS)
 	rm $(GET_WALLET)
 	rm $(GET_TRANSACTIONS)
 	rm $(SIGN)

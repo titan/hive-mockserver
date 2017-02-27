@@ -4,7 +4,6 @@
 
 - [ChangeLog](#changelog)
 - [Data Structure](#data-structure)
-  - [driver-order](#driver-order)
   - [sale-order](#sale-order)
   - [plan-order](#plan-order)
   - [plan-order-item](#plan-order-item)
@@ -18,8 +17,6 @@
 - [Database](#database)
   - [plan_orders](#plan_orders)
   - [plan_order_items](#plan_order_items)
-  - [driver_orders](#driver_orders)
-  - [driver_order_items](#driver_order_items)
   - [sale_orders](#sale_orders)
   - [order_events](#order_events)
 - [Cache](#cache)
@@ -31,61 +28,58 @@
   - [createPlanOrder](#createplanorder)
       - [request](#request)
       - [response](#response)
-  - [createDriverOrder](#createdriverorder)
+  - [createSaleOrder](#createsaleorder)
       - [request](#request-1)
       - [response](#response-1)
-  - [createSaleOrder](#createsaleorder)
+  - [pay](#pay)
       - [request](#request-2)
       - [response](#response-2)
-  - [pay](#pay)
+  - [underwrite](#underwrite)
       - [request](#request-3)
       - [response](#response-3)
-  - [underwrite](#underwrite)
+  - [takeEffect](#takeeffect)
       - [request](#request-4)
       - [response](#response-4)
-  - [takeEffect](#takeeffect)
+  - [expire](#expire)
       - [request](#request-5)
       - [response](#response-5)
-  - [expire](#expire)
+  - [applyWithdraw](#applywithdraw)
       - [request](#request-6)
       - [response](#response-6)
-  - [applyWithdraw](#applywithdraw)
+  - [refuseWithdraw](#refusewithdraw)
       - [request](#request-7)
       - [response](#response-7)
-  - [refuseWithdraw](#refusewithdraw)
+  - [agreeWithdraw](#agreewithdraw)
       - [request](#request-8)
       - [response](#response-8)
-  - [agreeWithdraw](#agreewithdraw)
+  - [refund](#refund)
       - [request](#request-9)
       - [response](#response-9)
-  - [refund](#refund)
+  - [renameNo](#renameno)
       - [request](#request-10)
       - [response](#response-10)
-  - [renameNo](#renameno)
+  - [getPlanOrdersByVehicle](#getplanordersbyvehicle)
       - [request](#request-11)
       - [response](#response-11)
-  - [getPlanOrdersByVehicle](#getplanordersbyvehicle)
+  - [getPlanOrdersByUser](#getplanordersbyuser)
       - [request](#request-12)
       - [response](#response-12)
-  - [getDriverOrdersByVehicle](#getdriverordersbyvehicle)
+  - [getPlanOrder](#getplanorder)
       - [request](#request-13)
       - [response](#response-13)
-  - [getPlanOrdersByUser](#getplanordersbyuser)
+  - [getPlanOrderByQid](#getplanorderbyqid)
       - [request](#request-14)
       - [response](#response-14)
-  - [getPlanOrder](#getplanorder)
+  - [refresh](#refresh)
       - [request](#request-15)
       - [response](#response-15)
-  - [getPlanOrderByQid](#getplanorderbyqid)
-      - [request](#request-16)
-      - [response](#response-16)
-  - [refresh](#refresh)
-      - [request](#request-17)
-      - [response](#response-17)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-02-27
+  * 删除 driver order 相关数据结构，数据库和接口
 
 1. 2017-02-24
   * 删除plan-order中outside-quotation1, outside-quotation2, screenshot1, screenshot2字段 
@@ -191,63 +185,44 @@
 
 # Data Structure
 
-## driver-order
-
-| name       | type     | note         |
-| ----       | ----     | ----         |
-| id         | uuid     | 主键         |
-| no         | string   | 订单编号     |
-| type       | int      | 订单类型 2   |
-| state-code | int      | 订单状态编码 |
-| state      | string   | 订单状态     |
-| vehicle    | vehicle  | 车辆         |
-| drivers    | [driver] | 增加的司机   |
-| summary    | float    | 订单总额     |
-| payment    | float    | 订单实付     |
-| start-at   | date     | 合约生效时间 |
-| stop-at    | date     | 合约失效时间 |
-| paid-at    | date     | 订单支付时间 |
-
 ## sale-order
 
-| name       | type         | note              |
-| ----       | ----         | ----              |
-| id         | uuid         | 主键              |
-| no         | string       | 订单编号          |
-| type       | int          | 订单类型 3        |
-| state-code | int          | 订单状态编码      |
-| state      | string       | 订单状态          |
-| vehicle    | vehicle      | 车辆              |
-| plan       | plan         | 对应的 plan       |
-| items      | [order-item] | 包含的 order-item |
-| summary    | float        | 订单总额          |
-| payment    | float        | 订单实付          |
-| start-at   | date         | 合约生效时间      |
-| stop-at    | date         | 合约失效时间      |
-| paid-at    | date         | 订单支付时间      |
-| opr-level  | int          | 选中的三者险      |
+| name              | type              | note                   |
+| ----              | ----              | ----                   |
+| id                | uuid              | 主键                   |
+| no                | string            | 订单编号               |
+| state             | int               | 订单状态编码           |
+| state-description | string            | 订单状态               |
+| vehicle           | vehicle           | 车辆                   |
+| plan              | plan              | 对应的 plan            |
+| items             | [sale-order-item] | 包含的 sale-order-item |
+| summary           | float             | 订单总额               |
+| payment           | float             | 订单实付               |
+| start-at          | date              | 合约生效时间           |
+| stop-at           | date              | 合约失效时间           |
+| paid-at           | date              | 订单支付时间           |
+| opr-level         | int               | 选中的三者险           |
 
 ## plan-order
 
-| name               | type              | note              |
-| ----               | ----              | ----              |
-| id                 | uuid              | 主键              |
-| no                 | string            | 订单编号          |
-| type               | int               | 订单类型 1        |
-| state-code         | int               | 订单状态编码      |
-| state              | string            | 订单状态          |
-| vehicle            | vehicle           | 车辆              |
-| items              | [plan-order-item] | 包含的 order-item |
-| service-ratio      | float             | 服务费率          |
-| summary            | float             | 订单总额          |
-| payment            | float             | 订单实付          |
-| expect-at          | date              | 预计生效日期      |
-| start-at           | date              | 合约生效时间      |
-| stop-at            | date              | 合约失效时间      |
-| real-value         | float             | 车辆真实价格      |
-| paid-at            | date              | 订单支付时间      |
-| recommend          | string            | 推荐人            |
-| ticket             | string            | 扫码 ticket       |
+| name              | type              | note              |
+| ----              | ----              | ----              |
+| id                | uuid              | 主键              |
+| no                | string            | 订单编号          |
+| state             | int               | 订单状态编码      |
+| state-description | string            | 订单状态          |
+| vehicle           | vehicle           | 车辆              |
+| items             | [plan-order-item] | 包含的 order-item |
+| service-ratio     | float             | 服务费率          |
+| summary           | float             | 订单总额          |
+| payment           | float             | 订单实付          |
+| expect-at         | date              | 预计生效日期      |
+| start-at          | date              | 合约生效时间      |
+| stop-at           | date              | 合约失效时间      |
+| real-value        | float             | 车辆真实价格      |
+| paid-at           | date              | 订单支付时间      |
+| recommend         | string            | 推荐人            |
+| ticket            | string            | 扫码 ticket       |
 
 ## plan-order-item
 
@@ -264,7 +239,7 @@
 | id          | uuid | 主键                |
 | oid         | uuid | 订单 ID             |
 | uid         | uuid | 触发事件的人        |
-| last_state  | int  |上一个事件订单状态    |  
+| last_state  | int  | 上一个事件订单状态  |
 | data        | json | JSON 格式的事件数据 |
 | occurred-at | date | 事件发生时间        |
 
@@ -318,7 +293,7 @@
 | type | amount | qid  | expect-at | real-value | recommend | ticket | reason | no   |
 | ---- | ----   | ---- | ----      | ----       | ----      | ----   | ----   | ---- |
 | 0    |        |      |           |            |           |        |        |      |
-| 1    | ✓      | ✓    | ✓         | ✓          | ?         | ?     |        | ✓    |
+| 1    | ✓      | ✓    | ✓         | ✓          | ?         | ?      |        | ✓    |
 | 2    | ✓      |      |           |            |           |        |        |      |
 | 3    |        |      |           |            |           |        |        |      |
 | 4    |        |      |           |            |           |        |        |      |
@@ -368,34 +343,6 @@
 | pid   | uuid  |      |         |         | plans       |
 | title | string|      |         |         |             |
 | price | float |      | 0.0     |         |             |
-
-## driver_orders
-
-| field             | type      | null | default | index   | reference    |
-| ----              | ----      | ---- | ----    | ----    | ----         |
-| id                | uuid      |      |         | primary |              |
-| no                | char(32)  |      |         | ✓       |              |
-| uid               | uuid      |      |         |         | users        |
-| vid               | uuid      |      |         |         | vehicles     |
-| state             | smallint  |      | 0       |         |              |
-| state_description | string    | ✓    |         |         |              |
-| summary           | float     |      | 0.0     |         |              |
-| payment           | float     |      | 0.0     |         |              |
-| insured           | uuid      |      |         |         | person       |
-| paid_at           | timestamp | ✓    |         |         |              |
-| start_at          | timestamp |      | now     |         |              |
-| stop_at           | timestamp |      | now     |         |              |
-| created_at        | timestamp |      | now     |         |              |
-| updated_at        | timestamp |      | now     |         |              |
-| evtid             | uuid      | ✓    |         |         | order_events |
-
-## driver_order_items
-
-| field | type  | null | default | index   | reference     |
-| ----  | ----  | ---- | ----    | ----    | ----          |
-| id    | uuid  |      |         | primary |               |
-| oid   | uuid  |      |         |         | driver_orders |
-| pid   | uuid  |      |         |         | person        |
 
 ## sale_orders
 
@@ -498,57 +445,6 @@ let v_value = 1000;
 let recommend = 王阿波;
 
 rpc.call("order", "createPlanOrder", vid, plans, qid, pm_price, service_ratio, summary, payment, expect_at,v_value,recommend)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-| name | type   | note     |
-| ---- | ----   | ----     |
-| code | number | 状态码   |
-| data | object | 结构如下 |
-
-| name       | type   | note     |
-| ----       | ----   | ----     |
-| order-id   | uuid   | Order Id |
-| order-no   | string | Order No |
-| created-at | Date   | 创建时间 |
-
-## createDriverOrder
-
-创建司机订单
-
-| domain | accessable |
-| ----   | ----       |
-| admin  |            |
-| mobile | ✓          |
-
-#### request
-
-| name    | type   | note         |
-| ----    | ----   | ----         |
-| vid     | uuid   | 车辆 ID      |
-| dids    | [uuid] | 司机 ID 列表 |
-| summary | float  | 总价         |
-| payment | float  | 实付         |
-
-```javascript
-let vid = "00000000-0000-0000-0000-000000000000";
-let dids = [
-  "00000000-0000-0000-0000-000000000000",
-  "00000000-0000-0000-0000-000000000001",
-  "00000000-0000-0000-0000-000000000002",
-  "00000000-0000-0000-0000-000000000003"
-];
-let summary = 200;
-let payment = 200;
-
-rpc.call("order", "createDriverOrder", vid, dids, summary, payment)
   .then(function (result) {
 
   }, function (error) {
@@ -978,42 +874,6 @@ rpc.call("order", "getPlanOrdersByVehicle", vid)
 | data | [order] | Orders |
 
 See [example](../data/order/getPlanOrdersByVehicle.json)
-
-## getDriverOrdersByVehicle
-
-根据vid获取所有司机订单
-
-| domain | accessable |
-| ----   | ----       |
-| admin  |            |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note    |
-| ---- | ---- | ----    |
-| vid  | uuid | 车辆 ID |
-
-```javascript
-let vid = "00000000-0000-0000-0000-000000000000";
-
-rpc.call("order", "getDriverOrdersByVehicle", vid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-| name | type    | note   |
-| ---- | ----    | ----   |
-| code | number  | 状态码 |
-| data | [order] | Orders |
-
-See [example](../data/order/getDriverOrdersByVehicle.json)
 
 ## getPlanOrdersByUser
 
