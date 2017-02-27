@@ -24,11 +24,15 @@ if (验证码有效) then (yes)
   else (no)
     :保存车辆信息;
   endif
-  if (车辆有已生效订单) then (yes)
-    if (已生效订单到期时间超过3个月) then (yes)
-      :返回错误信息;
+  if (车辆存在有效订单) then (yes)
+    if (车辆存在已生效订单) then (yes)
+      if(已生效订单到期时间超过三个月) then (yes)
+        :返回错误信息;
+      else (no)
+        :创建报价;
+      endif
     else (no)
-      :创建报价;
+      :返回错误信息;
     endif
   else (no)
     :创建报价;

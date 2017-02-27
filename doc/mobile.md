@@ -21,6 +21,10 @@
 
 # ChangeLog
 
+1. 2017-02-25
+  * 增加 receipt_no,receipt_date 参数到　createQuotation
+  * 修改 createQuotation 流程图中对是否创建报价的逻辑判断
+
 1. 2017-02-22
   * 增加 checkTicketOrRecommender 方法
   * 删除 createQuotation 方法的 phone 参数
@@ -58,6 +62,7 @@
 | name                   | type    | note                   |
 | ----                   | ----    | ----                   |
 | verify_code            | string  | 手机验证码             |
+| city_code              | string  | 城市编码               |
 | vehicle_code           | string  | 车型编码               |
 | vin                    | string  | 车辆vin码              |
 | license_no             | string  | 车牌                   |
@@ -65,6 +70,7 @@
 | register_date          | date    | 车辆注册日期           |
 | average_mileage        | string  | 年平均行驶里程         |
 | is_transfer            | boolean | 是否过户车             |
+| transfer_date          | date    | 过户日期（否传空字符串）|
 | last_insurance_company | string  | 最近一次投保的保险公司 |
 | insurance_due_date     | date    | 保险到期日期           |
 | fuel_type              | string  | 燃油类型               |
@@ -74,8 +80,10 @@
 | insured_name           | string  | 投保人姓名             |
 | insured_identity_no    | string  | 投保人身份证件编号     |
 | insured_phone          | string  | 投保人电话号码         |
+| insurer_code           | string  | 保险公司编码           |
 | recommend              | string  | 推荐人                 |
-
+| receipt_no             | string  | 发票编号　　　　　　　　　|
+| receipt_date           | date    |发票开具日期　　　　　　　　|
 #### response
 
 成功：
