@@ -24,6 +24,7 @@
   - [plan_orders](#plan_orders)
   - [plan_order_items](#plan_order_items)
   - [sale_orders](#sale_orders)
+  - [sale_order_items](#sale_order_items)
   - [order_events](#order_events)
 - [Cache](#cache)
   - [order-entities](#order-entities)
@@ -150,6 +151,8 @@
   * 增加 title 到 plan-order-item
   * 增加 title 到 sale-order-item
   * 增加 reason 到 plan_order 表
+  * 增加 sale_order_items 表
+  * 增加 index 到 plan_order_items 表
 
 1. 2017-02-24
   * 删除plan-order中outside-quotation1, outside-quotation2, screenshot1, screenshot2字段
@@ -473,13 +476,16 @@
 
 ## plan_order_items
 
-| field | type  | null | default | index   | reference   |
-| ----  | ----  | ---- | ----    | ----    | ----        |
-| id    | uuid  |      |         | primary |             |
-| oid   | uuid  |      |         |         | plan_orders |
-| pid   | uuid  |      |         |         | plans       |
-| title | string|      |         |         |             |
-| price | float |      | 0.0     |         |             |
+| field | type     | null | default | index   | reference   |
+| ----  | ----     | ---- | ----    | ----    | ----        |
+| id    | uuid     |      |         | primary |             |
+| oid   | uuid     |      |         |         | plan_orders |
+| pid   | uuid     |      |         |         | plans       |
+| title | string   |      |         |         |             |
+| price | float    |      | 0.0     |         |             |
+| index | smallint |      | 0       |         |             |
+
+index 是多选项的下标索引，“三块漆”，“六块漆”的下标
 
 ## sale_orders
 
@@ -489,6 +495,7 @@
 | no                | char(32)  |      |         | ✓       |              |
 | uid               | uuid      |      |         |         | users        |
 | vid               | uuid      |      |         |         | vehicles     |
+| qid               | uuid      |      |         |         | quotations   |
 | type              | smallint  |      | 0       |         |              |
 | state             | smallint  |      | 0       |         |              |
 | state_description | string    | ✓    |         |         |              |
@@ -502,6 +509,19 @@
 | created_at        | timestamp |      | now     |         |              |
 | updated_at        | timestamp |      | now     |         |              |
 | evtid             | uuid      | ✓    |         |         | order_events |
+
+## sale_order_items
+
+| field | type     | null | default | index   | reference   |
+| ----  | ----     | ---- | ----    | ----    | ----        |
+| id    | uuid     |      |         | primary |             |
+| oid   | uuid     |      |         |         | sale_orders |
+| pid   | uuid     |      |         |         | plans       |
+| title | string   |      |         |         |             |
+| price | float    |      | 0.0     |         |             |
+| index | smallint |      | 0       |         |             |
+
+index 是多选项的下标索引
 
 ## order_events
 
