@@ -38,6 +38,9 @@
 
 # ChangeLog
 
+1. 2017-02-27
+  * 修改 getAccurateQuotation 的固定参数说明
+
 1. 2017-02-25
   * 删除 getReferenceQuotation 的入参 licenseNumber, modelListOrder
   * 增加 getReferenceQuotation 的入参 vid
@@ -478,14 +481,14 @@ data 例：
 | cityCode  | string | 行驶城市代码            |
 | insurerCode  | string | 保险人代码            |
 
-固定的参数，不用再传
+固定的参数
 
 | name        | type        | note                                                  |
 | ----        | ----        | ----                                                  |
 | isTrans     | String(2)   | 是否过户车 0 否,1 是,固定为 "0"                       |
 | transDate   | String(20)  | 过户日期 null 或 2017-09-01，固定为 null              |
 | cityCode    | String(6)   | 行驶城市代码 国标码,到二级城市, 固定为 "110100"，北京 |
-| insurerCode | String(100) | 固定为 "ASTP"，永城保险公司                           |
+| insurerCode | String(100) | 固定为 "APIC"，永诚保险公司                           |
 
 
 ```javascript
