@@ -2,11 +2,10 @@
     "data": [
         {
             "summary": 1000,
+            "recommend": null,
             "state": 1,
             "payment": 1000,
             "stop_at": "2016-08-01T00:00:00.000Z",
-            "screenshot1": "http://hive-data.fengchaohuzhu.com/screenshot1.png",
-            "outside-quotation2": 2200,
             "service_ratio": 0,
             "items": [
                 {
@@ -80,8 +79,9 @@
                     "price": 0
                 }
             ],
-            "screenshot2": "http://hive-data.fengchaohuzhu.com/screenshot2.png",
             "no": "000000000000000000000000000000",
+            "ticket": null,
+            "reason": null,
             "updated_at": "2016-08-01T00:00:00.000Z",
             "start_at": "2016-08-01T00:00:00.000Z",
             "insured": {
@@ -170,9 +170,10 @@
                 "user_id": "00000000-0000-0000-0000-000000000000",
                 "vin": "LSVFA49J232037048"
             },
-            "outside-quotation1": 2000,
+            "promotion": 0,
             "paid_at": "2016-08-01T00:00:00.000Z",
-            "state_description": "已创建订单"
+            "state_description": "已创建订单",
+            "vehicle_real_value": 100000
         }
     ],
     "code": 200

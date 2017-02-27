@@ -5,15 +5,21 @@
 - [ChangeLog](#changelog)
 - [Data Structure](#data-structure)
   - [sale-order](#sale-order)
+  - [sale-order-item](#sale-order-item)
   - [plan-order](#plan-order)
   - [plan-order-item](#plan-order-item)
   - [order-event](#order-event)
-    - [order states](#order-states)
+    - [plan order states](#plan-order-states)
+    - [sale order status](#sale-order-status)
 - [Event](#event)
-  - [OrderEvent](#orderevent)
+  - [PlanOrderEvent](#planorderevent)
     - [Event Data Structure](#event-data-structure)
     - [Event Type](#event-type)
     - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix)
+  - [SaleOrderEvent](#saleorderevent)
+    - [Event Data Structure](#event-data-structure-1)
+    - [Event Type](#event-type-1)
+    - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix-1)
 - [Database](#database)
   - [plan_orders](#plan_orders)
   - [plan_order_items](#plan_order_items)
@@ -21,7 +27,6 @@
   - [order_events](#order_events)
 - [Cache](#cache)
   - [order-entities](#order-entities)
-  - [order-driver-entities](#order-driver-entities)
   - [vehicle-plan-order](#vehicle-plan-order)
   - [vehicle-sale-order](#vehicle-sale-order)
 - [API](#api)
@@ -73,6 +78,64 @@
   - [refresh](#refresh)
       - [request](#request-15)
       - [response](#response-15)
+- [Database](#database-1)
+  - [plan_orders](#plan_orders-1)
+  - [plan_order_items](#plan_order_items-1)
+  - [sale_orders](#sale_orders-1)
+  - [order_events](#order_events-1)
+- [Cache](#cache-1)
+  - [order-entities](#order-entities-1)
+  - [vehicle-plan-order](#vehicle-plan-order-1)
+  - [vehicle-sale-order](#vehicle-sale-order-1)
+- [API](#api-1)
+  - [createPlanOrder](#createplanorder-1)
+      - [request](#request-16)
+      - [response](#response-16)
+  - [createSaleOrder](#createsaleorder-1)
+      - [request](#request-17)
+      - [response](#response-17)
+  - [pay](#pay-1)
+      - [request](#request-18)
+      - [response](#response-18)
+  - [underwrite](#underwrite-1)
+      - [request](#request-19)
+      - [response](#response-19)
+  - [takeEffect](#takeeffect-1)
+      - [request](#request-20)
+      - [response](#response-20)
+  - [expire](#expire-1)
+      - [request](#request-21)
+      - [response](#response-21)
+  - [applyWithdraw](#applywithdraw-1)
+      - [request](#request-22)
+      - [response](#response-22)
+  - [refuseWithdraw](#refusewithdraw-1)
+      - [request](#request-23)
+      - [response](#response-23)
+  - [agreeWithdraw](#agreewithdraw-1)
+      - [request](#request-24)
+      - [response](#response-24)
+  - [refund](#refund-1)
+      - [request](#request-25)
+      - [response](#response-25)
+  - [renameNo](#renameno-1)
+      - [request](#request-26)
+      - [response](#response-26)
+  - [getPlanOrdersByVehicle](#getplanordersbyvehicle-1)
+      - [request](#request-27)
+      - [response](#response-27)
+  - [getPlanOrdersByUser](#getplanordersbyuser-1)
+      - [request](#request-28)
+      - [response](#response-28)
+  - [getPlanOrder](#getplanorder-1)
+      - [request](#request-29)
+      - [response](#response-29)
+  - [getPlanOrderByQid](#getplanorderbyqid-1)
+      - [request](#request-30)
+      - [response](#response-30)
+  - [refresh](#refresh-1)
+      - [request](#request-31)
+      - [response](#response-31)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -80,11 +143,18 @@
 
 1. 2017-02-27
   * 删除 driver order 相关数据结构，数据库和接口
+  * 增加 sale order 状态转换图
+  * 增加 sale order event
+  * 删除 plan-order-item 中的 plan
+  * 删除 sale-order-item 中的 plan
+  * 增加 title 到 plan-order-item
+  * 增加 title 到 sale-order-item
+  * 增加 reason 到 plan_order 表
 
 1. 2017-02-24
-  * 删除plan-order中outside-quotation1, outside-quotation2, screenshot1, screenshot2字段 
-  * 往order-event表里增加字段　last_state 
-  * 往plan_order_items表里增加字段　title 
+  * 删除plan-order中outside-quotation1, outside-quotation2, screenshot1, screenshot2字段
+  * 往order-event表里增加字段　last_state
+  * 往plan_order_items表里增加字段　title
 
 1. 2017-02-22
   * 重命名 applicant 为 insured
@@ -203,6 +273,14 @@
 | paid-at           | date              | 订单支付时间           |
 | opr-level         | int               | 选中的三者险           |
 
+## sale-order-item
+
+| name  | type   | note     |
+| ----  | ----   | ----     |
+| id    | uuid   | 主键     |
+| title | string | 计划名称 |
+| price | float  | 价格     |
+
 ## plan-order
 
 | name              | type              | note              |
@@ -223,14 +301,15 @@
 | paid-at           | date              | 订单支付时间      |
 | recommend         | string            | 推荐人            |
 | ticket            | string            | 扫码 ticket       |
+| reason            | string            | 拒绝原因          |
 
 ## plan-order-item
 
-| name  | type  | note        |
-| ----  | ----  | ----        |
-| id    | uuid  | 主键        |
-| plan  | plan  | 对应的 plan |
-| price | float | 价格        |
+| name  | type   | note     |
+| ----  | ----   | ----     |
+| id    | uuid   | 主键     |
+| title | string | 计划名称 |
+| price | float  | 价格     |
 
 ## order-event
 
@@ -243,33 +322,44 @@
 | data        | json | JSON 格式的事件数据 |
 | occurred-at | date | 事件发生时间        |
 
-### order states
+### plan order states
 
 [![订单状态转换图](../img/order-states.svg)](订单状态转换图)
-[![订单状态转换图](../img/order-states.png)](订单状态转换图)
+[![计划订单状态转换图](../img/order-states.png)](计划订单状态转换图)
+
+### sale order status
+
+[![第三方订单状态转换图](../img/sale-order-states.png)](第三方订单状态转换图)
 
 # Event
 
-## OrderEvent
+## PlanOrderEvent
 
 ### Event Data Structure
 
-| name               | type     | note         |
-| ----               | ----     | ----         |
-| id                 | uuid     | event id     |
-| type               | smallint | event type   |
-| opid               | uuid     | operator id  |
-| oid                | uuid     | order id     |
-| order-type         | smallint | order type   |
-| occurred-at        | iso8601  | 事件发生时间 |
-| amount             | float    | 金额         |
-| qid                | uuid     | quotation id |
-| expect-at          | iso8601  | 期盼生效时间 |
-| real-value         | float    | 车辆实际价值 |
-| recommend          | string   | 推荐人       |
-| ticket             | string   | 推荐码       |
-| reason             | text     | 拒绝理由     |
-| no                 | string   | 订单编号     |
+| name          | type     | note         |
+| ----          | ----     | ----         |
+| id            | uuid     | event id     |
+| type          | smallint | event type   |
+| opid          | uuid     | operator id  |
+| oid           | uuid     | order id     |
+| order-type    | smallint | order type   |
+| occurred-at   | iso8601  | 事件发生时间 |
+| summary       | float    | 总金额       |
+| payment       | float    | 应付金额     |
+| qid           | uuid     | quotation id |
+| vid           | uuid     | vehicle id   |
+| expect-at     | iso8601  | 期盼生效时间 |
+| start-at      | iso8601  | 生效时间     |
+| stop-at       | iso8601  | 失效时间     |
+| real-value    | float    | 车辆实际价值 |
+| recommend     | string   | 推荐人       |
+| ticket        | string   | 推荐码       |
+| reason        | text     | 拒绝理由     |
+| no            | string   | 订单编号     |
+| insured       | uuid     | 投保人 ID    |
+| promotion     | float    | 促销金额     |
+| service_ratio | float    | 服务费率     |
 
 ### Event Type
 
@@ -290,49 +380,96 @@
 
 ### Event Type And Data Structure Matrix
 
-| type | amount | qid  | expect-at | real-value | recommend | ticket | reason | no   |
-| ---- | ----   | ---- | ----      | ----       | ----      | ----   | ----   | ---- |
-| 0    |        |      |           |            |           |        |        |      |
-| 1    | ✓      | ✓    | ✓         | ✓          | ?         | ?      |        | ✓    |
-| 2    | ✓      |      |           |            |           |        |        |      |
-| 3    |        |      |           |            |           |        |        |      |
-| 4    |        |      |           |            |           |        |        |      |
-| 5    |        |      |           |            |           |        |        |      |
-| 6    |        |      |           |            |           |        |        |      |
-| 7    |        |      |           |            |           |        | ✓      |      |
-| 8    |        |      |           |            |           |        |        |      |
-| 9    |        |      |           |            |           |        |        |      |
-| 10   |        |      |           |            |           |        |        | ✓    |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | no   | insured | promotion | service-ratio |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ---- | ----    | ----      | ----          |
+| 0    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ✓    | ✓       | ?         | ✓             |
+| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |      |         |           |               |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |      |         |           |               |
+| 4    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
+| 5    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
+| 6    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
+| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |      |         |           |               |
+| 8    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
+| 9    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
+| 10   |         |         |      |      |           |          |         |            |           |        |        | ✓    |         |           |               |
+
+## SaleOrderEvent
+
+### Event Data Structure
+
+| name        | type     | note         |
+| ----        | ----     | ----         |
+| id          | uuid     | event id     |
+| type        | smallint | event type   |
+| opid        | uuid     | operator id  |
+| oid         | uuid     | order id     |
+| order-type  | smallint | order type   |
+| occurred-at | iso8601  | 事件发生时间 |
+| summary     | float    | 总金额       |
+| payment     | float    | 应付金额     |
+| qid         | uuid     | quotation id |
+| vid         | uuid     | vehicle id   |
+| expect-at   | iso8601  | 期盼生效时间 |
+| start-at    | iso8601  | 生效时间     |
+| stop-at     | iso8601  | 失效时间     |
+| no          | string   | 订单编号     |
+| insured     | uuid     | 投保人 ID    |
+
+### Event Type
+
+| type | name        | note     |
+| ---- | ----        | ----     |
+| 0    | CANCEL      | 取消订单 |
+| 1    | CREATE      | 创建订单 |
+| 2    | UNDERWRITE  | 订单核保 |
+| 3    | PAY         | 支付订单 |
+| 4    | TAKE_EFFECT | 订单生效 |
+| 5    | EXPIRED     | 订单到期 |
+| 6    | REFUSE      | 核保失败 |
+
+### Event Type And Data Structure Matrix
+
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | no   | insured |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ---- | ----    |
+| 0    |         |         |      |      |           |          |         |      |         |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓    | ✓       |
+| 2    |         |         |      |      |           | ✓        | ✓       |      |         |
+| 3    |         | ✓       |      |      |           |          |         |      |         |
+| 4    |         |         |      |      |           |          |         |      |         |
+| 5    |         |         |      |      |           |          |         |      |         |
+| 6    |         |         |      |      |           |          |         |      |         |
 
 # Database
 
 ## plan_orders
 
-| field              | type          | null | default | index   | reference    |
-| ----               | ----          | ---- | ----    | ----    | ----         |
-| id                 | uuid          |      |         | primary |              |
-| no                 | char(32)      |      |         | ✓       |              |
-| uid                | uuid          |      |         |         | users        |
-| pgid               | uuid          | ✓    |         |         | plangroups   |
-| qid                | uuid          |      |         |         | quotations   |
-| vid                | uuid          |      |         |         | vehicles     |
-| state              | smallint      |      | 0       |         |              |
-| state_description  | string        | ✓    |         |         |              |
-| summary            | float         |      | 0.0     |         |              |
-| payment            | float         |      | 0.0     |         |              |
-| insured            | uuid          |      |         |         | person       |
-| promotion          | float         | ✓    |         |         |              |
-| service_ratio      | float         |      |         |         |              |
-| vehicle_real_value | real          |      | 0.0     |         |              |
-| ticket             | char(96)      | ✓    |         |         |              |
-| recommend          | varchar(32)   | ✓    |         |         |              |
-| expect_at          | timestamp     |      | now     |         |              |
-| start_at           | timestamp     | ✓    |         |         |              |
-| stop_at            | timestamp     | ✓    |         |         |              |
-| paid_at            | timestamp     | ✓    |         |         |              |
-| created_at         | timestamp     |      | now     |         |              |
-| updated_at         | timestamp     |      | now     |         |              |
-| evtid              | uuid          | ✓    |         |         | order_events |
+| field              | type         | null | default | index   | reference    |
+| ----               | ----         | ---- | ----    | ----    | ----         |
+| id                 | uuid         |      |         | primary |              |
+| no                 | char(32)     |      |         | ✓       |              |
+| uid                | uuid         |      |         |         | users        |
+| pgid               | uuid         | ✓    |         |         | plangroups   |
+| qid                | uuid         |      |         |         | quotations   |
+| vid                | uuid         |      |         |         | vehicles     |
+| state              | smallint     |      | 0       |         |              |
+| state_description  | string       | ✓    |         |         |              |
+| summary            | float        |      | 0.0     |         |              |
+| payment            | float        |      | 0.0     |         |              |
+| insured            | uuid         |      |         |         | person       |
+| promotion          | float        | ✓    |         |         |              |
+| service_ratio      | float        |      |         |         |              |
+| vehicle_real_value | real         |      | 0.0     |         |              |
+| ticket             | char(96)     | ✓    |         |         |              |
+| recommend          | varchar(32)  | ✓    |         |         |              |
+| reason             | varchar(128) | ✓    |         |         |              |
+| expect_at          | timestamp    |      | now     |         |              |
+| start_at           | timestamp    | ✓    |         |         |              |
+| stop_at            | timestamp    | ✓    |         |         |              |
+| paid_at            | timestamp    | ✓    |         |         |              |
+| created_at         | timestamp    |      | now     |         |              |
+| updated_at         | timestamp    |      | now     |         |              |
+| evtid              | uuid         | ✓    |         |         | order_events |
 
 ## plan_order_items
 
@@ -359,6 +496,7 @@
 | payment           | float     |      | 0.0     |         |              |
 | insured           | uuid      |      |         |         | person       |
 | paid_at           | timestamp | ✓    |         |         |              |
+| expect_at         | timestamp |      | now     |         |              |
 | start_at          | timestamp |      | now     |         |              |
 | stop_at           | timestamp |      | now     |         |              |
 | created_at        | timestamp |      | now     |         |              |
@@ -372,9 +510,16 @@
 | id          | uuid      |      |         | primary |           |
 | oid         | uuid      |      |         |         |           |
 | uid         | uuid      |      |         |         |           |
-| last_state  |smallint   |      |         |         |           |
+| event_type  | smallint  |      |         |         |           |
+| order_type  | smallint  |      |         |         |           |
+| last_state  | smallint  |      |         |         |           |
 | data        | json      |      |         |         |           |
 | occurred_at | timestamp |      | now     |         |           |
+
+| order type | meanning   |
+| ----       | ----       |
+| 1          | plan order |
+| 3          | sale order |
 
 # Cache
 
@@ -383,12 +528,6 @@
 | key            | type | value        | note         |
 | ----           | ---- | ----         | ----         |
 | order-entities | hash | oid => order | 所有订单实体 |
-
-## order-driver-entities
-
-| key                   | type | value               | note                 |
-| ----                  | ---- | ----                | ----                 |
-| order-driver-entities | hash | vid => drivers | 所有车辆已生效驾驶人 |
 
 ## vehicle-plan-order
 
@@ -568,11 +707,11 @@ rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr
 
 #### request
 
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| oid      | uuid   | 订单 ID   |
-| start-at | date   | 生效时间  |
-| stop-at  | date   | 失效时间  |
+| name     | type | note     |
+| ----     | ---- | ----     |
+| oid      | uuid | 订单 ID  |
+| start-at | date | 生效时间 |
+| stop-at  | date | 失效时间 |
 #### response
 
 成功：
@@ -639,9 +778,9 @@ rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr
 
 #### request
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| oid    | uuid   | 订单 ID  |
+| name | type | note    |
+| ---- | ---- | ----    |
+| oid  | uuid | 订单 ID |
 
 #### response
 
@@ -674,9 +813,9 @@ rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr
 
 #### request
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| oid    | uuid   | 订单 ID  |
+| name | type | note    |
+| ---- | ---- | ----    |
+| oid  | uuid | 订单 ID |
 
 #### response
 
@@ -745,9 +884,709 @@ rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr
 
 #### request
 
+| name | type | note    |
+| ---- | ---- | ----    |
+| oid  | uuid | 订单 ID |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## refund
+
+银行退款
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
 | name   | type   | note     |
 | ----   | ----   | ----     |
 | oid    | uuid   | 订单 ID  |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## renameNo
+
+修改订单编号
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name      | type   | note   |
+| ----      | ----   | ----   |
+| order\_no | string | 订单no |
+
+```javascript
+let order_no = "111000100120160000001";
+
+rpc.call("order", "renameNo", order_no)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name | type   | note       |
+| ---- | ----   | ----       |
+| code | number | 状态码      |
+| data | string | newOrderNo |
+
+## getPlanOrdersByVehicle
+
+根据vid获取所有计划订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note    |
+| ---- | ---- | ----    |
+| vid  | uuid | 车辆 ID |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("order", "getPlanOrdersByVehicle", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+
+```
+
+#### response
+
+| name | type    | note   |
+| ---- | ----    | ----   |
+| code | number  | 状态码 |
+| data | [order] | Orders |
+
+See [example](../data/order/getPlanOrdersByVehicle.json)
+
+## getPlanOrdersByUser
+
+获取用户的订单列表
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name   | type | note           |
+| ----   | ---- | ----           |
+| uid    | uuid | User ID        |
+
+#### response
+
+| name | type    | note   |
+| ---- | ----    | ----   |
+| code | number  | 状态码 |
+| data | [order] | Orders |
+
+See [example](../data/order/getPlanOrdersByUser.json)
+
+## getPlanOrder
+
+获取订单详情
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note     |
+| ---- | ---- | ----     |
+| oid  | uuid | Order ID |
+
+#### response
+
+| name | type   | note       |
+| ---- | ----   | ----       |
+| code | number | 状态码     |
+| data | order  | Order 详情 |
+
+See [example](../data/order/getPlanOrder.json)
+
+## getPlanOrderByQid
+
+根据报价获取订单
+
+#### request
+
+| name | type | note       |
+| ---- | ---- | ----       |
+| qid  | uuid | 报价 ID    |
+
+#### response
+
+成功：
+
+| name | type  | note  |
+| ---- | ----  | ----  |
+| code | int   | 200   |
+| data | order | Order |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+See [example](../data/order/getPlanOrderByQid.json)
+
+## refresh
+
+刷新订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type   | note           |
+| ---- | ----   | ----           |
+| no   | string | 订单编号(可选) |
+
+```javascript
+rpc.call("order", "refresh", type, uid, oid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| ---- | ----    | ----    | ---- | ---- | ----      | ---- | ----    |
+| 0    |         |         |      |      |           |      |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         | ✓    |
+| 2    | ✓       |         |      |      |           |
+| 3    |         |         |      |      |           |
+| 4    |         |         |      |      |           |
+| 5    |         |         |      |      |           |
+| 6    |         |         |      |      |           |
+
+# Database
+
+## plan_orders
+
+| field              | type          | null | default | index   | reference    |
+| ----               | ----          | ---- | ----    | ----    | ----         |
+| id                 | uuid          |      |         | primary |              |
+| no                 | char(32)      |      |         | ✓       |              |
+| uid                | uuid          |      |         |         | users        |
+| pgid               | uuid          | ✓    |         |         | plangroups   |
+| qid                | uuid          |      |         |         | quotations   |
+| vid                | uuid          |      |         |         | vehicles     |
+| state              | smallint      |      | 0       |         |              |
+| state_description  | string        | ✓    |         |         |              |
+| summary            | float         |      | 0.0     |         |              |
+| payment            | float         |      | 0.0     |         |              |
+| insured            | uuid          |      |         |         | person       |
+| promotion          | float         | ✓    |         |         |              |
+| service_ratio      | float         |      |         |         |              |
+| vehicle_real_value | real          |      | 0.0     |         |              |
+| ticket             | char(96)      | ✓    |         |         |              |
+| recommend          | varchar(32)   | ✓    |         |         |              |
+| expect_at          | timestamp     |      | now     |         |              |
+| start_at           | timestamp     | ✓    |         |         |              |
+| stop_at            | timestamp     | ✓    |         |         |              |
+| paid_at            | timestamp     | ✓    |         |         |              |
+| created_at         | timestamp     |      | now     |         |              |
+| updated_at         | timestamp     |      | now     |         |              |
+| evtid              | uuid          | ✓    |         |         | order_events |
+
+## plan_order_items
+
+| field | type  | null | default | index   | reference   |
+| ----  | ----  | ---- | ----    | ----    | ----        |
+| id    | uuid  |      |         | primary |             |
+| oid   | uuid  |      |         |         | plan_orders |
+| pid   | uuid  |      |         |         | plans       |
+| title | string|      |         |         |             |
+| price | float |      | 0.0     |         |             |
+
+## sale_orders
+
+| field             | type      | null | default | index   | reference    |
+| ----              | ----      | ---- | ----    | ----    | ----         |
+| id                | uuid      |      |         | primary |              |
+| no                | char(32)  |      |         | ✓       |              |
+| uid               | uuid      |      |         |         | users        |
+| vid               | uuid      |      |         |         | vehicles     |
+| type              | smallint  |      | 0       |         |              |
+| state             | smallint  |      | 0       |         |              |
+| state_description | string    | ✓    |         |         |              |
+| summary           | float     |      | 0.0     |         |              |
+| payment           | float     |      | 0.0     |         |              |
+| insured           | uuid      |      |         |         | person       |
+| paid_at           | timestamp | ✓    |         |         |              |
+| expect_at         | timestamp |      | now     |         |              |
+| start_at          | timestamp |      | now     |         |              |
+| stop_at           | timestamp |      | now     |         |              |
+| created_at        | timestamp |      | now     |         |              |
+| updated_at        | timestamp |      | now     |         |              |
+| evtid             | uuid      | ✓    |         |         | order_events |
+
+## order_events
+
+| field       | type      | null | default | index   | reference |
+| ----        | ----      | ---- | ----    | ----    | ----      |
+| id          | uuid      |      |         | primary |           |
+| oid         | uuid      |      |         |         |           |
+| uid         | uuid      |      |         |         |           |
+| last_state  |smallint   |      |         |         |           |
+| data        | json      |      |         |         |           |
+| occurred_at | timestamp |      | now     |         |           |
+
+# Cache
+
+## order-entities
+
+| key            | type | value        | note         |
+| ----           | ---- | ----         | ----         |
+| order-entities | hash | oid => order | 所有订单实体 |
+
+## vehicle-plan-order
+
+根据 vehicle id 得到对应的计划单
+
+| key      | type | value           | note |
+| ----     | ---- | ----            | ---- |
+| vid-poid | hash | vid => plan oid |      |
+
+## vehicle-sale-order
+
+根据 vehicle id 得到对应的代售单
+
+| key      | type | value           | note |
+| ----     | ---- | ----            | ---- |
+| vid-soid | hash | vid => sale oid |      |
+
+# API
+
+## createPlanOrder
+
+创建计划订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name          | type         | note         |
+| ----          | ----         | ----         |
+| vid           | uuid         | 车辆 ID      |
+| plans         | {pid: price} | 计划 ID 列表 |
+| qid           | uuid         | 报价 ID      |
+| pm-price      | float        | 优惠价格     |
+| service-ratio | float        | 服务费率     |
+| summary       | float        | 总价         |
+| payment       | float        | 实付         |
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+let qid = "00000000-0000-0000-0000-000000000000";
+let plans = {
+  "1": 1000.00,
+  "2": 2000.00
+};
+let pm_price = 500;
+let service_ratio = 0;
+let summary = 6000;
+let payment = 6000;
+let expect_at = "2016-08-01T00:00:00.000+800Z";
+let v_value = 1000;
+let recommend = 王阿波;
+
+rpc.call("order", "createPlanOrder", vid, plans, qid, pm_price, service_ratio, summary, payment, expect_at,v_value,recommend)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | number | 状态码   |
+| data | object | 结构如下 |
+
+| name       | type   | note     |
+| ----       | ----   | ----     |
+| order-id   | uuid   | Order Id |
+| order-no   | string | Order No |
+| created-at | Date   | 创建时间 |
+
+## createSaleOrder
+
+创建代售订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name       | type         | note     |
+| ----       | ----         | ----     |
+| vid        | uuid         | 车辆 ID  |
+| qid        | uuid         | 报价 ID  |
+| items      | {pid: price} | 代售条目 |
+| summary    | float        | 总价     |
+| payment    | float        | 实付     |
+| opr\_level | int          | 等级     |
+
+
+```javascript
+let vid = "00000000-0000-0000-0000-000000000000";
+let qid = "00000000-0000-0000-0000-000000000000";
+let items = {
+  "16777216": 1000,
+  "33554432": 2000
+};
+let summary = 2000;
+let payment = 2000;
+let opr_level = 5;
+
+rpc.call("order", "createSaleOrder", vid, pid, qid, items, summary, payment, opr_level)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | number | 状态码   |
+| data | object | 结构如下 |
+
+| name       | type   | note     |
+| ----       | ----   | ----     |
+| order-id   | uuid   | Order Id |
+| order-no   | string | Order No |
+| created-at | Date   | 创建时间 |
+
+## pay
+
+支付订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| uid    | uuid   | 用户ID    |
+| oid    | uuid   | 订单 ID   |
+| amount | number | 支付金额  |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## underwrite
+
+核保订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name     | type | note     |
+| ----     | ---- | ----     |
+| oid      | uuid | 订单 ID  |
+| start-at | date | 生效时间 |
+| stop-at  | date | 失效时间 |
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## takeEffect
+
+订单生效
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| oid    | uuid   | 订单 ID  |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## expire
+
+订单到期
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type | note    |
+| ---- | ---- | ----    |
+| oid  | uuid | 订单 ID |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## applyWithdraw
+
+申请提现
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note    |
+| ---- | ---- | ----    |
+| oid  | uuid | 订单 ID |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## refuseWithdraw
+
+拒绝提现申请
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| oid    | uuid   | 订单 ID  |
+| reason | string | 拒绝原因 |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+
+## agreeWithdraw
+
+同意提现申请
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type | note    |
+| ---- | ---- | ----    |
+| oid  | uuid | 订单 ID |
 
 #### response
 
