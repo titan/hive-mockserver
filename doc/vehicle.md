@@ -47,7 +47,7 @@
 
 # ChangeLog
 
-1. 2017-02-25
+1. 2017-02-27
   * 修改 createPerson 的入参 drivers 为 people
   * 删除　createVehicle 示例的入参 ownerphone
 
@@ -458,7 +458,6 @@ Example:
 
 let owner_name = "aaa";
 let owner_identity_no = "440308197406255611";
-let owner_phone = "18713575980";
 let insured_name = "aaa";
 let insured_identity_no = "440308197406255611";
 let insured_phone = "18713575980";
@@ -473,7 +472,7 @@ let last_insurance_company = null;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
 
-rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, owner_phone, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
+rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -788,6 +787,7 @@ See [example](../data/vehicle/uploadDriverImages.json)
 ## createPerson
 
 创建人员信息
+创建司机
 
 | domain | accessable |
 | ----   | ----       |
@@ -799,6 +799,7 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | name       | type    | note             |
 | ----       | ----    | ----             |
 | people | [person]  | 人员信息数组 |
+| drivers | [person]  | 司机 |
 
 #### response
 
