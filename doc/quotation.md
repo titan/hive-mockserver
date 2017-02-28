@@ -39,6 +39,7 @@
 # ChangeLog
 1. 2017-02-28
   * 修正 quotation_items 的 type 字段类型为 varchar(16)
+  * 增加 type 到 quotation-item
 
 1. 2017-02-27
   * 修改 getAccurateQuotation 的固定参数说明
@@ -137,6 +138,7 @@
 | name  | type                  | note           |
 | ----  | ----                  | ----           |
 | id    | uuid                  | 主键           |
+| type  | int                   | 其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"] |
 | plan  | plan                  | 对应的 plan    |
 | pairs | [quotation-item-pair] | 限价与价格组合 |
 
@@ -162,8 +164,8 @@
 | updated_at         | timestamp     |      | now     |         |           |
 | outside_quotation1 | real          |      | 0.0     |         |           |
 | outside_quotation2 | real          |      | 0.0     |         |           |
-| screenshot1        | varchar(1024) | ✓    |         |         |           |
-| screenshot2        | varchar(1024) | ✓    |         |         |           |
+| screenshot1        | varchar(1024) | ✓      |         |         |           |
+| screenshot2        | varchar(1024) | ✓      |         |         |           |
 | total_price        | real          |      |         |         |           |
 | insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
@@ -175,7 +177,7 @@
 | id         | uuid         |      |         | primary |             |
 | qid        | uuid         |      |         |         | quotations  |
 | pid        | integer      |      |         |         | plans       |
-| pgid       | uuid         | ✓    |         |         | plan-groups |
+| pgid       | uuid         | ✓      |         |         | plan-groups |
 | price      | real         |      |         |         |             |
 | num        | real         |      |         |         |             |
 | unit       | varchar(16)  |      |         |         |             |
