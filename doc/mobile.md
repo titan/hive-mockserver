@@ -228,4 +228,36 @@ rpc.call("mobile", "checkTicketOrRecommender", recommend)
 | data | boolean | true |
 
 
+## getQuotation
+
+通过qid获取报价列表信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type   | note           |
+| ----      | ----   | ----           |
+| qid       | string | 报价ID          |
+
+```javascript
+rpc.call("mobile", "getQuotation", qid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+注: code 200时，返回结果data是布尔型，满足情况为true,否则为false
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | boolean | true |
 
