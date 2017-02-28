@@ -47,6 +47,10 @@
 
 # ChangeLog
 
+1. 2017-02-28
+  * 恢复 addDrivers 方法
+  * 恢复 delDrivers 方法
+
 1. 2017-02-27
   * 修改 createPerson 的入参 drivers 为 people
   * 删除　createVehicle 示例的入参 ownerphone
@@ -231,7 +235,7 @@
 | register_date          | timestamp     | ✓    |         |         |           |
 | average_mileage        | char(16)      | ✓    |         |         |           |
 | is_transfer            | boolean       | ✓    |         |         |           |
-| transfer_date          | timestamp   | ✓    |         |         |           |
+| transfer_date          | timestamp     | ✓    |         |         |           |
 | receipt_no             | char(32)      | ✓    |         |         |           |
 | receipt_data           | timestamp     |      | 0.0     |         |           |
 | last_insurance_company | char(16)      |      |         |         |           |
@@ -690,6 +694,98 @@ rpc.call("vehicle", "getVehiclesByUser")
 | 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicles.json)
+
+## addDrivers
+
+添加驾驶人信息, 注意，一辆车只能拥有 3 位驾驶人
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name    | type     | note       |
+| ----    | ----     | ----       |
+| vid     | uuid     | 车辆 ID    |
+| drivers | [person] | 驾驶人信息 |
+
+```javascript
+
+var drivers = [
+  {
+    name: "",
+    identity_no: "",
+  }
+];
+
+rpc.call("vehicle", "addDrivers", vid, drivers)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+## delDrivers
+
+删除驾驶人信息，注意，一辆车只能拥有 3 位驾驶人
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name    | type  | note           |
+| ----    | ----  | ----           |
+| vid     | uuid  | 车辆 ID        |
+| drivers | [did] | 驾驶人 ID 列表 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
 
 ## uploadImages
 
