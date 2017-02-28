@@ -37,6 +37,8 @@
 
 
 # ChangeLog
+1. 2017-02-28
+  * 修正 quotation_items 的 type 字段类型为 varchar(16)
 
 1. 2017-02-27
   * 修改 getAccurateQuotation 的固定参数说明
@@ -176,7 +178,7 @@
 | pgid       | uuid         | ✓    |         |         | plan-groups |
 | price      | real         |      |         |         |             |
 | num        | real         |      |         |         |             |
-| unit       | varhchar(16) |      |         |         |             |
+| unit       | varchar(16)  |      |         |         |             |
 | real_price | real         |      |         |         |             |
 | type       | smallint     |      |         |         |             |
 | insure     | smallint     |      |         |         |             |
