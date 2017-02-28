@@ -1,11 +1,11 @@
 {
-    "nowDate": "2017-02-28T08:07:51.311Z",
     "data": [
         {
             "summary": 1000,
             "recommend": null,
             "state": 1,
             "payment": 1000,
+            "nowDate": "2017-02-28T08:07:51.311Z",
             "stop_at": "2016-08-01T00:00:00.000Z",
             "service_ratio": 0,
             "items": [
