@@ -1,8 +1,7 @@
 @startuml
 
 start
-
-if (验证码有效) then (yes)
+  :创建报价;
   if (车主信息已存在) then (yes)
     if (车主未验证) then (yes)
       :更新车主信息;
@@ -29,17 +28,22 @@ if (验证码有效) then (yes)
       if(已生效订单到期时间超过三个月) then (yes)
         :返回错误信息;
       else (no)
-        :创建报价;
+        if(创建自动报价f1)then (yes)
+          :返回报价信息;
+        else (no)
+          if (call手动报价接口) then (yes)
+            :返回成功信息;
+          else (no)
+            :返回错误信息;
+          endif
+        endif
       endif
     else (no)
       :返回错误信息;
     endif
   else (no)
-    :创建报价;
+    :创建自动报价(同f1);
   endif
-else (no)
-  :返回错误信息;
-endif
 
 stop
 
