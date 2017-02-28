@@ -1,0 +1,47 @@
+
+@startuml
+
+start
+  if(检查短信验证码是否正确) then(yes)
+    if(是否有车牌) then (yes)
+      if(是否过户) then (yes)
+        if(是否查询到对应车型) then (yes)
+          :存储车的信息并创建手动报价;
+            note right
+              通过车牌获取车型数据与通过vin
+              获取车型数据存储方式不同
+            end note
+        else(no)
+          :用户通过vin获取车型;
+          :存储车的信息并创建手动报价;
+        endif
+      else (no)
+        if(是否查询到对应车型) then (yes)
+          if(用户是否扫过有效二维码或者填写有效推荐人) then (yes)
+            :存储车的信息并创建手动报价;
+          else(no)
+            if(是否＂京＂车牌) then(yes)
+              :调用精准报价;
+                if(接口是否响应成功) then(yes)
+                  :返回报价信息;
+                else (no)
+                  :存储车的信息并创建手动报价;
+                endif
+            else (no)
+              :存储车的信息并创建手动报价;
+            endif
+          endif
+        else (no)
+          :存储车的信息并创建手动报价;
+        endif
+      endif
+    else (no)
+      :存储车的信息并创建手动报价;
+    endif
+  else (no)
+    :返回短信验证码错误信息;
+  endif
+
+stop
+
+@enduml

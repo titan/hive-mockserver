@@ -21,6 +21,9 @@
 
 # ChangeLog
 
+1. 2017-02-28
+  * 增加 创建报价流程图
+
 1. 2017-02-25
   * 增加 receipt_no,receipt_date 参数到　createQuotation
   * 修改 createQuotation 流程图中对是否创建报价的逻辑判断
@@ -49,7 +52,8 @@
 
 创建报价，流程如下：
 
-![报价流程](../img/mobile-createQuotation-workflow.png)
+![报价流程1](../img/mobile-createQuotation-workflow1.png)
+![报价流程2](../img/mobile-createQuotation-workflow2.png)
 
 
 | domain | accessable |
@@ -206,7 +210,7 @@
 | recommend | string | 推荐码或推荐人 |
 
 ```javascript
-rpc.call("profile", "checkTicketOrRecommender", recommend)
+rpc.call("mobile", "checkTicketOrRecommender", recommend)
   .then(function (result) {
 
   }, function (error) {
@@ -222,3 +226,38 @@ rpc.call("profile", "checkTicketOrRecommender", recommend)
 | ---- | ----    | ---- |
 | code | int     | 200  |
 | data | boolean | true |
+
+
+## getQuotation
+
+通过qid获取报价列表信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type   | note           |
+| ----      | ----   | ----           |
+| qid       | string | 报价ID          |
+
+```javascript
+rpc.call("mobile", "getQuotation", qid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+注: code 200时，返回结果data是布尔型，满足情况为true,否则为false
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | boolean | true |
+

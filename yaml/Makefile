@@ -1,9 +1,14 @@
 YAML2JSON = /usr/local/bin/yaml2json-include
 
 QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-8.yaml quotation-item-16.yaml quotation-item-32.yaml quotation-item-64.yaml quotation-item-16777216.yaml quotation-item-33554432.yaml
+MOBILE_QUOTATION_DEPS = mobile-quotation.yaml $(VEHICLE_DEPS) 
+
 
 GET_QUOTATION = ../data/quotation/getQuotation.json
 GET_QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_DEPS)
+
+MOBILE_GET_QUOTATION = ../data/mobile/getQuotation.json
+MOBILE_GET_QUOTATION_DEPS = mobile-get-quotation.yaml $(MOBILE_QUOTATION_DEPS)
 
 PLANS_DEPS = plans.yaml plan-1.yaml plan-2.yaml plan-4.yaml plan-8.yaml plan-16.yaml plan-32.yaml plan-64.yaml plan-16777216.yaml plan-33554432.yaml
 
@@ -76,10 +81,13 @@ GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
 GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
 GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
 
-all: $(GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(GET_QUOTATION) $(MOBILE_GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
+
+$(MOBILE_GET_QUOTATION): $(MOBILE_GET_QUOTATION_DEPS)
+	$(YAML2JSON) mobile-get-quotation.yaml | aeson-pretty > $@
 
 $(GET_PLANS): $(GET_PLANS_DEPS)
 	$(YAML2JSON) get-plans.yaml | aeson-pretty > $@
@@ -138,6 +146,7 @@ $(GET_MUTUAL_AIDS): $(GET_MUTUAL_AIDS_DEPS)
 
 clean:
 	rm $(GET_QUOTATION)
+	rm $(MOBILE_GET_QUOTATION)
 	rm $(GET_PLANS)
 	rm $(GET_PLAN_GROUPS)
 	rm $(GET_VEHICLE)
