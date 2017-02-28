@@ -6,16 +6,17 @@ state: 1
 state_description: 已创建订单
 summary: 1000
 payment: 1000
+promotion: 0
 insured: !include insured.yaml
 start_at: 2016-08-01T00:00:00.000Z
 stop_at: 2016-08-01T00:00:00.000Z
 created_at: 2016-08-01T00:00:00.000Z
 updated_at: 2016-08-01T00:00:00.000Z
 service_ratio: 0
+vehicle_real_value: 100000
 expect_at: 2016-08-01T00:00:00.000Z
 items: !include plan-order-items.yaml
 paid_at: 2016-08-01T00:00:00.000Z
-outside-quotation1: 2000
-outside-quotation2: 2200
-screenshot1: http://hive-data.fengchaohuzhu.com/screenshot1.png
-screenshot2: http://hive-data.fengchaohuzhu.com/screenshot2.png
+recommend:
+ticket:
+reason:

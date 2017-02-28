@@ -64,11 +64,6 @@ GET_PLAN_ORDER_DEPS = get-plan-order.yaml $(PLAN_ORDER_DEPS)
 GET_PLAN_ORDERS = ../data/order/getPlanOrders.json
 GET_PLAN_ORDERS_DEPS = get-plan-orders.yaml $(PLAN_ORDER_DEPS)
 
-DRIVER_ORDER_DEPS = driver-order.yaml $(VEHICLE_DEPS)
-
-GET_DRIVER_ORDERS = ../data/order/getDriverOrders.json
-GET_DRIVER_ORDERS_DEPS = get-driver-orders.yaml $(DRIVER_ORDER_DEPS)
-
 GET_WALLET = ../data/wallet/getWallet.json
 GET_WALLET_DEPS = get-wallet.yaml wallet.yaml accounts.yaml account.yaml $(VEHICLE_DEPS)
 
@@ -134,10 +129,6 @@ $(GET_PLAN_ORDERS): $(GET_PLAN_ORDERS_DEPS)
 	cp $@ ../data/order/getPlanOrdersByUser.json
 	cp $@ ../data/order/getPlanOrdersByVehicle.json
 
-$(GET_DRIVER_ORDERS): $(GET_DRIVER_ORDERS_DEPS)
-	$(YAML2JSON) get-driver-orders.yaml | aeson-pretty > $@
-	cp $@ ../data/order/getDriverOrdersByVehicle.json
-
 $(GET_WALLET): $(GET_WALLET_DEPS)
 	$(YAML2JSON) get-wallet.yaml | aeson-pretty > $@
 
@@ -167,7 +158,6 @@ clean:
 	rm $(GET_USER)
 	rm $(GET_PLAN_ORDER)
 	rm $(GET_PLAN_ORDERS)
-	rm $(GET_DRIVER_ORDERS)
 	rm $(GET_WALLET)
 	rm $(GET_TRANSACTIONS)
 	rm $(SIGN)

@@ -37,10 +37,15 @@
 
 
 # ChangeLog
+1. 2017-02-28
+  * 修正 quotation_items 的 type 字段类型为 varchar(16)
 
 1. 2017-02-27
   * 修改 getAccurateQuotation 的固定参数说明
   * 修改　getReferenceQuotation 和　getAccurateQuotation　的示例
+
+1. 2017-02-25
+  * 增加 createQuotation 的可选入参 qid
 
 1. 2017-02-25
   * 删除 getReferenceQuotation 的入参 licenseNumber, modelListOrder
@@ -173,7 +178,7 @@
 | pgid       | uuid         | ✓    |         |         | plan-groups |
 | price      | real         |      |         |         |             |
 | num        | real         |      |         |         |             |
-| unit       | varhchar(16) |      |         |         |             |
+| unit       | varchar(16)  |      |         |         |             |
 | real_price | real         |      |         |         |             |
 | type       | smallint     |      |         |         |             |
 | insure     | smallint     |      |         |         |             |
@@ -217,11 +222,24 @@
 | name | type | note    |
 | ---- | ---- | ----    |
 | vid  | uuid | 车辆 ID |
+| qid?  | uuid | quotation ID |
 
 ```javascript
+// 手工报价
 let vid = "00000000-0000-0000-0000-000000000000";
 
 rpc.call("quotation", "createQuotation", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+// 自动报价，前端忽略
+let vid = "00000000-0000-0000-0000-000000000000";
+let qid = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("quotation", "createQuotation", vid, qid)
   .then(function (result) {
 
   }, function (error) {

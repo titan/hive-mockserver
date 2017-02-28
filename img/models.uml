@@ -43,11 +43,8 @@ package Order {
   object SaleOrder {
     type = 3
   }
-  object DriverOrder {
-    type = 2
-  }
   object PlanOrderItem
-  object DriverOrderItem
+  object SaleOrderItem
   object OrderEvent
 }
 package Quotation {
@@ -64,10 +61,8 @@ PlanGroup "1" --> "*" Plan
 
 PlanOrder "1" --> "*" OrderEvent
 SaleOrder "1" --> "*" OrderEvent
-DriverOrder "1" --> "*" OrderEvent
 
 User "1" --> "*" PlanOrder
-User "1" --> "*" DriverOrder
 User "1" --> "*" SaleOrder
 User "1" --> "*" Quotation
 User --> Wallet
@@ -75,7 +70,6 @@ User --> Group
 
 PlanOrder -> Vehicle
 SaleOrder -> Vehicle
-DriverOrder -> Vehicle
 Group "1" <- "*" PlanOrder
 Group "1" --> "*" GroupItem
 Group "1" --> "*" WaitingVehicle
@@ -89,13 +83,12 @@ AppliedVehicle - Vehicle
 JoinedVehicle - Vehicle
 QuittedVehicle - Vehicle
 
-PlanOrder --> PlanGroup
+PlanOrder -> PlanGroup
 PlanOrderItem -> Plan
 
 PlanOrder "1" --> "*" PlanOrderItem
 
-DriverOrder "1" --> "*" DriverOrderItem
-DriverOrderItem -> Driver
+SaleOrder "1" --> "*" SaleOrderItem
 
 User "1" --> "*" MutualAid
 
