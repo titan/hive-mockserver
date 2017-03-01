@@ -36,12 +36,21 @@
   - [getVehiclesByUser](#getvehiclesbyuser)
       - [request](#request-6)
       - [response](#response-6)
-  - [uploadImages](#uploadimages)
+  - [addDrivers](#adddrivers)
       - [request](#request-7)
       - [response](#response-7)
-  - [setPersonVerified](#setpersonverified)
+  - [delDrivers](#deldrivers)
       - [request](#request-8)
       - [response](#response-8)
+  - [uploadImages](#uploadimages)
+      - [request](#request-9)
+      - [response](#response-9)
+  - [setPersonVerified](#setpersonverified)
+      - [request](#request-10)
+      - [response](#response-10)
+  - [createPerson](#createperson)
+      - [request](#request-11)
+      - [response](#response-11)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
