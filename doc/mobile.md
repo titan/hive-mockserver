@@ -21,6 +21,9 @@
 
 # ChangeLog
 
+1. 2017-03-1
+  * 接口getLastQuotation名字修改为getLastQuotations
+
 1. 2017-02-28
   * 增加 创建报价流程图
 
@@ -108,7 +111,7 @@
 | ---- | ----     |
 | 500  | 未知错误 |
 
-## getLastQuotation
+## getLastQuotations
 
 得到用户最后一次的报价，流程如下：
 
