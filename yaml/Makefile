@@ -85,6 +85,7 @@ all: $(GET_QUOTATION) $(MOBILE_GET_QUOTATION) $(GET_PLANS) $(GET_PLAN_GROUPS) $(
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
+	cp $@ ../data/mobile/getLastQuotation.json
 
 $(MOBILE_GET_QUOTATION): $(MOBILE_GET_QUOTATION_DEPS)
 	$(YAML2JSON) mobile-get-quotation.yaml | aeson-pretty > $@
