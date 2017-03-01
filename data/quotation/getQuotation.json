@@ -13,6 +13,7 @@
                         "amount": 0,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "元"
                     }
                 ],
@@ -30,6 +31,7 @@
                         "amount": 0,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "元"
                     }
                 ],
@@ -47,6 +49,7 @@
                         "amount": 0,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "元"
                     }
                 ],
@@ -64,6 +67,7 @@
                         "amount": 0,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "元"
                     }
                 ],
@@ -81,6 +85,7 @@
                         "amount": 0,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "元"
                     }
                 ],
@@ -98,12 +103,14 @@
                         "amount": 3,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "块漆"
                     },
                     {
                         "amount": 6,
                         "real-price": 0,
                         "price": 0,
+                        "type": 1,
                         "unit": "块漆"
                     }
                 ],
@@ -121,6 +128,7 @@
                         "amount": 0,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "元"
                     }
                 ],
@@ -138,6 +146,7 @@
                         "amount": 0,
                         "real-price": 0,
                         "price": 0,
+                        "type": 0,
                         "unit": "元"
                     }
                 ],
@@ -152,10 +161,53 @@
                 },
                 "pairs": [
                     {
-                        "amount": 0,
+                        "amount": 5,
                         "real-price": 0,
                         "price": 0,
-                        "unit": "元"
+                        "type": 0,
+                        "unit": "万元"
+                    },
+                    {
+                        "amount": 10,
+                        "real-price": 0,
+                        "price": 0,
+                        "type": 1,
+                        "unit": "万元"
+                    },
+                    {
+                        "amount": 15,
+                        "real-price": 0,
+                        "price": 0,
+                        "type": 2,
+                        "unit": "万元"
+                    },
+                    {
+                        "amount": 20,
+                        "real-price": 0,
+                        "price": 0,
+                        "type": 3,
+                        "unit": "万元"
+                    },
+                    {
+                        "amount": 30,
+                        "real-price": 0,
+                        "price": 0,
+                        "type": 4,
+                        "unit": "万元"
+                    },
+                    {
+                        "amount": 50,
+                        "real-price": 0,
+                        "price": 0,
+                        "type": 5,
+                        "unit": "万元"
+                    },
+                    {
+                        "amount": 100,
+                        "real-price": 0,
+                        "price": 0,
+                        "type": 6,
+                        "unit": "万元"
                     }
                 ],
                 "id": "00000000-0000-0000-0000-000067108864"

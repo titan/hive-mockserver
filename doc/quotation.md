@@ -138,18 +138,18 @@
 | name  | type                  | note           |
 | ----  | ----                  | ----           |
 | id    | uuid                  | 主键           |
-| type  | int                   | 其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"] |
 | plan  | plan                  | 对应的 plan    |
 | pairs | [quotation-item-pair] | 限价与价格组合 |
 
 ## quotation-item-pair
 
-| name       | type   | note     |
-| ----       | ----   | ----     |
-| price      | float  | 原价     |
-| real-price | float  | 真实价格 |
-| amount     | float  | 数量     |
-| unit       | string | 单位     |
+| name       | type   | note                                               |
+| ----       | ----   | ----                                               |
+| price      | float  | 原价                                               |
+| real-price | float  | 真实价格                                           |
+| amount     | float  | 数量                                               |
+| unit       | string | 单位                                               |
+| type       | int    | 用于处理多个价格的情况，比如：["三块漆", "六块漆"] |
 
 # Database
 
@@ -162,30 +162,30 @@
 | state              | int           |      | 0       |         |           |
 | created_at         | timestamp     |      | now     |         |           |
 | updated_at         | timestamp     |      | now     |         |           |
-| outside_quotation1 | real          |      | 0.0     |         |           |
-| outside_quotation2 | real          |      | 0.0     |         |           |
-| screenshot1        | varchar(1024) | ✓      |         |         |           |
-| screenshot2        | varchar(1024) | ✓      |         |         |           |
+| outside_quotation1 | numeric(10,2) |      | 0.0     |         |           |
+| outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
+| screenshot1        | varchar(1024) | ✓    |         |         |           |
+| screenshot2        | varchar(1024) | ✓    |         |         |           |
 | total_price        | real          |      |         |         |           |
 | insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
 
 ## quotation_items
 
-| field      | type         | null | default | index   | reference   |
-| ----       | ----         | ---- | ----    | ----    | ----        |
-| id         | uuid         |      |         | primary |             |
-| qid        | uuid         |      |         |         | quotations  |
-| pid        | integer      |      |         |         | plans       |
-| pgid       | uuid         | ✓      |         |         | plan-groups |
-| price      | real         |      |         |         |             |
-| num        | real         |      |         |         |             |
-| unit       | varchar(16)  |      |         |         |             |
-| real_price | real         |      |         |         |             |
-| type       | smallint     |      |         |         |             |
-| insure     | smallint     |      |         |         |             |
-| created_at | timestamp    |      | now     |         |             |
-| updated_at | timestamp    |      | now     |         |             |
+| field      | type          | null | default | index   | reference   |
+| ----       | ----          | ---- | ----    | ----    | ----        |
+| id         | uuid          |      |         | primary |             |
+| qid        | uuid          |      |         |         | quotations  |
+| pid        | integer       |      |         |         | plans       |
+| pgid       | uuid          | ✓    |         |         | plan-groups |
+| price      | numeric(10,2) |      |         |         |             |
+| num        | numeric(10,2) |      |         |         |             |
+| unit       | varchar(16)   |      |         |         |             |
+| real_price | real          |      |         |         |             |
+| type       | smallint      |      |         |         |             |
+| insure     | smallint      |      |         |         |             |
+| created_at | timestamp     |      | now     |         |             |
+| updated_at | timestamp     |      | now     |         |             |
 
 其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"]
 

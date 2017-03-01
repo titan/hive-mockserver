@@ -5,7 +5,9 @@ pairs:
     real-price: 0
     amount: 3
     unit: "块漆"
+    type: 0
   - price: 0
     real-price: 0
     amount: 6
     unit: "块漆"
+    type: 1

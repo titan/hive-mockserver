@@ -5,3 +5,4 @@ pairs:
     real-price: 0
     amount: 0
     unit: 元
+    type: 0
