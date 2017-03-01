@@ -40,6 +40,7 @@
 1. 2017-02-28
   * 修正 quotation_items 的 type 字段类型为 varchar(16)
   * 增加 type 到 quotation-item
+  * 增加 zt-quotation:${vid} 缓存
 
 1. 2017-02-27
   * 修改 getAccurateQuotation 的固定参数说明
@@ -207,6 +208,7 @@
 | key                | type | value            | note         |
 | ----               | ---- | ----             | ----         |
 | license-two-dates | hash | license => two-date | 商业险和车险起期 |
+| zt-quotation:${vid} | string | zt response data | 智通响应数据(30天有效期) |
 
 # API
 
