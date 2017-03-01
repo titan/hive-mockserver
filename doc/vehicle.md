@@ -11,6 +11,7 @@
   - [vehicle_models](#vehicle_models)
   - [vehicles](#vehicles)
   - [person](#person-1)
+  - [drivers](#drivers)
 - [Cache](#cache)
   - [vehicle-model](#vehicle-model-1)
   - [vehicle](#vehicle-1)
@@ -55,6 +56,9 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-01
+  * 增加 drivers 表
 
 1. 2017-02-28
   * 恢复 addDrivers 方法
@@ -277,6 +281,16 @@
 | created_at            | timestamp     |      | now     |         |           |
 | updated_at            | timestamp     |      | now     |         |           |
 | deleted               | boolean       |      | false   |         |           |
+
+## drivers
+
+| field      | type      | null | default | index   | reference |
+| ----       | ----      | ---- | ----    | ----    | ----      |
+| id         | uuid      |      |         | primary | person    |
+| vid        | uuid      |      |         |         | vehicles  |
+| created_at | timestamp |      | now     |         |           |
+| updated_at | timestamp |      | now     |         |           |
+| deleted    | boolean   |      | false   |         |           |
 
 # Cache
 
