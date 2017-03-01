@@ -286,7 +286,8 @@
 
 | field      | type      | null | default | index   | reference |
 | ----       | ----      | ---- | ----    | ----    | ----      |
-| id         | uuid      |      |         | primary | person    |
+| id         | uuid      |      |         | primary |           |
+| pid        | uuid      |      |         |         | person    |
 | vid        | uuid      |      |         |         | vehicles  |
 | created_at | timestamp |      | now     |         |           |
 | updated_at | timestamp |      | now     |         |           |
