@@ -1,0 +1,7 @@
+id: "00000000-0000-0000-0000-000067108864"
+plan: !include plan-67108864.yaml
+pairs:
+  - price: 0
+    real-price: 0
+    amount: 0
+    unit: 元

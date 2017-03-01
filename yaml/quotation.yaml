@@ -4,9 +4,9 @@ items:
   - !include quotation-item-1.yaml
   - !include quotation-item-2.yaml
   - !include quotation-item-4.yaml
-  - !include quotation-item-8.yaml
-  - !include quotation-item-16.yaml
-  - !include quotation-item-32.yaml
-  - !include quotation-item-64.yaml
-  - !include quotation-item-16777216.yaml
+  - !include quotation-item-512.yaml
+  - !include quotation-item-1024.yaml
+  - !include quotation-item-2048.yaml
+  - !include quotation-item-4096.yaml
   - !include quotation-item-33554432.yaml
+  - !include quotation-item-67108864.yaml
