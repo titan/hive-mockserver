@@ -57,6 +57,9 @@
 
 # ChangeLog
 
+1. 2017-03-02
+  * 删除 createPerson 的入参　drivers
+
 1. 2017-03-01
   * 增加 drivers 表
 
@@ -919,7 +922,6 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | name       | type    | note             |
 | ----       | ----    | ----             |
 | people | [person]  | 人员信息数组 |
-| drivers | [person]  | 司机 |
 
 #### response
 
