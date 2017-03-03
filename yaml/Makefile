@@ -1,8 +1,7 @@
 YAML2JSON = /usr/local/bin/yaml2json-include
 
-QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-8.yaml quotation-item-16.yaml quotation-item-32.yaml quotation-item-64.yaml quotation-item-16777216.yaml quotation-item-33554432.yaml
-MOBILE_QUOTATION_DEPS = mobile-quotation.yaml $(VEHICLE_DEPS) 
-
+QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-512.yaml quotation-item-1024.yaml quotation-item-2048.yaml quotation-item-4096.yaml quotation-item-33554432.yaml quotation-item-67108864.yaml
+MOBILE_QUOTATION_DEPS = mobile-quotation.yaml $(VEHICLE_DEPS)
 
 GET_QUOTATION = ../data/quotation/getQuotation.json
 GET_QUOTATION_DEPS = get-quotation.yaml $(QUOTATION_DEPS)
@@ -13,7 +12,7 @@ MOBILE_GET_QUOTATION_DEPS = mobile-get-quotation.yaml $(MOBILE_QUOTATION_DEPS)
 MOBILE_GETLASTQUOTATIONS = ../data/mobile/getLastQuotations.json
 MOBILE_GETLASTQUOTATIONS_DEPS = mobile-getLastQuotations.yaml $(QUOTATION_DEPS)
 
-PLANS_DEPS = plans.yaml plan-1.yaml plan-2.yaml plan-4.yaml plan-8.yaml plan-16.yaml plan-32.yaml plan-64.yaml plan-16777216.yaml plan-33554432.yaml
+PLANS_DEPS = plans.yaml plan-1.yaml plan-2.yaml plan-4.yaml plan-512.yaml plan-1024.yaml plan-2048.yaml plan-4096.yaml plan-33554432.yaml plan-67108864.yaml
 
 GET_PLANS = ../data/plan/getPlans.json
 GET_PLANS_DEPS = get-plans.yaml $(PLANS_DEPS)

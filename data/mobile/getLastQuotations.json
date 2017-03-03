@@ -14,6 +14,7 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
@@ -31,6 +32,7 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
@@ -48,6 +50,7 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
@@ -55,7 +58,7 @@
                 },
                 {
                     "plan": {
-                        "id": 8,
+                        "id": 512,
                         "title": "机动车自燃损失",
                         "description": "",
                         "optional": true
@@ -65,14 +68,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000008"
+                    "id": "00000000-0000-0000-0000-000000000512"
                 },
                 {
                     "plan": {
-                        "id": 16,
+                        "id": 1024,
                         "title": "机动车发动机涉水损失",
                         "description": "",
                         "optional": true
@@ -82,14 +86,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000016"
+                    "id": "00000000-0000-0000-0000-000000001024"
                 },
                 {
                     "plan": {
-                        "id": 32,
+                        "id": 2048,
                         "title": "机动车车身划痕损失",
                         "description": "",
                         "optional": true
@@ -99,20 +104,22 @@
                             "amount": 3,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "块漆"
                         },
                         {
                             "amount": 6,
                             "real-price": 0,
                             "price": 0,
+                            "type": 1,
                             "unit": "块漆"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000032"
+                    "id": "00000000-0000-0000-0000-000000002048"
                 },
                 {
                     "plan": {
-                        "id": 64,
+                        "id": 4096,
                         "title": "玻璃单独破碎",
                         "description": "",
                         "optional": true
@@ -122,14 +129,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000064"
+                    "id": "00000000-0000-0000-0000-000000004096"
                 },
                 {
                     "plan": {
-                        "id": 16777216,
+                        "id": 33554432,
                         "title": "交强险",
                         "description": "",
                         "optional": true
@@ -139,14 +147,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000016777216"
+                    "id": "00000000-0000-0000-0000-000033554432"
                 },
                 {
                     "plan": {
-                        "id": 33554432,
+                        "id": 67108864,
                         "title": "商业第三者责任险",
                         "description": "",
                         "optional": true
@@ -156,48 +165,56 @@
                             "amount": 5,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "万元"
                         },
                         {
                             "amount": 10,
                             "real-price": 0,
                             "price": 0,
+                            "type": 1,
                             "unit": "万元"
                         },
                         {
                             "amount": 15,
                             "real-price": 0,
                             "price": 0,
+                            "type": 2,
                             "unit": "万元"
                         },
                         {
                             "amount": 20,
                             "real-price": 0,
                             "price": 0,
+                            "type": 3,
                             "unit": "万元"
                         },
                         {
                             "amount": 30,
                             "real-price": 0,
                             "price": 0,
+                            "type": 4,
                             "unit": "万元"
                         },
                         {
                             "amount": 50,
                             "real-price": 0,
                             "price": 0,
+                            "type": 5,
                             "unit": "万元"
                         },
                         {
                             "amount": 100,
                             "real-price": 0,
                             "price": 0,
+                            "type": 6,
                             "unit": "万元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000033554432"
+                    "id": "00000000-0000-0000-0000-000067108864"
                 }
             ],
+            "created_at": "2016-08-01T00:00:00.000Z",
             "id": "00000000-0000-0000-0000-000000000000",
             "vehicle": {
                 "receipt_date": "2016-08-01T00:00:00.000Z",
@@ -285,6 +302,7 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
@@ -302,6 +320,7 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
@@ -319,6 +338,7 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
@@ -326,7 +346,7 @@
                 },
                 {
                     "plan": {
-                        "id": 8,
+                        "id": 512,
                         "title": "机动车自燃损失",
                         "description": "",
                         "optional": true
@@ -336,14 +356,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000008"
+                    "id": "00000000-0000-0000-0000-000000000512"
                 },
                 {
                     "plan": {
-                        "id": 16,
+                        "id": 1024,
                         "title": "机动车发动机涉水损失",
                         "description": "",
                         "optional": true
@@ -353,14 +374,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000016"
+                    "id": "00000000-0000-0000-0000-000000001024"
                 },
                 {
                     "plan": {
-                        "id": 32,
+                        "id": 2048,
                         "title": "机动车车身划痕损失",
                         "description": "",
                         "optional": true
@@ -370,20 +392,22 @@
                             "amount": 3,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "块漆"
                         },
                         {
                             "amount": 6,
                             "real-price": 0,
                             "price": 0,
+                            "type": 1,
                             "unit": "块漆"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000032"
+                    "id": "00000000-0000-0000-0000-000000002048"
                 },
                 {
                     "plan": {
-                        "id": 64,
+                        "id": 4096,
                         "title": "玻璃单独破碎",
                         "description": "",
                         "optional": true
@@ -393,14 +417,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000000000064"
+                    "id": "00000000-0000-0000-0000-000000004096"
                 },
                 {
                     "plan": {
-                        "id": 16777216,
+                        "id": 33554432,
                         "title": "交强险",
                         "description": "",
                         "optional": true
@@ -410,14 +435,15 @@
                             "amount": 0,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000016777216"
+                    "id": "00000000-0000-0000-0000-000033554432"
                 },
                 {
                     "plan": {
-                        "id": 33554432,
+                        "id": 67108864,
                         "title": "商业第三者责任险",
                         "description": "",
                         "optional": true
@@ -427,48 +453,56 @@
                             "amount": 5,
                             "real-price": 0,
                             "price": 0,
+                            "type": 0,
                             "unit": "万元"
                         },
                         {
                             "amount": 10,
                             "real-price": 0,
                             "price": 0,
+                            "type": 1,
                             "unit": "万元"
                         },
                         {
                             "amount": 15,
                             "real-price": 0,
                             "price": 0,
+                            "type": 2,
                             "unit": "万元"
                         },
                         {
                             "amount": 20,
                             "real-price": 0,
                             "price": 0,
+                            "type": 3,
                             "unit": "万元"
                         },
                         {
                             "amount": 30,
                             "real-price": 0,
                             "price": 0,
+                            "type": 4,
                             "unit": "万元"
                         },
                         {
                             "amount": 50,
                             "real-price": 0,
                             "price": 0,
+                            "type": 5,
                             "unit": "万元"
                         },
                         {
                             "amount": 100,
                             "real-price": 0,
                             "price": 0,
+                            "type": 6,
                             "unit": "万元"
                         }
                     ],
-                    "id": "00000000-0000-0000-0000-000033554432"
+                    "id": "00000000-0000-0000-0000-000067108864"
                 }
             ],
+            "created_at": "2016-08-01T00:00:00.000Z",
             "id": "00000000-0000-0000-0000-000000000000",
             "vehicle": {
                 "receipt_date": "2016-08-01T00:00:00.000Z",

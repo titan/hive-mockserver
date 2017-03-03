@@ -39,6 +39,8 @@
 # ChangeLog
 1. 2017-02-28
   * 修正 quotation_items 的 type 字段类型为 varchar(16)
+  * 增加 type 到 quotation-item
+  * 增加 zt-quotation:${vid} 缓存
 
 1. 2017-02-27
   * 修改 getAccurateQuotation 的固定参数说明
@@ -142,12 +144,13 @@
 
 ## quotation-item-pair
 
-| name       | type   | note     |
-| ----       | ----   | ----     |
-| price      | float  | 原价     |
-| real-price | float  | 真实价格 |
-| amount     | float  | 数量     |
-| unit       | string | 单位     |
+| name       | type   | note                                               |
+| ----       | ----   | ----                                               |
+| price      | float  | 原价                                               |
+| real-price | float  | 真实价格                                           |
+| amount     | float  | 数量                                               |
+| unit       | string | 单位                                               |
+| type       | int    | 用于处理多个价格的情况，比如：["三块漆", "六块漆"] |
 
 # Database
 
@@ -160,8 +163,8 @@
 | state              | int           |      | 0       |         |           |
 | created_at         | timestamp     |      | now     |         |           |
 | updated_at         | timestamp     |      | now     |         |           |
-| outside_quotation1 | real          |      | 0.0     |         |           |
-| outside_quotation2 | real          |      | 0.0     |         |           |
+| outside_quotation1 | numeric(10,2) |      | 0.0     |         |           |
+| outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
 | screenshot1        | varchar(1024) | ✓    |         |         |           |
 | screenshot2        | varchar(1024) | ✓    |         |         |           |
 | total_price        | real          |      |         |         |           |
@@ -170,20 +173,20 @@
 
 ## quotation_items
 
-| field      | type         | null | default | index   | reference   |
-| ----       | ----         | ---- | ----    | ----    | ----        |
-| id         | uuid         |      |         | primary |             |
-| qid        | uuid         |      |         |         | quotations  |
-| pid        | integer      |      |         |         | plans       |
-| pgid       | uuid         | ✓    |         |         | plan-groups |
-| price      | real         |      |         |         |             |
-| num        | real         |      |         |         |             |
-| unit       | varchar(16)  |      |         |         |             |
-| real_price | real         |      |         |         |             |
-| type       | smallint     |      |         |         |             |
-| insure     | smallint     |      |         |         |             |
-| created_at | timestamp    |      | now     |         |             |
-| updated_at | timestamp    |      | now     |         |             |
+| field      | type          | null | default | index   | reference   |
+| ----       | ----          | ---- | ----    | ----    | ----        |
+| id         | uuid          |      |         | primary |             |
+| qid        | uuid          |      |         |         | quotations  |
+| pid        | integer       |      |         |         | plans       |
+| pgid       | uuid          | ✓    |         |         | plan-groups |
+| price      | numeric(10,2) |      |         |         |             |
+| num        | numeric(10,2) |      |         |         |             |
+| unit       | varchar(16)   |      |         |         |             |
+| real_price | real          |      |         |         |             |
+| type       | smallint      |      |         |         |             |
+| insure     | smallint      |      |         |         |             |
+| created_at | timestamp     |      | now     |         |             |
+| updated_at | timestamp     |      | now     |         |             |
 
 其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"]
 
@@ -205,6 +208,7 @@
 | key                | type | value            | note         |
 | ----               | ---- | ----             | ----         |
 | license-two-dates | hash | license => two-date | 商业险和车险起期 |
+| zt-quotation:${vid} | string | zt response data | 智通响应数据(30天有效期) |
 
 # API
 

@@ -11,6 +11,7 @@
   - [vehicle_models](#vehicle_models)
   - [vehicles](#vehicles)
   - [person](#person-1)
+  - [drivers](#drivers)
 - [Cache](#cache)
   - [vehicle-model](#vehicle-model-1)
   - [vehicle](#vehicle-1)
@@ -36,16 +37,31 @@
   - [getVehiclesByUser](#getvehiclesbyuser)
       - [request](#request-6)
       - [response](#response-6)
-  - [uploadImages](#uploadimages)
+  - [addDrivers](#adddrivers)
       - [request](#request-7)
       - [response](#response-7)
-  - [setPersonVerified](#setpersonverified)
+  - [delDrivers](#deldrivers)
       - [request](#request-8)
       - [response](#response-8)
+  - [uploadImages](#uploadimages)
+      - [request](#request-9)
+      - [response](#response-9)
+  - [setPersonVerified](#setpersonverified)
+      - [request](#request-10)
+      - [response](#response-10)
+  - [createPerson](#createperson)
+      - [request](#request-11)
+      - [response](#response-11)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-02
+  * 删除 createPerson 的入参　drivers
+
+1. 2017-03-01
+  * 增加 drivers 表
 
 1. 2017-02-28
   * 恢复 addDrivers 方法
@@ -268,6 +284,17 @@
 | created_at            | timestamp     |      | now     |         |           |
 | updated_at            | timestamp     |      | now     |         |           |
 | deleted               | boolean       |      | false   |         |           |
+
+## drivers
+
+| field      | type      | null | default | index   | reference |
+| ----       | ----      | ---- | ----    | ----    | ----      |
+| id         | uuid      |      |         | primary |           |
+| pid        | uuid      |      |         |         | person    |
+| vid        | uuid      |      |         |         | vehicles  |
+| created_at | timestamp |      | now     |         |           |
+| updated_at | timestamp |      | now     |         |           |
+| deleted    | boolean   |      | false   |         |           |
 
 # Cache
 
@@ -895,7 +922,6 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | name       | type    | note             |
 | ----       | ----    | ----             |
 | people | [person]  | 人员信息数组 |
-| drivers | [person]  | 司机 |
 
 #### response
 

@@ -31,6 +31,10 @@
 
 # ChangeLog
 
+1. 2017-03-01
+  * 删除 plan 表里的 description 字段
+  * 删除 plan_groups 表里的 description 字段
+
 1. 2017-02-13
   * 增加 plan-group-entities 缓存
   * 增加 getJoinedCount 方法
@@ -95,7 +99,6 @@
 | ----        | ----         | ---- | ----    | ----    | ----      |
 | id          | uuid         |      |         | primary |           |
 | title       | vchar(128)   |      |         |         |           |
-| description | text         | ✓    |         |         |           |
 | mask        | integer      |      |         |         |           |
 | discount    | numeric(2,2) | ✓    |         |         |           |
 | created_at  | timestamp    |      | now     |         |           |
@@ -107,7 +110,6 @@
 | ----        | ----       | ---- | ----    | ----    | ----      |
 | id          | smallint   |      |         | primary |           |
 | title       | vchar(128) |      |         |         |           |
-| description | text       | ✓    |         |         |           |
 | optional    | boolean    |      | false   |         |           |
 | created_at  | timestamp  |      | now     |         |           |
 | updated_at  | timestamp  |      | now     |         |           |

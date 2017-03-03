@@ -3,29 +3,6 @@ plan: !include plan-33554432.yaml
 pairs:
   - price: 0
     real-price: 0
-    amount: 5
-    unit: "万元"
-  - price: 0
-    real-price: 0
-    amount: 10
-    unit: "万元"
-  - price: 0
-    real-price: 0
-    amount: 15
-    unit: "万元"
-  - price: 0
-    real-price: 0
-    amount: 20
-    unit: "万元"
-  - price: 0
-    real-price: 0
-    amount: 30
-    unit: "万元"
-  - price: 0
-    real-price: 0
-    amount: 50
-    unit: "万元"
-  - price: 0
-    real-price: 0
-    amount: 100
-    unit: "万元"
+    amount: 0
+    unit: 元
+    type: 0
