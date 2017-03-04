@@ -32,10 +32,8 @@ VEHICLES_DEPS = vehicles.yaml $(VEHICLE_DEPS)
 GET_VEHICLES = ../data/vehicle/getVehicles.json
 GET_VEHICLES_DEPS = get-vehicles.yaml $(VEHICLES_DEPS)
 
-VEHICLE_MODELS_DEPS = vehicle-models.yaml vehicle-model1.yaml vehicle-model2.yaml
-
 FETCH_VEHICLE_MODELS = ../data/vehicle/fetchVehicleModelsByVin.json
-FETCH_VEHICLE_MODELS_DEPS = fetch-vehicle-models-by-vin.yaml $(VEHICLE_MODELS_DEPS)
+FETCH_VEHICLE_MODELS_DEPS = fetch-vehicle-models-by-vin.yaml $(VEHICLE_MODEL_DEPS)
 
 VEHICLE_AND_MODELS_DEPS = zt-vehicle-and-models.yaml zt-vehicle.yaml zt-vehicle-models.yaml zt-vehicle-model1.yaml zt-vehicle-model2.yaml
 

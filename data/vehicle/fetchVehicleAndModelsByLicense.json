@@ -3,14 +3,13 @@
         "response_no": "97c75995-0dd0-45d1-ad03-cf42396410a7",
         "models": [
             {
+                "pl": "1.5L",
                 "family_name": "科鲁兹",
                 "purchase_price": "85900",
                 "gearbox_name": "手动档",
                 "vehicle_code": "3fe5c096-a157-4b69-8917-b2f168fbd571",
                 "source": 2,
                 "vehicle_name": "雪佛兰SGM7150DMAA轿车",
-                "engine_desc": "1.5L",
-                "year_pattern": "",
                 "purchase_price_tax": "89571",
                 "cfg_level": "手动档 经典版 SE 国Ⅴ",
                 "brand_name": "上汽通用雪佛兰",

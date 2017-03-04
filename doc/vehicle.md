@@ -57,6 +57,11 @@
 
 # ChangeLog
 
+1. 2017-03-04
+  * 删除 vehicles 表的 average_mileage 字段
+  * 删除 vehicles 表的 transfer_date 字段
+  * 重构 vehicle_model 数据结构
+
 1. 2017-03-02
   * 删除 createPerson 的入参　drivers
 
@@ -150,30 +155,15 @@
 
 ## vehicle-model
 
-| name               | type    | note           |
-| ----               | ----    | ----           |
-| source             | integer | 数据来源       |
-| vehicle-code       | string  | 车型代码       |
-| vehicle-name       | string  | 车型名称       |
-| brand-name         | string  | 品牌名称       |
-| family-name        | string  | 车系名称       |
-| body-type          | string  | 车身结构       |
-| engine-desc        | string  | 发动机描述     |
-| gearbox-name       | string  | 变速箱类型     |
-| year-pattern       | string  | 车款           |
-| group-name         | string  | 车组名称       |
-| cfg-level          | string  | 配置级别       |
-| purchase-price     | float   | 新车购置价     |
-| purchase-price-tax | float   | 新车购置价含税 |
-| seat               | integer | 座位           |
-| effluent-standard  | string  | 排放标准       |
-| pl                 | string  | 排量           |
-| fuel-jet-type      | string  | 燃油类型       |
-| driven-type        | string  | 驱动形式       |
+| name   | type    | note     |
+| ----   | ----    | ----     |
+| source | integer | 数据来源 |
+| code   | string  | 车型代码 |
+| data   | json    | 车型数据 |
 
 | code | meaning |
 | ---- | ----    |
-| 1    | 京友    |
+| 1    | 精友    |
 | 2    | 智通    |
 
 ## vehicle
@@ -249,11 +239,9 @@
 | license_no             | char(16)      | ✓    |         |         |           |
 | engine_no              | char(32)      | ✓    |         |         |           |
 | register_date          | timestamp     | ✓    |         |         |           |
-| average_mileage        | char(16)      | ✓    |         |         |           |
 | is_transfer            | boolean       | ✓    |         |         |           |
-| transfer_date          | timestamp     | ✓    |         |         |           |
 | receipt_no             | char(32)      | ✓    |         |         |           |
-| receipt_data           | timestamp     |      | 0.0     |         |           |
+| receipt_date           | timestamp     |      | 0.0     |         |           |
 | last_insurance_company | char(16)      |      |         |         |           |
 | insurance_due_date     | timestamp     |      | 0       |         |           |
 | driving_frontal_view   | varchar(1024) | ✓    |         |         |           |

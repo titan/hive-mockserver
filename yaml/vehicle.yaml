@@ -1,6 +1,5 @@
 receipt_date: 2016-08-01T00:00:00.000Z
 insurance_due_date: 2016-08-01T00:00:00.000Z
-average_mileage: '30000'
 drivers: !include drivers.yaml
 engine_no: xxxx
 is_transfer: true

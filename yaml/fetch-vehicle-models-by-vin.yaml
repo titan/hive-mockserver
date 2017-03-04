@@ -1,2 +1,3 @@
 code: 200
-data: !include vehicle-models.yaml
+data:
+ - !include vehicle-model.yaml
