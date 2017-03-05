@@ -41,6 +41,7 @@
 1. 2017-03-05
   * 增加 quotations 的字段 promotion
   * 增加 real_value 字段到 quotations 表
+  * 修改 quotations 表中的 total_price 字段为 price
 
 1. 2017-02-28
   * 修正 quotation_items 的 type 字段类型为 varchar(16)
@@ -131,8 +132,8 @@
 | outside_quotation2 | float            | 第三方报价2     |
 | screenshot1        | string           | 第三方报价截图1 |
 | screenshot2        | string           | 第三方报价截图2 |
-| total_price        | real             | 总价            |
-| real_value         | real             | 总价            |
+| price              | real             | 总价            |
+| real_value         | real             | 车辆实际价值    |
 | promotion          | real             | 优惠金额        |
 | insure             | int              | 保险公司        |
 | auto               | int              | 是否是自动报价  |
@@ -172,7 +173,7 @@
 | outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
 | screenshot1        | varchar(1024) | ✓    |         |         |           |
 | screenshot2        | varchar(1024) | ✓    |         |         |           |
-| total_price        | real          |      | 0.0     |         |           |
+| price              | real          |      | 0.0     |         |           |
 | real_value         | real          |      | 0.0     |         |           |
 | promotion          | real          |      | 0.0     |         |           |
 | insure             | smallint      |      |         |         |           |

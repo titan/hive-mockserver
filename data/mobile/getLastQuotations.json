@@ -4,7 +4,6 @@
             "state": 1,
             "auto": 0,
             "screenshot1": "",
-            "total_price": 1234.5,
             "items": [
                 {
                     "plan": {
@@ -224,6 +223,7 @@
             "outside_quotation2": 0,
             "created_at": "2016-08-01T00:00:00.000Z",
             "id": "00000000-0000-0000-0000-000000000000",
+            "price": 1234.5,
             "vehicle": {
                 "receipt_date": "2016-08-01T00:00:00.000Z",
                 "insurance_due_date": "2016-08-01T00:00:00.000Z",
@@ -303,7 +303,6 @@
             "state": 1,
             "auto": 0,
             "screenshot1": "",
-            "total_price": 1234.5,
             "items": [
                 {
                     "plan": {
@@ -523,6 +522,7 @@
             "outside_quotation2": 0,
             "created_at": "2016-08-01T00:00:00.000Z",
             "id": "00000000-0000-0000-0000-000000000000",
+            "price": 1234.5,
             "vehicle": {
                 "receipt_date": "2016-08-01T00:00:00.000Z",
                 "insurance_due_date": "2016-08-01T00:00:00.000Z",
