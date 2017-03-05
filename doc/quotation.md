@@ -39,7 +39,8 @@
 # ChangeLog
 
 1. 2017-03-05
-  * 增加 quotations 的字段promotion
+  * 增加 quotations 的字段 promotion
+  * 增加 real_value 字段到 quotations 表
 
 1. 2017-02-28
   * 修正 quotation_items 的 type 字段类型为 varchar(16)
@@ -48,7 +49,7 @@
 
 1. 2017-02-27
   * 修改 getAccurateQuotation 的固定参数说明
-  * 修改　getReferenceQuotation 和　getAccurateQuotation　的示例
+  * 修改 getReferenceQuotation 和 getAccurateQuotation　的示例
 
 1. 2017-02-25
   * 增加 createQuotation 的可选入参 qid
@@ -131,11 +132,10 @@
 | screenshot1        | string           | 第三方报价截图1 |
 | screenshot2        | string           | 第三方报价截图2 |
 | total_price        | real             | 总价            |
-| promotion          | real             | 优惠金额            |
+| real_value         | real             | 总价            |
+| promotion          | real             | 优惠金额        |
 | insure             | int              | 保险公司        |
 | auto               | int              | 是否是自动报价  |
-
-报价的 ID 与 vehicle 的 ID 是一致的。
 
 [![报价状态转换图](../img/quotation-states.png)](报价状态转换图)
 
@@ -172,8 +172,9 @@
 | outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
 | screenshot1        | varchar(1024) | ✓    |         |         |           |
 | screenshot2        | varchar(1024) | ✓    |         |         |           |
-| total_price        | real          |      |         |         |           |
-| promotion          | real          |      | 0.0        |         |           |
+| total_price        | real          |      | 0.0     |         |           |
+| real_value         | real          |      | 0.0     |         |           |
+| promotion          | real          |      | 0.0     |         |           |
 | insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
 
@@ -211,10 +212,11 @@
 | quotation-entities | hash | qid => quotation | 所有报价实体 |
 
 ## license-two-dates
-| key                | type | value            | note         |
-| ----               | ---- | ----             | ----         |
-| license-two-dates | hash | license => two-date | 商业险和车险起期 |
-| zt-quotation:${vid} | string | zt response data | 智通响应数据(30天有效期) |
+
+| key                 | type   | value               | note                     |
+| ----                | ----   | ----                | ----                     |
+| license-two-dates   | hash   | license => two-date | 商业险和车险起期         |
+| zt-quotation:${vid} | string | zt response data    | 智通响应数据(30天有效期) |
 
 # API
 
@@ -229,10 +231,10 @@
 
 #### request
 
-| name | type | note    |
-| ---- | ---- | ----    |
-| vid  | uuid | 车辆 ID |
-| qid?  | uuid | quotation ID |
+| name | type | note         |
+| ---- | ---- | ----         |
+| vid  | uuid | 车辆 ID      |
+| qid? | uuid | quotation ID |
 
 ```javascript
 // 手工报价
@@ -433,11 +435,11 @@ rpc.call("quotation", "refresh")
 
 #### request
 
-| name           | type      | note                        |
-| ----           | ----      | ----                        |
-| vid  | string | vehicle id            |
-| cityCode  | string | 行驶城市代码            |
-| insurerCode  | string | 保险人代码            |
+| name        | type   | note         |
+| ----        | ----   | ----         |
+| vid         | string | vehicle id   |
+| cityCode    | string | 行驶城市代码 |
+| insurerCode | string | 保险人代码   |
 
 ```javascript
 
@@ -506,11 +508,11 @@ data 例：
 
 #### request
 
-| name           | type       | note                            |
-| ----           | ----       | ----                            |
-| vid  | string | vehicle id            |
-| cityCode  | string | 行驶城市代码            |
-| insurerCode  | string | 保险人代码            |
+| name        | type   | note         |
+| ----        | ----   | ----         |
+| vid         | string | vehicle id   |
+| cityCode    | string | 行驶城市代码 |
+| insurerCode | string | 保险人代码   |
 
 固定的参数
 
