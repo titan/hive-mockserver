@@ -37,6 +37,10 @@
 
 
 # ChangeLog
+
+1. 2017-03-05
+  * 增加 quotations 的字段promotion
+
 1. 2017-02-28
   * 修正 quotation_items 的 type 字段类型为 varchar(16)
   * 增加 type 到 quotation-item
