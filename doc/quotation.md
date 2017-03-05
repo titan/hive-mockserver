@@ -127,6 +127,7 @@
 | screenshot1        | string           | 第三方报价截图1 |
 | screenshot2        | string           | 第三方报价截图2 |
 | total_price        | real             | 总价            |
+| promotion          | real             | 优惠金额            |
 | insure             | int              | 保险公司        |
 | auto               | int              | 是否是自动报价  |
 
@@ -168,6 +169,7 @@
 | screenshot1        | varchar(1024) | ✓    |         |         |           |
 | screenshot2        | varchar(1024) | ✓    |         |         |           |
 | total_price        | real          |      |         |         |           |
+| promotion          | real          |      | 0.0        |         |           |
 | insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
 
