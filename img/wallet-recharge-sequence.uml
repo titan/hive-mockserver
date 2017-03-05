@@ -3,10 +3,9 @@
 Caller -> Wallet : recharge with order id
 Wallet -> Order : get order with order id
 Order -> Wallet : return order if it is existed
-Wallet -> Wallet : create wallet with uid from order if wallet is not exists
 Wallet -> Wallet : create account with vid from order if account is not exists
-Wallet -> Wallet : Record recharge transaction
-Wallet -> Wallet : Record bonus transaction if summary is greater than paid
+Wallet -> Wallet : Record recharge event and transaction
+Wallet -> Wallet : Record bonus event and transaction if summary is greater than paid
 Wallet -> Caller : return okay if all operations are executed successfully
 
 @enduml

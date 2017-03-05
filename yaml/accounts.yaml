@@ -1,1 +1,8 @@
-- !include account.yaml
+- id: 00000000-0000-0000-0000-000000000000
+  balance0: 200.00
+  balance1: 800.00
+  bonus: 0.00
+  frozen_balance0: 0.00
+  frozen_balance1: 0.00
+  cashable_balance: 0.00
+  vehicle: !include vehicle.yaml

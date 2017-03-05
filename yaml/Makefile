@@ -65,10 +65,10 @@ GET_PLAN_ORDERS = ../data/order/getPlanOrders.json
 GET_PLAN_ORDERS_DEPS = get-plan-orders.yaml $(PLAN_ORDER_DEPS)
 
 GET_WALLET = ../data/wallet/getWallet.json
-GET_WALLET_DEPS = get-wallet.yaml wallet.yaml accounts.yaml account.yaml $(VEHICLE_DEPS)
+GET_WALLET_DEPS = get-wallet.yaml wallet.yaml accounts.yaml $(VEHICLE_DEPS)
 
 GET_TRANSACTIONS = ../data/wallet/getTransactions.json
-GET_TRANSACTIONS_DEPS = get-transactions.yaml transactions.yaml transaction.yaml
+GET_TRANSACTIONS_DEPS = get-transactions.yaml transactions.yaml
 
 SIGN = ../data/oss/sign.json
 SIGN_DEPS = oss-sign.yaml
