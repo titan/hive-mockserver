@@ -8,6 +8,7 @@
   - [Account](#account)
   - [Transaction](#transaction)
     - [Transaction Title](#transaction-title)
+    - [Transaction Type And Data Structure Matrix](#transaction-type-and-data-structure-matrix)
 - [Event](#event)
   - [AccountEvent](#accountevent)
     - [Event Data Structure](#event-data-structure)
@@ -45,6 +46,10 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-06
+  * 增加 data 到 transactions 表
+  * 增加 license 到 transactions 表
 
 1. 2017-03-05
   * 增加 uid 到 transactions 表
@@ -146,13 +151,16 @@ Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则�
 | id          | uuid    | 交易日志 ID              |
 | uid         | uuid    | 用户 ID                  |
 | aid         | uuid    | 帐号 ID                  |
+| license     | string  | 对应的车牌               |
 | title       | string  | 钱包日志内容             |
 | occurred-at | iso8601 | 发生时间                 |
 | amount      | float   | 金额(正为收入，负为支出) |
+| oid         | uuid    | order id                 |
+| maid        | uuid    | 保险 id                  |
 
 ### Transaction Title
 
-| no   | title                                      |
+| type | title                                      |
 | ---- | ----                                       |
 | 1    | 加入计划充值                               |
 | 2    | 优惠补贴                                   |
@@ -162,6 +170,19 @@ Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则�
 | 6    | 互助金冻结                                 |
 | 7    | 互助金解冻                                 |
 | 8    | 佣金收入                                   |
+
+### Transaction Type And Data Structure Matrix
+
+| type | maid | oid  |
+| ---- | ---- | ---- |
+| 1    |      | ✓    |
+| 2    |      | ✓    |
+| 3    |      | ✓    |
+| 4    |      | ✓    |
+| 5    |      |      |
+| 6    | ✓    |      |
+| 7    | ✓    |      |
+| 8    |      |      |
 
 # Event
 
@@ -255,8 +276,10 @@ Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则�
 | uid         | uuid         |      |         |         | users     |
 | aid         | uuid         |      |         |         | accounts  |
 | type        | smallint     |      |         |         |           |
+| license     | varchar(8)   |      |         |         |           |
 | title       | varchar(128) |      |         |         |           |
 | amount      | float        |      |         |         |           |
+| data        | json         |      |         |         |           |
 | occurred_at | timestamp    |      | now     |         |           |
 
 ## apportions
