@@ -81,6 +81,10 @@
 
 # ChangeLog
 
+1. 2017-03-06
+  * 增加 oss_pdf 字段到 plan_orders 表
+  * 重命名 RENAME_NO 事件类型为 UPDATE 事件类型
+
 1. 2017-02-27
   * 删除 driver order 相关数据结构，数据库和接口
   * 增加 sale order 状态转换图
@@ -297,7 +301,8 @@
 | real-value    | float    | 车辆实际价值 |
 | recommend     | string   | 推荐人       |
 | ticket        | string   | 推荐码       |
-| reason        | text     | 拒绝理由     |
+| reason        | string   | 拒绝理由     |
+| oss-pdf       | string   | oss pdf      |
 | no            | string   | 订单编号     |
 | insured       | uuid     | 投保人 ID    |
 | promotion     | float    | 促销金额     |
@@ -317,24 +322,24 @@
 | 7    | REFUSE_WITHDRAW | 拒绝提现申请 |
 | 8    | AGREE_WITHDRAW  | 同意提现申请 |
 | 9    | REFUND          | 银行退款     |
-| 10   | RENAME_NO       | 更换订单编号 |
+| 10   | UPDATE          | 更新订单信息 |
 
 
 ### Event Type And Data Structure Matrix
 
-| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | no   | insured | promotion | service-ratio |
-| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ---- | ----    | ----      | ----          |
-| 0    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
-| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ✓    | ✓       | ?         | ✓             |
-| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |      |         |           |               |
-| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |      |         |           |               |
-| 4    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
-| 5    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
-| 6    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
-| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |      |         |           |               |
-| 8    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
-| 9    |         |         |      |      |           |          |         |            |           |        |        |      |         |           |               |
-| 10   |         |         |      |      |           |          |         |            |           |        |        | ✓    |         |           |               |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | promotion | service-ratio |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----      | ----          |
+| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ✓         | ✓             |
+| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |           |               |
+| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
+| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
+| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
+| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |           |               |
+| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
+| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
+| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?         | ?             |
 
 ## SaleOrderEvent
 
@@ -405,6 +410,7 @@
 | ticket             | char(96)     | ✓    |         |         |              |
 | recommend          | varchar(32)  | ✓    |         |         |              |
 | reason             | varchar(128) | ✓    |         |         |              |
+| oss_pdf            | varchar(256) | ✓    |         |         |              |
 | expect_at          | timestamp    |      | now     |         |              |
 | start_at           | timestamp    | ✓    |         |         |              |
 | stop_at            | timestamp    | ✓    |         |         |              |
