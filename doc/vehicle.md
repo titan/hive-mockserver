@@ -57,6 +57,9 @@
 
 # ChangeLog
 
+1. 2017-03-06
+  * 增加 缓存 vehicles:${uid}
+
 1. 2017-03-04
   * 删除 vehicles 表的 average_mileage 字段
   * 删除 vehicles 表的 transfer_date 字段
@@ -294,7 +297,7 @@
 | vehicle-vin-codes           | hash   | {vin => [code]}         | vin 码映射           |
 | vehicle-model               | set    | vin                     | vin 码               |
 | zt-response-code:${license} | string | response code           | 智通响应码(三天有效) |
-
+| vehicles:${uid} | sorted set | [vid]           | uid 对应的 [vid] |
 ## vehicle
 
 | key                 | type | value            | note          |
