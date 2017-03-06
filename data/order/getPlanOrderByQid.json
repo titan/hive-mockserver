@@ -82,6 +82,7 @@
         "ticket": null,
         "reason": null,
         "updated_at": "2016-08-01T00:00:00.000Z",
+        "oss_pdf": null,
         "start_at": "2016-08-01T00:00:00.000Z",
         "insured": {
             "phone": "00000000000",

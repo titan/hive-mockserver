@@ -26,6 +26,7 @@
   - [sale_orders](#sale_orders)
   - [sale_order_items](#sale_order_items)
   - [order_events](#order_events)
+  - [order_apply_pdf](#order_apply_pdf)
 - [Cache](#cache)
   - [order-entities](#order-entities)
   - [vehicle-plan-order](#vehicle-plan-order)
@@ -84,6 +85,7 @@
 1. 2017-03-06
   * 增加 oss_pdf 字段到 plan_orders 表
   * 重命名 RENAME_NO 事件类型为 UPDATE 事件类型
+  * 增加 order_apply_pdf 表
 
 1. 2017-02-27
   * 删除 driver order 相关数据结构，数据库和接口
@@ -485,6 +487,21 @@ index 是多选项的下标索引
 | ----       | ----       |
 | 1          | plan order |
 | 3          | sale order |
+
+## order_apply_pdf
+
+| field      | type         | null | default | index   | reference   |
+| ----       | ----         | ---- | ----    | ----    | ----        |
+| id         | uuid         |      |         | primary |             |
+| oid        | uuid         |      |         |         | plan_orders |
+| uid        | uuid         |      |         |         | users       |
+| phone      | varchar(16)  |      |         |         |             |
+| mail       | varchar(128) |      |         |         |             |
+| local_addr | varchar(256) |      |         |         |             |
+| oss_addr   | varchar(256) |      |         |         |             |
+| state      | smallint     |      |         |         |             |
+| created_at | timestamp    |      | now     |         |             |
+| updated_at | timestamp    |      | now     |         |             |
 
 # Cache
 
