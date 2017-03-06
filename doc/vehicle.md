@@ -297,7 +297,6 @@
 | vehicle-vin-codes           | hash   | {vin => [code]}         | vin 码映射           |
 | vehicle-model               | set    | vin                     | vin 码               |
 | zt-response-code:${license} | string | response code           | 智通响应码(三天有效) |
-
 | vehicles:${uid} | sorted set | {uid => [vid]}           | 智通响应码(三天有效) |
 ## vehicle
 
