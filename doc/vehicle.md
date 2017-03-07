@@ -65,6 +65,7 @@
 1. 2017-03-07
   * 增加 getPerson 方法
   * 增加 缓存 person-entities
+  * 增加 vehicle-model 的 source 说明
 
 1. 2017-03-06
   * 增加 缓存 vehicles:${uid}
