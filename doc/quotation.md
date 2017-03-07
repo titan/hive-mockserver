@@ -13,6 +13,7 @@
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
   - [quotation-entities](#quotation-entities)
+  - [license-two-dates](#license-two-dates)
 - [API](#api)
   - [createQuotation](#createquotation)
       - [request](#request)
@@ -37,6 +38,9 @@
 
 
 # ChangeLog
+
+1. 2017-03-06
+  * 重命名 quotation_items 表的 num 字段为 amount
 
 1. 2017-03-05
   * 增加 quotations 的字段 promotion
@@ -188,7 +192,7 @@
 | pid        | integer       |      |         |         | plans       |
 | pgid       | uuid          | ✓    |         |         | plan-groups |
 | price      | numeric(10,2) |      |         |         |             |
-| num        | numeric(10,2) |      |         |         |             |
+| amount     | numeric(10,2) |      |         |         |             |
 | unit       | varchar(16)   |      |         |         |             |
 | real_price | real          |      |         |         |             |
 | type       | smallint      |      |         |         |             |
