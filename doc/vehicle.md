@@ -943,7 +943,7 @@ See [example](../data/vehicle/uploadDriverImages.json)
 
 ## getPerson
 
-创建人员信息
+获取人员信息
 
 | domain | accessable |
 | ----   | ----       |
