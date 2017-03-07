@@ -52,10 +52,18 @@
   - [createPerson](#createperson)
       - [request](#request-11)
       - [response](#response-11)
+  - [getPerson](#getperson)
+      - [request](#request-12)
+      - [response](#response-12)
+
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-07
+  * 增加 getPerson 方法
+  * 增加 缓存 person-entities
 
 1. 2017-03-06
   * 增加 缓存 vehicles:${uid}
@@ -304,6 +312,12 @@
 | ----                | ---- | ----             | ----          |
 | vehicle-entities    | hash | {vid => vehicle} | 车数据        |
 | vehicle-license-vin | hash | {license => vin} | 车牌号vin映射 |
+
+## person-entities
+
+| key                 | type | value            | note          |
+| ----                | ---- | ----             | ----          |
+| person-entities    | hash | {pid => people} | 人员信息        |
 
 # API
 
@@ -901,7 +915,6 @@ See [example](../data/vehicle/uploadDriverImages.json)
 ## createPerson
 
 创建人员信息
-创建司机
 
 | domain | accessable |
 | ----   | ----       |
@@ -919,7 +932,36 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | name     | type   | note     |
 | ----     | ----   | ----     |
 | code     | int    | 结果编码 |
-| data/msg | [string] | 结果内容 |
+| data | [pid] | 结果内容 |
+| msg | string | 错误信息 |
+
+| code | meaning          |
+| ---- | ----             |
+| 200  | Success          |
+| 500  | 错误信息         |
+
+## getPerson
+
+创建人员信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name       | type    | note             |
+| ----       | ----    | ----             |
+| pid |  string | 人员 ID |
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data | person | 结果内容 |
+| msg | string | 错误信息 |
 
 | code | meaning          |
 | ---- | ----             |
