@@ -174,11 +174,11 @@
 | code   | string  | 车型代码 |
 | data   | json    | 车型数据 |
 
-| code | meaning |
-| ---- | ----    |
-| 0    | 自定义(老数据)    |
-| 1    | 精友    |
-| 2    | 智通    |
+| code | meaning        |
+| ---- | ----           |
+| 0    | 自定义(老数据) |
+| 1    | 精友           |
+| 2    | 智通           |
 
 ## vehicle
 
@@ -194,10 +194,8 @@
 | license-no             | string        | 车牌                   |
 | engine-no              | string        | 发动机号               |
 | register-date          | iso8601       | 车辆注册日期           |
-| average-mileage        | string        | 年平均行驶里程         |
 | model                  | vehicle-model | 车型                   |
 | is-transfer            | boolean       | 是否过户车             |
-| transfer_date            | iso8601       | 过户日期             |
 | receipt-no             | string        | 新车购置发票号         |
 | receipt-date           | iso8601       | 发票开票日期           |
 | last-insurance-company | string        | 最近一次投保的保险公司 |
@@ -302,13 +300,14 @@
 
 ## vehicle-model
 
-| key                         | type   | value                   | note                 |
-| ----                        | ----   | ----                    | ----                 |
-| vehicle-model-entities      | hash   | {code => vehicle-model} | 车型数据             |
-| vehicle-vin-codes           | hash   | {vin => [code]}         | vin 码映射           |
-| vehicle-model               | set    | vin                     | vin 码               |
-| zt-response-code:${license} | string | response code           | 智通响应码(三天有效) |
-| vehicles:${uid} | sorted set | [vid]           | uid 对应的 [vid] |
+| key                         | type       | value                   | note                 |
+| ----                        | ----       | ----                    | ----                 |
+| vehicle-model-entities      | hash       | {code => vehicle-model} | 车型数据             |
+| vehicle-vin-codes           | hash       | {vin => [code]}         | vin 码映射           |
+| vehicle-model               | set        | vin                     | vin 码               |
+| zt-response-code:${license} | string     | response code           | 智通响应码(三天有效) |
+| vehicles:${uid}             | sorted set | [vid]                   | uid 对应的 [vid]     |
+
 ## vehicle
 
 | key                 | type | value            | note          |
@@ -318,9 +317,9 @@
 
 ## person-entities
 
-| key                 | type | value            | note          |
-| ----                | ---- | ----             | ----          |
-| person-entities    | hash | {pid => people} | 人员信息        |
+| key             | type | value           | note     |
+| ----            | ---- | ----            | ----     |
+| person-entities | hash | {pid => people} | 人员信息 |
 
 # API
 
@@ -486,7 +485,6 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 | receipt_date           | iso8601 | 发票开具时间     |
 | average_mileage        | string  | 年平均行驶里程   |
 | is_transfer            | boolean | 是否过户         |
-| transfer_date            | boolean | 过户日期，不是过户车传 null       |
 | last_insurance_company | string  | 上次投保的公司   |
 | fuel_type              | string  | 燃油类型         |
 | vin                    | string  | vin码            |
@@ -505,13 +503,12 @@ let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let engine_no = "5555";
 let receipt_no = "123456";
 let receipt_date = new Date("2016-12-06 18:26:54");
-let average_mileage = "3万以上";
 let is_transfer = false;
 let last_insurance_company = null;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
 
-rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, average_mileage, is_transfer,last_insurance_company, fuel_type, vin)
+rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, is_transfer, last_insurance_company, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -567,9 +564,7 @@ rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, i
 | license_no             | string   | 车牌             |
 | engine_no              | string   | 发动机号         |
 | register_date          | iso8601  | 注册日期         |
-| average_mileage        | string   | 年平均行驶里程   |
 | is_transfer            | boolean  | 是否过户         |
-| transfer_date          | boolean | 过户日期，不是过户车传 null       |
 | last_insurance_company | string   | 上次投保的公司   |
 | insurance_due_date     | iso8601  | 保险到期时间     |
 | fuel_type              | string   | 燃油类型         |
@@ -590,7 +585,6 @@ let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let license_no = "a5678";
 let engine_no = "5555";
 let register_date = new Date("2016-12-06 18:26:54");
-let average_mileage = "3万以上";
 let is_transfer = false;
 let last_insurance_company = null;
 let insurance_due_date = new Date("2016-12-06 18:26:54");
@@ -598,7 +592,7 @@ let fuel_type = "汽油";
 let vin = "WBAZV4101BL456778";
 let accident_status = 1;
 
-rpc.call("vehicle", "setVehicleOnCard", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, license_no, engine_no, register_date, average_mileage, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
+rpc.call("vehicle", "createVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, license_no, engine_no, register_date, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -926,17 +920,17 @@ See [example](../data/vehicle/uploadDriverImages.json)
 
 #### request
 
-| name       | type    | note             |
-| ----       | ----    | ----             |
-| people | [person]  | 人员信息数组 |
+| name   | type     | note         |
+| ----   | ----     | ----         |
+| people | [person] | 人员信息数组 |
 
 #### response
 
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
-| data | [pid] | 结果内容 |
-| msg | string | 错误信息 |
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 结果编码 |
+| data | [pid]  | 结果内容 |
+| msg  | string | 错误信息 |
 
 | code | meaning          |
 | ---- | ----             |
@@ -954,17 +948,17 @@ See [example](../data/vehicle/uploadDriverImages.json)
 
 #### request
 
-| name       | type    | note             |
-| ----       | ----    | ----             |
-| pid |  string | 人员 ID |
+| name | type   | note    |
+| ---- | ----   | ----    |
+| pid  | string | 人员 ID |
 
 #### response
 
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 结果编码 |
 | data | person | 结果内容 |
-| msg | string | 错误信息 |
+| msg  | string | 错误信息 |
 
 | code | meaning          |
 | ---- | ----             |
