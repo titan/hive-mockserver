@@ -15,7 +15,7 @@
 - [Cache](#cache)
   - [vehicle-model](#vehicle-model-1)
   - [vehicle](#vehicle-1)
-  - [person-entities](#person-entities-1)
+  - [person-entities](#personentities-1)
 - [API](#api)
   - [fetchVehicleModelsByVin](#fetchvehiclemodelsbyvin)
       - [request](#request)
