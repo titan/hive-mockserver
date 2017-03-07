@@ -47,6 +47,9 @@
 
 # ChangeLog
 
+1. 2017-03-07
+  * 增加 sn 到 transaction 数据结构
+
 1. 2017-03-06
   * 增加 data 到 transactions 表
   * 增加 license 到 transactions 表
@@ -155,8 +158,11 @@ Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则�
 | title       | string  | 钱包日志内容             |
 | occurred-at | iso8601 | 发生时间                 |
 | amount      | float   | 金额(正为收入，负为支出) |
-| oid         | uuid    | order id                 |
-| maid        | uuid    | 保险 id                  |
+| oid?        | uuid    | order id                 |
+| maid?       | uuid    | 报险 id                  |
+| sn?         | string  | 流水号                   |
+
+SN 用于保证 5 和 8 的唯一性，避免重复记录。
 
 ### Transaction Title
 
