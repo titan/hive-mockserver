@@ -79,6 +79,7 @@
                     "price": 0
                 }
             ],
+            "real_value": 100000,
             "no": "000000000000000000000000000000",
             "ticket": null,
             "reason": null,
@@ -174,8 +175,7 @@
             },
             "promotion": 0,
             "paid_at": "2016-08-01T00:00:00.000Z",
-            "state_description": "已创建订单",
-            "vehicle_real_value": 100000
+            "state_description": "已创建订单"
         }
     ],
     "now": "2017-02-28T08:07:51.311Z",

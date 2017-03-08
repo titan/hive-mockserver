@@ -82,6 +82,9 @@
 
 # ChangeLog
 
+1. 2017-03-08
+  * 重命名 plan_orders 中的 vehicle_real_value 字段为 real_value
+
 1. 2017-03-06
   * 增加 oss_pdf 字段到 plan_orders 表
   * 重命名 RENAME_NO 事件类型为 UPDATE 事件类型
@@ -393,33 +396,33 @@
 
 ## plan_orders
 
-| field              | type         | null | default | index   | reference    |
-| ----               | ----         | ---- | ----    | ----    | ----         |
-| id                 | uuid         |      |         | primary |              |
-| no                 | char(32)     |      |         | ✓       |              |
-| uid                | uuid         |      |         |         | users        |
-| pgid               | uuid         | ✓    |         |         | plangroups   |
-| qid                | uuid         |      |         |         | quotations   |
-| vid                | uuid         |      |         |         | vehicles     |
-| state              | smallint     |      | 0       |         |              |
-| state_description  | string       | ✓    |         |         |              |
-| summary            | float        |      | 0.0     |         |              |
-| payment            | float        |      | 0.0     |         |              |
-| insured            | uuid         |      |         |         | person       |
-| promotion          | float        | ✓    |         |         |              |
-| service_ratio      | float        |      |         |         |              |
-| vehicle_real_value | real         |      | 0.0     |         |              |
-| ticket             | char(96)     | ✓    |         |         |              |
-| recommend          | varchar(32)  | ✓    |         |         |              |
-| reason             | varchar(128) | ✓    |         |         |              |
-| oss_pdf            | varchar(256) | ✓    |         |         |              |
-| expect_at          | timestamp    |      | now     |         |              |
-| start_at           | timestamp    | ✓    |         |         |              |
-| stop_at            | timestamp    | ✓    |         |         |              |
-| paid_at            | timestamp    | ✓    |         |         |              |
-| created_at         | timestamp    |      | now     |         |              |
-| updated_at         | timestamp    |      | now     |         |              |
-| evtid              | uuid         | ✓    |         |         | order_events |
+| field             | type          | null | default | index   | reference    |
+| ----              | ----          | ---- | ----    | ----    | ----         |
+| id                | uuid          |      |         | primary |              |
+| no                | char(32)      |      |         | ✓       |              |
+| uid               | uuid          |      |         |         | users        |
+| pgid              | uuid          | ✓    |         |         | plangroups   |
+| qid               | uuid          |      |         |         | quotations   |
+| vid               | uuid          |      |         |         | vehicles     |
+| state             | smallint      |      | 0       |         |              |
+| state_description | string        | ✓    |         |         |              |
+| summary           | numeric(10,2) |      | 0.0     |         |              |
+| payment           | numeric(10,2) |      | 0.0     |         |              |
+| insured           | uuid          |      |         |         | person       |
+| promotion         | numeric(10,2) | ✓    |         |         |              |
+| service_ratio     | numeric(10,2) |      |         |         |              |
+| real_value        | numeric(10,2) |      | 0.0     |         |              |
+| ticket            | char(96)      | ✓    |         |         |              |
+| recommend         | varchar(32)   | ✓    |         |         |              |
+| reason            | varchar(128)  | ✓    |         |         |              |
+| oss_pdf           | varchar(256)  | ✓    |         |         |              |
+| expect_at         | timestamp     |      | now     |         |              |
+| start_at          | timestamp     | ✓    |         |         |              |
+| stop_at           | timestamp     | ✓    |         |         |              |
+| paid_at           | timestamp     | ✓    |         |         |              |
+| created_at        | timestamp     |      | now     |         |              |
+| updated_at        | timestamp     |      | now     |         |              |
+| evtid             | uuid          | ✓    |         |         | order_events |
 
 ## plan_order_items
 
