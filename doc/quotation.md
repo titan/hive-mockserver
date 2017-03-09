@@ -41,6 +41,7 @@
 
 1. 2017-03-05
   * 增加 quotations 字段 insure 的说明
+  * 删除 quotation-items 的字段 pgid
 
 1. 2017-03-06
   * 重命名 quotation_items 表的 num 字段为 amount
@@ -200,7 +201,6 @@
 | id         | uuid          |      |         | primary |             |
 | qid        | uuid          |      |         |         | quotations  |
 | pid        | integer       |      |         |         | plans       |
-| pgid       | uuid          | ✓    |         |         | plan-groups |
 | price      | numeric(10,2) |      |         |         |             |
 | amount     | numeric(10,2) |      |         |         |             |
 | unit       | varchar(16)   |      |         |         |             |
