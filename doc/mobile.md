@@ -20,7 +20,7 @@
 
 1. 2017-03-09
   * 增加 orderApplyPdf　方法
-  * 增加 getUnpayedOrders 方法 
+  * 增加 getUnpaidOrders 方法 
 
 1. 2017-03-04
   * 删除 createQuotation 的 average_mileage
@@ -188,7 +188,7 @@ rpc.call("mobile", "getQuotation", qid)
 | data | boolean | true |
 
 
-## orderApplyPdf
+## saveOrderPdf
 
 存储保单数据
 
@@ -205,7 +205,7 @@ rpc.call("mobile", "getQuotation", qid)
 
 
 ```javascript
-rpc.call("mobile", "orderApplyPdf", mail, phone)
+rpc.call("mobile", "saveOrderPdf", mail, phone)
   .then(function (result) {
 
   }, function (error) {
@@ -223,7 +223,7 @@ rpc.call("mobile", "orderApplyPdf", mail, phone)
 
 
 
-## getUnpayedOrders
+## getUnpaidOrders
 
 获取用户未支付订单
 
@@ -238,7 +238,7 @@ rpc.call("mobile", "orderApplyPdf", mail, phone)
 
 
 ```javascript
-rpc.call("mobile", "getUnpayedOrders", qid)
+rpc.call("mobile", "getUnpaidOrders", qid)
   .then(function (result) {
 
   }, function (error) {
