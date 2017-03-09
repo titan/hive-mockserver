@@ -39,6 +39,9 @@
 
 # ChangeLog
 
+1. 2017-03-05
+  * 增加 quotations 字段 insure 的说明
+
 1. 2017-03-06
   * 重命名 quotation_items 表的 num 字段为 amount
 
