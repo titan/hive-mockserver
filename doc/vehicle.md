@@ -62,6 +62,11 @@
 
 # ChangeLog
 
+1. 2017-03-09
+  * 增加 vehicles 字段 vehicle_model_code 为 vehicle_code
+  * 删除 createNewVehicle 入参 average_mileage, last_insurance_company
+  * 增加 setInsuranceDueDate 方法
+
 1. 2017-03-07
   * 增加 getPerson 方法
   * 增加 缓存 person-entities
@@ -247,7 +252,7 @@
 | uid                    | uuid          |      |         |         | users     |
 | owner                  | uuid          |      |         |         | person    |
 | insured                | uuid          |      |         |         | person    |
-| vehicle_model_code     | char(32)      |      |         |         |           |
+| vehicle_code     | char(32)      |      |         |         |           |
 | license_no             | char(16)      | ✓    |         |         |           |
 | engine_no              | char(32)      | ✓    |         |         |           |
 | register_date          | timestamp     | ✓    |         |         |           |
@@ -483,9 +488,7 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 | engine_no              | string  | 发动机号         |
 | receipt_no             | string  | 发票编号         |
 | receipt_date           | iso8601 | 发票开具时间     |
-| average_mileage        | string  | 年平均行驶里程   |
 | is_transfer            | boolean | 是否过户         |
-| last_insurance_company | string  | 上次投保的公司   |
 | fuel_type              | string  | 燃油类型         |
 | vin                    | string  | vin码            |
 
@@ -504,11 +507,10 @@ let engine_no = "5555";
 let receipt_no = "123456";
 let receipt_date = new Date("2016-12-06 18:26:54");
 let is_transfer = false;
-let last_insurance_company = null;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
 
-rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, is_transfer, last_insurance_company, fuel_type, vin)
+rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, is_transfer, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -951,6 +953,37 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | pid  | string | 人员 ID |
+
+#### response
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| code | int    | 结果编码 |
+| data | person | 结果内容 |
+| msg  | string | 错误信息 |
+
+| code | meaning          |
+| ---- | ----             |
+| 200  | Success          |
+| 500  | 错误信息         |
+
+
+
+## setInsuranceDueDate
+
+获取人员信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| vid  | uuid | vehicle ID |
+| insurance_due_date  | iso8601 | insurance_due_date |
 
 #### response
 
