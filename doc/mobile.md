@@ -19,7 +19,7 @@
 # ChangeLog
 
 1. 2017-03-09
-  * 增加 orderApplyPdf　方法
+  * 增加 saveOrderPdf　方法
   * 增加 getUnpaidOrders 方法 
 
 1. 2017-03-04
