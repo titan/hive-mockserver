@@ -63,7 +63,7 @@
 # ChangeLog
 
 1. 2017-03-09
-  * 增加 vehicles 字段 vehicle_model_code 为 vehicle_code
+  * 修改 vehicles 字段 vehicle_model_code 为 vehicle_code
   * 删除 createNewVehicle 入参 average_mileage, last_insurance_company
   * 增加 setInsuranceDueDate 方法
 
