@@ -56,6 +56,9 @@
   - [getPerson](#getperson)
       - [request](#request-12)
       - [response](#response-12)
+  - [setInsuranceDueDate](#setinsuranceduedate)
+      - [request](#request-13)
+      - [response](#response-13)
 
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -66,6 +69,7 @@
   * 修改 vehicles 字段 vehicle_model_code 为 vehicle_code
   * 删除 createNewVehicle 入参 average_mileage, last_insurance_company
   * 增加 setInsuranceDueDate 方法
+  * 修改 vehicles 字段 last_insurance_company, insurance_due_date 为 可选
 
 1. 2017-03-07
   * 增加 getPerson 方法
@@ -259,8 +263,8 @@
 | is_transfer            | boolean       | ✓    |         |         |           |
 | receipt_no             | char(32)      | ✓    |         |         |           |
 | receipt_date           | timestamp     |      | 0.0     |         |           |
-| last_insurance_company | char(16)      |      |         |         |           |
-| insurance_due_date     | timestamp     |      | 0       |         |           |
+| last_insurance_company | char(16)      | ✓    |         |         |           |
+| insurance_due_date     | timestamp     | ✓    | 0       |         |           |
 | driving_frontal_view   | varchar(1024) | ✓    |         |         |           |
 | driving_rear_view      | varchar(1024) | ✓    |         |         |           |
 | recommend              | char(32)      | ✓    |         |         |           |
@@ -971,7 +975,7 @@ See [example](../data/vehicle/uploadDriverImages.json)
 
 ## setInsuranceDueDate
 
-获取人员信息
+设置保险到期日期
 
 | domain | accessable |
 | ----   | ----       |
