@@ -142,6 +142,13 @@
 | insure             | int              | 保险公司        |
 | auto               | int              | 是否是自动报价  |
 
+| insure | meaning        |
+| ---- | ----           |
+| 1    | 安盛太平 |
+| 2    | 人保           |
+| 3    | 永诚           |
+
+
 [![报价状态转换图](../img/quotation-states.png)](报价状态转换图)
 
 ## quotation-item

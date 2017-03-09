@@ -971,7 +971,7 @@ See [example](../data/vehicle/uploadDriverImages.json)
 
 ## setInsuranceDueDate
 
-获取人员信息
+设置保险到期日期
 
 | domain | accessable |
 | ----   | ----       |
