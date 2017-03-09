@@ -56,6 +56,9 @@
   - [getPerson](#getperson)
       - [request](#request-12)
       - [response](#response-12)
+  - [setInsuranceDueDate](#setinsuranceduedate)
+      - [request](#request-13)
+      - [response](#response-13)
 
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
