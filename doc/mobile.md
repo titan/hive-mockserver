@@ -18,6 +18,10 @@
 
 # ChangeLog
 
+1. 2017-03-09
+  * 增加 saveOrderPdf　方法
+  * 增加 getUnpaidOrders 方法 
+
 1. 2017-03-04
   * 删除 createQuotation 的 average_mileage
   * 删除 createQuotation 的 transfer_date
@@ -157,7 +161,6 @@
 
 | domain | accessable |
 | ----   | ----       |
-| admin  | ✓          |
 | mobile | ✓          |
 
 #### request
@@ -184,3 +187,69 @@ rpc.call("mobile", "getQuotation", qid)
 | code | int     | 200  |
 | data | boolean | true |
 
+
+## saveOrderPdf
+
+存储保单数据
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| mail | string | 邮箱    |
+| phone| string | 电话号码 |
+
+
+```javascript
+rpc.call("mobile", "saveOrderPdf", mail, phone)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+注: code 200时，保存成功
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+
+
+
+## getUnpaidOrders
+
+获取用户未支付订单
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+
+
+```javascript
+rpc.call("mobile", "getUnpaidOrders", qid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+注: code 200时，返回结果data是返回的未支付订单订单号组成的数组
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
