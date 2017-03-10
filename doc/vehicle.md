@@ -65,6 +65,9 @@
 
 # ChangeLog
 
+1. 2017-03-10
+  * 删除 person 表的 license_rear_view 字段
+
 1. 2017-03-09
   * 修改 vehicles 字段 vehicle_model_code 为 vehicle_code
   * 删除 createNewVehicle 入参 average_mileage, last_insurance_company
@@ -288,7 +291,6 @@
 | identity_frontal_view | varchar(1024) | ✓    |         |         |           |
 | identity_rear_view    | varchar(1024) | ✓    |         |         |           |
 | license_frontal_view  | varchar(1024) | ✓    |         |         |           |
-| license_rear_view     | varchar(1024) | ✓    |         |         |           |
 | verified              | boolean       |      | false   |         |           |
 | created_at            | timestamp     |      | now     |         |           |
 | updated_at            | timestamp     |      | now     |         |           |
