@@ -26,6 +26,9 @@
   - [setJoinedCount](#setjoinedcount)
       - [request](#request-4)
       - [response](#response-4)
+  - [getJoinedCount](#getjoinedcount)
+      - [request](#request-5)
+      - [response](#response-5)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
