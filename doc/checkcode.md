@@ -16,6 +16,13 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# ChangeLog
+
+1. 2017-03-10
+  * 增加 VerifyCheckcodeForOrder 方法 
+  * 增加 SendMessageForOrder 方法 
+
+
 # API
 
 ## SendMessage
@@ -24,11 +31,11 @@
 
 #### request
 
-| name        | type   | note                  |
-| ----        | ----   | ----                  |
-| openid      | string | 用户的 OPENID         |
-| phonenumber | string | 用户的 手机号         |
-| reqtxt      | string | 用户填写的 图形验证码 |
+| name        | type   | note               |
+| ----        | ----   | ----               |
+| openid      | string | 用户的 OPENID       |
+| phonenumber | string | 用户的 手机号        |
+| reqtxt      | string | 用户填写的 图形验证码  |
 
 Example:
 
@@ -43,10 +50,44 @@ rpc.call("checkcode", "SendMessage")
 
 #### response
 
-| name | type | note                                   |
-| ---- | ---- | ----                                   |
+| name | type | note                              |
+| ---- | ---- | ----                              |
 | 404  | code | 图形验证码由于某种原因储存到Redis失败  |
-| 405  | code | 图形验证码填写错误                     |
+| 405  | code | 图形验证码填写错误                   |
+| 406  | code | 用户提交的手机号为空（null或者“”）     |
+| 200  | code | 图形验证码填写验证成功，发送短信验证码 |
+
+
+
+## SendMessageForOrder
+
+发送手机验证码（包括对图形验证码的校验）
+
+#### request
+
+| name        | type   | note               |
+| ----        | ----   | ----               |
+| openid      | string | 用户的 OPENID       |
+| phonenumber | string | 用户的 手机号        |
+| reqtxt      | string | 用户填写的 图形验证码  |
+
+Example:
+
+```javascript
+rpc.call("checkcode", "SendMessage")
+  .then(function (data) {
+
+  }, function (err) {
+
+  });
+```
+
+#### response
+
+| name | type | note                              |
+| ---- | ---- | ----                              |
+| 404  | code | 图形验证码由于某种原因储存到Redis失败  |
+| 405  | code | 图形验证码填写错误                   |
 | 406  | code | 用户提交的手机号为空（null或者“”）     |
 | 200  | code | 图形验证码填写验证成功，发送短信验证码 |
 
@@ -78,6 +119,40 @@ rpc.call("checkcode", "VerifyCheckcode")
 | ---- | ---- | ----               |
 | 405  | code | 手机验证码填写错误 |
 | 200  | code | 手机验证码填写正确 |
+
+
+
+
+## VerifyCheckcodeForOrder
+
+检验手机验证码
+
+#### request
+
+| name         | type   | note                  |
+| ----         | ----   | ----                  |
+| phonenumber  | string | 用户的 手机号         |
+| reqcheckcode | string | 用户发送的 手机验证码 |
+
+Example:
+
+```javascript
+rpc.call("checkcode", "VerifyCheckcode")
+  .then(function (data) {
+
+  }, function (err) {
+
+  });
+```
+
+#### response
+
+| name | type | note               |
+| ---- | ---- | ----               |
+| 405  | code | 手机验证码填写错误 |
+| 200  | code | 手机验证码填写正确 |
+
+
 
 ## SendMessageViaTemplate
 
