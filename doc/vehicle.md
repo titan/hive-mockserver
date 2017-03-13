@@ -65,6 +65,9 @@
 
 # ChangeLog
 
+1. 2017-03-13
+  * 修改 uploadImages 的示例
+
 1. 2017-03-10
   * 删除 person 表的 license_rear_view 字段
 
@@ -856,7 +859,7 @@ var license_frontal_views = {
   "00000000-0000-0000-0000-000000000001": "http://www.xxxxxxxxx"
 };
 
-rpc.call("vehicle", "uploadDriverImages", vid, driving_frontal_view, driving_rear_view, identity_frontal_view, identity_rear_view, license_frontal_views)
+rpc.call("vehicle", "uploadImages", vid, driving_frontal_view, driving_rear_view, identity_frontal_view, identity_rear_view, license_frontal_views)
   .then(function (result) {
 
   }, function (error) {
@@ -989,7 +992,7 @@ See [example](../data/vehicle/uploadDriverImages.json)
 | name | type   | note    |
 | ---- | ----   | ----    |
 | vid  | uuid | vehicle ID |
-| insurance_due_date  | iso8601 | insurance_due_date |
+| insurance_due_date  | iso8601 | 保险到期时间 |
 
 #### response
 
