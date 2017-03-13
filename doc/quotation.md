@@ -39,6 +39,9 @@
 
 # ChangeLog
 
+1. 2017-03-13
+  * 增加 getAccurateQuotation 的入参 qid 
+
 1. 2017-03-05
   * 增加 quotations 字段 insure 的说明
   * 删除 quotation-items 的字段 pgid
@@ -526,6 +529,7 @@ data 例：
 | name        | type   | note         |
 | ----        | ----   | ----         |
 | vid         | string | vehicle id   |
+| qid         | string | quotation id   |
 | cityCode    | string | 行驶城市代码 |
 | insurerCode | string | 保险人代码   |
 
@@ -540,10 +544,11 @@ data 例：
 ```javascript
 
 let vid = "00000000-0000-0000-0000-000000000000";
+let qid = "00000000-0000-0000-0000-000000000000";
 let cityCode = "110100";
 let insurerCode = "APIC";
 
-rpc.call("quotation", "getAccurateQuotation", vid, cityCode, insurerCode)
+rpc.call("quotation", "getAccurateQuotation", vid, qid, cityCode, insurerCode)
   .then(function (result) {
 
   }, function (error) {
