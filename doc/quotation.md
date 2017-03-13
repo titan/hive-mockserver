@@ -40,7 +40,7 @@
 # ChangeLog
 
 1. 2017-03-13
-  * 增加 getAccurateQuotation 的入参 pid 
+  * 增加 getAccurateQuotation 的入参 qid 
 
 1. 2017-03-05
   * 增加 quotations 字段 insure 的说明
