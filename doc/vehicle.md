@@ -67,6 +67,7 @@
 
 1. 2017-03-13
   * 修改 uploadImages 的示例
+  * 删除 person 的 license-rear-view
 
 1. 2017-03-10
   * 删除 person 表的 license_rear_view 字段
@@ -238,7 +239,6 @@
 | identity-frontal-view | string  | 身份证正面照         |
 | identity-rear-view    | string  | 身份证背面照         |
 | license-frontal-view  | string  | 驾照正面照           |
-| license-rear-view     | string  | 驾照背面照           |
 | verified              | boolean | 是否通过权威机构认证 |
 
 # Database
