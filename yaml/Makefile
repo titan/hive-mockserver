@@ -125,7 +125,7 @@ $(GET_INSURED): $(GET_INSURED_DEPS)
 
 $(GET_PLAN_ORDER): $(GET_PLAN_ORDER_DEPS)
 	$(YAML2JSON) get-plan-order.yaml | aeson-pretty > $@
-	cp $@ ../data/order/getPlanOrderByQid.json
+	cp $@ ../data/order/getPlanOrderByQuotation.json
 
 $(GET_PLAN_ORDERS): $(GET_PLAN_ORDERS_DEPS)
 	$(YAML2JSON) get-plan-orders.yaml | aeson-pretty > $@

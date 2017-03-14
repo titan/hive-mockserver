@@ -71,7 +71,7 @@
   - [getPlanOrder](#getplanorder)
       - [request](#request-12)
       - [response](#response-12)
-  - [getPlanOrderByQid](#getplanorderbyqid)
+  - [getPlanOrderByQuotation](#getplanorderbyquotation)
       - [request](#request-13)
       - [response](#response-13)
   - [refresh](#refresh)
@@ -81,6 +81,12 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-14
+  * 增加 owner 到 plan-order
+  * 增加 owner 到 order-event
+  * 增加 owner 和 insured 到 createPlanOrder 的参数中
+  * 重命名 getPlanOrderByQid 为 getPlanOrderByQuotation
 
 1. 2017-03-08
   * 重命名 plan_orders 中的 vehicle_real_value 字段为 real_value
@@ -241,6 +247,8 @@
 | state             | int               | 订单状态编码      |
 | state-description | string            | 订单状态          |
 | vehicle           | vehicle           | 车辆              |
+| owner             | person            | 车主              |
+| insured           | person            | 投保人            |
 | items             | [plan-order-item] | 包含的 order-item |
 | service-ratio     | float             | 服务费率          |
 | summary           | float             | 订单总额          |
@@ -310,6 +318,7 @@
 | oss-pdf       | string   | oss pdf      |
 | no            | string   | 订单编号     |
 | insured       | uuid     | 投保人 ID    |
+| owner         | uuid     | 车主 ID      |
 | promotion     | float    | 促销金额     |
 | service_ratio | float    | 服务费率     |
 
@@ -332,19 +341,19 @@
 
 ### Event Type And Data Structure Matrix
 
-| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | promotion | service-ratio |
-| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----      | ----          |
-| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
-| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ✓         | ✓             |
-| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
-| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |           |               |
-| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
-| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
-| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
-| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |           |               |
-| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
-| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |           |               |
-| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?         | ?             |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          |
+| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     |✓         | ✓             |
+| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |          |               |
+| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
+| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
+| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
+| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |          |               |
+| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
+| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
+| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?        | ?             |
 
 ## SaleOrderEvent
 
@@ -408,6 +417,7 @@
 | state_description | string        | ✓    |         |         |              |
 | summary           | numeric(10,2) |      | 0.0     |         |              |
 | payment           | numeric(10,2) |      | 0.0     |         |              |
+| owner             | uuid          |      |         |         | person       |
 | insured           | uuid          |      |         |         | person       |
 | promotion         | numeric(10,2) | ✓    |         |         |              |
 | service_ratio     | numeric(10,2) |      |         |         |              |
@@ -545,24 +555,28 @@ index 是多选项的下标索引
 
 | name      | type        | note         |
 | ----      | ----        | ----         |
-| vid       | uuid        | 车辆 ID      |
-| plans     | {pid: type} | 计划 ID 列表 |
 | qid       | uuid        | 报价 ID      |
+| vid       | uuid        | 车辆 ID      |
+| owner     | uuid        | 车主 ID      |
+| insured   | uuid        | 投保人 ID    |
+| plans     | {pid: type} | 计划 ID 列表 |
 | expect_at | date        | 期望生效日期 |
 
 type 的定义见 quotation 模块
 
 ```javascript
-let vid = "00000000-0000-0000-0000-000000000000";
-let qid = "00000000-0000-0000-0000-000000000000";
-let plans = {
+const qid = "00000000-0000-0000-0000-000000000000";
+const vid = "00000000-0000-0000-0000-000000000000";
+const owner = "00000000-0000-0000-0000-000000000000";
+const insured = "00000000-0000-0000-0000-000000000000";
+const plans = {
   "1": 0,
   "2": 0,
   "4": 0
 };
-let expect_at = "2016-08-01T00:00:00.000+800Z";
+const expect_at = "2016-08-01T00:00:00.000+800Z";
 
-rpc.call("order", "createPlanOrder", vid, plans, qid, expect_at)
+rpc.call("order", "createPlanOrder", qid, vid, owner, insured, plans, expect_at)
   .then(function (result) {
 
   }, function (error) {
@@ -595,8 +609,8 @@ rpc.call("order", "createPlanOrder", vid, plans, qid, expect_at)
 
 #### request
 
-| name   | type   | note     |
-| ----   | ----   | ----     |
+| name   | type   | note      |
+| ----   | ----   | ----      |
 | uid    | uuid   | 用户ID    |
 | oid    | uuid   | 订单 ID   |
 | amount | number | 支付金额  |
@@ -988,7 +1002,7 @@ See [example](../data/order/getPlanOrdersByUser.json)
 
 See [example](../data/order/getPlanOrder.json)
 
-## getPlanOrderByQid
+## getPlanOrderByQuotation
 
 根据报价获取订单
 
@@ -1019,7 +1033,7 @@ See [example](../data/order/getPlanOrder.json)
 | 408  | 请求超时 |
 | 500  | 未知错误 |
 
-See [example](../data/order/getPlanOrderByQid.json)
+See [example](../data/order/getPlanOrderByQuotation.json)
 
 ## refresh
 

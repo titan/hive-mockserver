@@ -2,6 +2,8 @@ id: '00000000-0000-0000-0000-000000000000'
 no: '000000000000000000000000000000'
 type: 1
 vehicle: !include vehicle.yaml
+owner: !include owner.yaml
+insured: !include insured.yaml
 state: 1
 state_description: 已创建订单
 summary: 1000
