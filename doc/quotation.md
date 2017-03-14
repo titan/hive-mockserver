@@ -39,6 +39,9 @@
 
 # ChangeLog
 
+1. 2017-03-14
+  * 增加 uid 到 quotations 表
+
 1. 2017-03-13
   * 增加 getAccurateQuotation 的入参 qid 
 
@@ -149,11 +152,11 @@
 | insure             | int              | 保险公司        |
 | auto               | int              | 是否是自动报价  |
 
-| insure | meaning        |
-| ---- | ----           |
-| 1    | 安盛太平 |
-| 2    | 人保           |
-| 3    | 永诚           |
+| insure | meaning  |
+| ----   | ----     |
+| 1      | 安盛太平 |
+| 2      | 人保     |
+| 3      | 永诚     |
 
 
 [![报价状态转换图](../img/quotation-states.png)](报价状态转换图)
@@ -183,6 +186,7 @@
 | field              | type          | null | default | index   | reference |
 | ----               | ----          | ---- | ----    | ----    | ----      |
 | id                 | uuid          |      |         | primary |           |
+| uid                | uuid          |      |         |         | users     |
 | vid                | uuid          |      |         |         | vehicles  |
 | state              | int           |      | 0       |         |           |
 | created_at         | timestamp     |      | now     |         |           |
