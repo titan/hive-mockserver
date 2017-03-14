@@ -87,6 +87,8 @@
   * 增加 owner 到 order-event
   * 增加 owner 和 insured 到 createPlanOrder 的参数中
   * 重命名 getPlanOrderByQid 为 getPlanOrderByQuotation
+  * 增加 amount 保额到 plan-order-item
+  * 增加 amount 保额到 plan_order_items 表
 
 1. 2017-03-08
   * 重命名 plan_orders 中的 vehicle_real_value 字段为 real_value
@@ -264,11 +266,14 @@
 
 ## plan-order-item
 
-| name  | type   | note     |
-| ----  | ----   | ----     |
-| id    | uuid   | 主键     |
-| title | string | 计划名称 |
-| price | float  | 价格     |
+| name   | type   | note     |
+| ----   | ----   | ----     |
+| id     | uuid   | 主键     |
+| title  | string | 计划名称 |
+| price  | float  | 价格     |
+| amount | float  | 保额     |
+
+保额在下单时根据车辆实际价值计算得到
 
 ## order-event
 
@@ -436,14 +441,15 @@
 
 ## plan_order_items
 
-| field | type     | null | default | index   | reference   |
-| ----  | ----     | ---- | ----    | ----    | ----        |
-| id    | uuid     |      |         | primary |             |
-| oid   | uuid     |      |         |         | plan_orders |
-| pid   | uuid     |      |         |         | plans       |
-| title | string   |      |         |         |             |
-| price | float    |      | 0.0     |         |             |
-| index | smallint |      | 0       |         |             |
+| field  | type     | null | default | index   | reference   |
+| ----   | ----     | ---- | ----    | ----    | ----        |
+| id     | uuid     |      |         | primary |             |
+| oid    | uuid     |      |         |         | plan_orders |
+| pid    | uuid     |      |         |         | plans       |
+| title  | string   |      |         |         |             |
+| price  | float    |      | 0.0     |         |             |
+| amount | float    |      | 0.0     |         |             |
+| index  | smallint |      | 0       |         |             |
 
 index 是多选项的下标索引，“三块漆”，“六块漆”的下标
 
