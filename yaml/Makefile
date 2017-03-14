@@ -22,7 +22,7 @@ PLAN_GROUPS_DEPS = plan-groups.yaml
 GET_PLAN_GROUPS = ../data/plan/getPlanGroups.json
 GET_PLAN_GROUPS_DEPS = get-plan-groups.yaml $(PLAN_GROUPS_DEPS)
 
-VEHICLE_DEPS = drivers.yaml driver.yaml owner.yaml vehicle-model.yaml vehicle.yaml $(INSURED_DEPS)
+VEHICLE_DEPS = vehicle-model.yaml vehicle.yaml $(INSURED_DEPS)
 
 GET_VEHICLE = ../data/vehicle/getVehicle.json
 GET_VEHICLES_DEPS = get-vehicle.yaml $(VEHICLE_DEPS)
@@ -56,7 +56,7 @@ GROUP_ITEM_DEPS = group-item.yaml $(VEHICLE_DEPS)
 GROUP_TRIGGER = ../data/group/group-trigger.json
 GROUP_TRIGGER_DEPS = group-trigger.yaml $(GROUP_DEPS)
 
-PLAN_ORDER_DEPS = plan-order.yaml plan-order-items.yaml
+PLAN_ORDER_DEPS = plan-order.yaml plan-order-items.yaml drivers.yaml driver.yaml owner.yaml
 
 GET_PLAN_ORDER = ../data/order/getPlanOrder.json
 GET_PLAN_ORDER_DEPS = get-plan-order.yaml $(PLAN_ORDER_DEPS)

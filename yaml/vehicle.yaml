@@ -1,12 +1,8 @@
 receipt_date: 2016-08-01T00:00:00.000Z
 insurance_due_date: 2016-08-01T00:00:00.000Z
-drivers: !include drivers.yaml
 engine_no: xxxx
 is_transfer: true
-owner: !include owner.yaml
-insured: !include insured.yaml
 last_insurance_company: 中国人保
-model: !include vehicle-model.yaml
 receipt_no: xxx
 register_date: 2016-08-01T00:00:00.000Z
 license_no: 京A00000
@@ -14,3 +10,6 @@ id: '00000000-0000-0000-0000-000000000000'
 user_id: '00000000-0000-0000-0000-000000000000'
 accident_times: 0
 vin: LSVFA49J232037048
+ncd:
+    '2016-04-01:2017-03-31': 0.7
+    '2015-04-01:2016-03-31': 0.6

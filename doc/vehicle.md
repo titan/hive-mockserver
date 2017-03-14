@@ -6,16 +6,12 @@
 - [Data Structure](#data-structure)
   - [vehicle-model](#vehicle-model)
   - [vehicle](#vehicle)
-  - [person](#person)
 - [Database](#database)
   - [vehicle_models](#vehicle_models)
   - [vehicles](#vehicles)
-  - [person](#person-1)
-  - [drivers](#drivers)
 - [Cache](#cache)
   - [vehicle-model](#vehicle-model-1)
   - [vehicle](#vehicle-1)
-  - [person-entities](#person-entities)
 - [API](#api)
   - [fetchVehicleModelsByVin](#fetchvehiclemodelsbyvin)
       - [request](#request)
@@ -38,32 +34,28 @@
   - [getVehiclesByUser](#getvehiclesbyuser)
       - [request](#request-6)
       - [response](#response-6)
-  - [addDrivers](#adddrivers)
+  - [setInsuranceDueDate](#setinsuranceduedate)
       - [request](#request-7)
       - [response](#response-7)
-  - [delDrivers](#deldrivers)
-      - [request](#request-8)
-      - [response](#response-8)
-  - [uploadImages](#uploadimages)
-      - [request](#request-9)
-      - [response](#response-9)
-  - [setPersonVerified](#setpersonverified)
-      - [request](#request-10)
-      - [response](#response-10)
-  - [createPerson](#createperson)
-      - [request](#request-11)
-      - [response](#response-11)
-  - [getPerson](#getperson)
-      - [request](#request-12)
-      - [response](#response-12)
-  - [setInsuranceDueDate](#setinsuranceduedate)
-      - [request](#request-13)
-      - [response](#response-13)
-
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-14
+  * 删除 person 数据结构
+  * 删除 person 表
+  * 删除 drivers 表
+  * 删除 person-entities 缓存
+  * 删除 createPerson 接口
+  * 删除 getPerson 接口
+  * 删除 addDrivers 接口
+  * 删除 delDrivers 接口
+  * 删除 uploadImages 接口
+  * 删除 setPersonVerified 接口
+  * 删除 setInsuranceDueDate 接口
+  * 增加 ncd 到 vehicle 数据结构
+  * 增加 ncd 表
 
 1. 2017-03-13
   * 修改 uploadImages 的示例
@@ -92,7 +84,7 @@
   * 重构 vehicle_model 数据结构
 
 1. 2017-03-02
-  * 删除 createPerson 的入参　drivers
+  * 删除 createPerson 的入参 drivers
 
 1. 2017-03-01
   * 增加 drivers 表
@@ -198,48 +190,29 @@
 
 ## vehicle
 
-| name                   | type          | note                   |
-| ----                   | ----          | ----                   |
-| id                     | uuid          | 车ID                   |
-| vin                    | string        | VIN码                  |
-| user-id                | user          | 用户                   |
-| owner                  | person        | 车主                   |
-| recommend              | string        | 推荐人                 |
-| insured                | person        | 投保人                 |
-| drivers                | [person]      | 驾驶人                 |
-| license-no             | string        | 车牌                   |
-| engine-no              | string        | 发动机号               |
-| register-date          | iso8601       | 车辆注册日期           |
-| model                  | vehicle-model | 车型                   |
-| is-transfer            | boolean       | 是否过户车             |
-| receipt-no             | string        | 新车购置发票号         |
-| receipt-date           | iso8601       | 发票开票日期           |
-| last-insurance-company | string        | 最近一次投保的保险公司 |
-| insurance-due-date     | date          | 保险到期时间           |
-| driving-frontal-view   | string        | 行驶证正面照           |
-| driving-rear-view      | string        | 行驶证背面照           |
-| accident-status        | integer       | 最近出险状况           |
+| name                   | type                   | note                   |
+| ----                   | ----                   | ----                   |
+| id                     | uuid                   | 车ID                   |
+| vin                    | string                 | VIN码                  |
+| license-no             | string                 | 车牌                   |
+| engine-no              | string                 | 发动机号               |
+| register-date          | iso8601                | 车辆注册日期           |
+| model                  | vehicle-model          | 车型                   |
+| is-transfer            | boolean                | 是否过户车             |
+| receipt-no             | string                 | 新车购置发票号         |
+| receipt-date           | iso8601                | 发票开票日期           |
+| last-insurance-company | string                 | 最近一次投保的保险公司 |
+| insurance-due-date     | date                   | 保险到期时间           |
+| driving-frontal-view   | string                 | 行驶证正面照           |
+| driving-rear-view      | string                 | 行驶证背面照           |
+| accident-status        | integer                | 最近出险状况           |
+| ncd                    | {(Date,Date) => float} | 每保险周期的NCD系数    |
 
 | accident-status | note           |
 | ----            | ----           |
 | 1               | 去年未出险     |
 | 2               | 前年未出险     |
 | 3               | 近两年均未出险 |
-
-## person
-
-| name                  | type    | note                 |
-| ----                  | ----    | ----                 |
-| id                    | uuid    | personID             |
-| name                  | string  | 姓名                 |
-| identity-no           | string  | 身份证               |
-| phone                 | string  | 手机号               |
-| email                 | string  | 电子邮箱             |
-| address               | string  | 寄件地址             |
-| identity-frontal-view | string  | 身份证正面照         |
-| identity-rear-view    | string  | 身份证背面照         |
-| license-frontal-view  | string  | 驾照正面照           |
-| verified              | boolean | 是否通过权威机构认证 |
 
 # Database
 
@@ -259,10 +232,7 @@
 | field                  | type          | null | default | index   | reference |
 | ----                   | ----          | ---- | ----    | ----    | ----      |
 | id                     | uuid          |      |         | primary |           |
-| uid                    | uuid          |      |         |         | users     |
-| owner                  | uuid          |      |         |         | person    |
-| insured                | uuid          |      |         |         | person    |
-| vehicle_code     | char(32)      |      |         |         |           |
+| vehicle_code           | char(32)      |      |         |         |           |
 | license_no             | char(16)      | ✓    |         |         |           |
 | engine_no              | char(32)      | ✓    |         |         |           |
 | register_date          | timestamp     | ✓    |         |         |           |
@@ -273,7 +243,6 @@
 | insurance_due_date     | timestamp     | ✓    | 0       |         |           |
 | driving_frontal_view   | varchar(1024) | ✓    |         |         |           |
 | driving_rear_view      | varchar(1024) | ✓    |         |         |           |
-| recommend              | char(32)      | ✓    |         |         |           |
 | fuel_type              | char(16)      | ✓    |         |         |           |
 | accident_status        | smallint      | ✓    |         |         |           |
 | vin                    | char(17)      | ✓    |         |         |           |
@@ -281,34 +250,15 @@
 | updated_at             | timestamp     |      | now     |         |           |
 | deleted                | boolean       |      | false   |         |           |
 
-## person
+## ncd
 
-| field                 | type          | null | default | index   | reference |
-| ----                  | ----          | ---- | ----    | ----    | ----      |
-| id                    | uuid          |      |         | primary |           |
-| name                  | char(20)      |      |         |         |           |
-| identity_no           | char(18)      |      |         |         |           |
-| phone                 | char(16)      | ✓    |         |         |           |
-| email                 | varchar(128)  | ✓    |         |         |           |
-| address               | varchar(128)  | ✓    |         |         |           |
-| identity_frontal_view | varchar(1024) | ✓    |         |         |           |
-| identity_rear_view    | varchar(1024) | ✓    |         |         |           |
-| license_frontal_view  | varchar(1024) | ✓    |         |         |           |
-| verified              | boolean       |      | false   |         |           |
-| created_at            | timestamp     |      | now     |         |           |
-| updated_at            | timestamp     |      | now     |         |           |
-| deleted               | boolean       |      | false   |         |           |
-
-## drivers
-
-| field      | type      | null | default | index   | reference |
-| ----       | ----      | ---- | ----    | ----    | ----      |
-| id         | uuid      |      |         | primary |           |
-| pid        | uuid      |      |         |         | person    |
-| vid        | uuid      |      |         |         | vehicles  |
-| created_at | timestamp |      | now     |         |           |
-| updated_at | timestamp |      | now     |         |           |
-| deleted    | boolean   |      | false   |         |           |
+| field    | type          | null | default | index   | reference |
+| ----     | ----          | ---- | ----    | ----    | ----      |
+| id       | uuid          |      |         | primary |           |
+| vid      | uuid          |      |         |         | vehicles  |
+| start_at | timestamp     |      |         |         |           |
+| stop_at  | timestamp     |      |         |         |           |
+| ncd      | numeric(3, 3) |      |         |         |           |
 
 # Cache
 
@@ -328,12 +278,6 @@
 | ----                | ---- | ----             | ----          |
 | vehicle-entities    | hash | {vid => vehicle} | 车数据        |
 | vehicle-license-vin | hash | {license => vin} | 车牌号vin映射 |
-
-## person-entities
-
-| key             | type | value           | note     |
-| ----            | ---- | ----            | ----     |
-| person-entities | hash | {pid => people} | 人员信息 |
 
 # API
 
@@ -735,249 +679,6 @@ rpc.call("vehicle", "getVehiclesByUser")
 
 See [example](../data/vehicle/getVehicles.json)
 
-## addDrivers
-
-添加驾驶人信息, 注意，一辆车只能拥有 3 位驾驶人
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name    | type     | note       |
-| ----    | ----     | ----       |
-| vid     | uuid     | 车辆 ID    |
-| drivers | [person] | 驾驶人信息 |
-
-```javascript
-
-var drivers = [
-  {
-    name: "",
-    identity_no: "",
-  }
-];
-
-rpc.call("vehicle", "addDrivers", vid, drivers)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-## delDrivers
-
-删除驾驶人信息，注意，一辆车只能拥有 3 位驾驶人
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name    | type  | note           |
-| ----    | ----  | ----           |
-| vid     | uuid  | 车辆 ID        |
-| drivers | [did] | 驾驶人 ID 列表 |
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-## uploadImages
-
-上传证件照
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name                  | type         | note           |
-| ----                  | ----         | ----           |
-| vid                   | string       | vehicle id     |
-| driving-frontal-view  | string       | 行驶证正面照   |
-| driving-rear-view     | string       | 行驶证背面照   |
-| identity-frontal-view | string       | 身份证件正面照 |
-| identity-rear-view    | string       | 身份证件背面照 |
-| license-frontal-view  | {pid => url} | 驾照           |
-
-```javascript
-
-var vid = "00000000-0000-0000-0000-000000000000";
-var driving_frontal_view = "";
-var driving_rear_view = "";
-var identity_frontal_view = "";
-var identity_rear_view = "";
-var license_frontal_views = {
-  "00000000-0000-0000-0000-000000000000": "http://www.xxxxxxxxx",
-  "00000000-0000-0000-0000-000000000001": "http://www.xxxxxxxxx"
-};
-
-rpc.call("vehicle", "uploadImages", vid, driving_frontal_view, driving_rear_view, identity_frontal_view, identity_rear_view, license_frontal_views)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string | Success |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
-
-See [example](../data/vehicle/uploadDriverImages.json)
-
-## setPersonVerified
-
-设置人员认证标志
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name       | type    | note             |
-| ----       | ----    | ----             |
-| identiy-no | string  | 用户身份证件号码 |
-| flag       | boolean | 认证是否开通     |
-
-#### response
-
-| name     | type   | note     |
-| ----     | ----   | ----     |
-| code     | int    | 结果编码 |
-| data/msg | string | 结果内容 |
-
-| code | meaning          |
-| ---- | ----             |
-| 200  | Success          |
-| 404  | Person not found |
-| 500  | 错误信息         |
-
-## createPerson
-
-创建人员信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name   | type     | note         |
-| ----   | ----     | ----         |
-| people | [person] | 人员信息数组 |
-
-#### response
-
-| name | type   | note     |
-| ---- | ----   | ----     |
-| code | int    | 结果编码 |
-| data | [pid]  | 结果内容 |
-| msg  | string | 错误信息 |
-
-| code | meaning          |
-| ---- | ----             |
-| 200  | Success          |
-| 500  | 错误信息         |
-
-## getPerson
-
-获取人员信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| pid  | string | 人员 ID |
-
-#### response
-
-| name | type   | note     |
-| ---- | ----   | ----     |
-| code | int    | 结果编码 |
-| data | person | 结果内容 |
-| msg  | string | 错误信息 |
-
-| code | meaning          |
-| ---- | ----             |
-| 200  | Success          |
-| 500  | 错误信息         |
-
-
-
 ## setInsuranceDueDate
 
 设置保险到期日期
@@ -989,10 +690,10 @@ See [example](../data/vehicle/uploadDriverImages.json)
 
 #### request
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| vid  | uuid | vehicle ID |
-| insurance_due_date  | iso8601 | 保险到期时间 |
+| name               | type    | note         |
+| ----               | ----    | ----         |
+| vid                | uuid    | vehicle ID   |
+| insurance_due_date | iso8601 | 保险到期时间 |
 
 #### response
 
