@@ -4,6 +4,7 @@ type: 1
 vehicle: !include vehicle.yaml
 owner: !include owner.yaml
 insured: !include insured.yaml
+drivers: !include drivers.yaml
 state: 1
 state_description: 已创建订单
 summary: 1000

@@ -89,6 +89,7 @@
   * 重命名 getPlanOrderByQid 为 getPlanOrderByQuotation
   * 增加 amount 保额到 plan-order-item
   * 增加 amount 保额到 plan_order_items 表
+  * 增加 drivers 到 plan-order
 
 1. 2017-03-08
   * 重命名 plan_orders 中的 vehicle_real_value 字段为 real_value
@@ -251,6 +252,7 @@
 | vehicle           | vehicle           | 车辆              |
 | owner             | person            | 车主              |
 | insured           | person            | 投保人            |
+| drivers           | [person]          | 司机              |
 | items             | [plan-order-item] | 包含的 order-item |
 | service-ratio     | float             | 服务费率          |
 | summary           | float             | 订单总额          |
