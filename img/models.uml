@@ -18,12 +18,13 @@ package Plan {
   object Plan
 }
 package Vehicle {
-  object Person
+  object Vehicle
+  object VehicleModel
+}
+package Person {
   object Driver
   object Owner
   object Insured
-  object Vehicle
-  object VehicleModel
 }
 package MutualAid {
   object MutualAid
@@ -33,8 +34,6 @@ package Wallet {
   object Wallet
   object Transaction
   object Account
-  object Cashout
-  object CashoutEvent
 }
 package Order {
   object PlanOrder {
@@ -92,19 +91,17 @@ SaleOrder "1" --> "*" SaleOrderItem
 
 User "1" --> "*" MutualAid
 
-Person <|-- Driver
-Person <|-- Owner
-Person <|-- Insured
 Vehicle --> VehicleModel
-Vehicle "1" --> "*" Driver
-Vehicle --> Owner
-Vehicle --> Insured
+Vehicle "1" -> "*" Driver
+Vehicle -> Owner
+Vehicle -> Insured
 
 Wallet "1" --> "*" Account
 Account "1" --> "*" Transaction
-Wallet "1" -> "*" Cashout
 
 PlanOrder - Account
+PlanOrder -> Owner
+PlanOrder -> Insured
 
 MutualAid -> Driver
 MutualAid -> Vehicle
@@ -118,7 +115,5 @@ QuotationItem "1" --> "*" QuotationItemPrice
 Quotation -> Vehicle
 
 Underwrite -> PlanOrder
-
-Cashout "1" -- "*" CashoutEvent
 
 @enduml
