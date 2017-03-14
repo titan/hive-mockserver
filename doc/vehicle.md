@@ -56,6 +56,8 @@
   * 删除 setInsuranceDueDate 接口
   * 增加 ncd 到 vehicle 数据结构
   * 增加 ncd 表
+  * 删除 vehicles 表中的 owner 字段
+  * 删除 vehicles 表中的 insured 字段
 
 1. 2017-03-13
   * 修改 uploadImages 的示例
@@ -95,7 +97,7 @@
 
 1. 2017-02-27
   * 修改 createPerson 的入参 drivers 为 people
-  * 删除　createVehicle 示例的入参 ownerphone
+  * 删除createVehicle 示例的入参 ownerphone
 
 1. 2017-02-25
   * 删除 createVehicle 和 createNewVehicle　入参中的 owner_phone
