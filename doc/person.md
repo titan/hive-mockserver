@@ -45,6 +45,7 @@
   * 增加 delDrivers 接口
   * 增加 uploadImages 接口
   * 增加 setPersonVerified 接口
+  * 修改 delDrivers 的入参 vid 为 oid
 
 # Data Structure
 
@@ -228,7 +229,7 @@ rpc.call("person", "addDrivers", oid, drivers)
 
 | name    | type  | note           |
 | ----    | ----  | ----           |
-| vid     | uuid  | 车辆 ID        |
+| oid     | uuid  | 订单 ID        |
 | drivers | [did] | 驾驶人 ID 列表 |
 
 #### response
