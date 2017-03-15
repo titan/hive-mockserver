@@ -16,7 +16,7 @@
   - [getPerson](#getperson)
       - [request](#request-1)
       - [response](#response-1)
-  - [uploadImages](#uploadimages)
+  - [updateViews](#updateviews)
       - [request](#request-2)
       - [response](#response-2)
   - [setPersonVerified](#setpersonverified)
@@ -31,6 +31,8 @@
   * 删除 addDrivers 接口
   * 删除 delDrivers 接口
   * 删除 drivers 表
+  * 删除 uploadImages 接口
+  * 增加 updateViews 接口
 
 1. 2017-03-14
   * 增加 person 数据结构
@@ -148,7 +150,7 @@
 | 200  | Success  |
 | 500  | 错误信息 |
 
-## uploadImages
+## updateViews
 
 上传证件照
 
@@ -159,28 +161,21 @@
 
 #### request
 
-| name                  | type         | note           |
-| ----                  | ----         | ----           |
-| vid                   | string       | vehicle id     |
-| driving-frontal-view  | string       | 行驶证正面照   |
-| driving-rear-view     | string       | 行驶证背面照   |
-| identity-frontal-view | string       | 身份证件正面照 |
-| identity-rear-view    | string       | 身份证件背面照 |
-| license-frontal-view  | {pid => url} | 驾照           |
+| name                  | type   | note           |
+| ----                  | ----   | ----           |
+| pid                   | string | person id      |
+| identity-frontal-view | string | 身份证件正面照 |
+| identity-rear-view    | string | 身份证件背面照 |
+| license-frontal-view  | string | 驾照           |
 
 ```javascript
 
-var vid = "00000000-0000-0000-0000-000000000000";
-var driving_frontal_view = "";
-var driving_rear_view = "";
+var pid = "00000000-0000-0000-0000-000000000000";
 var identity_frontal_view = "";
 var identity_rear_view = "";
-var license_frontal_views = {
-  "00000000-0000-0000-0000-000000000000": "http://www.xxxxxxxxx",
-  "00000000-0000-0000-0000-000000000001": "http://www.xxxxxxxxx"
-};
+var license_frontal_view = "http://www.xxxxxxxxx";
 
-rpc.call("vehicle", "uploadImages", vid, driving_frontal_view, driving_rear_view, identity_frontal_view, identity_rear_view, license_frontal_views)
+rpc.call("person", "updateViews", pid, identity_frontal_view, identity_rear_view, license_frontal_view)
   .then(function (result) {
 
   }, function (error) {
