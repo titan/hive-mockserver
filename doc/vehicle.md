@@ -43,6 +43,12 @@
 
 # ChangeLog
 
+1. 2017-03-15
+  * 删除 createNewVehicle 入参 owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend
+  * 删除 createVehicle 入参 owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend
+  * 删除 getVehiclesByUser 接口
+  * 增加 updateDrivingView 方法
+
 1. 2017-03-14
   * 删除 person 数据结构
   * 删除 person 表
@@ -434,12 +440,6 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 
 | name                   | type    | note             |
 | ----                   | ----    | ----             |
-| owner_name             | string  | 车主姓名         |
-| owner_identity_no      | string  | 车主身份证编号   |
-| insured_name           | string  | 投保人姓名       |
-| insured_identity_no    | string  | 投保人身份证编号 |
-| insured_phone          | string  | 投保人电话号码   |
-| recommend              | string  | 推荐人           |
 | vehicle_code           | string  | 车型代码         |
 | engine_no              | string  | 发动机号         |
 | receipt_no             | string  | 发票编号         |
@@ -452,12 +452,6 @@ Example:
 
 ```javascript
 
-let owner_name = "aaa";
-let owner_identity_no = "440308197406255611";
-let insured_name = "aaa";
-let insured_identity_no = "440308197406255611";
-let insured_phone = "18713575980";
-let recommend = null;
 let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let engine_no = "5555";
 let receipt_no = "123456";
@@ -466,7 +460,7 @@ let is_transfer = false;
 let fuel_type = "汽油"
 let vin = "WBAZV4101BL456778";
 
-rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, engine_no, receipt_no, receipt_date, is_transfer, fuel_type, vin)
+rpc.call("vehicle", "setVehicle", vehicle_code, engine_no, receipt_no, receipt_date, is_transfer, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -512,12 +506,6 @@ rpc.call("vehicle", "setVehicle", owner_name, owner_identity_no, insured_name, i
 
 | name                   | type     | note             |
 | ----                   | ----     | ----             |
-| owner_name             | string   | 车主姓名         |
-| owner_identity_no      | string   | 车主身份证编号   |
-| insured_name           | string   | 投保人姓名       |
-| insured_identity_no    | string   | 投保人身份证编号 |
-| insured_phone          | string   | 投保人电话号码   |
-| recommend              | string   | 推荐人           |
 | vehicle_code           | string   | 车型代码         |
 | license_no             | string   | 车牌             |
 | engine_no              | string   | 发动机号         |
@@ -533,12 +521,6 @@ Example:
 
 ```javascript
 
-let owner_name = "aaa";
-let owner_identity_no = "440308197406255611";
-let insured_name = "aaa";
-let insured_identity_no = "440308197406255611";
-let insured_phone = "18713575980";
-let recommend = null;
 let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
 let license_no = "a5678";
 let engine_no = "5555";
@@ -550,7 +532,7 @@ let fuel_type = "汽油";
 let vin = "WBAZV4101BL456778";
 let accident_status = 1;
 
-rpc.call("vehicle", "createVehicle", owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend, vehicle_code, license_no, engine_no, register_date, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
+rpc.call("vehicle", "createVehicle", vehicle_code, license_no, engine_no, register_date, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -636,22 +618,31 @@ rpc.call("vehicle", "getVehicle", vid)
 
 See [example](../data/vehicle/getVehicle.json)
 
-## getVehiclesByUser
+## updateDrivingView
 
-获取用户所有车信息
+修改行驶证信息
 
 | domain | accessable |
 | ----   | ----       |
-| admin  |            |
+| admin  | ✓          |
 | mobile | ✓          |
 
 #### request
 
+| name | type | note       |
+| ---- | ---- | ----       |
+| vid  | uuid | vehicle id |
+| driving_frontal_view  | string | 行驶证正面照 url |
+| driving_rear_view  | string | 行驶证背面照 url |
 Example:
 
 ```javascript
 
-rpc.call("vehicle", "getVehiclesByUser")
+let vid = "00000000-0000-0000-0000-000000000000";
+let driving_frontal_view = "";
+let driving_rear_view = "";
+
+rpc.call("vehicle", "updateDrivingView", vid, driving_frontal_view, driving_rear_view)
   .then(function (result) {
 
   }, function (error) {
@@ -659,6 +650,7 @@ rpc.call("vehicle", "getVehiclesByUser")
   });
 
 ```
+
 #### response
 
 成功：
@@ -666,7 +658,7 @@ rpc.call("vehicle", "getVehiclesByUser")
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | string | Success |
+| data | string   |   success     |
 
 失败：
 
@@ -679,8 +671,6 @@ rpc.call("vehicle", "getVehiclesByUser")
 | ---- | ----     |
 | 408  | 请求超时 |
 | 500  | 未知错误 |
-
-See [example](../data/vehicle/getVehicles.json)
 
 ## setInsuranceDueDate
 
