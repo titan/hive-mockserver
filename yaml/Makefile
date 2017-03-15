@@ -1,6 +1,6 @@
 YAML2JSON = /usr/local/bin/yaml2json-include
 
-QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-512.yaml quotation-item-1024.yaml quotation-item-2048.yaml quotation-item-4096.yaml quotation-item-33554432.yaml quotation-item-67108864.yaml
+QUOTATION_DEPS = quotation.yaml $(VEHICLE_DEPS) quotation-item-1.yaml quotation-item-2.yaml quotation-item-4.yaml quotation-item-512.yaml quotation-item-1024.yaml quotation-item-2048.yaml quotation-item-4096.yaml quotation-item-33554432.yaml quotation-item-67108864.yaml owner.yaml insured.yaml
 MOBILE_QUOTATION_DEPS = mobile-quotation.yaml $(VEHICLE_DEPS)
 
 GET_QUOTATION = ../data/quotation/getQuotation.json
@@ -56,7 +56,7 @@ GROUP_ITEM_DEPS = group-item.yaml $(VEHICLE_DEPS)
 GROUP_TRIGGER = ../data/group/group-trigger.json
 GROUP_TRIGGER_DEPS = group-trigger.yaml $(GROUP_DEPS)
 
-PLAN_ORDER_DEPS = plan-order.yaml plan-order-items.yaml drivers.yaml driver.yaml owner.yaml
+PLAN_ORDER_DEPS = plan-order.yaml plan-order-items.yaml drivers.yaml driver.yaml owner.yaml insured.yaml
 
 GET_PLAN_ORDER = ../data/order/getPlanOrder.json
 GET_PLAN_ORDER_DEPS = get-plan-order.yaml $(PLAN_ORDER_DEPS)

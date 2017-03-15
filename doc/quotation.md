@@ -39,6 +39,10 @@
 
 # ChangeLog
 
+1. 2017-03-15
+  * 增加 owner 到 quotations 表
+  * 增加 insured 到 quotations 表
+
 1. 2017-03-14
   * 增加 uid 到 quotations 表
 
@@ -142,6 +146,8 @@
 | state              | int              | 报价状态        |
 | items              | [quotation-item] | 对应计划集合    |
 | vehicle            | vehicle          | 对应的车辆      |
+| owner              | person           | 对应的车主      |
+| insured            | person           | 对应的投保人    |
 | outside_quotation1 | float            | 第三方报价1     |
 | outside_quotation2 | float            | 第三方报价2     |
 | screenshot1        | string           | 第三方报价截图1 |

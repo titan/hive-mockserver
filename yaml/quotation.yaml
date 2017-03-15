@@ -1,5 +1,7 @@
 id: 00000000-0000-0000-0000-000000000000
 vehicle: !include vehicle.yaml
+owner: !include owner.yaml
+insured: !include insured.yaml
 state: 1
 items:
   - !include quotation-item-1.yaml
