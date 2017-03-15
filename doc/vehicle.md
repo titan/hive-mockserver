@@ -617,7 +617,7 @@ See [example](../data/vehicle/getVehicle.json)
 
 ## updateDrivingView
 
-获取某辆车信息
+修改行驶证信息
 
 | domain | accessable |
 | ----   | ----       |
@@ -655,7 +655,7 @@ rpc.call("vehicle", "updateDrivingView", vid, driving_frontal_view, driving_rear
 | name | type   | note    |
 | ---- | ----   | ----    |
 | code | int    | 200     |
-| data | json   |         |
+| data | string   |   success     |
 
 失败：
 
