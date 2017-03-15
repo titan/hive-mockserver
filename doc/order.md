@@ -74,13 +74,23 @@
   - [getPlanOrderByQuotation](#getplanorderbyquotation)
       - [request](#request-13)
       - [response](#response-13)
-  - [refresh](#refresh)
+  - [addDrivers](#adddrivers)
       - [request](#request-14)
       - [response](#response-14)
+  - [delDrivers](#deldrivers)
+      - [request](#request-15)
+      - [response](#response-15)
+  - [refresh](#refresh)
+      - [request](#request-16)
+      - [response](#response-16)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-15
+  * 增加 addDrivers 接口
+  * 增加 delDrivers 接口
 
 1. 2017-03-14
   * 增加 owner 到 plan-order
@@ -1043,6 +1053,98 @@ See [example](../data/order/getPlanOrder.json)
 
 See [example](../data/order/getPlanOrderByQuotation.json)
 
+## addDrivers
+
+添加驾驶人信息, 注意，一辆车只能拥有 3 位驾驶人
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name    | type     | note       |
+| ----    | ----     | ----       |
+| oid     | uuid     | 订单 ID    |
+| drivers | [person] | 驾驶人信息 |
+
+```javascript
+
+var drivers = [
+  {
+    name: "",
+    identity_no: "",
+  }
+];
+
+rpc.call("person", "addDrivers", oid, drivers)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+## delDrivers
+
+删除驾驶人信息，注意，一辆车只能拥有 3 位驾驶人
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name    | type  | note           |
+| ----    | ----  | ----           |
+| oid     | uuid  | 订单 ID        |
+| drivers | [did] | 驾驶人 ID 列表 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
 ## refresh
 
 刷新订单
@@ -1087,3 +1189,5 @@ rpc.call("order", "refresh", type, uid, oid)
 | code | meanning |
 | ---- | ----     |
 | 408  | 请求超时 |
+
+
