@@ -43,6 +43,7 @@
   * 增加 owner 到 quotations 表
   * 增加 insured 到 quotations 表
   * 增加 getReferenceQuotation 入参 owner, insured
+  * 增加 createQuotation 入参 owner, insured
   * 增加 getAccurateQuotation 入参 owner, insured, bi_begin_date, ci_bigin_date
   * 修改 getReferenceQuotation 的出参
   
@@ -268,6 +269,8 @@
 | name | type | note         |
 | ---- | ---- | ----         |
 | vid  | uuid | 车辆 ID      |
+| owner| uuid | 车主 ID   |
+| insured| uuid | 投保人ID   |
 | qid? | uuid | quotation ID |
 
 ```javascript
