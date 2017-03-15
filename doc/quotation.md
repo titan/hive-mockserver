@@ -146,6 +146,7 @@
 | name               | type             | note            |
 | ----               | ----             | ----            |
 | id                 | uuid             | 主键            |
+| uid                | uuid             | user ID         |
 | state              | int              | 报价状态        |
 | items              | [quotation-item] | 对应计划集合    |
 | vehicle            | vehicle          | 对应的车辆      |
