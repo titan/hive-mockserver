@@ -46,7 +46,7 @@
   * 删除 createNewVehicle 入参 owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend
   * 删除 createVehicle 入参 owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend
   * 删除 getVehiclesByUser 接口
-  * 增加 updateVehicle 方法
+  * 增加 updateDrivingView 方法
 
 1. 2017-03-14
   * 删除 person 数据结构
@@ -615,7 +615,7 @@ rpc.call("vehicle", "getVehicle", vid)
 
 See [example](../data/vehicle/getVehicle.json)
 
-## updateVehicle
+## updateDrivingView
 
 获取某辆车信息
 
@@ -639,7 +639,7 @@ let vid = "00000000-0000-0000-0000-000000000000";
 let driving_frontal_view = "";
 let driving_rear_view = "";
 
-rpc.call("vehicle", "updateVehicle", vid, driving_frontal_view, driving_rear_view)
+rpc.call("vehicle", "updateDrivingView", vid, driving_frontal_view, driving_rear_view)
   .then(function (result) {
 
   }, function (error) {
