@@ -197,13 +197,15 @@
 | id                 | uuid          |      |         | primary |           |
 | uid                | uuid          |      |         |         | users     |
 | vid                | uuid          |      |         |         | vehicles  |
+| owner              | uuid          |      |         |         | person    |
+| insured            | uuid          |      |         |         | person    |
 | state              | int           |      | 0       |         |           |
 | created_at         | timestamp     |      | now     |         |           |
 | updated_at         | timestamp     |      | now     |         |           |
 | outside_quotation1 | numeric(10,2) |      | 0.0     |         |           |
 | outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
-| screenshot1        | varchar(1024) | ✓    |         |         |           |
-| screenshot2        | varchar(1024) | ✓    |         |         |           |
+| screenshot1        | varchar(1024) | ✓      |         |         |           |
+| screenshot2        | varchar(1024) | ✓      |         |         |           |
 | price              | real          |      | 0.0     |         |           |
 | real_value         | real          |      | 0.0     |         |           |
 | promotion          | real          |      | 0.0     |         |           |
