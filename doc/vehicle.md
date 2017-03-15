@@ -32,12 +32,9 @@
   - [getVehicle](#getvehicle)
       - [request](#request-5)
       - [response](#response-5)
-  - [getVehiclesByUser](#getvehiclesbyuser)
+  - [setInsuranceDueDate](#setinsuranceduedate)
       - [request](#request-6)
       - [response](#response-6)
-  - [setInsuranceDueDate](#setinsuranceduedate)
-      - [request](#request-7)
-      - [response](#response-7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -48,6 +45,11 @@
   * 删除 createVehicle 入参 owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend
   * 删除 getVehiclesByUser 接口
   * 增加 updateDrivingView 方法
+  * 删除 vehicle 数据结构的 driving-frontal-view 字段
+  * 删除 vehicle 数据结构的 driving-rear-view 字段
+  * 删除 vehicles 表的 driving_frontal_view 字段
+  * 删除 vehicles 表的 driving_rear_view 字段
+  * 删除 updateDrivingView 方法
 
 1. 2017-03-14
   * 删除 person 数据结构
@@ -212,8 +214,6 @@
 | receipt-date           | iso8601                | 发票开票日期           |
 | last-insurance-company | string                 | 最近一次投保的保险公司 |
 | insurance-due-date     | date                   | 保险到期时间           |
-| driving-frontal-view   | string                 | 行驶证正面照           |
-| driving-rear-view      | string                 | 行驶证背面照           |
 | accident-status        | integer                | 最近出险状况           |
 | ncd                    | {(Date,Date) => float} | 每保险周期的NCD系数    |
 
@@ -250,8 +250,6 @@
 | receipt_date           | timestamp     |      | 0.0     |         |           |
 | last_insurance_company | char(16)      | ✓    |         |         |           |
 | insurance_due_date     | timestamp     | ✓    | 0       |         |           |
-| driving_frontal_view   | varchar(1024) | ✓    |         |         |           |
-| driving_rear_view      | varchar(1024) | ✓    |         |         |           |
 | fuel_type              | char(16)      | ✓    |         |         |           |
 | accident_status        | smallint      | ✓    |         |         |           |
 | vin                    | char(17)      | ✓    |         |         |           |
@@ -617,60 +615,6 @@ rpc.call("vehicle", "getVehicle", vid)
 | 500  | 未知错误 |
 
 See [example](../data/vehicle/getVehicle.json)
-
-## updateDrivingView
-
-修改行驶证信息
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note       |
-| ---- | ---- | ----       |
-| vid  | uuid | vehicle id |
-| driving_frontal_view  | string | 行驶证正面照 url |
-| driving_rear_view  | string | 行驶证背面照 url |
-Example:
-
-```javascript
-
-let vid = "00000000-0000-0000-0000-000000000000";
-let driving_frontal_view = "";
-let driving_rear_view = "";
-
-rpc.call("vehicle", "updateDrivingView", vid, driving_frontal_view, driving_rear_view)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | string   |   success     |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-| 500  | 未知错误 |
 
 ## setInsuranceDueDate
 

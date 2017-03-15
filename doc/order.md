@@ -81,9 +81,12 @@
   - [delDrivers](#deldrivers)
       - [request](#request-15)
       - [response](#response-15)
-  - [refresh](#refresh)
+  - [updateDrivingView](#updatedrivingview)
       - [request](#request-16)
       - [response](#response-16)
+  - [refresh](#refresh)
+      - [request](#request-17)
+      - [response](#response-17)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -93,6 +96,13 @@
   * 增加 addDrivers 接口
   * 增加 delDrivers 接口
   * 增加 drivers 表
+  * 增加 driving-front-view 到 plan-order
+  * 增加 driving-rear-view 到 plan-order
+  * 增加 driving_front_view 到 plan_orders
+  * 增加 driving_rear_view 到 plan_orders
+  * 增加 driving-front-view 到 order-event
+  * 增加 driving-rear-view 到 order-event
+  * 增加 updateDrivingView 接口
 
 1. 2017-03-14
   * 增加 owner 到 plan-order
@@ -255,28 +265,32 @@
 
 ## plan-order
 
-| name              | type              | note              |
-| ----              | ----              | ----              |
-| id                | uuid              | 主键              |
-| no                | string            | 订单编号          |
-| state             | int               | 订单状态编码      |
-| state-description | string            | 订单状态          |
-| vehicle           | vehicle           | 车辆              |
-| owner             | person            | 车主              |
-| insured           | person            | 投保人            |
-| drivers           | [person]          | 司机              |
-| items             | [plan-order-item] | 包含的 order-item |
-| service-ratio     | float             | 服务费率          |
-| summary           | float             | 订单总额          |
-| payment           | float             | 订单实付          |
-| expect-at         | date              | 预计生效日期      |
-| start-at          | date              | 合约生效时间      |
-| stop-at           | date              | 合约失效时间      |
-| real-value        | float             | 车辆真实价格      |
-| paid-at           | date              | 订单支付时间      |
-| recommend         | string            | 推荐人            |
-| ticket            | string            | 扫码 ticket       |
-| reason            | string            | 拒绝原因          |
+| name                 | type              | note              |
+| ----                 | ----              | ----              |
+| id                   | uuid              | 主键              |
+| no                   | string            | 订单编号          |
+| state                | int               | 订单状态编码      |
+| state-description    | string            | 订单状态          |
+| vehicle              | vehicle           | 车辆              |
+| owner                | person            | 车主              |
+| insured              | person            | 投保人            |
+| drivers              | [person]          | 司机              |
+| items                | [plan-order-item] | 包含的 order-item |
+| service-ratio        | float             | 服务费率          |
+| summary              | float             | 订单总额          |
+| payment              | float             | 订单实付          |
+| expect-at            | date              | 预计生效日期      |
+| start-at             | date              | 合约生效时间      |
+| stop-at              | date              | 合约失效时间      |
+| real-value           | float             | 车辆真实价格      |
+| paid-at              | date              | 订单支付时间      |
+| recommend            | string            | 推荐人            |
+| ticket               | string            | 扫码 ticket       |
+| reason               | string            | 拒绝原因          |
+| driving-frontal-view | string            | 行驶证正面照      |
+| driving-rear-view    | string            | 行驶证背面照      |
+
+为了在过户后不泄漏隐私信息，行驶证照片从 vehicle 中迁移到 order 中。
 
 ## plan-order-item
 
@@ -315,31 +329,33 @@
 
 ### Event Data Structure
 
-| name          | type     | note         |
-| ----          | ----     | ----         |
-| id            | uuid     | event id     |
-| type          | smallint | event type   |
-| opid          | uuid     | operator id  |
-| oid           | uuid     | order id     |
-| order-type    | smallint | order type   |
-| occurred-at   | iso8601  | 事件发生时间 |
-| summary       | float    | 总金额       |
-| payment       | float    | 应付金额     |
-| qid           | uuid     | quotation id |
-| vid           | uuid     | vehicle id   |
-| expect-at     | iso8601  | 期盼生效时间 |
-| start-at      | iso8601  | 生效时间     |
-| stop-at       | iso8601  | 失效时间     |
-| real-value    | float    | 车辆实际价值 |
-| recommend     | string   | 推荐人       |
-| ticket        | string   | 推荐码       |
-| reason        | string   | 拒绝理由     |
-| oss-pdf       | string   | oss pdf      |
-| no            | string   | 订单编号     |
-| insured       | uuid     | 投保人 ID    |
-| owner         | uuid     | 车主 ID      |
-| promotion     | float    | 促销金额     |
-| service_ratio | float    | 服务费率     |
+| name                 | type     | note         |
+| ----                 | ----     | ----         |
+| id                   | uuid     | event id     |
+| type                 | smallint | event type   |
+| opid                 | uuid     | operator id  |
+| oid                  | uuid     | order id     |
+| order-type           | smallint | order type   |
+| occurred-at          | iso8601  | 事件发生时间 |
+| summary              | float    | 总金额       |
+| payment              | float    | 应付金额     |
+| qid                  | uuid     | quotation id |
+| vid                  | uuid     | vehicle id   |
+| expect-at            | iso8601  | 期盼生效时间 |
+| start-at             | iso8601  | 生效时间     |
+| stop-at              | iso8601  | 失效时间     |
+| real-value           | float    | 车辆实际价值 |
+| recommend            | string   | 推荐人       |
+| ticket               | string   | 推荐码       |
+| reason               | string   | 拒绝理由     |
+| oss-pdf              | string   | oss pdf      |
+| no                   | string   | 订单编号     |
+| insured              | uuid     | 投保人 ID    |
+| owner                | uuid     | 车主 ID      |
+| promotion            | float    | 促销金额     |
+| service_ratio        | float    | 服务费率     |
+| driving-frontal-view | string   | 行驶证正面照 |
+| driving-rear-view    | string   | 行驶证背面照 |
 
 ### Event Type
 
@@ -360,19 +376,19 @@
 
 ### Event Type And Data Structure Matrix
 
-| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio |
-| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          |
-| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
-| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     |✓         | ✓             |
-| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
-| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |          |               |
-| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
-| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
-| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
-| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |          |               |
-| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
-| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |          |               |
-| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?        | ?             |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              |
+| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |
+| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |           |               |                    |                   |
+| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
+| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |
 
 ## SaleOrderEvent
 
@@ -424,34 +440,36 @@
 
 ## plan_orders
 
-| field             | type          | null | default | index   | reference    |
-| ----              | ----          | ---- | ----    | ----    | ----         |
-| id                | uuid          |      |         | primary |              |
-| no                | char(32)      |      |         | ✓       |              |
-| uid               | uuid          |      |         |         | users        |
-| pgid              | uuid          | ✓    |         |         | plangroups   |
-| qid               | uuid          |      |         |         | quotations   |
-| vid               | uuid          |      |         |         | vehicles     |
-| state             | smallint      |      | 0       |         |              |
-| state_description | string        | ✓    |         |         |              |
-| summary           | numeric(10,2) |      | 0.0     |         |              |
-| payment           | numeric(10,2) |      | 0.0     |         |              |
-| owner             | uuid          |      |         |         | person       |
-| insured           | uuid          |      |         |         | person       |
-| promotion         | numeric(10,2) | ✓    |         |         |              |
-| service_ratio     | numeric(10,2) |      |         |         |              |
-| real_value        | numeric(10,2) |      | 0.0     |         |              |
-| ticket            | char(96)      | ✓    |         |         |              |
-| recommend         | varchar(32)   | ✓    |         |         |              |
-| reason            | varchar(128)  | ✓    |         |         |              |
-| oss_pdf           | varchar(256)  | ✓    |         |         |              |
-| expect_at         | timestamp     |      | now     |         |              |
-| start_at          | timestamp     | ✓    |         |         |              |
-| stop_at           | timestamp     | ✓    |         |         |              |
-| paid_at           | timestamp     | ✓    |         |         |              |
-| created_at        | timestamp     |      | now     |         |              |
-| updated_at        | timestamp     |      | now     |         |              |
-| evtid             | uuid          | ✓    |         |         | order_events |
+| field                | type          | null | default | index   | reference    |
+| ----                 | ----          | ---- | ----    | ----    | ----         |
+| id                   | uuid          |      |         | primary |              |
+| no                   | char(32)      |      |         | ✓       |              |
+| uid                  | uuid          |      |         |         | users        |
+| pgid                 | uuid          | ✓    |         |         | plangroups   |
+| qid                  | uuid          |      |         |         | quotations   |
+| vid                  | uuid          |      |         |         | vehicles     |
+| state                | smallint      |      | 0       |         |              |
+| state_description    | string        | ✓    |         |         |              |
+| summary              | numeric(10,2) |      | 0.0     |         |              |
+| payment              | numeric(10,2) |      | 0.0     |         |              |
+| owner                | uuid          |      |         |         | person       |
+| insured              | uuid          |      |         |         | person       |
+| promotion            | numeric(10,2) | ✓    |         |         |              |
+| service_ratio        | numeric(10,2) |      |         |         |              |
+| real_value           | numeric(10,2) |      | 0.0     |         |              |
+| ticket               | char(96)      | ✓    |         |         |              |
+| recommend            | varchar(32)   | ✓    |         |         |              |
+| reason               | varchar(128)  | ✓    |         |         |              |
+| oss_pdf              | varchar(256)  | ✓    |         |         |              |
+| expect_at            | timestamp     |      | now     |         |              |
+| start_at             | timestamp     | ✓    |         |         |              |
+| stop_at              | timestamp     | ✓    |         |         |              |
+| paid_at              | timestamp     | ✓    |         |         |              |
+| created_at           | timestamp     |      | now     |         |              |
+| updated_at           | timestamp     |      | now     |         |              |
+| evtid                | uuid          | ✓    |         |         | order_events |
+| driving_frontal_view | varchar(1024) | ✓    |         |         |              |
+| driving_rear_view    | varchar(1024) | ✓    |         |         |              |
 
 ## plan_order_items
 
@@ -1145,6 +1163,61 @@ rpc.call("person", "addDrivers", oid, drivers)
 | ---- | ----   | ----    |
 | code | int    | 200     |
 | data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+## updateDrivingView
+
+修改行驶证信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name                 | type   | note             |
+| ----                 | ----   | ----             |
+| oid                  | uuid   | order id         |
+| driving_frontal_view | string | 行驶证正面照 url |
+| driving_rear_view    | string | 行驶证背面照 url |
+
+Example:
+
+```javascript
+
+let oid = "00000000-0000-0000-0000-000000000000";
+let driving_frontal_view = "";
+let driving_rear_view = "";
+
+rpc.call("order", "updateDrivingView", vid, driving_frontal_view, driving_rear_view)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | success |
 
 失败：
 

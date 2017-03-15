@@ -18,6 +18,7 @@
                 "identity_no": "000000000000000000"
             }
         ],
+        "driving_front_view": null,
         "service_ratio": 0,
         "items": [
             {
@@ -122,6 +123,7 @@
         "created_at": "2016-08-01T00:00:00.000Z",
         "expect_at": "2016-08-01T00:00:00.000Z",
         "id": "00000000-0000-0000-0000-000000000000",
+        "driving_rear_view": null,
         "type": 1,
         "vehicle": {
             "receipt_date": "2016-08-01T00:00:00.000Z",
