@@ -356,39 +356,46 @@
 | service_ratio        | float    | 服务费率     |
 | driving-frontal-view | string   | 行驶证正面照 |
 | driving-rear-view    | string   | 行驶证背面照 |
+| drivers              | [uuid]   | 司机         |
 
 ### Event Type
 
-| type | name            | note         |
-| ---- | ----            | ----         |
-| 0    | CANCEL          | 取消订单     |
-| 1    | CREATE          | 创建订单     |
-| 2    | PAY             | 支付订单     |
-| 3    | UNDERWRITE      | 订单核保     |
-| 4    | TAKE_EFFECT     | 订单生效     |
-| 5    | EXPIRED         | 订单到期     |
-| 6    | APPLY_WITHDRAW  | 申请提现     |
-| 7    | REFUSE_WITHDRAW | 拒绝提现申请 |
-| 8    | AGREE_WITHDRAW  | 同意提现申请 |
-| 9    | REFUND          | 银行退款     |
-| 10   | UPDATE          | 更新订单信息 |
+| type | name             | note         |
+| ---- | ----             | ----         |
+| 0    | CANCEL           | 取消订单     |
+| 1    | CREATE           | 创建订单     |
+| 2    | PAY              | 支付订单     |
+| 3    | UNDERWRITE       | 订单核保     |
+| 4    | TAKE_EFFECT      | 订单生效     |
+| 5    | EXPIRED          | 订单到期     |
+| 6    | APPLY_WITHDRAW   | 申请提现     |
+| 7    | REFUSE_WITHDRAW  | 拒绝提现申请 |
+| 8    | AGREE_WITHDRAW   | 同意提现申请 |
+| 9    | REFUND           | 银行退款     |
+| 10   | UPDATE           | 更新订单信息 |
+| 11   | ADD_DRIVER       | 增加司机     |
+| 12   | DELETE_DRIVER    | 删除司机     |
+| 13   | SET_DRIVING_VIEW | 设置行驶证   |
 
 
 ### Event Type And Data Structure Matrix
 
-| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view |
-| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              |
-| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |
-| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |           |               |                    |                   |
-| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |
-| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view | drivers |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              | ----    |
+| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |         |
+| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |           |               |                    |                   |         |
+| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
+| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |         |
+| 11   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |
+| 12   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |
+| 13   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               | ✓                  | ✓                 |         |
 
 ## SaleOrderEvent
 
