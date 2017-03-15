@@ -113,6 +113,8 @@ QuotationItem "1" --> "*" QuotationItemQuota
 QuotationItem "1" --> "*" QuotationItemPrice
 
 Quotation -> Vehicle
+Quotation -> Owner
+Quotation -> Insured
 
 Underwrite -> PlanOrder
 
