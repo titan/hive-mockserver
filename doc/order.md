@@ -27,6 +27,7 @@
   - [sale_order_items](#sale_order_items)
   - [order_events](#order_events)
   - [order_apply_pdf](#order_apply_pdf)
+  - [drivers](#drivers)
 - [Cache](#cache)
   - [order-entities](#order-entities)
   - [vehicle-plan-order](#vehicle-plan-order)
@@ -91,6 +92,7 @@
 1. 2017-03-15
   * 增加 addDrivers 接口
   * 增加 delDrivers 接口
+  * 增加 drivers 表
 
 1. 2017-03-14
   * 增加 owner 到 plan-order
@@ -533,6 +535,17 @@ index 是多选项的下标索引
 | state      | smallint     |      |         |         |             |
 | created_at | timestamp    |      | now     |         |             |
 | updated_at | timestamp    |      | now     |         |             |
+
+## drivers
+
+| field      | type      | null | default | index   | reference |
+| ----       | ----      | ---- | ----    | ----    | ----      |
+| id         | uuid      |      |         | primary |           |
+| pid        | uuid      |      |         |         | person    |
+| oid        | uuid      |      |         |         | orders    |
+| created_at | timestamp |      | now     |         |           |
+| updated_at | timestamp |      | now     |         |           |
+| deleted    | boolean   |      | false   |         |           |
 
 # Cache
 

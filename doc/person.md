@@ -7,7 +7,6 @@
   - [person](#person)
 - [Database](#database)
   - [person](#person-1)
-  - [drivers](#drivers)
 - [Cache](#cache)
   - [person-entities](#person-entities)
 - [API](#api)
@@ -31,6 +30,7 @@
 1. 2017-03-15
   * 删除 addDrivers 接口
   * 删除 delDrivers 接口
+  * 删除 drivers 表
 
 1. 2017-03-14
   * 增加 person 数据结构
@@ -81,17 +81,6 @@
 | created_at            | timestamp     |      | now     |         |           |
 | updated_at            | timestamp     |      | now     |         |           |
 | deleted               | boolean       |      | false   |         |           |
-
-## drivers
-
-| field      | type      | null | default | index   | reference |
-| ----       | ----      | ---- | ----    | ----    | ----      |
-| id         | uuid      |      |         | primary |           |
-| pid        | uuid      |      |         |         | person    |
-| oid        | uuid      |      |         |         | orders    |
-| created_at | timestamp |      | now     |         |           |
-| updated_at | timestamp |      | now     |         |           |
-| deleted    | boolean   |      | false   |         |           |
 
 # Cache
 
