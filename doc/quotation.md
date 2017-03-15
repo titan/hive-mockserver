@@ -42,8 +42,8 @@
 1. 2017-03-15
   * 增加 owner 到 quotations 表
   * 增加 insured 到 quotations 表
-  * 增加 getReferenceQuotation 入参 owner_id, insured_id
-  * 增加 getAccurateQuotation 入参 owner_id, insured_id, bi_begin_date, ci_bigin_date
+  * 增加 getReferenceQuotation 入参 owner, insured
+  * 增加 getAccurateQuotation 入参 owner, insured, bi_begin_date, ci_bigin_date
   * 修改 getReferenceQuotation 的出参
   
 1. 2017-03-14
@@ -469,20 +469,20 @@ rpc.call("quotation", "refresh")
 | name        | type   | note         |
 | ----        | ----   | ----         |
 | vid         | string | vehicle id   |
-| owner_id         | uuid | 车主 ID   |
-| insured_id         | uuid | 投保人ID   |
+| owner         | uuid | 车主 ID   |
+| insured         | uuid | 投保人ID   |
 | city_code    | string | 行驶城市代码 |
 | insurer_code | string | 保险人代码   |
 
 ```javascript
 
 let vid = "00000000-0000-0000-0000-000000000000";
-let owner_id = "00000000-0000-0000-0000-000000000000";
-let insured_id = "00000000-0000-0000-0000-000000000000";
+let owner = "00000000-0000-0000-0000-000000000000";
+let insured = "00000000-0000-0000-0000-000000000000";
 let city_code = "110100"; // 北京
 let insurer_code = "APIC"; // 永诚
 
-rpc.call("quotation", "getReferenceQuotation", vid, owner_id, insured_id, city_code, insurer_code)
+rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city_code, insurer_code)
   .then(function (result) {
 
   }, function (error) {
@@ -547,29 +547,33 @@ data 例：
 | ----        | ----   | ----         |
 | vid         | string | vehicle id   |
 | qid         | string | quotation id   |
-| owner_id         | uuid | 车主 ID   |
-| insured_id         | uuid | 投保人ID   |
+| owner         | uuid | 车主 ID   |
+| insured         | uuid | 投保人ID   |
 | city_code    | string | 行驶城市代码 |
 | insurer_code | string | 保险人代码   |
+| bi_begin_date    | Date | 商业险起期 |
+| ci_begin_date | Date | 交强险起期   |
 
 固定的参数
 
 | name        | type        | note                                                  |
 | ----        | ----        | ----                                                  |
-| city_code    | String(6)   | 行驶城市代码 国标码,到二级城市, 北京("110100") |
-| insurer_code | String(100) |  永诚保险公司("APIC")                         |
+| city_code    | String(6)   | 行驶城市代码 国标码,到二级城市, 北京(传"110100") |
+| insurer_code | String(100) |  永诚保险公司(传"APIC")                         |
 
 
 ```javascript
 
 let vid = "00000000-0000-0000-0000-000000000000";
 let qid = "00000000-0000-0000-0000-000000000000";
-let owner_id = "00000000-0000-0000-0000-000000000000";
-let insured_id = "00000000-0000-0000-0000-000000000000";
+let owner = "00000000-0000-0000-0000-000000000000";
+let insured = "00000000-0000-0000-0000-000000000000";
 let city_code = "110100";
 let insurer_code = "APIC";
+let bi_begin_date = new Date("20170315");
+let ci_begin_date = new Date("20170315");
 
-rpc.call("quotation", "getAccurateQuotation", vid, qid, owner_id, insured_id, city_code, insurer_code)
+rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date)
   .then(function (result) {
 
   }, function (error) {
