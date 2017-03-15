@@ -42,7 +42,10 @@
 1. 2017-03-15
   * 增加 owner 到 quotations 表
   * 增加 insured 到 quotations 表
-
+  * 增加 getReferenceQuotation 入参 owner, insured
+  * 增加 getAccurateQuotation 入参 owner, insured, bi_begin_date, ci_bigin_date
+  * 修改 getReferenceQuotation 的出参
+  
 1. 2017-03-14
   * 增加 uid 到 quotations 表
 
@@ -466,16 +469,20 @@ rpc.call("quotation", "refresh")
 | name        | type   | note         |
 | ----        | ----   | ----         |
 | vid         | string | vehicle id   |
-| cityCode    | string | 行驶城市代码 |
-| insurerCode | string | 保险人代码   |
+| owner         | uuid | 车主 ID   |
+| insured         | uuid | 投保人ID   |
+| city_code    | string | 行驶城市代码 |
+| insurer_code | string | 保险人代码   |
 
 ```javascript
 
 let vid = "00000000-0000-0000-0000-000000000000";
-let cityCode = "110100";
-let insurerCode = "APIC";
+let owner = "00000000-0000-0000-0000-000000000000";
+let insured = "00000000-0000-0000-0000-000000000000";
+let city_code = "110100"; // 北京
+let insurer_code = "APIC"; // 永诚
 
-rpc.call("quotation", "getReferenceQuotation", vid, cityCode, insurerCode)
+rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city_code, insurer_code)
   .then(function (result) {
 
   }, function (error) {
@@ -497,15 +504,15 @@ data 字段解释
 
 | name        | type       | note                  |
 | ----        | ----       | ----                  |
-| biBeginDate | String(20) | 商业险起期 2016-09-01 |
-| ciBeginDate | String(20) | 交强险起期 2016-09-01 |
+| bi_begin_date | String(20) | 商业险起期 2016-09-01 |
+| ci_begin_date | String(20) | 交强险起期 2016-09-01 |
 
 data 例：
 
 ```
 {
-    "biBeginDate": "2017-01-11",
-    "ciBeginDate": "2017-01-11"
+    "bi_begin_date": "2017-01-11",
+    "ci_begin_date": "2017-01-11"
 }
 ```
 
@@ -540,25 +547,33 @@ data 例：
 | ----        | ----   | ----         |
 | vid         | string | vehicle id   |
 | qid         | string | quotation id   |
-| cityCode    | string | 行驶城市代码 |
-| insurerCode | string | 保险人代码   |
+| owner         | uuid | 车主 ID   |
+| insured         | uuid | 投保人ID   |
+| city_code    | string | 行驶城市代码 |
+| insurer_code | string | 保险人代码   |
+| bi_begin_date    | Date | 商业险起期 |
+| ci_begin_date | Date | 交强险起期   |
 
 固定的参数
 
 | name        | type        | note                                                  |
 | ----        | ----        | ----                                                  |
-| cityCode    | String(6)   | 行驶城市代码 国标码,到二级城市, 固定为 "110100"，北京 |
-| insurerCode | String(100) | 固定为 "APIC"，永诚保险公司                           |
+| city_code    | String(6)   | 行驶城市代码 国标码,到二级城市, 北京(传"110100") |
+| insurer_code | String(100) |  永诚保险公司(传"APIC")                         |
 
 
 ```javascript
 
 let vid = "00000000-0000-0000-0000-000000000000";
 let qid = "00000000-0000-0000-0000-000000000000";
-let cityCode = "110100";
-let insurerCode = "APIC";
+let owner = "00000000-0000-0000-0000-000000000000";
+let insured = "00000000-0000-0000-0000-000000000000";
+let city_code = "110100";
+let insurer_code = "APIC";
+let bi_begin_date = new Date("20170315");
+let ci_begin_date = new Date("20170315");
 
-rpc.call("quotation", "getAccurateQuotation", vid, qid, cityCode, insurerCode)
+rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date)
   .then(function (result) {
 
   }, function (error) {
