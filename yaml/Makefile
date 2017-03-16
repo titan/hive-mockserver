@@ -73,7 +73,7 @@ GET_TRANSACTIONS_DEPS = get-transactions.yaml transactions.yaml
 SIGN = ../data/oss/sign.json
 SIGN_DEPS = oss-sign.yaml
 
-MUTUAL_AID_DEPS = mutual-aid.yaml driver.yaml vehicle.yaml mutual-aid-recompense.yaml
+MUTUAL_AID_DEPS = mutual-aid.yaml driver.yaml vehicle.yaml vehicle-model.yaml mutual-aid-recompense.yaml
 
 GET_MUTUAL_AID = ../data/mutual-aid/getMutualAid.json
 GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml

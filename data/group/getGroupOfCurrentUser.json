@@ -15,13 +15,36 @@
                         "2016-04-01:2017-03-31": 0.7,
                         "2015-04-01:2016-03-31": 0.6
                     },
+                    "model": {
+                        "data": {
+                            "pl": "1.595",
+                            "body_type": "三厢",
+                            "family_name": "宝来",
+                            "fuel_jet_type": "多点电喷",
+                            "purchase_price": 113800,
+                            "gearbox_name": "手动档",
+                            "effluent_standard": "国二",
+                            "group_name": "宝来GP 三厢(06/07-08/09)",
+                            "vehicle_code": "I0000000000000000250000000000040",
+                            "engine_number": "BWG 058892",
+                            "driven_type": "前置前驱",
+                            "vehicle_name": "宝来FV7162F轿车",
+                            "engine_desc": "1.6L",
+                            "year_pattern": "2006",
+                            "purchase_price_tax": 118663,
+                            "cfg_level": "豪华版",
+                            "brand_name": "大众",
+                            "seat": 5
+                        },
+                        "code": "I0000000000000000250000000000040",
+                        "source": 1
+                    },
                     "last_insurance_company": "中国人保",
                     "receipt_no": "xxx",
                     "accident_times": 0,
                     "register_date": "2016-08-01T00:00:00.000Z",
                     "license_no": "京A00000",
                     "id": "00000000-0000-0000-0000-000000000000",
-                    "user_id": "00000000-0000-0000-0000-000000000000",
                     "vin": "LSVFA49J232037048"
                 },
                 "init_balance": 1000
@@ -49,13 +72,36 @@
                     "2016-04-01:2017-03-31": 0.7,
                     "2015-04-01:2016-03-31": 0.6
                 },
+                "model": {
+                    "data": {
+                        "pl": "1.595",
+                        "body_type": "三厢",
+                        "family_name": "宝来",
+                        "fuel_jet_type": "多点电喷",
+                        "purchase_price": 113800,
+                        "gearbox_name": "手动档",
+                        "effluent_standard": "国二",
+                        "group_name": "宝来GP 三厢(06/07-08/09)",
+                        "vehicle_code": "I0000000000000000250000000000040",
+                        "engine_number": "BWG 058892",
+                        "driven_type": "前置前驱",
+                        "vehicle_name": "宝来FV7162F轿车",
+                        "engine_desc": "1.6L",
+                        "year_pattern": "2006",
+                        "purchase_price_tax": 118663,
+                        "cfg_level": "豪华版",
+                        "brand_name": "大众",
+                        "seat": 5
+                    },
+                    "code": "I0000000000000000250000000000040",
+                    "source": 1
+                },
                 "last_insurance_company": "中国人保",
                 "receipt_no": "xxx",
                 "accident_times": 0,
                 "register_date": "2016-08-01T00:00:00.000Z",
                 "license_no": "京A00000",
                 "id": "00000000-0000-0000-0000-000000000000",
-                "user_id": "00000000-0000-0000-0000-000000000000",
                 "vin": "LSVFA49J232037048"
             }
         ],
