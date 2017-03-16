@@ -39,7 +39,7 @@
 
 # ChangeLog
 
-1. 2017-03-15
+1. 2017-03-16
   * 修改 zt-quotation:${vid} 为 zt-quotation:${vid}:${insurer_code}
   * 增加 getAccurateQuotation 入参 cache_first
 
