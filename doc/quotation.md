@@ -40,6 +40,10 @@
 # ChangeLog
 
 1. 2017-03-15
+  * 修改 zt-quotation:${vid} 为 zt-quotation:${vid}:${insurer_code}
+  * 增加 getAccurateQuotation 入参 cache_first
+
+1. 2017-03-15
   * 增加 owner 到 quotations 表
   * 增加 insured 到 quotations 表
   * 增加 getReferenceQuotation 入参 owner, insured
@@ -165,9 +169,11 @@
 
 | insure | meaning  |
 | ----   | ----     |
-| 1      | 安盛太平 |
-| 2      | 人保     |
-| 3      | 永诚     |
+| 1      | 安盛天平(ASTP) |
+| 2      | 人保(PICC)     |
+| 3      | 永诚(APIC)     |
+| 4      | 国寿财(CLPC)   |
+| 5      | 利宝(LIHI)     |
 
 
 [![报价状态转换图](../img/quotation-states.png)](报价状态转换图)
@@ -251,7 +257,7 @@
 | key                 | type   | value               | note                     |
 | ----                | ----   | ----                | ----                     |
 | license-two-dates   | hash   | license => two-date | 商业险和车险起期         |
-| zt-quotation:${vid} | string | zt response data    | 智通响应数据(30天有效期) |
+| zt-quotation:${vid}:${insurer_code} | string | zt response data    | 智通响应数据(30天有效期) |
 
 # API
 
@@ -559,6 +565,7 @@ data 例：
 | insurer_code | string | 保险人代码   |
 | bi_begin_date    | Date | 商业险起期 |
 | ci_begin_date | Date | 交强险起期   |
+| cache_first | boolean | 是否优先从缓存获取   |
 
 固定的参数
 
@@ -578,8 +585,9 @@ let city_code = "110100";
 let insurer_code = "APIC";
 let bi_begin_date = new Date("20170315");
 let ci_begin_date = new Date("20170315");
+let cache_first = false;
 
-rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date)
+rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date, cache_first)
   .then(function (result) {
 
   }, function (error) {
