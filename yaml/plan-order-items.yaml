@@ -1,21 +1,28 @@
 - id: "00000000-0000-0000-0000-000000000001"
   plan: !include plan-1.yaml
   price: 0
+  amount: 100000
 - id: "00000000-0000-0000-0000-000000000002"
   plan: !include plan-2.yaml
   price: 0
+  amount: 100000
 - id: "00000000-0000-0000-0000-000000000004"
   plan: !include plan-4.yaml
   price: 0
+  amount: 100000
 - id: "00000000-0000-0000-0000-000000000512"
   plan: !include plan-512.yaml
   price: 0
+  amount: 100000
 - id: "00000000-0000-0000-0000-000000001024"
   plan: !include plan-1024.yaml
   price: 0
+  amount: 0
 - id: "00000000-0000-0000-0000-000000002048"
   plan: !include plan-2048.yaml
   price: 0
+  amount: 100000
 - id: "00000000-0000-0000-0000-000000004096"
   plan: !include plan-4096.yaml
   price: 0
+  amount: 3
