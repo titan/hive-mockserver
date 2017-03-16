@@ -18,6 +18,9 @@
 
 # ChangeLog
 
+1. 2017-03-16
+  * 删除 createDriverOrder 方法，增加 addDrivers 方法
+
 1. 2017-03-09
   * 增加 saveOrderPdf　方法
   * 增加 getUnpaidOrders 方法 
@@ -253,3 +256,45 @@ rpc.call("mobile", "getUnpaidOrders", qid)
 | name | type    | note |
 | ---- | ----    | ---- |
 | code | int     | 200  |
+
+
+
+## addDrivers
+
+ 添加驾驶人,支持添加多个驾驶人
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| oid  | uuid   | 订单id | 
+| drivers| drivers[]| 驾驶人信息|
+
+```javascript
+
+var drivers = [
+  {
+    name: "",
+    identity_no: "",
+  }
+];
+
+rpc.call("mobile", "addDrivers", oid, drivers[])
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+

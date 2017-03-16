@@ -1105,18 +1105,10 @@ See [example](../data/order/getPlanOrderByQuotation.json)
 | name    | type     | note       |
 | ----    | ----     | ----       |
 | oid     | uuid     | 订单 ID    |
-| drivers | [person] | 驾驶人信息 |
+| pids | [pid]   |  person ID |
 
 ```javascript
-
-var drivers = [
-  {
-    name: "",
-    identity_no: "",
-  }
-];
-
-rpc.call("person", "addDrivers", oid, drivers)
+rpc.call("order", "addDrivers", oid, pids)
   .then(function (result) {
 
   }, function (error) {
