@@ -92,6 +92,11 @@
 
 # ChangeLog
 
+1. 2017-03-17
+  * 修改了订单状态，去掉了提现相关状态，增加了支付后取消和核保后取消两个订单状态
+  * 删除 order-event 数据结构的 last-state 属性
+  * 删除 order_events 表的 last_state 字段
+
 1. 2017-03-15
   * 增加 addDrivers 接口
   * 增加 delDrivers 接口
@@ -310,7 +315,6 @@
 | id          | uuid | 主键                |
 | oid         | uuid | 订单 ID             |
 | uid         | uuid | 触发事件的人        |
-| last_state  | int  | 上一个事件订单状态  |
 | data        | json | JSON 格式的事件数据 |
 | occurred-at | date | 事件发生时间        |
 
@@ -537,7 +541,6 @@ index 是多选项的下标索引
 | uid         | uuid      |      |         |         |           |
 | event_type  | smallint  |      |         |         |           |
 | order_type  | smallint  |      |         |         |           |
-| last_state  | smallint  |      |         |         |           |
 | data        | json      |      |         |         |           |
 | occurred_at | timestamp |      | now     |         |           |
 
