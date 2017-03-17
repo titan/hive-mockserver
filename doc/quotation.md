@@ -39,6 +39,10 @@
 
 # ChangeLog
 
+1. 2017-03-17
+  * 增加 createQuotation 入参 recommend
+  * 增加 quotation, quotations 字段 recommend
+
 1. 2017-03-16
   * 修改 zt-quotation:${vid} 为 zt-quotation:${vid}:${insurer_code}
   * 增加 getAccurateQuotation 入参 cache_first
@@ -157,6 +161,7 @@
 | vehicle            | vehicle          | 对应的车辆      |
 | owner              | person           | 对应的车主      |
 | insured            | person           | 对应的投保人    |
+| recommend          | string           | 对应的推荐人    |
 | outside_quotation1 | float            | 第三方报价1     |
 | outside_quotation2 | float            | 第三方报价2     |
 | screenshot1        | string           | 第三方报价截图1 |
@@ -207,6 +212,7 @@
 | vid                | uuid          |      |         |         | vehicles  |
 | owner              | uuid          |      |         |         | person    |
 | insured            | uuid          |      |         |         | person    |
+| recommend          | varchar(100)  | ✓      |         |         |           |
 | state              | int           |      | 0       |         |           |
 | created_at         | timestamp     |      | now     |         |           |
 | updated_at         | timestamp     |      | now     |         |           |
@@ -277,13 +283,17 @@
 | vid  | uuid | 车辆 ID      |
 | owner| uuid | 车主 ID   |
 | insured| uuid | 投保人ID   |
+| recommend| string | 推荐人   |
 | qid? | uuid | quotation ID |
 
 ```javascript
 // 手工报价
 let vid = "00000000-0000-0000-0000-000000000000";
+let owner = "00000000-0000-0000-0000-000000000000";
+let insured = "00000000-0000-0000-0000-000000000000";
+let recommend = "";
 
-rpc.call("quotation", "createQuotation", vid)
+rpc.call("quotation", "createQuotation", vid, owner, insured, recommend)
   .then(function (result) {
 
   }, function (error) {
@@ -292,9 +302,11 @@ rpc.call("quotation", "createQuotation", vid)
 
 // 自动报价，前端忽略
 let vid = "00000000-0000-0000-0000-000000000000";
-let qid = "00000000-0000-0000-0000-000000000000";
+let owner = "00000000-0000-0000-0000-000000000000";
+let insured = "00000000-0000-0000-0000-000000000000";
+let recommend = "";
 
-rpc.call("quotation", "createQuotation", vid, qid)
+rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, qid)
   .then(function (result) {
 
   }, function (error) {
