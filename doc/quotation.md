@@ -46,6 +46,7 @@
   * 增加 getLastQuotations 方法
   * 增加 uid-vids 缓存
   * 增加 quotation-entities-slim 缓存
+
 1. 2017-03-17
   * 增加 createQuotation 入参 recommend
   * 增加 quotation, quotations 字段 recommend
@@ -667,6 +668,7 @@ See [example](../data/quotation/getQuotation.json)
 
 | name | type | note |
 | ---- | ---- | ---- |
+| full | boolean | 是否完整版, 默认否 |
 
 #### response
 
