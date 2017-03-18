@@ -261,7 +261,7 @@
 
 ## uid-vids
 
-| uid-vids | hash | uid => vid | user与vehicle的外键 |
+| uid-vids | hash | uid => [vid] | user与vehicle的外键 |
 
 ## quotation-entities
 
