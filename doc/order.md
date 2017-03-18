@@ -1192,8 +1192,13 @@ rpc.call("order", "addDrivers", oid, pids)
 | name                 | type   | note             |
 | ----                 | ----   | ----             |
 | oid                  | uuid   | order id         |
-| driving_frontal_view | string | 行驶证正面照 url |
-| driving_rear_view    | string | 行驶证背面照 url |
+| driving_frontal_view | string | 行驶证正面照 url   |
+| driving_rear_view    | string | 行驶证背面照 url   |
+| pid                  | uuid | person id        |
+| identity-frontal-view | string | 身份证件正面照    |
+| identity-rear-view    | string | 身份证件背面照    |
+| driver-view           | object[]| 驾驶人信息       |
+| license-frontal-view  | string | 驾照             |
 
 Example:
 
@@ -1202,8 +1207,11 @@ Example:
 let oid = "00000000-0000-0000-0000-000000000000";
 let driving_frontal_view = "";
 let driving_rear_view = "";
-
-rpc.call("order", "updateDrivingView", vid, driving_frontal_view, driving_rear_view)
+let pid = "00000000-0000-0000-0000-000000000000";
+let identity-frontal-view = "";
+let identity-rear-view = "";
+let driver-view = [{pid :"00000000-0000-0000-0000-000000000000",identity-frontal-view:""}];
+rpc.call("order", "updateDrivingView", oid, driving_frontal_view, driving_rear_view, pid, identity-frontal-view, identity-real-value, driver-view)
   .then(function (result) {
 
   }, function (error) {

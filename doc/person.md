@@ -27,6 +27,9 @@
 
 # ChangeLog
 
+1. 2017-03-18
+  *　修改 updateViews 接口参数
+　
 1. 2017-03-15
   * 删除 addDrivers 接口
   * 删除 delDrivers 接口
