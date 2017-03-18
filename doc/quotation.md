@@ -669,7 +669,7 @@ See [example](../data/quotation/getQuotation.json)
 
 | name | type | note |
 | ---- | ---- | ---- |
-| full | boolean | 是否完整版, 默认否 |
+| full? | boolean | 是否完整版, 默认否 |
 
 #### response
 
