@@ -45,7 +45,7 @@
 1. 2017-03-18
   * 增加 getLastQuotations 方法
   * 增加 uid-vids 缓存
-
+  * 增加 quotation-entities-slim 缓存
 1. 2017-03-17
   * 增加 createQuotation 入参 recommend
   * 增加 quotation, quotations 字段 recommend
@@ -268,6 +268,13 @@
 | key                | type | value            | note         |
 | ----               | ---- | ----             | ----         |
 | quotation-entities | hash | qid => quotation | 所有报价实体 |
+
+
+## quotation-entities-slim
+
+| key                | type | value            | note         |
+| ----               | ---- | ----             | ----         |
+| quotation-entities-slim | hash | qid => quotation-slim | 所有报价实体 |
 
 ## license-two-dates
 
