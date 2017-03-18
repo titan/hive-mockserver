@@ -13,6 +13,7 @@
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
   - [quotation-entities](#quotation-entities)
+  - [quotation-entities-slim](#quotation-entities-slim)
   - [license-two-dates](#license-two-dates)
 - [API](#api)
   - [createQuotation](#createquotation)
@@ -275,7 +276,7 @@
 
 | key                | type | value            | note         |
 | ----               | ---- | ----             | ----         |
-| quotation-entities-slim | hash | qid => quotation-slim | 所有报价实体 |
+| quotation-entities-slim | hash | qid => quotation-slim | 报价 slim |
 
 ## license-two-dates
 
