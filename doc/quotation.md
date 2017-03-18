@@ -33,11 +33,18 @@
   - [getAccurateQuotation](#getaccuratequotation)
       - [request](#request-5)
       - [response](#response-5)
+  - [getLastQuotations](#getlastquotations)
+      - [request](#request-6)
+      - [response](#response-6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # ChangeLog
+
+1. 2017-03-18
+  * 增加 getLastQuotations 方法
+  * 增加 uid-vids 缓存
 
 1. 2017-03-17
   * 增加 createQuotation 入参 recommend
@@ -251,6 +258,10 @@
 | key     | type | value      | note                     |
 | ----    | ---- | ----       | ----                     |
 | vid-qid | hash | vid => qid | vehicle与quotation的外键 |
+
+## uid-vids
+
+| uid-vids | hash | uid => [vid] | user与vehicle的外键 |
 
 ## quotation-entities
 
@@ -631,3 +642,42 @@ rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_cod
 | 500  | 未知错误             |
 
 See [example](../data/quotation/getQuotation.json)
+
+## getLastQuotations
+
+得到用户最后一次的报价，流程如下：
+
+1. 获得用户名下的所有车辆;
+
+2. 遍历所有车辆，得到最后一次的报价。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note |
+| ---- | ---- | ---- |
+
+#### response
+
+成功：
+
+| name | type        | note |
+| ---- | ----        | ---- |
+| code | int         | 200  |
+| data | [quotation] |      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
