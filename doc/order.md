@@ -1197,7 +1197,7 @@ rpc.call("order", "addDrivers", oid, pids)
 | pid                  | uuid | person id        |
 | identity-frontal-view | string | 身份证件正面照    |
 | identity-rear-view    | string | 身份证件背面照    |
-| driver-view           | {pid: url}| 驾驶人信息       |
+| driver-views           | {pid: url}| 驾驶人信息       |
 
 Example:
 
@@ -1209,7 +1209,7 @@ const driving_rear_view = "";
 const pid = "00000000-0000-0000-0000-000000000000";
 const identity_frontal_view = "";
 const identity_rear_view = "";
-const driver_view = {"00000000-0000-0000-0000-000000000000":"www.fengchaohuzhu.com"};
+const driver_views = {"00000000-0000-0000-0000-000000000000":"www.fengchaohuzhu.com"};
 
 rpc.call("order", "updateDrivingView", oid, driving_frontal_view, driving_rear_view, pid, identity_frontal_view, identity_real_value, driver_view)
   .then(function (result) {
