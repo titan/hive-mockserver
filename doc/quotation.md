@@ -13,6 +13,7 @@
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
   - [quotation-entities](#quotation-entities)
+  - [quotation-slim-entities](#quotation-slim-entities)
   - [license-two-dates](#license-two-dates)
 - [API](#api)
   - [createQuotation](#createquotation)
@@ -45,6 +46,7 @@
 1. 2017-03-18
   * 增加 getLastQuotations 方法
   * 增加 uid-vids 缓存
+  * 增加 quotation-entities-slim 缓存
 
 1. 2017-03-17
   * 增加 createQuotation 入参 recommend
@@ -268,6 +270,13 @@
 | key                | type | value            | note         |
 | ----               | ---- | ----             | ----         |
 | quotation-entities | hash | qid => quotation | 所有报价实体 |
+
+
+## quotation-slim-entities
+
+| key                | type | value            | note         |
+| ----               | ---- | ----             | ----         |
+| quotation-slim-entities | hash | qid => quotation-slim | 报价 slim |
 
 ## license-two-dates
 
@@ -660,6 +669,7 @@ See [example](../data/quotation/getQuotation.json)
 
 | name | type | note |
 | ---- | ---- | ---- |
+| full? | boolean | 是否完整版, 默认否 |
 
 #### response
 
