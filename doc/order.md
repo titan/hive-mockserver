@@ -1197,21 +1197,21 @@ rpc.call("order", "addDrivers", oid, pids)
 | pid                  | uuid | person id        |
 | identity-frontal-view | string | 身份证件正面照    |
 | identity-rear-view    | string | 身份证件背面照    |
-| driver-view           | object[]| 驾驶人信息       |
-| license-frontal-view  | string | 驾照             |
+| driver-view           | {pid: url}| 驾驶人信息       |
 
 Example:
 
 ```javascript
 
-let oid = "00000000-0000-0000-0000-000000000000";
-let driving_frontal_view = "";
-let driving_rear_view = "";
-let pid = "00000000-0000-0000-0000-000000000000";
-let identity-frontal-view = "";
-let identity-rear-view = "";
-let driver-view = [{pid :"00000000-0000-0000-0000-000000000000",identity-frontal-view:""}];
-rpc.call("order", "updateDrivingView", oid, driving_frontal_view, driving_rear_view, pid, identity-frontal-view, identity-real-value, driver-view)
+const oid = "00000000-0000-0000-0000-000000000000";
+const driving_frontal_view = "";
+const driving_rear_view = "";
+const pid = "00000000-0000-0000-0000-000000000000";
+const identity_frontal_view = "";
+const identity_rear_view = "";
+const driver_view = {"00000000-0000-0000-0000-000000000000":"www.fengchaohuzhu.com"};
+
+rpc.call("order", "updateDrivingView", oid, driving_frontal_view, driving_rear_view, pid, identity_frontal_view, identity_real_value, driver_view)
   .then(function (result) {
 
   }, function (error) {
