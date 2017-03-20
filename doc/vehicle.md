@@ -451,12 +451,12 @@ Example:
 ```javascript
 
 let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
-let engine_no = "5555";
-let receipt_no = "123456";
+let engine_no    = "5555";
+let receipt_no   = "123456";
 let receipt_date = new Date("2016-12-06 18:26:54");
-let is_transfer = false;
-let fuel_type = "汽油"
-let vin = "WBAZV4101BL456778";
+let is_transfer  = false;
+let fuel_type    = "汽油"
+let vin          = "WBAZV4101BL456778";
 
 rpc.call("vehicle", "setVehicle", vehicle_code, engine_no, receipt_no, receipt_date, is_transfer, fuel_type, vin)
   .then(function (result) {
@@ -519,16 +519,16 @@ Example:
 
 ```javascript
 
-let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
-let license_no = "a5678";
-let engine_no = "5555";
-let register_date = new Date("2016-12-06 18:26:54");
-let is_transfer = false;
+let vehicle_code           = "4028b2883f19328f013f1c4c8845019a";
+let license_no             = "a5678";
+let engine_no              = "5555";
+let register_date          = new Date("2016-12-06 18:26:54");
+let is_transfer            = false;
 let last_insurance_company = null;
-let insurance_due_date = new Date("2016-12-06 18:26:54");
-let fuel_type = "汽油";
-let vin = "WBAZV4101BL456778";
-let accident_status = 1;
+let insurance_due_date     = new Date("2016-12-06 18:26:54");
+let fuel_type              = "汽油";
+let vin                    = "WBAZV4101BL456778";
+let accident_status        = 1;
 
 rpc.call("vehicle", "createVehicle", vehicle_code, license_no, engine_no, register_date, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {

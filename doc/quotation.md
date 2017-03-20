@@ -221,14 +221,14 @@
 | vid                | uuid          |      |         |         | vehicles  |
 | owner              | uuid          |      |         |         | person    |
 | insured            | uuid          |      |         |         | person    |
-| recommend          | varchar(100)  | ✓      |         |         |           |
+| recommend          | varchar(100)  | ✓    |         |         |           |
 | state              | int           |      | 0       |         |           |
 | created_at         | timestamp     |      | now     |         |           |
 | updated_at         | timestamp     |      | now     |         |           |
 | outside_quotation1 | numeric(10,2) |      | 0.0     |         |           |
 | outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
-| screenshot1        | varchar(1024) | ✓      |         |         |           |
-| screenshot2        | varchar(1024) | ✓      |         |         |           |
+| screenshot1        | varchar(1024) | ✓    |         |         |           |
+| screenshot2        | varchar(1024) | ✓    |         |         |           |
 | price              | real          |      | 0.0     |         |           |
 | real_value         | real          |      | 0.0     |         |           |
 | promotion          | real          |      | 0.0     |         |           |
@@ -298,19 +298,19 @@
 
 #### request
 
-| name | type | note         |
-| ---- | ---- | ----         |
-| vid  | uuid | 车辆 ID      |
-| owner| uuid | 车主 ID   |
-| insured| uuid | 投保人ID   |
-| recommend| string | 推荐人   |
-| qid? | uuid | quotation ID |
+| name      | type   | note         |
+| ----      | ----   | ----         |
+| vid       | uuid   | 车辆 ID      |
+| owner     | uuid   | 车主 ID      |
+| insured   | uuid   | 投保人ID     |
+| recommend | string | 推荐人       |
+| qid?      | uuid   | quotation ID |
 
 ```javascript
 // 手工报价
-let vid = "00000000-0000-0000-0000-000000000000";
-let owner = "00000000-0000-0000-0000-000000000000";
-let insured = "00000000-0000-0000-0000-000000000000";
+let vid       = "00000000-0000-0000-0000-000000000000";
+let owner     = "00000000-0000-0000-0000-000000000000";
+let insured   = "00000000-0000-0000-0000-000000000000";
 let recommend = "";
 
 rpc.call("quotation", "createQuotation", vid, owner, insured, recommend)
@@ -321,9 +321,9 @@ rpc.call("quotation", "createQuotation", vid, owner, insured, recommend)
   });
 
 // 自动报价，前端忽略
-let vid = "00000000-0000-0000-0000-000000000000";
-let owner = "00000000-0000-0000-0000-000000000000";
-let insured = "00000000-0000-0000-0000-000000000000";
+let vid       = "00000000-0000-0000-0000-000000000000";
+let owner     = "00000000-0000-0000-0000-000000000000";
+let insured   = "00000000-0000-0000-0000-000000000000";
 let recommend = "";
 
 rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, qid)
@@ -520,10 +520,10 @@ rpc.call("quotation", "refresh")
 
 ```javascript
 
-let vid = "00000000-0000-0000-0000-000000000000";
-let owner = "00000000-0000-0000-0000-000000000000";
-let insured = "00000000-0000-0000-0000-000000000000";
-let city_code = "110100"; // 北京
+let vid          = "00000000-0000-0000-0000-000000000000";
+let owner        = "00000000-0000-0000-0000-000000000000";
+let insured      = "00000000-0000-0000-0000-000000000000";
+let city_code    = "110100"; // 北京
 let insurer_code = "APIC"; // 永诚
 
 rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city_code, insurer_code)
@@ -546,8 +546,8 @@ rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city_code, i
 
 data 字段解释
 
-| name        | type       | note                  |
-| ----        | ----       | ----                  |
+| name          | type       | note                  |
+| ----          | ----       | ----                  |
 | bi_begin_date | String(20) | 商业险起期 2016-09-01 |
 | ci_begin_date | String(20) | 交强险起期 2016-09-01 |
 
@@ -587,37 +587,37 @@ data 例：
 
 #### request
 
-| name        | type   | note         |
-| ----        | ----   | ----         |
-| vid         | string | vehicle id   |
-| qid         | string | quotation id   |
-| owner         | uuid | 车主 ID   |
-| insured         | uuid | 投保人ID   |
-| city_code    | string | 行驶城市代码 |
-| insurer_code | string | 保险人代码   |
-| bi_begin_date    | Date | 商业险起期 |
-| ci_begin_date | Date | 交强险起期   |
-| cache_first | boolean | 是否优先从缓存获取   |
+| name          | type    | note               |
+| ----          | ----    | ----               |
+| vid           | string  | vehicle id         |
+| qid           | string  | quotation id       |
+| owner         | uuid    | 车主 ID            |
+| insured       | uuid    | 投保人ID           |
+| city_code     | string  | 行驶城市代码       |
+| insurer_code  | string  | 保险人代码         |
+| bi_begin_date | Date    | 商业险起期         |
+| ci_begin_date | Date    | 交强险起期         |
+| cache_first   | boolean | 是否优先从缓存获取 |
 
 固定的参数
 
-| name        | type        | note                                                  |
-| ----        | ----        | ----                                                  |
+| name         | type        | note                                             |
+| ----         | ----        | ----                                             |
 | city_code    | String(6)   | 行驶城市代码 国标码,到二级城市, 北京(传"110100") |
-| insurer_code | String(100) |  永诚保险公司(传"APIC")                         |
+| insurer_code | String(100) | 永诚保险公司(传"APIC")                           |
 
 
 ```javascript
 
-let vid = "00000000-0000-0000-0000-000000000000";
-let qid = "00000000-0000-0000-0000-000000000000";
-let owner = "00000000-0000-0000-0000-000000000000";
-let insured = "00000000-0000-0000-0000-000000000000";
-let city_code = "110100";
-let insurer_code = "APIC";
+let vid           = "00000000-0000-0000-0000-000000000000";
+let qid           = "00000000-0000-0000-0000-000000000000";
+let owner         = "00000000-0000-0000-0000-000000000000";
+let insured       = "00000000-0000-0000-0000-000000000000";
+let city_code     = "110100";
+let insurer_code  = "APIC";
 let bi_begin_date = new Date("20170315");
 let ci_begin_date = new Date("20170315");
-let cache_first = false;
+let cache_first   = false;
 
 rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date, cache_first)
   .then(function (result) {
