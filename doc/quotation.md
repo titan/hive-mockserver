@@ -12,9 +12,11 @@
   - [quotation_items](#quotation_items)
 - [Cache](#cache)
   - [vid-qid](#vid-qid)
+  - [uid-vids](#uid-vids)
   - [quotation-entities](#quotation-entities)
   - [quotation-slim-entities](#quotation-slim-entities)
   - [license-two-dates](#license-two-dates)
+  - [zt-quotation:${vid}:${insurer_code}](#zt-quotationvidinsurer_code)
 - [API](#api)
   - [createQuotation](#createquotation)
       - [request](#request)
@@ -42,6 +44,9 @@
 
 
 # ChangeLog
+
+1. 2017-03-20
+  * 修改 缓存 uid-vids 为 vids:${uid}
 
 1. 2017-03-18
   * 增加 getLastQuotations 方法
@@ -263,9 +268,9 @@
 
 ## uid-vids
 
-| key      | type | value        | note                |
-| ----     | ---- | ----         | ----                |
-| uid-vids | hash | uid => [vid] | user与vehicle的外键 |
+| key         | type | value | note                |
+| ----        | ---- | ----  | ----                |
+| vids:${uid} | set  | [vid] | user与vehicle的外键 |
 
 ## quotation-entities
 
@@ -282,9 +287,14 @@
 
 ## license-two-dates
 
-| key                 | type   | value               | note                     |
-| ----                | ----   | ----                | ----                     |
-| license-two-dates   | hash   | license => two-date | 商业险和车险起期         |
+| key                                 | type   | value               | note                     |
+| ----                                | ----   | ----                | ----                     |
+| license-two-dates                   | hash   | license => two-date | 商业险和车险起期         |
+
+## zt-quotation:${vid}:${insurer_code}
+
+| key                                 | type   | value               | note                     |
+| ----                                | ----   | ----                | ----                     |
 | zt-quotation:${vid}:${insurer_code} | string | zt response data    | 智通响应数据(30天有效期) |
 
 # API
