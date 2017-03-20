@@ -47,6 +47,7 @@
 
 1. 2017-03-20
   * 修改 缓存 uid-vids 为 vids:${uid}
+  * 增加 getAccurateQuotation 入参 save
 
 1. 2017-03-18
   * 增加 getLastQuotations 方法
@@ -610,6 +611,7 @@ data 例：
 | bi_begin_date | Date    | 商业险起期         |
 | ci_begin_date | Date    | 交强险起期         |
 | cache_first   | boolean | 是否优先从缓存获取 |
+| save   | boolean | 是否存库 |
 
 固定的参数
 
@@ -630,6 +632,7 @@ let insurer_code  = "APIC";
 let bi_begin_date = new Date("20170315");
 let ci_begin_date = new Date("20170315");
 let cache_first   = false;
+let save          = false;
 
 rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date, cache_first)
   .then(function (result) {
