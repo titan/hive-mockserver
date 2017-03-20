@@ -263,6 +263,8 @@
 
 ## uid-vids
 
+| key     | type | value      | note                     |
+| ----    | ---- | ----       | ----                     |
 | uid-vids | hash | uid => [vid] | user与vehicle的外键 |
 
 ## quotation-entities
