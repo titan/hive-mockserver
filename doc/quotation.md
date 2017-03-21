@@ -45,6 +45,9 @@
 
 # ChangeLog
 
+1. 2017-03-21
+  * 修改 缓存 vid-qid 为 vid:uid-qid
+
 1. 2017-03-20
   * 修改 缓存 uid-vids 为 vids:${uid}
   * 增加 getAccurateQuotation 入参 save
@@ -261,11 +264,11 @@
 
 # Cache
 
-## vid-qid
+## vid:uid-qid
 
 | key     | type | value      | note                     |
 | ----    | ---- | ----       | ----                     |
-| vid-qid | hash | vid => qid | vehicle与quotation的外键 |
+| vid:uid-qid | hash | vid:uid => qid | vehicle与quotation的外键 |
 
 ## uid-vids
 
