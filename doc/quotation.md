@@ -9,14 +9,14 @@
   - [quotation-item-pair](#quotation-item-pair)
 - [Database](#database)
   - [quotations](#quotations)
-  - [quotation_items](#quotation_items)
+  - [quotation\_items](#quotation%5C_items)
 - [Cache](#cache)
   - [vid:uid-qid](#viduid-qid)
   - [uid-vids](#uid-vids)
   - [quotation-entities](#quotation-entities)
   - [quotation-slim-entities](#quotation-slim-entities)
   - [license-two-dates](#license-two-dates)
-  - [zt-quotation:${vid}:${insurer_code}](#zt-quotationvidinsurer_code)
+  - [zt-quotation:${vid}:${insurer\_code}](#zt-quotationvidinsurer%5C_code)
 - [API](#api)
   - [createQuotation](#createquotation)
       - [request](#request)
@@ -62,15 +62,15 @@
   * 增加 quotation, quotations 字段 recommend
 
 1. 2017-03-16
-  * 修改 zt-quotation:${vid} 为 zt-quotation:${vid}:${insurer_code}
-  * 增加 getAccurateQuotation 入参 cache_first
+  * 修改 zt-quotation:${vid} 为 zt-quotation:${vid}:${insurer\_code}
+  * 增加 getAccurateQuotation 入参 cache\_first
 
 1. 2017-03-15
   * 增加 owner 到 quotations 表
   * 增加 insured 到 quotations 表
   * 增加 getReferenceQuotation 入参 owner, insured
   * 增加 createQuotation 入参 owner, insured
-  * 增加 getAccurateQuotation 入参 owner, insured, bi_begin_date, ci_bigin_date
+  * 增加 getAccurateQuotation 入参 owner, insured, bi\_begin\_date, ci\_bigin\_date
   * 修改 getReferenceQuotation 的出参
   
 1. 2017-03-14
@@ -84,15 +84,15 @@
   * 删除 quotation-items 的字段 pgid
 
 1. 2017-03-06
-  * 重命名 quotation_items 表的 num 字段为 amount
+  * 重命名 quotation\_items 表的 num 字段为 amount
 
 1. 2017-03-05
   * 增加 quotations 的字段 promotion
-  * 增加 real_value 字段到 quotations 表
-  * 修改 quotations 表中的 total_price 字段为 price
+  * 增加 real\_value 字段到 quotations 表
+  * 修改 quotations 表中的 total\_price 字段为 price
 
 1. 2017-02-28
-  * 修正 quotation_items 的 type 字段类型为 varchar(16)
+  * 修正 quotation\_items 的 type 字段类型为 varchar(16)
   * 增加 type 到 quotation-item
   * 增加 zt-quotation:${vid} 缓存
 
@@ -113,7 +113,7 @@
   * 增加 license-two-dates 缓存
 
 1. 2017-02-22
-  * 增加 qid 和 pgid 到 quotation_items 表
+  * 增加 qid 和 pgid 到 quotation\_items 表
 
 1. 2017-02-18
   * 修改 getAccurateQuotation 的返回结果
@@ -127,9 +127,9 @@
 1. 2017-02-10
   * 删除 quotation-group 数据结构
   * 删除后台提醒
-  * 删除 quotations 表中 pid 和 fu_total_price
-  * quotation_item_list 重命名为 quotation_items 表
-  * quotation_items 表中，piid 改为 pid
+  * 删除 quotations 表中 pid 和 fu\_total\_price
+  * quotation\_item\_list 重命名为 quotation\_items 表
+  * quotation\_items 表中，piid 改为 pid
   * 删除 newMessageNotify 方法
 
 1. 2017-01-16
@@ -153,9 +153,9 @@
   * 删除 quotated-quotations 缓存
   * Rename VIN-quotation to vin-qid
   * 删除 quotation\_items
-  * 删除 quotation\_item_prices
-  * 删除 quotation\_item_prices
-  * 增加 quotation\_item_list
+  * 删除 quotation\_item\_prices
+  * 删除 quotation\_item\_prices
+  * 增加 quotation\_item\_list
 
 1. 2016-12-08
   * 增加 vid-qid 外键
@@ -170,25 +170,25 @@
 
 ## quotation
 
-| name               | type             | note            |
-| ----               | ----             | ----            |
-| id                 | uuid             | 主键            |
-| uid                | uuid             | user ID         |
-| state              | int              | 报价状态        |
-| items              | [quotation-item] | 对应计划集合    |
-| vehicle            | vehicle          | 对应的车辆      |
-| owner              | person           | 对应的车主      |
-| insured            | person           | 对应的投保人    |
-| recommend          | string           | 对应的推荐人    |
-| outside_quotation1 | float            | 第三方报价1     |
-| outside_quotation2 | float            | 第三方报价2     |
-| screenshot1        | string           | 第三方报价截图1 |
-| screenshot2        | string           | 第三方报价截图2 |
-| price              | real             | 总价            |
-| real_value         | real             | 车辆实际价值    |
-| promotion          | real             | 优惠金额        |
-| insure             | int              | 保险公司        |
-| auto               | int              | 是否是自动报价  |
+| name                | type             | note            |
+| ----                | ----             | ----            |
+| id                  | uuid             | 主键            |
+| uid                 | uuid             | user ID         |
+| state               | int              | 报价状态        |
+| items               | [quotation-item] | 对应计划集合    |
+| vehicle             | vehicle          | 对应的车辆      |
+| owner               | person           | 对应的车主      |
+| insured             | person           | 对应的投保人    |
+| recommend           | string           | 对应的推荐人    |
+| outside\_quotation1 | float            | 第三方报价1     |
+| outside\_quotation2 | float            | 第三方报价2     |
+| screenshot1         | string           | 第三方报价截图1 |
+| screenshot2         | string           | 第三方报价截图2 |
+| price               | real             | 总价            |
+| real\_value         | real             | 车辆实际价值    |
+| promotion           | real             | 优惠金额        |
+| insure              | int              | 保险公司        |
+| auto                | int              | 是否是自动报价  |
 
 | insure | meaning  |
 | ----   | ----     |
@@ -223,42 +223,42 @@
 
 ## quotations
 
-| field              | type          | null | default | index   | reference |
-| ----               | ----          | ---- | ----    | ----    | ----      |
-| id                 | uuid          |      |         | primary |           |
-| uid                | uuid          |      |         |         | users     |
-| vid                | uuid          |      |         |         | vehicles  |
-| owner              | uuid          |      |         |         | person    |
-| insured            | uuid          |      |         |         | person    |
-| recommend          | varchar(100)  | ✓    |         |         |           |
-| state              | int           |      | 0       |         |           |
-| created_at         | timestamp     |      | now     |         |           |
-| updated_at         | timestamp     |      | now     |         |           |
-| outside_quotation1 | numeric(10,2) |      | 0.0     |         |           |
-| outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
-| screenshot1        | varchar(1024) | ✓    |         |         |           |
-| screenshot2        | varchar(1024) | ✓    |         |         |           |
-| price              | real          |      | 0.0     |         |           |
-| real_value         | real          |      | 0.0     |         |           |
-| promotion          | real          |      | 0.0     |         |           |
-| insure             | smallint      |      |         |         |           |
-| auto               | smallint      |      |         |         |           |
+| field               | type          | null | default | index   | reference |
+| ----                | ----          | ---- | ----    | ----    | ----      |
+| id                  | uuid          |      |         | primary |           |
+| uid                 | uuid          |      |         |         | users     |
+| vid                 | uuid          |      |         |         | vehicles  |
+| owner               | uuid          |      |         |         | person    |
+| insured             | uuid          |      |         |         | person    |
+| recommend           | varchar(100)  | ✓    |         |         |           |
+| state               | int           |      | 0       |         |           |
+| created\_at         | timestamp     |      | now     |         |           |
+| updated\_at         | timestamp     |      | now     |         |           |
+| outside\_quotation1 | numeric(10,2) |      | 0.0     |         |           |
+| outside\_quotation2 | numeric(10,2) |      | 0.0     |         |           |
+| screenshot1         | varchar(1024) | ✓    |         |         |           |
+| screenshot2         | varchar(1024) | ✓    |         |         |           |
+| price               | real          |      | 0.0     |         |           |
+| real\_value         | real          |      | 0.0     |         |           |
+| promotion           | real          |      | 0.0     |         |           |
+| insure              | smallint      |      |         |         |           |
+| auto                | smallint      |      |         |         |           |
 
-## quotation_items
+## quotation\_items
 
-| field      | type          | null | default | index   | reference   |
-| ----       | ----          | ---- | ----    | ----    | ----        |
-| id         | uuid          |      |         | primary |             |
-| qid        | uuid          |      |         |         | quotations  |
-| pid        | integer       |      |         |         | plans       |
-| price      | numeric(10,2) |      |         |         |             |
-| amount     | numeric(10,2) |      |         |         |             |
-| unit       | varchar(16)   |      |         |         |             |
-| real_price | real          |      |         |         |             |
-| type       | smallint      |      |         |         |             |
-| insure     | smallint      |      |         |         |             |
-| created_at | timestamp     |      | now     |         |             |
-| updated_at | timestamp     |      | now     |         |             |
+| field       | type          | null | default | index   | reference  |
+| ----        | ----          | ---- | ----    | ----    | ----       |
+| id          | uuid          |      |         | primary |            |
+| qid         | uuid          |      |         |         | quotations |
+| pid         | integer       |      |         |         | plans      |
+| price       | numeric(10,2) |      |         |         |            |
+| amount      | numeric(10,2) |      |         |         |            |
+| unit        | varchar(16)   |      |         |         |            |
+| real\_price | real          |      |         |         |            |
+| type        | smallint      |      |         |         |            |
+| insure      | smallint      |      |         |         |            |
+| created\_at | timestamp     |      | now     |         |            |
+| updated\_at | timestamp     |      | now     |         |            |
 
 其中，type 字段用于处理多个价格的情况，比如：["三块漆", "六块漆"]
 
@@ -295,11 +295,11 @@
 | ----              | ---- | ----                | ----             |
 | license-two-dates | hash | license => two-date | 商业险和车险起期 |
 
-## zt-quotation:${vid}:${insurer_code}
+## zt-quotation:${vid}:${insurer\_code}
 
-| key                                 | type   | value            | note                     |
-| ----                                | ----   | ----             | ----                     |
-| zt-quotation:${vid}:${insurer_code} | string | zt response data | 智通响应数据(30天有效期) |
+| key                                  | type   | value            | note                     |
+| ----                                 | ----   | ----             | ----                     |
+| zt-quotation:${vid}:${insurer\_code} | string | zt response data | 智通响应数据(30天有效期) |
 
 # API
 
@@ -526,23 +526,23 @@ rpc.call("quotation", "refresh")
 
 #### request
 
-| name        | type   | note         |
-| ----        | ----   | ----         |
-| vid         | string | vehicle id   |
-| owner         | uuid | 车主 ID   |
-| insured         | uuid | 投保人ID   |
-| city_code    | string | 行驶城市代码 |
-| insurer_code | string | 保险人代码   |
+| name          | type   | note         |
+| ----          | ----   | ----         |
+| vid           | string | vehicle id   |
+| owner         | uuid   | 车主 ID      |
+| insured       | uuid   | 投保人ID     |
+| city\_code    | string | 行驶城市代码 |
+| insurer\_code | string | 保险人代码   |
 
 ```javascript
 
 let vid          = "00000000-0000-0000-0000-000000000000";
 let owner        = "00000000-0000-0000-0000-000000000000";
 let insured      = "00000000-0000-0000-0000-000000000000";
-let city_code    = "110100"; // 北京
-let insurer_code = "APIC"; // 永诚
+let city\_code    = "110100"; // 北京
+let insurer\_code = "APIC"; // 永诚
 
-rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city_code, insurer_code)
+rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city\_code, insurer\_code)
   .then(function (result) {
 
   }, function (error) {
@@ -562,17 +562,17 @@ rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city_code, i
 
 data 字段解释
 
-| name          | type       | note                  |
-| ----          | ----       | ----                  |
-| bi_begin_date | String(20) | 商业险起期 2016-09-01 |
-| ci_begin_date | String(20) | 交强险起期 2016-09-01 |
+| name            | type       | note                  |
+| ----            | ----       | ----                  |
+| bi\_begin\_date | String(20) | 商业险起期 2016-09-01 |
+| ci\_begin\_date | String(20) | 交强险起期 2016-09-01 |
 
 data 例：
 
 ```
 {
-    "bi_begin_date": "2017-01-11",
-    "ci_begin_date": "2017-01-11"
+    "bi\_begin\_date": "2017-01-11",
+    "ci\_begin\_date": "2017-01-11"
 }
 ```
 
@@ -603,41 +603,41 @@ data 例：
 
 #### request
 
-| name          | type    | note               |
-| ----          | ----    | ----               |
-| vid           | string  | vehicle id         |
-| qid           | string  | quotation id       |
-| owner         | uuid    | 车主 ID            |
-| insured       | uuid    | 投保人ID           |
-| city_code     | string  | 行驶城市代码       |
-| insurer_code  | string  | 保险人代码         |
-| bi_begin_date | Date    | 商业险起期         |
-| ci_begin_date | Date    | 交强险起期         |
-| cache_first   | boolean | 是否优先从缓存获取 |
-| save   | boolean | 是否存库 |
+| name            | type    | note               |
+| ----            | ----    | ----               |
+| vid             | string  | vehicle id         |
+| qid             | string  | quotation id       |
+| owner           | uuid    | 车主 ID            |
+| insured         | uuid    | 投保人ID           |
+| city\_code      | string  | 行驶城市代码       |
+| insurer\_code   | string  | 保险人代码         |
+| bi\_begin\_date | Date    | 商业险起期         |
+| ci\_begin\_date | Date    | 交强险起期         |
+| cache\_first    | boolean | 是否优先从缓存获取 |
+| save            | boolean | 是否存库           |
 
 固定的参数
 
-| name         | type        | note                                             |
-| ----         | ----        | ----                                             |
-| city_code    | String(6)   | 行驶城市代码 国标码,到二级城市, 北京(传"110100") |
-| insurer_code | String(100) | 永诚保险公司(传"APIC")                           |
+| name          | type        | note                                             |
+| ----          | ----        | ----                                             |
+| city\_code    | String(6)   | 行驶城市代码 国标码,到二级城市, 北京(传"110100") |
+| insurer\_code | String(100) | 永诚保险公司(传"APIC")                           |
 
 
 ```javascript
 
-let vid           = "00000000-0000-0000-0000-000000000000";
-let qid           = "00000000-0000-0000-0000-000000000000";
-let owner         = "00000000-0000-0000-0000-000000000000";
-let insured       = "00000000-0000-0000-0000-000000000000";
-let city_code     = "110100";
-let insurer_code  = "APIC";
-let bi_begin_date = new Date("20170315");
-let ci_begin_date = new Date("20170315");
-let cache_first   = false;
-let save          = false;
+let vid             = "00000000-0000-0000-0000-000000000000";
+let qid             = "00000000-0000-0000-0000-000000000000";
+let owner           = "00000000-0000-0000-0000-000000000000";
+let insured         = "00000000-0000-0000-0000-000000000000";
+let city\_code      = "110100";
+let insurer\_code   = "APIC";
+let bi\_begin\_date = new Date("20170315");
+let ci\_begin\_date = new Date("20170315");
+let cache\_first    = false;
+let save            = false;
 
-rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date, cache_first)
+rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city\_code, insurer\_code, bi\_begin\_date, ci\_begin\_date, cache\_first)
   .then(function (result) {
 
   }, function (error) {
@@ -685,8 +685,8 @@ See [example](../data/quotation/getQuotation.json)
 
 #### request
 
-| name | type | note |
-| ---- | ---- | ---- |
+| name  | type    | note               |
+| ----  | ----    | ----               |
 | full? | boolean | 是否完整版, 默认否 |
 
 #### response
