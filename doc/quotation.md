@@ -11,7 +11,7 @@
   - [quotations](#quotations)
   - [quotation_items](#quotation_items)
 - [Cache](#cache)
-  - [vid-qid](#vid-qid)
+  - [vid:uid-qid](#viduid-qid)
   - [uid-vids](#uid-vids)
   - [quotation-entities](#quotation-entities)
   - [quotation-slim-entities](#quotation-slim-entities)
