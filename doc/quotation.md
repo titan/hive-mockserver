@@ -266,8 +266,8 @@
 
 ## vid:uid-qid
 
-| key     | type | value      | note                     |
-| ----    | ---- | ----       | ----                     |
+| key         | type | value          | note                     |
+| ----        | ---- | ----           | ----                     |
 | vid:uid-qid | hash | vid:uid => qid | vehicle与quotation的外键 |
 
 ## uid-vids
@@ -291,15 +291,15 @@
 
 ## license-two-dates
 
-| key                                 | type   | value               | note                     |
-| ----                                | ----   | ----                | ----                     |
-| license-two-dates                   | hash   | license => two-date | 商业险和车险起期         |
+| key               | type | value               | note             |
+| ----              | ---- | ----                | ----             |
+| license-two-dates | hash | license => two-date | 商业险和车险起期 |
 
 ## zt-quotation:${vid}:${insurer_code}
 
-| key                                 | type   | value               | note                     |
-| ----                                | ----   | ----                | ----                     |
-| zt-quotation:${vid}:${insurer_code} | string | zt response data    | 智通响应数据(30天有效期) |
+| key                                 | type   | value            | note                     |
+| ----                                | ----   | ----             | ----                     |
+| zt-quotation:${vid}:${insurer_code} | string | zt response data | 智通响应数据(30天有效期) |
 
 # API
 
@@ -392,9 +392,9 @@ See [example](../data/quotation/createQuotation.json)
 
 #### request
 
-| name           | type    | note     |
-| ----           | ----    | ----     |
-| qid            | uuid    | 报价 ID  |
+| name | type | note    |
+| ---- | ---- | ----    |
+| qid  | uuid | 报价 ID |
 
 ```javascript
 
