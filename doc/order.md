@@ -92,6 +92,14 @@
 
 # ChangeLog
 
+1. 2017-03-27
+  * 增加 commission-ratio 到 plan-order
+  * 增加 payment-method 到 plan-order
+  * 增加 commission-ratio 到 order_events
+  * 增加 payment-method 到 order_events
+  * 增加 commission_ratio 的 plan_orders 表
+  * 增加 payment_method 到 order_events 表
+
 1. 2017-03-17
   * 修改了订单状态，去掉了提现相关状态，增加了支付后取消和核保后取消两个订单状态
   * 删除 order-event 数据结构的 last-state 属性
@@ -282,18 +290,27 @@
 | drivers              | [person]          | 司机              |
 | items                | [plan-order-item] | 包含的 order-item |
 | service-ratio        | float             | 服务费率          |
+| commission-ratio     | float             | 手续费率          |
 | summary              | float             | 订单总额          |
 | payment              | float             | 订单实付          |
 | expect-at            | date              | 预计生效日期      |
 | start-at             | date              | 合约生效时间      |
 | stop-at              | date              | 合约失效时间      |
 | real-value           | float             | 车辆真实价格      |
+| payment-method       | int               | 支付方式          |
 | paid-at              | date              | 订单支付时间      |
 | recommend            | string            | 推荐人            |
 | ticket               | string            | 扫码 ticket       |
 | reason               | string            | 拒绝原因          |
 | driving-frontal-view | string            | 行驶证正面照      |
 | driving-rear-view    | string            | 行驶证背面照      |
+
+支付方式:
+
+| method | meanning |
+| ----   | ----     |
+| 1      | 汇付天下 |
+| 2      | 微信支付 |
 
 为了在过户后不泄漏隐私信息，行驶证照片从 vehicle 中迁移到 order 中。
 
@@ -357,10 +374,12 @@
 | insured              | uuid     | 投保人 ID    |
 | owner                | uuid     | 车主 ID      |
 | promotion            | float    | 促销金额     |
-| service_ratio        | float    | 服务费率     |
+| service-ratio        | float    | 服务费率     |
 | driving-frontal-view | string   | 行驶证正面照 |
 | driving-rear-view    | string   | 行驶证背面照 |
 | drivers              | [uuid]   | 司机         |
+| commission-ratio     | float    | 手续费率     |
+| payment-method       | smallint | 支付方式     |
 
 ### Event Type
 
@@ -384,22 +403,22 @@
 
 ### Event Type And Data Structure Matrix
 
-| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view | drivers |
-| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              | ----    |
-| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |         |
-| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |           |               |                    |                   |         |
-| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |
-| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |         |
-| 11   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |
-| 12   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |
-| 13   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               | ✓                  | ✓                 |         |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view | drivers | commission-ratio | payment-method |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              | ----    | ----             | ----           |
+| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |         |                  |                |
+| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         | ✓                | ✓              |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
+| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |         |                  |                |
+| 11   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |
+| 12   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |
+| 13   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               | ✓                  | ✓                 |         |                  |                |
 
 ## SaleOrderEvent
 
@@ -466,7 +485,8 @@
 | owner                | uuid          |      |         |         | person       |
 | insured              | uuid          |      |         |         | person       |
 | promotion            | numeric(10,2) | ✓    |         |         |              |
-| service_ratio        | numeric(10,2) |      |         |         |              |
+| service_ratio        | numeric(10,2) |      | 0.0     |         |              |
+| commission_ratio     | numeric(10,2) |      | 0.0     |         |              |
 | real_value           | numeric(10,2) |      | 0.0     |         |              |
 | ticket               | char(96)      | ✓    |         |         |              |
 | recommend            | varchar(32)   | ✓    |         |         |              |
@@ -481,6 +501,7 @@
 | evtid                | uuid          | ✓    |         |         | order_events |
 | driving_frontal_view | varchar(1024) | ✓    |         |         |              |
 | driving_rear_view    | varchar(1024) | ✓    |         |         |              |
+| payment_method       | smallint      |      | 0       |         |              |
 
 ## plan_order_items
 
