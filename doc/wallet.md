@@ -47,6 +47,10 @@
 
 # ChangeLog
 
+1. 2017-03-27
+  * 修改小池类型为 0
+  * 修改大池类型为 1
+
 1. 2017-03-20
   * 修改 transaction title 互助金冻结为互助金预提
   * 修改 transaction title 互助金解冻为互助金结算
@@ -460,7 +464,7 @@ See [example](../data/wallet/getWallet.json)
 | name   | type   | note             |
 | ----   | ----   | ----             |
 | aid    | uuid   | 钱包帐号 ID      |
-| type   | number | 0: 小池, 1: 大池 |
+| type   | number | 1: 小池, 2: 大池 |
 | amount | number | 冻结金额         |
 | maid   | uuid   | 互助事件 ID      |
 
@@ -500,7 +504,7 @@ See [example](../data/wallet/getWallet.json)
 | name   | type   | note             |
 | ----   | ----   | ----             |
 | aid    | uuid   | 钱包帐号 ID      |
-| type   | number | 0: 小池, 1: 大池 |
+| type   | number | 1: 小池, 2: 大池 |
 | amount | number | 解冻金额         |
 | maid   | uuid   | 互助事件 ID      |
 
@@ -542,7 +546,7 @@ See [example](../data/wallet/getWallet.json)
 | aid    | uuid   | 钱包帐号 ID      |
 | amount | number | 扣款金额         |
 | maid   | uuid   | 互助事件 ID      |
-| type   | number | 0: 小池, 1: 大池 |
+| type   | number | 1: 小池, 2: 大池 |
 
 #### response
 
