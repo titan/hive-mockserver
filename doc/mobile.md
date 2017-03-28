@@ -18,6 +18,9 @@
 
 # ChangeLog
 
+1. 2017-03-28
+  * 增加 cancel(已创建订单) 方法,增加 getHiveStatistics(获取首页数据) 方法
+
 1. 2017-03-16
   * 删除 createDriverOrder 方法，增加 addDrivers 方法
 
@@ -297,4 +300,72 @@ rpc.call("mobile", "addDrivers", oid, drivers[])
 | name | type    | note |
 | ---- | ----    | ---- |
 | code | int     | 200  |
+
+## cancel
+
+取消未支付订单
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+|oid   | uuid   | 订单ＩＤ|
+
+```javascript
+rpc.call("mobile", "cancel", oid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | string  | oid  |
+
+
+
+## getHiveStatistics
+
+　获取首页统计数据
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+
+```javascript
+
+
+rpc.call("mobile", "getHiveStatistics") 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+注: data中数据结构为：{ effective_orders: 生效订单数, total_money: 生效互助金总额, mutual_times: 申请互助次数, mutual_money: 互助总额, average_mutual_period: 平均剩余互助期, percentage_of_mutual_period: 剩余互助期百分比, percentage_of_mututal_money_remaining: 剩余互助金额百分比, deadline: 截止时间 }
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | json    | hiveStatistics|
+
+
 
