@@ -7,7 +7,7 @@
   - [vehicle-model](#vehicle-model)
   - [vehicle](#vehicle)
 - [Database](#database)
-  - [vehicle\_models](#vehicle%5C_models)
+  - [vehicle_models](#vehicle_models)
   - [vehicles](#vehicles)
   - [ncd](#ncd)
 - [Cache](#cache)
@@ -39,6 +39,10 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-29
+  * 修改 ncd 表的 start_at 为 timestamp 类型
+  * 修改 ncd 表的 stop_at 为 timestamp 类型
 
 1. 2017-03-15
   * 删除 createNewVehicle 入参 owner\_name, owner\_identity\_no, insured\_name, insured\_identity\_no, insured\_phone, recommend
@@ -225,50 +229,50 @@
 
 # Database
 
-## vehicle\_models
+## vehicle_models
 
-| field       | type      | null | default | index   | reference |
-| ----        | ----      | ---- | ----    | ----    | ----      |
-| code        | char(32)  |      |         | primary |           |
-| source      | smallint  |      | 1       |         |           |
-| data        | json      | ✓    |         |         |           |
-| created\_at | timestamp |      | now     |         |           |
-| updated\_at | timestamp |      | now     |         |           |
-| deleted     | boolean   |      | false   |         |           |
+| field      | type      | null | default | index   | reference |
+| ----       | ----      | ---- | ----    | ----    | ----      |
+| code       | char(32)  |      |         | primary |           |
+| source     | smallint  |      | 1       |         |           |
+| data       | json      | ✓    |         |         |           |
+| created_at | timestamp |      | now     |         |           |
+| updated_at | timestamp |      | now     |         |           |
+| deleted    | boolean   |      | false   |         |           |
 
 ## vehicles
 
-| field                    | type      | null | default | index   | reference |
-| ----                     | ----      | ---- | ----    | ----    | ----      |
-| id                       | uuid      |      |         | primary |           |
-| vehicle\_code            | char(32)  |      |         |         |           |
-| license\_no              | char(16)  | ✓    |         |         |           |
-| engine\_no               | char(32)  | ✓    |         |         |           |
-| register\_date           | timestamp | ✓    |         |         |           |
-| is\_transfer             | boolean   | ✓    |         |         |           |
-| receipt\_no              | char(32)  | ✓    |         |         |           |
-| receipt\_date            | timestamp |      | 0.0     |         |           |
-| last\_insurance\_company | char(16)  | ✓    |         |         |           |
-| insurance\_due\_date     | timestamp | ✓    | 0       |         |           |
-| fuel\_type               | char(16)  | ✓    |         |         |           |
-| accident\_status         | smallint  | ✓    |         |         |           |
-| vin                      | char(17)  | ✓    |         |         |           |
-| created\_at              | timestamp |      | now     |         |           |
-| updated\_at              | timestamp |      | now     |         |           |
-| deleted                  | boolean   |      | false   |         |           |
+| field                  | type      | null | default | index   | reference |
+| ----                   | ----      | ---- | ----    | ----    | ----      |
+| id                     | uuid      |      |         | primary |           |
+| vehicle_code           | char(32)  |      |         |         |           |
+| license_no             | char(16)  | ✓    |         |         |           |
+| engine_no              | char(32)  | ✓    |         |         |           |
+| register_date          | timestamp | ✓    |         |         |           |
+| is_transfer            | boolean   | ✓    |         |         |           |
+| receipt_no             | char(32)  | ✓    |         |         |           |
+| receipt_date           | timestamp |      | 0.0     |         |           |
+| last_insurance_company | char(16)  | ✓    |         |         |           |
+| insurance_due_date     | timestamp | ✓    | 0       |         |           |
+| fuel_type              | char(16)  | ✓    |         |         |           |
+| accident_status        | smallint  | ✓    |         |         |           |
+| vin                    | char(17)  | ✓    |         |         |           |
+| created_at             | timestamp |      | now     |         |           |
+| updated_at             | timestamp |      | now     |         |           |
+| deleted                | boolean   |      | false   |         |           |
 
 ## ncd
 
-| field     | type          | null | default | index   | reference |note|
-| ----      | ----          | ---- | ----    | ----    | ----      |----|
-| id        | uuid          |      |         | primary |           ||
-| vid       | uuid          |      |         |         | vehicles  |车辆id|
-| start\_at | varchar     |      |         |         |           |ncd开始时间，格式：2016-01-02|
-| stop\_at  | varchar     |      |         |         |           |ncd结束时间，格式：2016-01-02|
-| deleted       | bool |      |         |         |           |是否删除|
-| ratio       | float |      |         |         |           |ncd系数|
-| created_at       | timestamptz |      |         |         |           |创建时间|
-| updated_at       | timestamptz |      |         |         |           |更新时间|
+| field      | type      | null | default | index   | reference | note     |
+| ----       | ----      | ---- | ----    | ----    | ----      | ----     |
+| id         | uuid      |      |         | primary |           |          |
+| vid        | uuid      |      |         |         | vehicles  | 车辆id   |
+| start_at   | timestamp |      |         |         |           | 开始时间 |
+| stop_at    | timestamp |      |         |         |           | 结束时间 |
+| ratio      | float     |      |         |         |           | ncd系数  |
+| created_at | timestamp |      |         |         |           | 创建时间 |
+| updated_at | timestamp |      |         |         |           | 更新时间 |
+| deleted    | bool      |      |         |         |           | 是否删除 |
 
 # Cache
 
@@ -348,9 +352,9 @@ Example:
 
 ```javascript
 
-let vehicle\_code = "I0000000000000000250000000000041";
+let vehicle_code = "I0000000000000000250000000000041";
 
-rpc.call("vehicle", "getVehicleModel", vehicle\_code)
+rpc.call("vehicle", "getVehicleModel", vehicle_code)
   .then(function (result) {
 
   }, function (error) {
@@ -439,29 +443,29 @@ See [example](../data/vehicle/fetchVehicleAndModelsByLicense.json)
 
 #### request
 
-| name          | type    | note         |
-| ----          | ----    | ----         |
-| vehicle\_code | string  | 车型代码     |
-| engine\_no    | string  | 发动机号     |
-| receipt\_no   | string  | 发票编号     |
-| receipt\_date | iso8601 | 发票开具时间 |
-| is\_transfer  | boolean | 是否过户     |
-| fuel\_type    | string  | 燃油类型     |
-| vin           | string  | vin码        |
+| name         | type    | note         |
+| ----         | ----    | ----         |
+| vehicle_code | string  | 车型代码     |
+| engine_no    | string  | 发动机号     |
+| receipt_no   | string  | 发票编号     |
+| receipt_date | iso8601 | 发票开具时间 |
+| is_transfer  | boolean | 是否过户     |
+| fuel_type    | string  | 燃油类型     |
+| vin          | string  | vin码        |
 
 Example:
 
 ```javascript
 
-let vehicle\_code = "4028b2883f19328f013f1c4c8845019a";
-let engine\_no    = "5555";
-let receipt\_no   = "123456";
-let receipt\_date = new Date("2016-12-06 18:26:54");
-let is\_transfer  = false;
-let fuel\_type    = "汽油"
-let vin           = "WBAZV4101BL456778";
+let vehicle_code = "4028b2883f19328f013f1c4c8845019a";
+let engine_no    = "5555";
+let receipt_no   = "123456";
+let receipt_date = new Date("2016-12-06 18:26:54");
+let is_transfer  = false;
+let fuel_type    = "汽油"
+let vin          = "WBAZV4101BL456778";
 
-rpc.call("vehicle", "setVehicle", vehicle\_code, engine\_no, receipt\_no, receipt\_date, is\_transfer, fuel\_type, vin)
+rpc.call("vehicle", "setVehicle", vehicle_code, engine_no, receipt_no, receipt_date, is_transfer, fuel_type, vin)
   .then(function (result) {
 
   }, function (error) {
@@ -505,35 +509,34 @@ rpc.call("vehicle", "setVehicle", vehicle\_code, engine\_no, receipt\_no, receip
 
 #### request
 
-| name                     | type     | note           |
-| ----                     | ----     | ----           |
-| vehicle\_code            | string   | 车型代码       |
-| license\_no              | string   | 车牌           |
-| engine\_no               | string   | 发动机号       |
-| register\_date           | iso8601  | 注册日期       |
-| is\_transfer             | boolean  | 是否过户       |
-| last\_insurance\_company | string   | 上次投保的公司 |
-| insurance\_due\_date     | iso8601  | 保险到期时间   |
-| fuel\_type               | string   | 燃油类型       |
-| vin                      | string   | vin码          |
-| accident\_status         | smallint | 出险次数       |
+| name                   | type     | note           |
+| ----                   | ----     | ----           |
+| vehicle_code           | string   | 车型代码       |
+| license_no             | string   | 车牌           |
+| engine_no              | string   | 发动机号       |
+| register_date          | iso8601  | 注册日期       |
+| is_transfer            | boolean  | 是否过户       |
+| last_insurance_company | string   | 上次投保的公司 |
+| insurance_due_date     | iso8601  | 保险到期时间   |
+| fuel_type              | string   | 燃油类型       |
+| vin                    | string   | vin码          |
+| accident_status        | smallint | 出险次数       |
 
 Example:
-
 ```javascript
 
-let vehicle\_code            = "4028b2883f19328f013f1c4c8845019a";
-let license\_no              = "a5678";
-let engine\_no               = "5555";
-let register\_date           = new Date("2016-12-06 18:26:54");
-let is\_transfer             = false;
-let last\_insurance\_company = null;
-let insurance\_due\_date     = new Date("2016-12-06 18:26:54");
-let fuel\_type               = "汽油";
-let vin                      = "WBAZV4101BL456778";
-let accident\_status         = 1;
+let vehicle_code           = "4028b2883f19328f013f1c4c8845019a";
+let license_no             = "a5678";
+let engine_no              = "5555";
+let register_date          = new Date("2016-12-06 18:26:54");
+let is_transfer            = false;
+let last_insurance_company = null;
+let insurance_due_date     = new Date("2016-12-06 18:26:54");
+let fuel_type              = "汽油";
+let vin                    = "WBAZV4101BL456778";
+let accident_status        = 1;
 
-rpc.call("vehicle", "createVehicle", vehicle\_code, license\_no, engine\_no, register\_date, is\_transfer, last\_insurance\_company, insurance\_due\_date, fuel\_type, vin, accident\_status)
+rpc.call("vehicle", "createVehicle", vehicle_code, license_no, engine_no, register_date, is_transfer, last_insurance_company, insurance_due_date, fuel_type, vin, accident_status)
   .then(function (result) {
 
   }, function (error) {
@@ -600,10 +603,10 @@ rpc.call("vehicle", "getVehicle", vid)
 
 成功：
 
-| name | type   | note    |
-| ---- | ----   | ----    |
-| code | int    | 200     |
-| data | json   |         |
+| name | type | note |
+| ---- | ---- | ---- |
+| code | int  | 200  |
+| data | json |      |
 
 失败：
 
@@ -630,10 +633,10 @@ See [example](../data/vehicle/getVehicle.json)
 
 #### request
 
-| name                 | type    | note         |
-| ----                 | ----    | ----         |
-| vid                  | uuid    | vehicle ID   |
-| insurance\_due\_date | iso8601 | 保险到期时间 |
+| name               | type    | note         |
+| ----               | ----    | ----         |
+| vid                | uuid    | vehicle ID   |
+| insurance_due_date | iso8601 | 保险到期时间 |
 
 #### response
 

@@ -13,6 +13,21 @@
   - [getQuotation](#getquotation)
       - [request](#request-2)
       - [response](#response-2)
+  - [saveOrderPdf](#saveorderpdf)
+      - [request](#request-3)
+      - [response](#response-3)
+  - [getUnpaidOrders](#getunpaidorders)
+      - [request](#request-4)
+      - [response](#response-4)
+  - [addDrivers](#adddrivers)
+      - [request](#request-5)
+      - [response](#response-5)
+  - [cancel](#cancel)
+      - [request](#request-6)
+      - [response](#response-6)
+  - [getHiveStatistics](#gethivestatistics)
+      - [request](#request-7)
+      - [response](#response-7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
