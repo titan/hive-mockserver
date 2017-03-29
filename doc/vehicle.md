@@ -259,13 +259,16 @@
 
 ## ncd
 
-| field     | type          | null | default | index   | reference |
-| ----      | ----          | ---- | ----    | ----    | ----      |
-| id        | uuid          |      |         | primary |           |
-| vid       | uuid          |      |         |         | vehicles  |
-| start\_at | timestamp     |      |         |         |           |
-| stop\_at  | timestamp     |      |         |         |           |
-| ncd       | numeric(3, 3) |      |         |         |           |
+| field     | type          | null | default | index   | reference |note|
+| ----      | ----          | ---- | ----    | ----    | ----      |----|
+| id        | uuid          |      |         | primary |           ||
+| vid       | uuid          |      |         |         | vehicles  |车辆id|
+| start\_at | varchar     |      |         |         |           |ncd开始时间，格式：2016-01-02|
+| stop\_at  | varchar     |      |         |         |           |ncd结束时间，格式：2016-01-02|
+| deleted       | bool |      |         |         |           |是否删除|
+| ratio       | float |      |         |         |           |ncd系数|
+| created_at       | timestamptz |      |         |         |           |创建时间|
+| updated_at       | timestamptz |      |         |         |           |更新时间|
 
 # Cache
 
