@@ -28,6 +28,9 @@
   - [getHiveStatistics](#gethivestatistics)
       - [request](#request-7)
       - [response](#response-7)
+  - [updateInsuredPhone](#updateinsuredphone)
+      - [request](#request-8)
+      - [response](#response-8)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

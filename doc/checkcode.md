@@ -2,17 +2,24 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
+- [ChangeLog](#changelog)
 - [API](#api)
   - [SendMessage](#sendmessage)
       - [request](#request)
       - [response](#response)
-  - [VerifyCheckcode](#verifycheckcode)
+  - [SendMessageForOrder](#sendmessagefororder)
       - [request](#request-1)
       - [response](#response-1)
-  - [SendMessageViaTemplate](#sendmessageviatemplate)
-        - [request](#request-2)
-        - [attention](#attention)
+  - [VerifyCheckcode](#verifycheckcode)
+      - [request](#request-2)
       - [response](#response-2)
+  - [VerifyCheckcodeForOrder](#verifycheckcodefororder)
+      - [request](#request-3)
+      - [response](#response-3)
+  - [SendMessageViaTemplate](#sendmessageviatemplate)
+        - [request](#request-4)
+        - [attention](#attention)
+      - [response](#response-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

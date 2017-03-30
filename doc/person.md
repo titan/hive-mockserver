@@ -22,6 +22,9 @@
   - [setPersonVerified](#setpersonverified)
       - [request](#request-3)
       - [response](#response-3)
+  - [updateInsuredPhone](#updateinsuredphone)
+      - [request](#request-4)
+      - [response](#response-4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
