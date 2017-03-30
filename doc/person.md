@@ -27,6 +27,9 @@
 
 # ChangeLog
 
+1. 2017-03-29
+  * 增加 updateInsuredPhone 方法
+
 1. 2017-03-18
   *　修改 updateViews 接口参数
 　
@@ -236,3 +239,38 @@ rpc.call("person", "updateViews", pid, identity_frontal_view, identity_rear_view
 | 200  | Success          |
 | 404  | Person not found |
 | 500  | 错误信息         |
+
+
+## updateInsuredPhone
+
+修改投保人手机号
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| pid  | uuid   | person_id |
+| phone| string | 新手机号|
+
+```javascript
+
+
+rpc.call("mobile", "updateInsuredPhone", pid, phone) 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | uuid    | pid  |
