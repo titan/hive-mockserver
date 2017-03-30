@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [设置](#%E8%AE%BE%E7%BD%AE)
+- [运行](#%E8%BF%90%E8%A1%8C)
+- [数据](#%E6%95%B0%E6%8D%AE)
+- [文档](#%E6%96%87%E6%A1%A3)
+- [例外](#%E4%BE%8B%E5%A4%96)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 MockServer
 
 MockServer 是蜂巢互助服务仿真程序，通过 vue-hive-rpc 插件在页面中调用，可得到预

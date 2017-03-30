@@ -28,10 +28,16 @@
   - [getHiveStatistics](#gethivestatistics)
       - [request](#request-7)
       - [response](#response-7)
+  - [updateInsuredPhone](#updateinsuredphone)
+      - [request](#request-8)
+      - [response](#response-8)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-03-29
+  * 增加 updateInsuredPhone 方法
 
 1. 2017-03-28
   * 增加 cancel(已创建订单) 方法,增加 getHiveStatistics(获取首页数据) 方法
@@ -382,5 +388,39 @@ rpc.call("mobile", "getHiveStatistics")
 | code | int     | 200  |
 | data | json    | hiveStatistics|
 
+## updateInsuredPhone
+
+修改投保人手机号
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| pid  | uuid   | person_id |
+| phone| string | 新手机号|
+| verify_code|string| 验证码 |
+
+```javascript
+
+
+rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code) 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | uuid    | pid  |
 
 
