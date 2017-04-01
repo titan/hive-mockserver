@@ -47,6 +47,9 @@
 
 # ChangeLog
 
+1. 2017-03-01
+  * 完善了 freeze 和 unfreeze 的描述
+
 1. 2017-03-29
   * 增加新交易记录类型: 扣除微信手续费
 
@@ -474,7 +477,13 @@ See [example](../data/wallet/getWallet.json)
 | aid    | uuid   | 钱包帐号 ID      |
 | type   | number | 1: 小池, 2: 大池 |
 | amount | number | 冻结金额         |
-| maid   | uuid   | 互助事件 ID      |
+| maid   | string | 互助事件 ID      |
+
+type 可以是 1: 小池; 2: 大池; 3: 小池 + 大池
+
+当类型为 3 时，优先冻结小池的，再冻结大池的。
+
+当 amount > 大小池余额时，冻结完余额就不再冻结了。
 
 #### response
 
@@ -514,7 +523,13 @@ See [example](../data/wallet/getWallet.json)
 | aid    | uuid   | 钱包帐号 ID      |
 | type   | number | 1: 小池, 2: 大池 |
 | amount | number | 解冻金额         |
-| maid   | uuid   | 互助事件 ID      |
+| maid   | string | 互助事件 ID      |
+
+type 可以是 1: 小池; 2: 大池; 3: 小池 + 大池
+
+当类型为 3 时，优先解冻大池的，再解冻小池的。
+
+当 amount > 冻结余额时，解冻完余额就不再解冻了。
 
 #### response
 
