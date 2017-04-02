@@ -45,6 +45,9 @@
 
 # ChangeLog
 
+1. 2017-04-02
+  * 增加 getAccurateQuotation 入参 flag
+
 1. 2017-03-21
   * 修改 缓存 vid-qid 为 vid:uid-qid
 
@@ -613,6 +616,7 @@ data 例：
 | insurer\_code   | string  | 保险人代码         |
 | bi\_begin\_date | Date    | 商业险起期         |
 | ci\_begin\_date | Date    | 交强险起期         |
+| flag            | number  | 玻璃单独破碎险： 1 是国产， 2 是进口            |
 | cache\_first    | boolean | 是否优先从缓存获取 |
 | save            | boolean | 是否存库           |
 
@@ -634,10 +638,11 @@ let city\_code      = "110100";
 let insurer\_code   = "APIC";
 let bi\_begin\_date = new Date("20170315");
 let ci\_begin\_date = new Date("20170315");
+let flag           = 1;
 let cache\_first    = false;
 let save            = false;
 
-rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city\_code, insurer\_code, bi\_begin\_date, ci\_begin\_date, cache\_first)
+rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city\_code, insurer\_code, bi\_begin\_date, ci\_begin\_date, flag, cache\_first)
   .then(function (result) {
 
   }, function (error) {
