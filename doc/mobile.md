@@ -36,6 +36,9 @@
 
 # ChangeLog
 
+1. 2017-04-06
+  * 修改并完善getHiveStatistics接口中的字段名
+
 1. 2017-03-29
   * 增加 updateInsuredPhone 方法
 
@@ -371,7 +374,7 @@ rpc.call("mobile", "cancel", oid)
 ```javascript
 
 
-rpc.call("mobile", "getHiveStatistics") 
+rpc.call("mobile", "getHiveStatistics")
   .then(function (result) {
 
   }, function (error) {
@@ -381,7 +384,7 @@ rpc.call("mobile", "getHiveStatistics")
 
 #### response
 
-注: data中数据结构为：{ effective_orders: 生效订单数, total_money: 生效互助金总额, mutual_times: 申请互助次数, mutual_money: 互助总额, average_mutual_period: 平均剩余互助期, percentage_of_mutual_period: 剩余互助期百分比, percentage_of_mututal_money_remaining: 剩余互助金额百分比, deadline: 截止时间 }
+注: data中数据结构为：{ effective_orders: 生效订单数, total_money: 生效互助金总额, case_times: 申请互助次数,case_times_ongoing:正在进行的互助事件数, case_end_times:结束的互助事件总数, case_money: 互助总额, average_case_period: 平均剩余互助期, percentage_of_case_period: 剩余互助期百分比, percentage_of_case_money_remaining: 剩余互助金额百分比, deadline: 截止时间 }
 
 | name | type    | note |
 | ---- | ----    | ---- |
