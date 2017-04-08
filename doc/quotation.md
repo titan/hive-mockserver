@@ -18,32 +18,39 @@
   - [license-two-dates](#license-two-dates)
   - [zt-quotation:${vid}:${insurer\_code}](#zt-quotationvidinsurer%5C_code)
 - [API](#api)
-  - [createQuotation](#createquotation)
+  - [createAgentQuotation](#createagentquotation)
       - [request](#request)
+      - [Item](#item)
       - [response](#response)
-  - [getQuotation](#getquotation)
+  - [createQuotation](#createquotation)
       - [request](#request-1)
       - [response](#response-1)
-  - [getLastQuotationByVid](#getlastquotationbyvid)
+  - [getQuotation](#getquotation)
       - [request](#request-2)
       - [response](#response-2)
-  - [refresh](#refresh)
+  - [getLastQuotationByVid](#getlastquotationbyvid)
       - [request](#request-3)
       - [response](#response-3)
-  - [getReferenceQuotation](#getreferencequotation)
+  - [refresh](#refresh)
       - [request](#request-4)
       - [response](#response-4)
-  - [getAccurateQuotation](#getaccuratequotation)
+  - [getReferenceQuotation](#getreferencequotation)
       - [request](#request-5)
       - [response](#response-5)
-  - [getLastQuotations](#getlastquotations)
+  - [getAccurateQuotation](#getaccuratequotation)
       - [request](#request-6)
       - [response](#response-6)
+  - [getLastQuotations](#getlastquotations)
+      - [request](#request-7)
+      - [response](#response-7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # ChangeLog
+
+1. 2017-04-08
+  * 增加 createAgentQuotation 接口
 
 1. 2017-04-02
   * 增加 getAccurateQuotation 入参 flag
@@ -305,6 +312,100 @@
 | zt-quotation:${vid}:${insurer\_code} | string | zt response data | 智通响应数据(30天有效期) |
 
 # API
+
+## createAgentQuotation
+
+创建报价
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name      | type   | note         |
+| ----      | ----   | ----         |
+| vid       | uuid   | 车辆 ID      |
+| owner     | uuid   | 车主 ID      |
+| insured   | uuid   | 投保人ID     |
+| recommend | string | 推荐人       |
+| items     | Item[] | 报价条目     |
+| qid?      | uuid   | quotation ID |
+
+#### Item
+
+| name       | type   | note                                             |
+| ----       | ----   | ----                                             |
+| pid        | uuid   | 对应的 plan ID                                   |
+| price      | float  | 原价                                             |
+| amount     | float  | 数量                                             |
+| unit       | string | 单位                                             |
+| real_price | float  | 真是价格                                         |
+| type       | int    | 用于处理多个价格的情况, 比如["三块漆", "六块漆"] |
+| insure     | int    | 保险公司                                         |
+
+```javascript
+// 手工报价
+let vid       = "00000000-0000-0000-0000-000000000000";
+let owner     = "00000000-0000-0000-0000-000000000000";
+let insured   = "00000000-0000-0000-0000-000000000000";
+let recommend = "";
+let items     = [];
+
+rpc.call("quotation", "createAgentQuotation", vid, owner, insured, recommend, items)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+// 自动报价，前端忽略
+let vid       = "00000000-0000-0000-0000-000000000000";
+let owner     = "00000000-0000-0000-0000-000000000000";
+let insured   = "00000000-0000-0000-0000-000000000000";
+let recommend = "";
+let items     = [];
+let qid       = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("quotation", "createAgentQuotation", vid, owner, insured, recommend, items, qid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | object | 见下 |
+
+data 的定义
+
+| name        | type | note     |
+| ----        | ---- | ----     |
+| qid         | uuid | 报价ID   |
+| created\_at | date | 创建时间 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 408  | 请求超时 |
+| 500  | 未知错误 |
+
+
 
 ## createQuotation
 
