@@ -426,4 +426,46 @@ rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code)
 | code | int     | 200  |
 | data | uuid    | pid  |
 
+## creatPlanOrder
+
+创建计划订单
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name                   | type    | note                       |
+| ----                   | ----    | ----                       |
+| verify_code            | string  | 手机验证码                   |
+| vid                    | string  | 车辆ＩＤ　　　　　　　　　　　　 |
+| qid                    | string  | 报价ＩＤ　                   |
+| owner_name             | string  | 车主姓名                     |
+| owner_identity_no      | string  | 车主身份证件编号             |
+| insured_name           | string  | 投保人姓名                   |
+| insured_identity_no    | string  | 投保人身份证件编号           |
+| insured_phone          | string  | 投保人电话号码               |
+| plans                  | {pid: type} | 计划 ID 列表            |
+| expect_at              | date        | 期望生效日期           |
+| recommend              | string  | 推荐人                       |
+
+```javascript
+
+
+rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans, expect_at, recommend) 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | uuid    | oid  |
 
