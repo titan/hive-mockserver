@@ -92,6 +92,9 @@
   * 删除 agreeWithdraw 方法
   * 删除 refund 方法
 
+1. 2017-04-07
+  * 增加 payment_method 参数到pay接口
+  
 1. 2017-03-27
   * 增加 commission-ratio 到 plan-order
   * 增加 payment-method 到 plan-order
@@ -685,7 +688,8 @@ rpc.call("order", "createPlanOrder", qid, vid, owner, insured, plans, expect_at)
 | uid    | uuid   | 用户ID    |
 | oid    | uuid   | 订单 ID   |
 | amount | number | 支付金额  |
-
+| payment_method| number|支付渠道|
+注：1表示汇付，2表示微信支付
 #### response
 
 成功：
