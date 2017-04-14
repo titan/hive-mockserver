@@ -48,53 +48,53 @@
   - [expire](#expire)
       - [request](#request-4)
       - [response](#response-4)
-  - [applyWithdraw](#applywithdraw)
+  - [renameNo](#renameno)
       - [request](#request-5)
       - [response](#response-5)
-  - [refuseWithdraw](#refusewithdraw)
+  - [getPlanOrdersByVehicle](#getplanordersbyvehicle)
       - [request](#request-6)
       - [response](#response-6)
-  - [agreeWithdraw](#agreewithdraw)
+  - [getPlanOrdersByUser](#getplanordersbyuser)
       - [request](#request-7)
       - [response](#response-7)
-  - [refund](#refund)
+  - [getPlanOrder](#getplanorder)
       - [request](#request-8)
       - [response](#response-8)
-  - [renameNo](#renameno)
+  - [getPlanOrderByQuotation](#getplanorderbyquotation)
       - [request](#request-9)
       - [response](#response-9)
-  - [getPlanOrdersByVehicle](#getplanordersbyvehicle)
+  - [addDrivers](#adddrivers)
       - [request](#request-10)
       - [response](#response-10)
-  - [getPlanOrdersByUser](#getplanordersbyuser)
+  - [delDrivers](#deldrivers)
       - [request](#request-11)
       - [response](#response-11)
-  - [getPlanOrder](#getplanorder)
+  - [updateDrivingView](#updatedrivingview)
       - [request](#request-12)
       - [response](#response-12)
-  - [getPlanOrderByQuotation](#getplanorderbyquotation)
+  - [refresh](#refresh)
       - [request](#request-13)
       - [response](#response-13)
-  - [addDrivers](#adddrivers)
-      - [request](#request-14)
-      - [response](#response-14)
-  - [delDrivers](#deldrivers)
-      - [request](#request-15)
-      - [response](#response-15)
-  - [updateDrivingView](#updatedrivingview)
-      - [request](#request-16)
-      - [response](#response-16)
-  - [refresh](#refresh)
-      - [request](#request-17)
-      - [response](#response-17)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
 
+1. 2017-04-13
+  * 删除 order_events 中的 reason 属性
+  * 增加 items 属性到 order_events
+  * 删除 APPLY_WITHDRAW 事件
+  * 删除 REFUSE_WITHDRAW 事件
+  * 删除 REFUSE_WITHDRAW 事件
+  * 删除 REFUND 事件
+  * 删除 applyWithdraw 方法
+  * 删除 refuseWithdraw 方法
+  * 删除 agreeWithdraw 方法
+  * 删除 refund 方法
+
 1. 2017-04-07
   * 增加 payment_method 参数到pay接口
-
+  
 1. 2017-03-27
   * 增加 commission-ratio 到 plan-order
   * 增加 payment-method 到 plan-order
@@ -371,7 +371,6 @@
 | real-value           | float    | 车辆实际价值 |
 | recommend            | string   | 推荐人       |
 | ticket               | string   | 推荐码       |
-| reason               | string   | 拒绝理由     |
 | oss-pdf              | string   | oss pdf      |
 | no                   | string   | 订单编号     |
 | insured              | uuid     | 投保人 ID    |
@@ -383,6 +382,7 @@
 | drivers              | [uuid]   | 司机         |
 | commission-ratio     | float    | 手续费率     |
 | payment-method       | smallint | 支付方式     |
+| items                | [Item]   | 订单条目     |
 
 ### Event Type
 
@@ -394,10 +394,6 @@
 | 3    | UNDERWRITE       | 订单核保     |
 | 4    | TAKE_EFFECT      | 订单生效     |
 | 5    | EXPIRED          | 订单到期     |
-| 6    | APPLY_WITHDRAW   | 申请提现     |
-| 7    | REFUSE_WITHDRAW  | 拒绝提现申请 |
-| 8    | AGREE_WITHDRAW   | 同意提现申请 |
-| 9    | REFUND           | 银行退款     |
 | 10   | UPDATE           | 更新订单信息 |
 | 11   | ADD_DRIVER       | 增加司机     |
 | 12   | DELETE_DRIVER    | 删除司机     |
@@ -406,22 +402,18 @@
 
 ### Event Type And Data Structure Matrix
 
-| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | reason | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view | drivers | commission-ratio | payment-method |
-| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              | ----    | ----             | ----           |
-| 0    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      |        | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |         |                  |                |
-| 2    |         | ✓       |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         | ✓                | ✓              |
-| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 4    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 5    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 6    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 7    |         |         |      |      |           |          |         |            |           |        | ✓      |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 8    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 9    |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   |         |                  |                |
-| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |         |                  |                |
-| 11   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |
-| 12   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |
-| 13   |         |         |      |      |           |          |         |            |           |        |        |         |      |         |       |           |               | ✓                  | ✓                 |         |                  |                |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view | drivers | commission-ratio | payment-method | items |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              | ----    | ----             | ----           | ----  |
+| 0    |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |         |                  |                | ✓     |
+| 2    |         | ✓       |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         | ✓                | ✓              |       |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 4    |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 5    |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |         |                  |                |       |
+| 11   |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |       |
+| 12   |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |       |
+| 13   |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               | ✓                  | ✓                 |         |                  |                |       |
 
 ## SaleOrderEvent
 
@@ -493,7 +485,6 @@
 | real_value           | numeric(10,2) |      | 0.0     |         |              |
 | ticket               | char(96)      | ✓    |         |         |              |
 | recommend            | varchar(32)   | ✓    |         |         |              |
-| reason               | varchar(128)  | ✓    |         |         |              |
 | oss_pdf              | varchar(256)  | ✓    |         |         |              |
 | expect_at            | timestamp     |      | now     |         |              |
 | start_at             | timestamp     | ✓    |         |         |              |
@@ -508,15 +499,15 @@
 
 ## plan_order_items
 
-| field  | type     | null | default | index   | reference   |
-| ----   | ----     | ---- | ----    | ----    | ----        |
-| id     | uuid     |      |         | primary |             |
-| oid    | uuid     |      |         |         | plan_orders |
-| pid    | uuid     |      |         |         | plans       |
-| title  | string   |      |         |         |             |
-| price  | float    |      | 0.0     |         |             |
-| amount | float    |      | 0.0     |         |             |
-| index  | smallint |      | 0       |         |             |
+| field  | type        | null | default | index   | reference   |
+| ----   | ----        | ---- | ----    | ----    | ----        |
+| id     | uuid        |      |         | primary |             |
+| oid    | uuid        |      |         |         | plan_orders |
+| pid    | uuid        |      |         |         | plans       |
+| title  | varchar(64) |      |         |         |             |
+| price  | float       |      | 0.0     |         |             |
+| amount | float       |      | 0.0     |         |             |
+| index  | smallint    |      | 0       |         |             |
 
 index 是多选项的下标索引，“三块漆”，“六块漆”的下标
 
@@ -826,147 +817,6 @@ rpc.call("order", "createPlanOrder", qid, vid, owner, insured, plans, expect_at)
 | ---- | ----     |
 | 408  | 请求超时 |
 
-## applyWithdraw
-
-申请提现
-
-| domain | accessable |
-| ----   | ----       |
-| admin  |            |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note    |
-| ---- | ---- | ----    |
-| oid  | uuid | 订单 ID |
-
-#### response
-
-成功：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 200  |
-| data | string | oid  |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-
-## refuseWithdraw
-
-拒绝提现申请
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile |            |
-
-#### request
-
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| oid    | uuid   | 订单 ID  |
-| reason | string | 拒绝原因 |
-
-#### response
-
-成功：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 200  |
-| data | string | oid  |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-
-## agreeWithdraw
-
-同意提现申请
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile |            |
-
-#### request
-
-| name | type | note    |
-| ---- | ---- | ----    |
-| oid  | uuid | 订单 ID |
-
-#### response
-
-成功：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 200  |
-| data | string | oid  |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-
-## refund
-
-银行退款
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile |            |
-
-#### request
-
-| name   | type   | note     |
-| ----   | ----   | ----     |
-| oid    | uuid   | 订单 ID  |
-
-#### response
-
-成功：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 200  |
-| data | string | oid  |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning |
-| ---- | ----     |
-| 408  | 请求超时 |
-
 ## renameNo
 
 修改订单编号
@@ -1214,15 +1064,15 @@ rpc.call("order", "addDrivers", oid, pids)
 
 #### request
 
-| name                 | type   | note             |
-| ----                 | ----   | ----             |
-| oid                  | uuid   | order id         |
-| driving_frontal_view | string | 行驶证正面照 url   |
-| driving_rear_view    | string | 行驶证背面照 url   |
-| pid                  | uuid | person id        |
-| identity-frontal-view | string | 身份证件正面照    |
-| identity-rear-view    | string | 身份证件背面照    |
-| driver-views           | {pid: url}| 驾驶人信息       |
+| name                  | type       | note           |
+| ----                  | ----       | ----           |
+| oid                   | uuid       | order id       |
+| driving_frontal_view  | string     | 行驶证正面照   |
+| driving_rear_view     | string     | 行驶证背面照   |
+| pid                   | uuid       | person id      |
+| identity-frontal-view | string     | 身份证件正面照 |
+| identity-rear-view    | string     | 身份证件背面照 |
+| driver-views          | {pid: url} | 驾驶人信息     |
 
 Example:
 

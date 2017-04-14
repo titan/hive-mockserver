@@ -26,10 +26,6 @@ package Person {
   object Owner
   object Insured
 }
-package MutualAid {
-  object MutualAid
-  object Recompense
-}
 package Wallet {
   object Wallet
   object Transaction
@@ -49,8 +45,6 @@ package Order {
 package Quotation {
   object Quotation
   object QuotationItem
-  object QuotationItemQuota
-  object QuotationItemPrice
 }
 package Underwrite {
   object Underwrite
@@ -89,8 +83,6 @@ PlanOrder "1" --> "*" PlanOrderItem
 
 SaleOrder "1" --> "*" SaleOrderItem
 
-User "1" --> "*" MutualAid
-
 Vehicle --> VehicleModel
 Vehicle "1" -> "*" Driver
 Vehicle -> Owner
@@ -103,14 +95,8 @@ PlanOrder - Account
 PlanOrder -> Owner
 PlanOrder -> Insured
 
-MutualAid -> Driver
-MutualAid -> Vehicle
-MutualAid "1" --> "*" Recompense
-
 Quotation "1" --> "*" QuotationItem
 QuotationItem -> Plan
-QuotationItem "1" --> "*" QuotationItemQuota
-QuotationItem "1" --> "*" QuotationItemPrice
 
 Quotation -> Vehicle
 Quotation -> Owner
