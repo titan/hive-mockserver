@@ -31,10 +31,16 @@
   - [updateInsuredPhone](#updateinsuredphone)
       - [request](#request-8)
       - [response](#response-8)
+  - [creatPlanOrder](#creatplanorder)
+      - [request](#request-9)
+      - [response](#response-9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-04-14
+  * 增加createPlanOrder方法
 
 1. 2017-04-06
   * 修改并完善getHiveStatistics接口中的字段名
