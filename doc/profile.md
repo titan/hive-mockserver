@@ -36,6 +36,9 @@
 
 # ChangeLog
 
+1. 2017-04-20
+  * 增加inviter 字段
+  
 1. 2017-04-19
   * 重命名 getUserByUserIds 为 getUsers
 
@@ -84,6 +87,7 @@
 | ticket        | string                      | 微信扫码                 |
 | tender_opened | string                      | 汇付天下自动投标是否开启 |
 | insured       | [person](vehicle.md#person) | 投保人                   |
+| inviter       | string                      | 代理人邀请码             |
 
 # Database
 
@@ -106,6 +110,7 @@
 | ticket        | char(96)      | ✓    |         |         |           |
 | tender_opened | boolean       |      | false   |         |           |
 | insured       | uuid          | ✓    |         |         | person    |
+| inviter       | string        | ✓    |         |         |           |   
 
 # Cache
 
