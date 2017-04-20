@@ -36,13 +36,11 @@
 
 # ChangeLog
 
-<<<<<<< HEAD
 1. 2017-04-20
   * 增加inviter 字段
-=======
+  
 1. 2017-04-19
   * 重命名 getUserByUserIds 为 getUsers
->>>>>>> upstream/master
 
 1. 2017-02-22
   * 删除 getAllUsers 方法
