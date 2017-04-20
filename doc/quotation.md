@@ -49,6 +49,9 @@
 
 # ChangeLog
 
+1. 2017-04-20
+  * 增加 real_value 和 price 到 createAgentQuotation
+
 1. 2017-04-17
   * 增加 inviter 到 quotation 数据结构
   * 增加 inviter 到 quotations 数据表
@@ -330,15 +333,17 @@
 
 #### request
 
-| name      | type   | note         |
-| ----      | ----   | ----         |
-| vid       | uuid   | 车辆 ID      |
-| owner     | uuid   | 车主 ID      |
-| insured   | uuid   | 投保人ID     |
-| recommend | string | 推荐人       |
-| inviter   | string | 邀请人       |
-| items     | [Item] | 报价条目     |
-| qid?      | uuid   | quotation ID |
+| name       | type   | note         |
+| ----       | ----   | ----         |
+| vid        | uuid   | 车辆 ID      |
+| owner      | uuid   | 车主 ID      |
+| insured    | uuid   | 投保人ID     |
+| recommend  | string | 推荐人       |
+| inviter    | string | 邀请人       |
+| items      | [Item] | 报价条目     |
+| real_value | number | 车辆真实价值 |
+| price      | number | 总价         |
+| qid?       | uuid   | quotation ID |
 
 #### Item
 
@@ -348,19 +353,22 @@
 | price      | float  | 原价                                             |
 | amount     | float  | 数量                                             |
 | unit       | string | 单位                                             |
-| real_price | float  | 真是价格                                         |
+| real_price | float  | 真实价格                                         |
 | type       | int    | 用于处理多个价格的情况, 比如["三块漆", "六块漆"] |
 | insure     | int    | 保险公司                                         |
 
 ```javascript
 // 手工报价
-let vid       = "00000000-0000-0000-0000-000000000000";
-let owner     = "00000000-0000-0000-0000-000000000000";
-let insured   = "00000000-0000-0000-0000-000000000000";
-let recommend = "";
-let items     = [];
 
-rpc.call("quotation", "createAgentQuotation", vid, owner, insured, recommend, inviter, items)
+const vid        = "00000000-0000-0000-0000-000000000000";
+const owner      = "00000000-0000-0000-0000-000000000000";
+const insured    = "00000000-0000-0000-0000-000000000000";
+const recommend  = "";
+const items      = [];
+const real_value = 0;
+const price      = 0;
+
+rpc.call("quotation", "createAgentQuotation", vid, owner, insured, recommend, inviter, items, real_value, price)
   .then(function (result) {
 
   }, function (error) {
@@ -368,15 +376,17 @@ rpc.call("quotation", "createAgentQuotation", vid, owner, insured, recommend, in
   });
 
 // 自动报价，前端忽略
-let vid       = "00000000-0000-0000-0000-000000000000";
-let owner     = "00000000-0000-0000-0000-000000000000";
-let insured   = "00000000-0000-0000-0000-000000000000";
-let recommend = "";
-let inviter   = "";
-let items     = [];
-let qid       = "00000000-0000-0000-0000-000000000000";
+const vid        = "00000000-0000-0000-0000-000000000000";
+const owner      = "00000000-0000-0000-0000-000000000000";
+const insured    = "00000000-0000-0000-0000-000000000000";
+const recommend  = "";
+const inviter    = "";
+const items      = [];
+const real_value = 0;
+const price      = 0;
+const qid        = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("quotation", "createAgentQuotation", vid, owner, insured, recommend, inviter, items, qid)
+rpc.call("quotation", "createAgentQuotation", vid, owner, insured, recommend, inviter, items, real_value, price, qid)
   .then(function (result) {
 
   }, function (error) {
