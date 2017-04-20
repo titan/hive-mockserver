@@ -16,7 +16,7 @@
   - [getInviter](#getinviter)
       - [request](#request-1)
       - [response](#response-1)
-  - [getUserByUserIds](#getuserbyuserids)
+  - [getUsers](#getusers)
       - [request](#request-2)
       - [response](#response-2)
   - [setTenderOpened](#settenderopened)
@@ -36,8 +36,13 @@
 
 # ChangeLog
 
+<<<<<<< HEAD
 1. 2017-04-20
   * 增加inviter 字段
+=======
+1. 2017-04-19
+  * 重命名 getUserByUserIds 为 getUsers
+>>>>>>> upstream/master
 
 1. 2017-02-22
   * 删除 getAllUsers 方法
@@ -204,7 +209,7 @@ rpc.call("profile", "getInviter", token)
 
 See 成功返回数据：[example](../data/profile/getUser.json)
 
-## getUserByUserIds
+## getUsers
 
 根据userid数组获得一些用户信息
 
@@ -226,7 +231,7 @@ Example
 var uids = [
 ];
 
-rpc.call("profile", "getUserByUserIds", uids)
+rpc.call("profile", "getUsers", uids)
   .then(function (result) {
 
   }, function (error) {
@@ -246,8 +251,6 @@ rpc.call("profile", "getUserByUserIds", uids)
 | 200  | users     | 用户信息 |
 | 404  | not found | 未找到   |
 | 500  | err       | 错误信息 |
-
-See 成功返回数据：[example](../data/profile/getUserByUserIds.json)
 
 ## setTenderOpened
 

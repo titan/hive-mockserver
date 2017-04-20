@@ -80,6 +80,15 @@
 
 # ChangeLog
 
+1. 2017-04-14
+  * 删除 order-events 数据结构中的 ticket 属性
+  * 删除 plan-order 数据结构中的 ticket 属性
+  * 删除 plan_orders 表中的 ticket 字段
+  * 增加 inviter 到 order-event 数据结构
+  * 增加 inviter 到 plan-order 数据结构
+  * 增加 inviter 到 plan_orders 表
+  * 增加 inviter 到 createPlanOrder 的参数
+
 1. 2017-04-13
   * 删除 order_events 中的 reason 属性
   * 增加 items 属性到 order_events
@@ -370,7 +379,7 @@
 | stop-at              | iso8601  | 失效时间     |
 | real-value           | float    | 车辆实际价值 |
 | recommend            | string   | 推荐人       |
-| ticket               | string   | 推荐码       |
+| inviter              | string   | 邀请人       |
 | oss-pdf              | string   | oss pdf      |
 | no                   | string   | 订单编号     |
 | insured              | uuid     | 投保人 ID    |
@@ -402,18 +411,18 @@
 
 ### Event Type And Data Structure Matrix
 
-| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | ticket | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view | drivers | commission-ratio | payment-method | items |
-| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----   | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              | ----    | ----             | ----           | ----  |
-| 0    |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
-| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?      | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |         |                  |                | ✓     |
-| 2    |         | ✓       |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         | ✓                | ✓              |       |
-| 3    |         |         |      |      |           | ✓        | ✓       |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
-| 4    |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
-| 5    |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   |         |                  |                |       |
-| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?      | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |         |                  |                |       |
-| 11   |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |       |
-| 12   |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               |                    |                   | ✓       |                  |                |       |
-| 13   |         |         |      |      |           |          |         |            |           |        |         |      |         |       |           |               | ✓                  | ✓                 |         |                  |                |       |
+| type | summary | payment | qid  | vid  | expect-at | start-at | stop-at | real-value | recommend | inviter | oss-pdf | no   | insured | owner | promotion | service-ratio | driving-front-view | driving-rear-view | drivers | commission-ratio | payment-method | items |
+| ---- | ----    | ----    | ---- | ---- | ----      | ----     | ----    | ----       | ----      | ----    | ----    | ---- | ----    | ----  | ----      | ----          | ---                | ----              | ----    | ----             | ----           | ----  |
+| 0    |         |         |      |      |           |          |         |            |           |         |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 1    | ✓       | ✓       | ✓    | ✓    | ✓         |          |         | ✓          | ?         | ?       | ?       | ✓    | ?       | ?     | ✓         | ✓             | ?                  | ?                 |         |                  |                | ✓     |
+| 2    |         | ✓       |      |      |           |          |         |            |           |         |         |      |         |       |           |               |                    |                   |         | ✓                | ✓              |       |
+| 3    |         |         |      |      |           | ✓        | ✓       |            |           |         |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 4    |         |         |      |      |           |          |         |            |           |         |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 5    |         |         |      |      |           |          |         |            |           |         |         |      |         |       |           |               |                    |                   |         |                  |                |       |
+| 10   | ?       | ?       |      |      | ?         | ?        | ?       | ?          | ?         | ?       | ?       | ?    | ?       | ?     | ?         | ?             | ?                  | ?                 |         |                  |                |       |
+| 11   |         |         |      |      |           |          |         |            |           |         |         |      |         |       |           |               |                    |                   | ✓       |                  |                |       |
+| 12   |         |         |      |      |           |          |         |            |           |         |         |      |         |       |           |               |                    |                   | ✓       |                  |                |       |
+| 13   |         |         |      |      |           |          |         |            |           |         |         |      |         |       |           |               | ✓                  | ✓                 |         |                  |                |       |
 
 ## SaleOrderEvent
 
@@ -483,7 +492,7 @@
 | service_ratio        | numeric(10,2) |      | 0.0     |         |              |
 | commission_ratio     | numeric(10,2) |      | 0.0     |         |              |
 | real_value           | numeric(10,2) |      | 0.0     |         |              |
-| ticket               | char(96)      | ✓    |         |         |              |
+| inviter              | char(16)      | ✓    |         |         |              |
 | recommend            | varchar(32)   | ✓    |         |         |              |
 | oss_pdf              | varchar(256)  | ✓    |         |         |              |
 | expect_at            | timestamp     |      | now     |         |              |
@@ -635,6 +644,7 @@ index 是多选项的下标索引
 | insured   | uuid        | 投保人 ID    |
 | plans     | {pid: type} | 计划 ID 列表 |
 | expect_at | date        | 期望生效日期 |
+| inviter?  | string      | 邀请人       |
 
 type 的定义见 quotation 模块
 

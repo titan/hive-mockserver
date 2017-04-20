@@ -42,12 +42,18 @@
   - [getTransactions](#gettransactions)
       - [request](#request-6)
       - [response](#response-6)
+  - [exportAccounts](#exportaccounts)
+      - [request](#request-7)
+      - [response](#response-7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
 
-1. 2017-03-01
+1. 2017-04-18
+  * 增加 exportAccounts 方法
+
+1. 2017-04-01
   * 完善了 freeze 和 unfreeze 的描述
 
 1. 2017-03-29
@@ -192,6 +198,7 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | 7    | 互助金结算                                 |
 | 8    | 佣金收入                                   |
 | 9    | 扣除微信手续费                             |
+| 10   | 余额抵扣                                   |
 
 ### Transaction Type And Data Structure Matrix
 
@@ -206,6 +213,7 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | 7    | ✓    |      | ✓    |
 | 8    |      |      | ✓    |
 | 9    |      | ✓    |      |
+| 10   |      | ✓    |      |
 
 类型9只在微信支付时出现。
 
@@ -645,3 +653,37 @@ rpc.call("wallet", "getTransactions", 0, 10)
 
 See [example](../data/wallet/getTransactions.json)
 
+## exportAccounts
+
+将所有帐号信息导出为 csv 文件
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name     | type   | note             |
+| ----     | ----   | ----             |
+| filename | string | 结果保存到文件中 |
+
+#### response
+
+成功：
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| code | int    | 200    |
+| data | string | "okay" |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
