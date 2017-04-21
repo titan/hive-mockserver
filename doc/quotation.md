@@ -28,26 +28,26 @@
   - [getQuotation](#getquotation)
       - [request](#request-2)
       - [response](#response-2)
-  - [getLastQuotationByVid](#getlastquotationbyvid)
+  - [refresh](#refresh)
       - [request](#request-3)
       - [response](#response-3)
-  - [refresh](#refresh)
+  - [getReferenceQuotation](#getreferencequotation)
       - [request](#request-4)
       - [response](#response-4)
-  - [getReferenceQuotation](#getreferencequotation)
+  - [getAccurateQuotation](#getaccuratequotation)
       - [request](#request-5)
       - [response](#response-5)
-  - [getAccurateQuotation](#getaccuratequotation)
+  - [getLastQuotations](#getlastquotations)
       - [request](#request-6)
       - [response](#response-6)
-  - [getLastQuotations](#getlastquotations)
-      - [request](#request-7)
-      - [response](#response-7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # ChangeLog
+
+1. 2017-04-21
+  * 删除 getLastQuotationByVid 接口
 
 1. 2017-04-20
   * 增加 real_value 和 price 到 createAgentQuotation
@@ -550,57 +550,6 @@ rpc.call("quotation", "getQuotation", qid)
 | ---- | ----     |
 | 408  | 请求超时 |
 | 500  | 未知错误 |
-
-See [example](../data/quotation/getQuotation.json)
-
-## getLastQuotationByVid
-
-通过vid获取最后一次报价
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile | ✓          |
-
-#### request
-
-| name | type | note       |
-| ---- | ---- | ----       |
-| vid  | uuid | vehicle ID |
-
-```javascript
-
-let vid = "00000000-0000-0000-0000-000000000000";
-rpc.call("quotation", "getLastQuotationByVid", vid)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type      | note     |
-| ---- | ----      | ----     |
-| code | int       | 200      |
-| data | quotation | 报价内容 |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning   |
-| ---- | ----       |
-| 404  | 报价不存在 |
-| 408  | 请求超时   |
-| 500  | 未知错误   |
 
 See [example](../data/quotation/getQuotation.json)
 
