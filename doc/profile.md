@@ -7,6 +7,7 @@
   - [User](#user)
 - [Database](#database)
   - [users](#users)
+  - [user_tickets](#user_tickets)
 - [Cache](#cache)
   - [pnrid-uid](#pnrid-uid)
 - [API](#api)
@@ -36,9 +37,12 @@
 
 # ChangeLog
 
+1. 2017-04-24
+  * 增加 user_tickets 表
+
 1. 2017-04-20
   * 增加inviter 字段
-  
+
 1. 2017-04-19
   * 重命名 getUserByUserIds 为 getUsers
 
@@ -110,7 +114,18 @@
 | ticket        | char(96)      | ✓    |         |         |           |
 | tender_opened | boolean       |      | false   |         |           |
 | insured       | uuid          | ✓    |         |         | person    |
-| inviter       | string        | ✓    |         |         |           |   
+| inviter       | string        | ✓    |         |         |           |
+
+## user_tickets
+
+| field      | type      | null | default | index   | reference |
+| ----       | ----      | ---- | ----    | ----    | ----      |
+| id         | serial    |      |         | primary |           |
+| uid        | uuid      |      |         |         |           |
+| ticket     | char(96)  |      |         | unique  |           |
+| used       | boolean   |      | false   |         |           |
+| created_at | timestamp |      | now     |         |           |
+| updated_at | timestamp |      | now     |         |           |
 
 # Cache
 
@@ -138,9 +153,7 @@
 | uid? | uuid | 不填取当前用户 |
 
 Example
-
 ```javascript
-
 
 rpc.call("profile", "getUser")
   .then(function (result) {
