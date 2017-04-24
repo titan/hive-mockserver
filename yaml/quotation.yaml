@@ -22,6 +22,7 @@ screenshot2: ""
 price: 1234.50
 real_value: 100000.00
 promotion: 1000.00
+discount: 1.0
 insure: 1
 auto: 0
 

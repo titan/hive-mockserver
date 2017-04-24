@@ -46,6 +46,11 @@
 
 # ChangeLog
 
+1. 2017-04-22
+  * 增加 discount 到 quotation 数据结构
+  * 增加 discount 到 quotations 表
+  * 增加 discount 到 createQuotation 接口
+
 1. 2017-04-21
   * 删除 getLastQuotationByVid 接口
 
@@ -205,11 +210,14 @@
 | price              | real             | 总价            |
 | real_value         | real             | 车辆实际价值    |
 | promotion          | real             | 优惠金额        |
+| discount           | real             | 优惠折扣        |
 | insure             | int              | 保险公司        |
 | auto               | int              | 是否是自动报价  |
 
-| insure | meaning  |
-| ----   | ----     |
+注意，promotion 是金额，discount 是比例
+
+| insure | meaning        |
+| ----   | ----           |
 | 1      | 安盛天平(ASTP) |
 | 2      | 人保(PICC)     |
 | 3      | 永诚(APIC)     |
@@ -260,6 +268,7 @@
 | price              | real          |      | 0.0     |         |           |
 | real_value         | real          |      | 0.0     |         |           |
 | promotion          | real          |      | 0.0     |         |           |
+| discount           | real          |      | 1.0     |         |           |
 | insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
 
@@ -442,16 +451,18 @@ data 的定义
 | owner     | uuid   | 车主 ID      |
 | insured   | uuid   | 投保人ID     |
 | recommend | string | 推荐人       |
+| discount  | number | 推荐折扣     |
 | qid?      | uuid   | quotation ID |
 
 ```javascript
 // 手工报价
-let vid       = "00000000-0000-0000-0000-000000000000";
-let owner     = "00000000-0000-0000-0000-000000000000";
-let insured   = "00000000-0000-0000-0000-000000000000";
-let recommend = "";
+const vid       = "00000000-0000-0000-0000-000000000000";
+const owner     = "00000000-0000-0000-0000-000000000000";
+const insured   = "00000000-0000-0000-0000-000000000000";
+const recommend = "";
+const discount  = 1.0;
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, recommend)
+rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, discount)
   .then(function (result) {
 
   }, function (error) {
@@ -459,12 +470,14 @@ rpc.call("quotation", "createQuotation", vid, owner, insured, recommend)
   });
 
 // 自动报价，前端忽略
-let vid       = "00000000-0000-0000-0000-000000000000";
-let owner     = "00000000-0000-0000-0000-000000000000";
-let insured   = "00000000-0000-0000-0000-000000000000";
-let recommend = "";
+const vid       = "00000000-0000-0000-0000-000000000000";
+const owner     = "00000000-0000-0000-0000-000000000000";
+const insured   = "00000000-0000-0000-0000-000000000000";
+const recommend = "";
+const discount  = 1.0;
+const qid       = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, qid)
+rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, discount, qid)
   .then(function (result) {
 
   }, function (error) {
