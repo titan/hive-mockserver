@@ -445,14 +445,14 @@ data 的定义
 
 #### request
 
-| name      | type   | note         |
-| ----      | ----   | ----         |
-| vid       | uuid   | 车辆 ID      |
-| owner     | uuid   | 车主 ID      |
-| insured   | uuid   | 投保人ID     |
-| recommend | string | 推荐人       |
-| discount  | number | 推荐折扣     |
-| qid?      | uuid   | quotation ID |
+| name       | type   | note         |
+| ----       | ----   | ----         |
+| vid        | uuid   | 车辆 ID      |
+| owner      | uuid   | 车主 ID      |
+| insured    | uuid   | 投保人ID     |
+| discount   | number | 推荐折扣     |
+| recommend? | string | 推荐人       |
+| qid?       | uuid   | quotation ID |
 
 ```javascript
 // 手工报价
@@ -462,7 +462,7 @@ const insured   = "00000000-0000-0000-0000-000000000000";
 const recommend = "";
 const discount  = 1.0;
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, discount)
+rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend)
   .then(function (result) {
 
   }, function (error) {
@@ -477,7 +477,7 @@ const recommend = "";
 const discount  = 1.0;
 const qid       = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, discount, qid)
+rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend, qid)
   .then(function (result) {
 
   }, function (error) {
