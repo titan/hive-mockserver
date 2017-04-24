@@ -377,7 +377,7 @@ rpc.call("profile", "getUsers", uids)
 
 | code | meaning        |
 | ---- | ----           |
-| 200  | okay           |
+| 200  | User           |
 | 404  | 推荐人没有找到 |
 | 500  | 错误信息       |
 
