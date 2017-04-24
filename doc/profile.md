@@ -29,9 +29,12 @@
   - [setInsured](#setinsured)
       - [request](#request-5)
       - [response](#response-5)
-  - [refresh](#refresh)
+  - [getRecommend](#getrecommend)
       - [request](#request-6)
       - [response](#response-6)
+  - [refresh](#refresh)
+      - [request](#request-7)
+      - [response](#response-7)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -39,6 +42,7 @@
 
 1. 2017-04-24
   * 增加 user_tickets 表
+  * 增加 getRecommend 接口
 
 1. 2017-04-20
   * 增加inviter 字段
@@ -348,6 +352,34 @@ rpc.call("profile", "getUsers", uids)
 | 200  | okay              |
 | 404  | Insured not found |
 | 500  | 错误信息          |
+
+## getRecommend
+
+得到(新)用户的推荐人(老用户)。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note    |
+| ---- | ---- | ----    |
+| uid? | uuid | 用户 Id |
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
+
+| code | meaning        |
+| ---- | ----           |
+| 200  | okay           |
+| 404  | 推荐人没有找到 |
+| 500  | 错误信息       |
 
 ## refresh
 
