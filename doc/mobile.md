@@ -34,10 +34,16 @@
   - [creatPlanOrder](#creatplanorder)
       - [request](#request-9)
       - [response](#response-9)
+  - [getQRCode](#getqrcode)
+      - [request](#request-10)
+      - [response](#response-10)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-04-25
+  * 增加getQRCode方法
 
 1. 2017-04-14
   * 增加createPlanOrder方法
@@ -474,4 +480,37 @@ rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identi
 | ---- | ----    | ---- |
 | code | int     | 200  |
 | data | uuid    | oid  |
+
+
+## getQRCode
+
+创建计划订单
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name  | type    | note |
+| ----  | ----    | ---- |
+
+```javascript
+
+
+rpc.call("mobile", "getQRCode") 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type    | note |
+| ---- | ----    | ---- |
+| code | int     | 200  |
+| data | object  | {nickname:nickname,portrait:portrait,url:url}|
 
