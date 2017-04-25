@@ -43,7 +43,7 @@
 # ChangeLog
 
 1. 2017-04-25
-  * 增加getQrcode方法
+  * 增加getQRCode方法
 
 1. 2017-04-14
   * 增加createPlanOrder方法
@@ -482,7 +482,7 @@ rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identi
 | data | uuid    | oid  |
 
 
-## getQrcode
+## getQRCode
 
 创建计划订单
 
@@ -498,7 +498,7 @@ rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identi
 ```javascript
 
 
-rpc.call("mobile", "getQrcode") 
+rpc.call("mobile", "getQRCode") 
   .then(function (result) {
 
   }, function (error) {
@@ -512,5 +512,5 @@ rpc.call("mobile", "getQrcode")
 | name | type    | note |
 | ---- | ----    | ---- |
 | code | int     | 200  |
-| data | object  | {nickname:nickname,headImg:headImgm,url:url}|
+| data | object  | {nickname:nickname,portrait:portrait,url:url}|
 
