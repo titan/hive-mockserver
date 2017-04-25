@@ -34,7 +34,7 @@
   - [creatPlanOrder](#creatplanorder)
       - [request](#request-9)
       - [response](#response-9)
-  - [getQrcode](#getqrcode)
+  - [getQRCode](#getqrcode)
       - [request](#request-10)
       - [response](#response-10)
 
