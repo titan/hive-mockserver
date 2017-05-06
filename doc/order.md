@@ -858,7 +858,7 @@ rpc.call("order", "renameNo", order_no)
 
 | name | type   | note       |
 | ---- | ----   | ----       |
-| code | number | 状态码      |
+| code | number | 状态码     |
 | data | string | newOrderNo |
 
 ## getPlanOrdersByVehicle
@@ -909,9 +909,9 @@ See [example](../data/order/getPlanOrdersByVehicle.json)
 
 #### request
 
-| name   | type | note           |
-| ----   | ---- | ----           |
-| uid    | uuid | User ID        |
+| name | type | note    |
+| ---- | ---- | ----    |
+| uid  | uuid | User ID |
 
 #### response
 
@@ -952,9 +952,9 @@ See [example](../data/order/getPlanOrder.json)
 
 #### request
 
-| name | type | note       |
-| ---- | ---- | ----       |
-| qid  | uuid | 报价 ID    |
+| name | type | note    |
+| ---- | ---- | ----    |
+| qid  | uuid | 报价 ID |
 
 #### response
 
@@ -990,10 +990,10 @@ See [example](../data/order/getPlanOrderByQuotation.json)
 
 #### request
 
-| name    | type     | note       |
-| ----    | ----     | ----       |
-| oid     | uuid     | 订单 ID    |
-| pids | [pid]   |  person ID |
+| name | type  | note      |
+| ---- | ----  | ----      |
+| oid  | uuid  | 订单 ID   |
+| pids | [pid] | person ID |
 
 ```javascript
 rpc.call("order", "addDrivers", oid, pids)

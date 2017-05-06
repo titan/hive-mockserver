@@ -38,11 +38,11 @@
 
 #### request
 
-| name        | type   | note               |
-| ----        | ----   | ----               |
-| openid      | string | 用户的 OPENID       |
-| phonenumber | string | 用户的 手机号        |
-| reqtxt      | string | 用户填写的 图形验证码  |
+| name        | type   | note                  |
+| ----        | ----   | ----                  |
+| openid      | string | 用户的 OPENID         |
+| phonenumber | string | 用户的 手机号         |
+| reqtxt      | string | 用户填写的 图形验证码 |
 
 Example:
 
@@ -57,10 +57,10 @@ rpc.call("checkcode", "SendMessage")
 
 #### response
 
-| name | type | note                              |
-| ---- | ---- | ----                              |
+| name | type | note                                   |
+| ---- | ---- | ----                                   |
 | 404  | code | 图形验证码由于某种原因储存到Redis失败  |
-| 405  | code | 图形验证码填写错误                   |
+| 405  | code | 图形验证码填写错误                     |
 | 406  | code | 用户提交的手机号为空（null或者“”）     |
 | 200  | code | 图形验证码填写验证成功，发送短信验证码 |
 
@@ -72,11 +72,11 @@ rpc.call("checkcode", "SendMessage")
 
 #### request
 
-| name        | type   | note               |
-| ----        | ----   | ----               |
-| openid      | string | 用户的 OPENID       |
-| phonenumber | string | 用户的 手机号        |
-| reqtxt      | string | 用户填写的 图形验证码  |
+| name        | type   | note                  |
+| ----        | ----   | ----                  |
+| openid      | string | 用户的 OPENID         |
+| phonenumber | string | 用户的 手机号         |
+| reqtxt      | string | 用户填写的 图形验证码 |
 
 Example:
 
@@ -91,10 +91,10 @@ rpc.call("checkcode", "SendMessage")
 
 #### response
 
-| name | type | note                              |
-| ---- | ---- | ----                              |
+| name | type | note                                   |
+| ---- | ---- | ----                                   |
 | 404  | code | 图形验证码由于某种原因储存到Redis失败  |
-| 405  | code | 图形验证码填写错误                   |
+| 405  | code | 图形验证码填写错误                     |
 | 406  | code | 用户提交的手机号为空（null或者“”）     |
 | 200  | code | 图形验证码填写验证成功，发送短信验证码 |
 
