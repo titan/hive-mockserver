@@ -73,15 +73,7 @@ GET_TRANSACTIONS_DEPS = get-transactions.yaml transactions.yaml
 SIGN = ../data/oss/sign.json
 SIGN_DEPS = oss-sign.yaml
 
-MUTUAL_AID_DEPS = mutual-aid.yaml driver.yaml vehicle.yaml vehicle-model.yaml mutual-aid-recompense.yaml
-
-GET_MUTUAL_AID = ../data/mutual-aid/getMutualAid.json
-GET_MUTUAL_AID_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aid.yaml
-
-GET_MUTUAL_AIDS = ../data/mutual-aid/getMutualAids.json
-GET_MUTUAL_AIDS_DEPS = $(MUTUAL_AID_DEPS) get-mutual-aids.yaml
-
-all: $(GET_QUOTATION) $(MOBILE_GET_QUOTATION) $(MOBILE_GETLASTQUOTATIONS) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_MUTUAL_AID) $(GET_MUTUAL_AIDS)
+all: $(GET_QUOTATION) $(MOBILE_GET_QUOTATION) $(MOBILE_GETLASTQUOTATIONS) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN)
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
@@ -142,12 +134,6 @@ $(GET_TRANSACTIONS): $(GET_TRANSACTIONS_DEPS)
 $(SIGN): $(SIGN_DEPS)
 	$(YAML2JSON) oss-sign.yaml | aeson-pretty > $@
 
-$(GET_MUTUAL_AID): $(GET_MUTUAL_AID_DEPS)
-	$(YAML2JSON) get-mutual-aid.yaml | aeson-pretty > $@
-
-$(GET_MUTUAL_AIDS): $(GET_MUTUAL_AIDS_DEPS)
-	$(YAML2JSON) get-mutual-aids.yaml | aeson-pretty > $@
-
 clean:
 	rm $(GET_QUOTATION)
 	rm $(MOBILE_GET_QUOTATION)
@@ -165,7 +151,5 @@ clean:
 	rm $(GET_WALLET)
 	rm $(GET_TRANSACTIONS)
 	rm $(SIGN)
-	rm $(GET_MUTUAL_AID)
-	rm $(GET_MUTUAL_AIDS)
 
 .phoney: all clean
