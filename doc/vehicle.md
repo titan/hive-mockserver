@@ -40,19 +40,23 @@
 
 # ChangeLog
 
+1. 2017-05-06
+  * 增加行驶证照片字段
+  * 增加行驶证发证日期字段
+
 1. 2017-03-29
   * 修改 ncd 表的 start_at 为 timestamp 类型
   * 修改 ncd 表的 stop_at 为 timestamp 类型
 
 1. 2017-03-15
-  * 删除 createNewVehicle 入参 owner\_name, owner\_identity\_no, insured\_name, insured\_identity\_no, insured\_phone, recommend
-  * 删除 createVehicle 入参 owner\_name, owner\_identity\_no, insured\_name, insured\_identity\_no, insured\_phone, recommend
+  * 删除 createNewVehicle 入参 owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend
+  * 删除 createVehicle 入参 owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, recommend
   * 删除 getVehiclesByUser 接口
   * 增加 updateDrivingView 方法
   * 删除 vehicle 数据结构的 driving-frontal-view 字段
   * 删除 vehicle 数据结构的 driving-rear-view 字段
-  * 删除 vehicles 表的 driving\_frontal\_view 字段
-  * 删除 vehicles 表的 driving\_rear\_view 字段
+  * 删除 vehicles 表的 driving_frontal_view 字段
+  * 删除 vehicles 表的 driving_rear_view 字段
   * 删除 updateDrivingView 方法
 
 1. 2017-03-14
@@ -77,13 +81,13 @@
   * 删除 person 的 license-rear-view
 
 1. 2017-03-10
-  * 删除 person 表的 license\_rear\_view 字段
+  * 删除 person 表的 license_rear_view 字段
 
 1. 2017-03-09
-  * 修改 vehicles 字段 vehicle\_model\_code 为 vehicle\_code
-  * 删除 createNewVehicle 入参 average\_mileage, last\_insurance\_company
+  * 修改 vehicles 字段 vehicle_model_code 为 vehicle_code
+  * 删除 createNewVehicle 入参 average_mileage, last_insurance_company
   * 增加 setInsuranceDueDate 方法
-  * 修改 vehicles 字段 last\_insurance\_company, insurance\_due\_date 为 可选
+  * 修改 vehicles 字段 last_insurance_company, insurance_due_date 为 可选
 
 1. 2017-03-07
   * 增加 getPerson 方法
@@ -94,9 +98,9 @@
   * 增加 缓存 vehicles:${uid}
 
 1. 2017-03-04
-  * 删除 vehicles 表的 average\_mileage 字段
-  * 删除 vehicles 表的 transfer\_date 字段
-  * 重构 vehicle\_model 数据结构
+  * 删除 vehicles 表的 average_mileage 字段
+  * 删除 vehicles 表的 transfer_date 字段
+  * 重构 vehicle_model 数据结构
 
 1. 2017-03-02
   * 删除 createPerson 的入参 drivers
@@ -113,14 +117,14 @@
   * 删除createVehicle 示例的入参 ownerphone
 
 1. 2017-02-25
-  * 删除 createVehicle 和 createNewVehicle　入参中的 owner\_phone
-  * 增加 createVehicle 和 createNewVehicle　入参 transfer\_date
-  * vehicle 增加 transfer\_date
+  * 删除 createVehicle 和 createNewVehicle　入参中的 owner_phone
+  * 增加 createVehicle 和 createNewVehicle　入参 transfer_date
+  * vehicle 增加 transfer_date
 
 1. 2017-02-24
   * 增加 vehicle-license-vin 缓存
-  * 增加 source 字段到 vehicle\_models 表
-  * 重命名 vehicle 表的 vehicle\_code 字段为 vehicle\_model\_code
+  * 增加 source 字段到 vehicle_models 表
+  * 重命名 vehicle 表的 vehicle_code 字段为 vehicle_model_code
 
 1. 2017-02-22
   * 重命名 applicant 为 insured
@@ -135,8 +139,8 @@
   * 重命名 fetchVehicleAndModelByLicense 为 fetchVehicleAndModelsByLicense
 
 1. 2017-02-10
-  * 修改 vehicle 数据结构，去掉了 owner\_type 和 vehicle\_code
-  * 重构 vehicle\_models 数据库
+  * 修改 vehicle 数据结构，去掉了 owner_type 和 vehicle_code
+  * 重构 vehicle_models 数据库
   * 删除 vehicles 缓存
   * 删除 uploadStatus 方法
   * 增加 fetchVehicleModelByVin 方法
@@ -220,6 +224,8 @@
 | insurance-due-date     | date                   | 保险到期时间           |
 | accident-status        | integer                | 最近出险状况           |
 | ncd                    | {(Date,Date) => float} | 每保险周期的NCD系数    |
+| driving-view           | string                 | 行驶证照片             |
+| issue-date             | iso8601                | 行驶证发证日期         |
 
 | accident-status | note           |
 | ----            | ----           |
@@ -242,24 +248,26 @@
 
 ## vehicles
 
-| field                  | type      | null | default | index   | reference |
-| ----                   | ----      | ---- | ----    | ----    | ----      |
-| id                     | uuid      |      |         | primary |           |
-| vehicle_code           | char(32)  |      |         |         |           |
-| license_no             | char(16)  | ✓    |         |         |           |
-| engine_no              | char(32)  | ✓    |         |         |           |
-| register_date          | timestamp | ✓    |         |         |           |
-| is_transfer            | boolean   | ✓    |         |         |           |
-| receipt_no             | char(32)  | ✓    |         |         |           |
-| receipt_date           | timestamp |      | 0.0     |         |           |
-| last_insurance_company | char(16)  | ✓    |         |         |           |
-| insurance_due_date     | timestamp | ✓    | 0       |         |           |
-| fuel_type              | char(16)  | ✓    |         |         |           |
-| accident_status        | smallint  | ✓    |         |         |           |
-| vin                    | char(17)  | ✓    |         |         |           |
-| created_at             | timestamp |      | now     |         |           |
-| updated_at             | timestamp |      | now     |         |           |
-| deleted                | boolean   |      | false   |         |           |
+| field                  | type          | null | default | index   | reference |
+| ----                   | ----          | ---- | ----    | ----    | ----      |
+| id                     | uuid          |      |         | primary |           |
+| vehicle_code           | char(32)      |      |         |         |           |
+| license_no             | char(16)      | ✓    |         |         |           |
+| engine_no              | varchar(32)   | ✓    |         |         |           |
+| register_date          | timestamp     | ✓    |         |         |           |
+| is_transfer            | boolean       | ✓    |         |         |           |
+| receipt_no             | varchar(32)   | ✓    |         |         |           |
+| receipt_date           | timestamp     |      |         |         |           |
+| last_insurance_company | varchar(16)   | ✓    |         |         |           |
+| insurance_due_date     | timestamp     | ✓    |         |         |           |
+| fuel_type              | varchar(16)   | ✓    |         |         |           |
+| accident_status        | smallint      | ✓    |         |         |           |
+| vin                    | char(17)      | ✓    |         |         |           |
+| created_at             | timestamp     |      | now     |         |           |
+| updated_at             | timestamp     |      | now     |         |           |
+| deleted                | boolean       |      | false   |         |           |
+| driving_view           | varchar(1024) | ✓    |         |         |           |
+| issue_date             | timestamp     | ✓    |         |         |           |
 
 ## ncd
 
