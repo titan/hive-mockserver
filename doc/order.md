@@ -63,22 +63,28 @@
   - [getPlanOrderByQuotation](#getplanorderbyquotation)
       - [request](#request-9)
       - [response](#response-9)
-  - [addDrivers](#adddrivers)
+  - [getPlanOrderByNo](#getplanorderbyno)
       - [request](#request-10)
       - [response](#response-10)
-  - [delDrivers](#deldrivers)
+  - [addDrivers](#adddrivers)
       - [request](#request-11)
       - [response](#response-11)
-  - [updateDrivingView](#updatedrivingview)
+  - [delDrivers](#deldrivers)
       - [request](#request-12)
       - [response](#response-12)
-  - [refresh](#refresh)
+  - [updateDrivingView](#updatedrivingview)
       - [request](#request-13)
       - [response](#response-13)
+  - [refresh](#refresh)
+      - [request](#request-14)
+      - [response](#response-14)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-05
+  * 增加 getPlanOrderByNo 接口
 
 1. 2017-04-14
   * 删除 order-events 数据结构中的 ticket 属性
@@ -103,7 +109,7 @@
 
 1. 2017-04-07
   * 增加 payment_method 参数到pay接口
-  
+
 1. 2017-03-27
   * 增加 commission-ratio 到 plan-order
   * 增加 payment-method 到 plan-order
@@ -909,9 +915,9 @@ See [example](../data/order/getPlanOrdersByVehicle.json)
 
 #### request
 
-| name   | type | note           |
-| ----   | ---- | ----           |
-| uid    | uuid | User ID        |
+| name | type | note    |
+| ---- | ---- | ----    |
+| uid  | uuid | User ID |
 
 #### response
 
@@ -979,6 +985,45 @@ See [example](../data/order/getPlanOrder.json)
 
 See [example](../data/order/getPlanOrderByQuotation.json)
 
+## getPlanOrderByNo
+
+根据订单编号获取计划订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| no   | string | 订单编号 |
+
+#### response
+
+成功：
+
+| name | type  | note  |
+| ---- | ----  | ----  |
+| code | int   | 200   |
+| data | order | Order |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 订单未发现 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
+See [example](../data/order/getPlanOrderByNo.json)
+
 ## addDrivers
 
 添加驾驶人信息, 注意，一辆车只能拥有 3 位驾驶人
@@ -990,10 +1035,10 @@ See [example](../data/order/getPlanOrderByQuotation.json)
 
 #### request
 
-| name    | type     | note       |
-| ----    | ----     | ----       |
-| oid     | uuid     | 订单 ID    |
-| pids | [pid]   |  person ID |
+| name | type  | note      |
+| ---- | ----  | ----      |
+| oid  | uuid  | 订单 ID   |
+| pids | [pid] | person ID |
 
 ```javascript
 rpc.call("order", "addDrivers", oid, pids)
