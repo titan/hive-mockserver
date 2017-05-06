@@ -1,3 +1,0 @@
-code: 200
-data:
-  - !include mutual-aid.yaml

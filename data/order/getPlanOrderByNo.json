@@ -1,0 +1,179 @@
+{
+    "data": {
+        "summary": 1000,
+        "recommend": null,
+        "state": 1,
+        "payment": 1000,
+        "stop_at": "2016-08-01T00:00:00.000Z",
+        "drivers": [
+            {
+                "phone": "00000000000",
+                "identity_rear_view": null,
+                "identity_frontal_view": null,
+                "license_frontal_view": null,
+                "verified": true,
+                "name": "王宝强",
+                "license_rear_view": null,
+                "id": "00000000-0000-0000-0000-000000000000",
+                "identity_no": "000000000000000000"
+            }
+        ],
+        "driving_front_view": null,
+        "service_ratio": 0,
+        "items": [
+            {
+                "amount": 100000,
+                "plan": {
+                    "id": 1,
+                    "title": "车损",
+                    "description": "",
+                    "optional": false
+                },
+                "id": "00000000-0000-0000-0000-000000000001",
+                "price": 0
+            },
+            {
+                "amount": 100000,
+                "plan": {
+                    "id": 2,
+                    "title": "机动车全车盗抢",
+                    "description": "",
+                    "optional": false
+                },
+                "id": "00000000-0000-0000-0000-000000000002",
+                "price": 0
+            },
+            {
+                "amount": 100000,
+                "plan": {
+                    "id": 4,
+                    "title": "无法找到第三方特约",
+                    "description": "",
+                    "optional": false
+                },
+                "id": "00000000-0000-0000-0000-000000000004",
+                "price": 0
+            },
+            {
+                "amount": 100000,
+                "plan": {
+                    "id": 512,
+                    "title": "机动车自燃损失",
+                    "description": "",
+                    "optional": true
+                },
+                "id": "00000000-0000-0000-0000-000000000512",
+                "price": 0
+            },
+            {
+                "amount": 0,
+                "plan": {
+                    "id": 1024,
+                    "title": "机动车发动机涉水损失",
+                    "description": "",
+                    "optional": true
+                },
+                "id": "00000000-0000-0000-0000-000000001024",
+                "price": 0
+            },
+            {
+                "amount": 100000,
+                "plan": {
+                    "id": 2048,
+                    "title": "机动车车身划痕损失",
+                    "description": "",
+                    "optional": true
+                },
+                "id": "00000000-0000-0000-0000-000000002048",
+                "price": 0
+            },
+            {
+                "amount": 3,
+                "plan": {
+                    "id": 4096,
+                    "title": "玻璃单独破碎",
+                    "description": "",
+                    "optional": true
+                },
+                "id": "00000000-0000-0000-0000-000000004096",
+                "price": 0
+            }
+        ],
+        "real_value": 100000,
+        "owner": {
+            "phone": "00000000000",
+            "identity_rear_view": null,
+            "identity_frontal_view": null,
+            "license_frontal_view": null,
+            "name": "王宝强",
+            "license_rear_view": null,
+            "id": "00000000-0000-0000-0000-000000000000",
+            "identity_no": "000000000000000000"
+        },
+        "no": "000000000000000000000000000000",
+        "ticket": null,
+        "reason": null,
+        "updated_at": "2016-08-01T00:00:00.000Z",
+        "oss_pdf": null,
+        "start_at": "2016-08-01T00:00:00.000Z",
+        "insured": {
+            "phone": "00000000000",
+            "identity_rear_view": null,
+            "identity_frontal_view": null,
+            "license_frontal_view": null,
+            "verified": true,
+            "name": "王宝强",
+            "license_rear_view": null,
+            "id": "00000000-0000-0000-0000-000000000000",
+            "identity_no": "000000000000000000"
+        },
+        "created_at": "2016-08-01T00:00:00.000Z",
+        "expect_at": "2016-08-01T00:00:00.000Z",
+        "id": "00000000-0000-0000-0000-000000000000",
+        "driving_rear_view": null,
+        "type": 1,
+        "vehicle": {
+            "receipt_date": "2016-08-01T00:00:00.000Z",
+            "insurance_due_date": "2016-08-01T00:00:00.000Z",
+            "engine_no": "xxxx",
+            "is_transfer": true,
+            "ncd": {
+                "2016-04-01:2017-03-31": 0.7,
+                "2015-04-01:2016-03-31": 0.6
+            },
+            "model": {
+                "pl": "1.595",
+                "body_type": "三厢",
+                "family_name": "宝来",
+                "fuel_jet_type": "多点电喷",
+                "purchase_price": 113800,
+                "gearbox_name": "手动档",
+                "effluent_standard": "国二",
+                "group_name": "宝来GP 三厢(06/07-08/09)",
+                "vehicle_code": "I0000000000000000250000000000040",
+                "engine_number": "BWG 058892",
+                "driven_type": "前置前驱",
+                "source": 1,
+                "vehicle_name": "宝来FV7162F轿车",
+                "engine_desc": "1.6L",
+                "year_pattern": "2006",
+                "purchase_price_tax": 118663,
+                "cfg_level": "豪华版",
+                "brand_name": "大众",
+                "seat": 5
+            },
+            "last_insurance_company": "中国人保",
+            "receipt_no": "xxx",
+            "accident_times": 0,
+            "register_date": "2016-08-01T00:00:00.000Z",
+            "license_no": "京A00000",
+            "id": "00000000-0000-0000-0000-000000000000",
+            "vin": "LSVFA49J232037048"
+        },
+        "promotion": 0,
+        "paid_at": "2016-08-01T00:00:00.000Z",
+        "state_description": "已创建订单"
+    },
+    "now": "2017-02-28T08:07:51.311Z",
+    "code": 200
+}

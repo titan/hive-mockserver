@@ -40,6 +40,9 @@
 
 # ChangeLog
 
+1. 2017-05-06
+  * 增加 disabled 字段
+
 1. 2017-04-24
   * 增加 user_tickets 表
   * 增加 getRecommend 接口
@@ -94,8 +97,9 @@
 | pnrid         | string                      | 汇付天下 ID              |
 | ticket        | string                      | 微信扫码                 |
 | tender_opened | string                      | 汇付天下自动投标是否开启 |
-| insured       | [person](vehicle.md#person) | 投保人                   |
+| insured       | [person](vehicle.md#person) | 投保人(车主)             |
 | inviter       | string                      | 代理人邀请码             |
+| disabled      | boolean                     | 是否禁用该用户           |
 
 # Database
 
@@ -119,6 +123,7 @@
 | tender_opened | boolean       |      | false   |         |           |
 | insured       | uuid          | ✓    |         |         | person    |
 | inviter       | string        | ✓    |         |         |           |
+| disabled      | boolean       |      | false   |         |           |
 
 ## user_tickets
 
