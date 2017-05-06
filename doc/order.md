@@ -864,7 +864,7 @@ rpc.call("order", "renameNo", order_no)
 
 | name | type   | note       |
 | ---- | ----   | ----       |
-| code | number | 状态码      |
+| code | number | 状态码     |
 | data | string | newOrderNo |
 
 ## getPlanOrdersByVehicle
@@ -958,9 +958,9 @@ See [example](../data/order/getPlanOrder.json)
 
 #### request
 
-| name | type | note       |
-| ---- | ---- | ----       |
-| qid  | uuid | 报价 ID    |
+| name | type | note    |
+| ---- | ---- | ----    |
+| qid  | uuid | 报价 ID |
 
 #### response
 

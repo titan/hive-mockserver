@@ -45,10 +45,20 @@
   - [getLadder](#getladder)
       - [request](#request-11)
       - [response](#response-11)
+  - [updateCertificateViews](#updatecertificateviews)
+      - [request](#request-12)
+      - [response](#response-12)
+  - [getEffectiveQuotations](#geteffectivequotations)
+      - [request](#request-13)
+      - [response](#response-13)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-04-25
+  * 增加 getEffectiveQuotations, updateCertificateViews 方法。
+  * 统一 createQuotation 返回结果状态码 
 
 1. 2017-04-25
   * 增加 getQRCode 方法。
@@ -205,9 +215,18 @@
 | code | int    |      |
 | msg  | string |      |
 
-| code | meanning |
-| ---- | ----     |
-| 500  | 未知错误 |
+| code  | meanning                                                            |
+| ----  | ----                                                                |
+| 500   | 未知错误                                                            |
+| 400   | 未通过参数验证                                                      |
+| 404   | 未找到＊＊对应信息                                                  |
+| 40001 | 很遗憾，此车年龄超限，无法加入好车主互助计划                        |
+| 40002 | 当前帐号存在未处理完成订单，请先获取完成后再来获取报价              |
+| 40003 | 该车有计划待生效订单，若要重新获取报价，请联系客服取消该订单        |
+| 40004 | 该车距计划到期时间超过３个月请在0000-00-00后获取报价                |
+| 40005 | 该车已通过其他帐号生成订单，如非本人操作，请及时联系客服            |
+| 40006 | 车主信息已被其他账户绑定，如非本人操作，请及时联系客服              |
+| 40007 | 当前帐号下存在有效报价记录，继续获取报价将使历史记录失效，是否继续? |
 
 ## getLastQuotations
 
@@ -508,7 +527,6 @@ rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code)
 | plans               | {pid: type} | 计划 ID 列表       |
 | expect_at           | date        | 期望生效日期       |
 | recommend           | string      | 推荐人             |
-
 ```javascript
 
 rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans, expect_at, recommend) 
@@ -529,7 +547,7 @@ rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identi
 
 ## getQRCode
 
-创建计划订单
+获取二维码
 
 | domain | accessable |
 | ----   | ----       |
@@ -633,3 +651,74 @@ Example:
   }
 }
 ```
+
+
+## updateCertificateViews
+
+更新证件照
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name                  | type   | note         |
+| ----                  | ----   | ----         |
+| qid                   | string | 报价id       |
+| pid                   | string | person id    |
+| identity_frontal_view | string | 身份证正面照 |
+| identity_rear_view    | string | 身份证反面照 |
+| driving_frontal_view  | string | 行驶证正面照 |
+```javascript
+
+
+rpc.call("mobile", "updateCertificateViews", qid, pid, identity_frontal_view, identity_rear_view, driving_frontal_view) 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type   | note              |
+| ---- | ----   | ----              |
+| code | int    | 200               |
+| data | object | {qid:qid,pid:pid} |
+
+
+
+## getEffectiveQuotations
+
+获取用户未支付订单
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| vid  | string | 车辆id |
+
+```javascript
+rpc.call("mobile", "getEffectiveQuotations", vid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+注: code 200时，说明存在对应车或者对应车主不同的情况，data返回报价结果集,格式为数组
+
+| name | type  | note    |
+| ---- | ----  | ----    |
+| code | int   | 200     |
+| data | array | [{},{}] |
