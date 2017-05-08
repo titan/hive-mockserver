@@ -40,11 +40,33 @@
   - [getLastQuotations](#getlastquotations)
       - [request](#request-6)
       - [response](#response-6)
+  - [getQuotationByVehicle](#getquotationbyvehicle)
+      - [request](#request-7)
+      - [response](#response-7)
+  - [cancelQuotations](#cancelquotations)
+      - [request](#request-8)
+      - [response](#response-8)
+  - [updateDrivingView](#updatedrivingview)
+      - [request](#request-9)
+      - [response](#response-9)
+  - [getOwnerByVehicle](#getownerbyvehicle)
+      - [request](#request-10)
+      - [response](#response-10)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 
 # ChangeLog
+
+1. 2017-05-08
+  * 增加 driving-view
+  * 增加 driving-view-verified
+  * 增加 driving-view-refuse-reason
+  * 增加 getQuotationByVehicle 接口
+  * 增加 cancelQuotations 接口
+  * 增加 updateDrivingView 接口
+  * 增加 getOwnerByVehicle 接口
+  * 修改 createQuotation 接口
 
 1. 2017-04-22
   * 增加 discount 到 quotation 数据结构
@@ -192,27 +214,30 @@
 
 ## quotation
 
-| name               | type             | note            |
-| ----               | ----             | ----            |
-| id                 | uuid             | 主键            |
-| uid                | uuid             | user ID         |
-| state              | int              | 报价状态        |
-| items              | [quotation-item] | 对应计划集合    |
-| vehicle            | vehicle          | 对应的车辆      |
-| owner              | person           | 对应的车主      |
-| insured            | person           | 对应的投保人    |
-| recommend          | string           | 对应的推荐人    |
-| inviter            | string           | 对应的邀请人    |
-| outside_quotation1 | float            | 第三方报价1     |
-| outside_quotation2 | float            | 第三方报价2     |
-| screenshot1        | string           | 第三方报价截图1 |
-| screenshot2        | string           | 第三方报价截图2 |
-| price              | real             | 总价            |
-| real_value         | real             | 车辆实际价值    |
-| promotion          | real             | 优惠金额        |
-| discount           | real             | 优惠折扣        |
-| insure             | int              | 保险公司        |
-| auto               | int              | 是否是自动报价  |
+| name                       | type             | note                   |
+| ----                       | ----             | ----                   |
+| id                         | uuid             | 主键                   |
+| uid                        | uuid             | user ID                |
+| state                      | int              | 报价状态               |
+| items                      | [quotation-item] | 对应计划集合           |
+| vehicle                    | vehicle          | 对应的车辆             |
+| owner                      | person           | 对应的车主             |
+| insured                    | person           | 对应的投保人           |
+| recommend                  | string           | 对应的推荐人           |
+| inviter                    | string           | 对应的邀请人           |
+| outside-quotation1         | float            | 第三方报价1            |
+| outside-quotation2         | float            | 第三方报价2            |
+| screenshot1                | string           | 第三方报价截图1        |
+| screenshot2                | string           | 第三方报价截图2        |
+| price                      | real             | 总价                   |
+| real-value                 | real             | 车辆实际价值           |
+| promotion                  | real             | 优惠金额               |
+| discount                   | real             | 优惠折扣               |
+| insure                     | int              | 保险公司               |
+| auto                       | int              | 是否是自动报价         |
+| driving-view               | string           | 行驶证照片地址         |
+| driving-view-verified      | boolean          | 行驶证是否通过审核     |
+| driving-view-refuse-reason | string           | 行驶证未通过审核的原因 |
 
 注意，promotion 是金额，discount 是比例
 
@@ -249,28 +274,32 @@
 
 ## quotations
 
-| field              | type          | null | default | index   | reference |
-| ----               | ----          | ---- | ----    | ----    | ----      |
-| id                 | uuid          |      |         | primary |           |
-| uid                | uuid          |      |         |         | users     |
-| vid                | uuid          |      |         |         | vehicles  |
-| owner              | uuid          |      |         |         | person    |
-| insured            | uuid          |      |         |         | person    |
-| recommend          | varchar(100)  | ✓    |         |         |           |
-| inviter            | varchar(16)   | ✓    |         |         |           |
-| state              | int           |      | 0       |         |           |
-| created_at         | timestamp     |      | now     |         |           |
-| updated_at         | timestamp     |      | now     |         |           |
-| outside_quotation1 | numeric(10,2) |      | 0.0     |         |           |
-| outside_quotation2 | numeric(10,2) |      | 0.0     |         |           |
-| screenshot1        | varchar(1024) | ✓    |         |         |           |
-| screenshot2        | varchar(1024) | ✓    |         |         |           |
-| price              | real          |      | 0.0     |         |           |
-| real_value         | real          |      | 0.0     |         |           |
-| promotion          | real          |      | 0.0     |         |           |
-| discount           | real          |      | 1.0     |         |           |
-| insure             | smallint      |      |         |         |           |
-| auto               | smallint      |      |         |         |           |
+| field                      | type          | null | default | index   | reference |
+| ----                       | ----          | ---- | ----    | ----    | ----      |
+| id                         | uuid          |      |         | primary |           |
+| uid                        | uuid          |      |         |         | users     |
+| vid                        | uuid          |      |         |         | vehicles  |
+| owner                      | uuid          |      |         |         | person    |
+| insured                    | uuid          |      |         |         | person    |
+| recommend                  | varchar(100)  | ✓    |         |         |           |
+| inviter                    | varchar(16)   | ✓    |         |         |           |
+| state                      | int           |      | 0       |         |           |
+| created_at                 | timestamp     |      | now     |         |           |
+| updated_at                 | timestamp     |      | now     |         |           |
+| outside_quotation1         | numeric(10,2) |      | 0.0     |         |           |
+| outside_quotation2         | numeric(10,2) |      | 0.0     |         |           |
+| screenshot1                | varchar(1024) | ✓    |         |         |           |
+| screenshot2                | varchar(1024) | ✓    |         |         |           |
+| price                      | real          |      | 0.0     |         |           |
+| real_value                 | real          |      | 0.0     |         |           |
+| promotion                  | real          |      | 0.0     |         |           |
+| discount                   | real          |      | 1.0     |         |           |
+| insure                     | smallint      |      |         |         |           |
+| auto                       | smallint      |      |         |         |           |
+| driving_view               | varchar(1024) | ✓    |         |         |           |
+| driving_view_verified      | boolean       | ✓    | false   |         |           |
+| driving_view_refuse_reason | varchar(128)  | ✓    |         |         |           |
+
 
 ## quotation_items
 
@@ -445,24 +474,25 @@ data 的定义
 
 #### request
 
-| name       | type   | note         |
-| ----       | ----   | ----         |
-| vid        | uuid   | 车辆 ID      |
-| owner      | uuid   | 车主 ID      |
-| insured    | uuid   | 投保人ID     |
-| discount   | number | 推荐折扣     |
-| recommend? | string | 推荐人       |
-| qid?       | uuid   | quotation ID |
+| name          | type   | note         |
+| ----          | ----   | ----         |
+| vid           | uuid   | 车辆 ID      |
+| owner         | uuid   | 车主 ID      |
+| insured       | uuid   | 投保人ID     |
+| discount      | number | 推荐折扣     |
+| recommend?    | string | 推荐人       |
+| driving_view? | string | 行驶证地址   |
+| qid?          | uuid   | quotation ID |
 
 ```javascript
 // 手工报价
-const vid       = "00000000-0000-0000-0000-000000000000";
-const owner     = "00000000-0000-0000-0000-000000000000";
-const insured   = "00000000-0000-0000-0000-000000000000";
-const recommend = "";
-const discount  = 1.0;
+const vid          = "00000000-0000-0000-0000-000000000000";
+const owner        = "00000000-0000-0000-0000-000000000000";
+const insured      = "00000000-0000-0000-0000-000000000000";
+const recommend    = "";
+const driving_view = "";
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend)
+rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend, driving_view)
   .then(function (result) {
 
   }, function (error) {
@@ -470,14 +500,16 @@ rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommen
   });
 
 // 自动报价，前端忽略
-const vid       = "00000000-0000-0000-0000-000000000000";
-const owner     = "00000000-0000-0000-0000-000000000000";
-const insured   = "00000000-0000-0000-0000-000000000000";
-const recommend = "";
-const discount  = 1.0;
-const qid       = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend, qid)
+const vid          = "00000000-0000-0000-0000-000000000000";
+const owner        = "00000000-0000-0000-0000-000000000000";
+const insured      = "00000000-0000-0000-0000-000000000000";
+const recommend    = "";
+const discount     = 1.0;
+const driving_view = "";
+const qid          = "00000000-0000-0000-0000-000000000000";
+
+rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend, driving_view, qid)
   .then(function (result) {
 
   }, function (error) {
@@ -795,3 +827,149 @@ See [example](../data/quotation/getQuotation.json)
 | ---- | ----     |
 | 500  | 未知错误 |
 
+## getQuotationByVehicle
+
+根据车辆信息得到报价
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+| vid  | uuid | 车辆ID |
+
+#### response
+
+成功：
+
+| name | type      | note |
+| ---- | ----      | ---- |
+| code | int       | 200  |
+| data | quotation |      |
+
+See [example](../data/quotation/getQuotationByVehicle.json)
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning       |
+| ---- | ----           |
+| 403  | 跨用户获取报价 |
+| 500  | 未知错误       |
+
+## cancelQuotations
+
+批量取消报价
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note     |
+| ---- | ----   | ----     |
+| qids | [uuid] | 报价编号 |
+
+#### response
+
+成功：
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| code | int    | 200    |
+| data | string | "Okay" |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning       |
+| ---- | ----           |
+| 403  | 跨用户取消报价 |
+| 500  | 未知错误       |
+
+## updateDrivingView
+
+更新行驶证信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name         | type   | note       |
+| ----         | ----   | ----       |
+| qid          | uuid   | 报价编号   |
+| driving_view | string | 行驶证地址 |
+
+#### response
+
+成功：
+
+| name | type   | note   |
+| ---- | ----   | ----   |
+| code | int    | 200    |
+| data | string | "Okay" |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning         |
+| ---- | ----             |
+| 403  | 跨用户更新行驶证 |
+| 500  | 未知错误         |
+
+## getOwnerByVehicle
+
+获取车主信息
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note     |
+| ---- | ---- | ----     |
+| vid  | uuid | 车辆编号 |
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | person | 车主 |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning         |
+| ---- | ----             |
+| 403  | 跨用户获取车主信息 |
+| 500  | 未知错误         |
