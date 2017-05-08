@@ -48,6 +48,7 @@
             }
         ],
         "founder": {
+            "disabled": false,
             "ticket": null,
             "gender": 0,
             "name": "vivian",

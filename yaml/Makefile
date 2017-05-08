@@ -77,6 +77,7 @@ all: $(GET_QUOTATION) $(MOBILE_GET_QUOTATION) $(MOBILE_GETLASTQUOTATIONS) $(GET_
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
+	cp $@ ../data/quotation/getQuotationByVehicle.json
 
 $(MOBILE_GET_QUOTATION): $(MOBILE_GET_QUOTATION_DEPS)
 	$(YAML2JSON) mobile-get-quotation.yaml | aeson-pretty > $@

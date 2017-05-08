@@ -6,6 +6,7 @@
             "auto": 0,
             "discount": 1.0,
             "screenshot1": "",
+            "driving_view": "",
             "items": [
                 {
                     "plan": {
@@ -233,6 +234,7 @@
             },
             "outside_quotation1": 0,
             "outside_quotation2": 0,
+            "driving_view_verified": false,
             "insured": {
                 "phone": "00000000000",
                 "identity_rear_view": null,
@@ -286,7 +288,8 @@
                 "vin": "LSVFA49J232037048"
             },
             "promotion": 1000.0,
-            "insure": 1
+            "insure": 1,
+            "driving_view_refused_reason": ""
         },
         {
             "recommend": "飞爷",
@@ -294,6 +297,7 @@
             "auto": 0,
             "discount": 1.0,
             "screenshot1": "",
+            "driving_view": "",
             "items": [
                 {
                     "plan": {
@@ -521,6 +525,7 @@
             },
             "outside_quotation1": 0,
             "outside_quotation2": 0,
+            "driving_view_verified": false,
             "insured": {
                 "phone": "00000000000",
                 "identity_rear_view": null,
@@ -574,7 +579,8 @@
                 "vin": "LSVFA49J232037048"
             },
             "promotion": 1000.0,
-            "insure": 1
+            "insure": 1,
+            "driving_view_refused_reason": ""
         }
     ],
     "code": 200

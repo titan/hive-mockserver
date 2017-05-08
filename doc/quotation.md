@@ -61,7 +61,7 @@
 1. 2017-05-08
   * 增加 driving-view
   * 增加 driving-view-verified
-  * 增加 driving-view-refuse-reason
+  * 增加 driving-view-refused-reason
   * 增加 getQuotationByVehicle 接口
   * 增加 cancelQuotations 接口
   * 增加 updateDrivingView 接口
@@ -214,30 +214,30 @@
 
 ## quotation
 
-| name                       | type             | note                   |
-| ----                       | ----             | ----                   |
-| id                         | uuid             | 主键                   |
-| uid                        | uuid             | user ID                |
-| state                      | int              | 报价状态               |
-| items                      | [quotation-item] | 对应计划集合           |
-| vehicle                    | vehicle          | 对应的车辆             |
-| owner                      | person           | 对应的车主             |
-| insured                    | person           | 对应的投保人           |
-| recommend                  | string           | 对应的推荐人           |
-| inviter                    | string           | 对应的邀请人           |
-| outside-quotation1         | float            | 第三方报价1            |
-| outside-quotation2         | float            | 第三方报价2            |
-| screenshot1                | string           | 第三方报价截图1        |
-| screenshot2                | string           | 第三方报价截图2        |
-| price                      | real             | 总价                   |
-| real-value                 | real             | 车辆实际价值           |
-| promotion                  | real             | 优惠金额               |
-| discount                   | real             | 优惠折扣               |
-| insure                     | int              | 保险公司               |
-| auto                       | int              | 是否是自动报价         |
-| driving-view               | string           | 行驶证照片地址         |
-| driving-view-verified      | boolean          | 行驶证是否通过审核     |
-| driving-view-refuse-reason | string           | 行驶证未通过审核的原因 |
+| name                        | type             | note                   |
+| ----                        | ----             | ----                   |
+| id                          | uuid             | 主键                   |
+| uid                         | uuid             | user ID                |
+| state                       | int              | 报价状态               |
+| items                       | [quotation-item] | 对应计划集合           |
+| vehicle                     | vehicle          | 对应的车辆             |
+| owner                       | person           | 对应的车主             |
+| insured                     | person           | 对应的投保人           |
+| recommend                   | string           | 对应的推荐人           |
+| inviter                     | string           | 对应的邀请人           |
+| outside-quotation1          | float            | 第三方报价1            |
+| outside-quotation2          | float            | 第三方报价2            |
+| screenshot1                 | string           | 第三方报价截图1        |
+| screenshot2                 | string           | 第三方报价截图2        |
+| price                       | real             | 总价                   |
+| real-value                  | real             | 车辆实际价值           |
+| promotion                   | real             | 优惠金额               |
+| discount                    | real             | 优惠折扣               |
+| insure                      | int              | 保险公司               |
+| auto                        | int              | 是否是自动报价         |
+| driving-view                | string           | 行驶证照片地址         |
+| driving-view-verified       | boolean          | 行驶证是否通过审核     |
+| driving-view-refused-reason | string           | 行驶证未通过审核的原因 |
 
 注意，promotion 是金额，discount 是比例
 
@@ -274,31 +274,31 @@
 
 ## quotations
 
-| field                      | type          | null | default | index   | reference |
-| ----                       | ----          | ---- | ----    | ----    | ----      |
-| id                         | uuid          |      |         | primary |           |
-| uid                        | uuid          |      |         |         | users     |
-| vid                        | uuid          |      |         |         | vehicles  |
-| owner                      | uuid          |      |         |         | person    |
-| insured                    | uuid          |      |         |         | person    |
-| recommend                  | varchar(100)  | ✓    |         |         |           |
-| inviter                    | varchar(16)   | ✓    |         |         |           |
-| state                      | int           |      | 0       |         |           |
-| created_at                 | timestamp     |      | now     |         |           |
-| updated_at                 | timestamp     |      | now     |         |           |
-| outside_quotation1         | numeric(10,2) |      | 0.0     |         |           |
-| outside_quotation2         | numeric(10,2) |      | 0.0     |         |           |
-| screenshot1                | varchar(1024) | ✓    |         |         |           |
-| screenshot2                | varchar(1024) | ✓    |         |         |           |
-| price                      | real          |      | 0.0     |         |           |
-| real_value                 | real          |      | 0.0     |         |           |
-| promotion                  | real          |      | 0.0     |         |           |
-| discount                   | real          |      | 1.0     |         |           |
-| insure                     | smallint      |      |         |         |           |
-| auto                       | smallint      |      |         |         |           |
-| driving_view               | varchar(1024) | ✓    |         |         |           |
-| driving_view_verified      | boolean       | ✓    | false   |         |           |
-| driving_view_refuse_reason | varchar(128)  | ✓    |         |         |           |
+| field                       | type          | null | default | index   | reference |
+| ----                        | ----          | ---- | ----    | ----    | ----      |
+| id                          | uuid          |      |         | primary |           |
+| uid                         | uuid          |      |         |         | users     |
+| vid                         | uuid          |      |         |         | vehicles  |
+| owner                       | uuid          |      |         |         | person    |
+| insured                     | uuid          |      |         |         | person    |
+| recommend                   | varchar(100)  | ✓    |         |         |           |
+| inviter                     | varchar(16)   | ✓    |         |         |           |
+| state                       | int           |      | 0       |         |           |
+| created_at                  | timestamp     |      | now     |         |           |
+| updated_at                  | timestamp     |      | now     |         |           |
+| outside_quotation1          | numeric(10,2) |      | 0.0     |         |           |
+| outside_quotation2          | numeric(10,2) |      | 0.0     |         |           |
+| screenshot1                 | varchar(1024) | ✓    |         |         |           |
+| screenshot2                 | varchar(1024) | ✓    |         |         |           |
+| price                       | real          |      | 0.0     |         |           |
+| real_value                  | real          |      | 0.0     |         |           |
+| promotion                   | real          |      | 0.0     |         |           |
+| discount                    | real          |      | 1.0     |         |           |
+| insure                      | smallint      |      |         |         |           |
+| auto                        | smallint      |      |         |         |           |
+| driving_view                | varchar(1024) | ✓    |         |         |           |
+| driving_view_verified       | boolean       | ✓    | false   |         |           |
+| driving_view_refused_reason | varchar(128)  | ✓    |         |         |           |
 
 
 ## quotation_items
