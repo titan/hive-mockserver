@@ -46,11 +46,6 @@
 
 # ChangeLog
 
-1. 2017-04-28
-  * 删除 quotation 中的 discount 属性
-  * 删除 quotations 表的 discount 表
-  * 删除 createQuotation 接口的 discount 参数
-
 1. 2017-04-22
   * 增加 discount 到 quotation 数据结构
   * 增加 discount 到 quotations 表
@@ -215,8 +210,11 @@
 | price              | real             | 总价            |
 | real_value         | real             | 车辆实际价值    |
 | promotion          | real             | 优惠金额        |
+| discount           | real             | 优惠折扣        |
 | insure             | int              | 保险公司        |
 | auto               | int              | 是否是自动报价  |
+
+注意，promotion 是金额，discount 是比例
 
 | insure | meaning        |
 | ----   | ----           |
@@ -270,6 +268,7 @@
 | price              | real          |      | 0.0     |         |           |
 | real_value         | real          |      | 0.0     |         |           |
 | promotion          | real          |      | 0.0     |         |           |
+| discount           | real          |      | 1.0     |         |           |
 | insure             | smallint      |      |         |         |           |
 | auto               | smallint      |      |         |         |           |
 
@@ -451,6 +450,7 @@ data 的定义
 | vid        | uuid   | 车辆 ID      |
 | owner      | uuid   | 车主 ID      |
 | insured    | uuid   | 投保人ID     |
+| discount   | number | 推荐折扣     |
 | recommend? | string | 推荐人       |
 | qid?       | uuid   | quotation ID |
 
@@ -460,8 +460,9 @@ const vid       = "00000000-0000-0000-0000-000000000000";
 const owner     = "00000000-0000-0000-0000-000000000000";
 const insured   = "00000000-0000-0000-0000-000000000000";
 const recommend = "";
+const discount  = 1.0;
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, recommend)
+rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend)
   .then(function (result) {
 
   }, function (error) {
@@ -473,9 +474,10 @@ const vid       = "00000000-0000-0000-0000-000000000000";
 const owner     = "00000000-0000-0000-0000-000000000000";
 const insured   = "00000000-0000-0000-0000-000000000000";
 const recommend = "";
+const discount  = 1.0;
 const qid       = "00000000-0000-0000-0000-000000000000";
 
-rpc.call("quotation", "createQuotation", vid, owner, insured, recommend, qid)
+rpc.call("quotation", "createQuotation", vid, owner, insured, discount, recommend, qid)
   .then(function (result) {
 
   }, function (error) {
