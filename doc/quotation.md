@@ -11,7 +11,7 @@
   - [quotations](#quotations)
   - [quotation_items](#quotation_items)
 - [Cache](#cache)
-  - [vid:uid-qid](#viduid-qid)
+  - [vid-uid:qid](#vid-uidqid)
   - [uid-vids](#uid-vids)
   - [quotation-entities](#quotation-entities)
   - [quotation-slim-entities](#quotation-slim-entities)
@@ -57,6 +57,9 @@
 
 
 # ChangeLog
+
+1. 2017-05-09
+  * 重命名缓存 vid:uid-qid 为 vid-uid:qid
 
 1. 2017-05-08
   * 增加 driving-view
@@ -321,11 +324,11 @@
 
 # Cache
 
-## vid:uid-qid
+## vid-uid:qid
 
 | key         | type | value          | note                     |
 | ----        | ---- | ----           | ----                     |
-| vid:uid-qid | hash | vid:uid => qid | vehicle与quotation的外键 |
+| vid-uid:qid | hash | vid:uid => qid | vehicle与quotation的外键 |
 
 ## uid-vids
 
