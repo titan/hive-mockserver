@@ -6,6 +6,7 @@
         "discount": 1.0,
         "screenshot1": "",
         "driving_view": "",
+        "driving_view_verify_state": 1,
         "items": [
             {
                 "plan": {
@@ -233,7 +234,6 @@
         },
         "outside_quotation1": 0,
         "outside_quotation2": 0,
-        "driving_view_verified": false,
         "insured": {
             "phone": "00000000000",
             "identity_rear_view": null,

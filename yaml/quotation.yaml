@@ -26,6 +26,6 @@ discount: 1.0
 insure: 1
 auto: 0
 driving_view: ""
-driving_view_verified: false
+driving_view_verify_state: 1
 driving_view_refused_reason: ""
 

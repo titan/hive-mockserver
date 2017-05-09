@@ -60,6 +60,7 @@
 
 1. 2017-05-09
   * 重命名缓存 vid:uid-qid 为 vid-uid:qid
+  * 重命名 driving-view-verified 为 driving-view-verify-state
 
 1. 2017-05-08
   * 增加 driving-view
@@ -239,7 +240,7 @@
 | insure                      | int              | 保险公司               |
 | auto                        | int              | 是否是自动报价         |
 | driving-view                | string           | 行驶证照片地址         |
-| driving-view-verified       | boolean          | 行驶证是否通过审核     |
+| driving-view-verify-state   | int              | 行驶证审核状态         |
 | driving-view-refused-reason | string           | 行驶证未通过审核的原因 |
 
 注意，promotion 是金额，discount 是比例
@@ -254,6 +255,8 @@
 
 
 [![报价状态转换图](../img/quotation-states.png)](报价状态转换图)
+
+[![行驶证审核状态转换图](../img/driving-view-states.png)](行驶证审核状态转换图)
 
 ## quotation-item
 
@@ -300,7 +303,7 @@
 | insure                      | smallint      |      |         |         |           |
 | auto                        | smallint      |      |         |         |           |
 | driving_view                | varchar(1024) | ✓    |         |         |           |
-| driving_view_verified       | boolean       | ✓    | false   |         |           |
+| driving_view_verify_state   | smallint      | ✓    | 1       |         |           |
 | driving_view_refused_reason | varchar(128)  | ✓    |         |         |           |
 
 
