@@ -50,6 +50,15 @@
 
 # ChangeLog
 
+1. 2017-05-10
+  * 增加 paid 到 account
+  * 增加 evtid 到 account
+  * 增加新 accountevent 类型: 13 和 14
+  * 删除 accounts 表
+  * 删除 apportions 表
+  * 删除 account_events 表中的 aid 字段
+  * 增加 account-entities 缓存
+
 1. 2017-04-28
   * 增加新 transaction 类型: 11 和 12
 
@@ -161,12 +170,17 @@
 | vehicle          | vehicle | 帐号对应车辆 |
 | balance0         | float   | 小池余额     |
 | balance1         | float   | 大池余额     |
+| paid             | float   | 支付金额     |
 | bonus            | float   | 优惠金额     |
 | frozen-balance0  | float   | 小池冻结余额 |
 | frozen-balance1  | float   | 大池冻结余额 |
 | cashable-balance | float   | 可提现金额   |
 
 Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则为池帐号类型。
+
+大池和小池金额是虚拟金额，支付金额和优惠金额是物理金额。支付金额是用户实际支付的金额，包括上年的结余; 优惠金额是蜂巢互助补贴的金额。扣款时，优先从支付金额里扣除；支付金额扣除完毕后，再扣除优惠金额。
+
+续保时，优惠金额不变，继续保留。
 
 普通帐号将和车无关的收支信息保存在 cashable-balance 中。
 
@@ -259,6 +273,8 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | 10   | UNFREEZE_PRIVATE | 小池解冻 |
 | 11   | FREEZE_PUBLIC    | 大池冻结 |
 | 12   | UNFREEZE_PUBLIC  | 大池解冻 |
+| 13   | INCREASE_PAID    | 支付增加 |
+| 14   | DECREASE_PAID    | 支付减少 |
 
 ### Event Type And Data Structure Matrix
 
@@ -277,24 +293,10 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | 10   | ✓      | ?    | ?    |
 | 11   | ✓      | ?    | ?    |
 | 12   | ✓      | ?    | ?    |
+| 13   | ✓      | ?    | ?    |
+| 14   | ✓      | ?    | ?    |
 
 # Database
-
-## accounts
-
-| field            | type      | null | default | index   | reference |
-| ----             | ----      | ---- | ----    | ----    | ----      |
-| id               | uuid      |      |         | primary |           |
-| uid              | uuid      |      |         |         | users     |
-| vid              | uuid      | ✓    |         |         | vehicles  |
-| balance0         | float     |      | 0.0     |         |           |
-| balance1         | float     |      | 0.0     |         |           |
-| frozen_balance0  | float     |      | 0.0     |         |           |
-| frozen_balance1  | float     |      | 0.0     |         |           |
-| cashable_balance | float     |      | 0.0     |         |           |
-| created_at       | timestamp |      | now     |         |           |
-| updated_at       | timestamp |      | now     |         |           |
-| deleted          | boolean   |      | false   |         |           |
 
 ## account_events
 
@@ -322,23 +324,11 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | data        | json         |      |         |         |           |
 | occurred_at | timestamp    |      | now     |         |           |
 
-## apportions
-
-| field      | type      | null | default | index   | reference |
-| ----       | ----      | ---- | ----    | ----    | ----      |
-| id         | uuid      |      |         | primary |           |
-| maid       | smallint  |      |         |         |           |
-| uid        | uuid      |      |         |         | users     |
-| apportion0 | numeric   |      |         |         |           |
-| apportion1 | numeric   |      |         |         |           |
-| created_at | timestamp |      | now     |         |           |
-| updated_at | timestamp |      | now     |         |           |
-| deleted    | boolean   |      | false   |         |           |
-
 # Cache
 
 | key                  | type       | value                   | note               |
 | ----                 | ----       | ----                    | ----               |
+| account-entities     | hash       | aid => Account           | 所有钱包实体       |
 | wallet-entities      | hash       | UID => Wallet           | 所有钱包实体       |
 | wallet-slim-entities | hash       | UID => Wallet           | 所有钱包非完整实体 |
 | transactions:${uid}  | sorted set | {occurred, transaction} | 交易记录           |
