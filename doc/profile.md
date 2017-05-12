@@ -32,13 +32,19 @@
   - [getRecommend](#getrecommend)
       - [request](#request-6)
       - [response](#response-6)
-  - [refresh](#refresh)
+  - [getUserByPhone](#getuserbyphone)
       - [request](#request-7)
       - [response](#response-7)
+  - [refresh](#refresh)
+      - [request](#request-8)
+      - [response](#response-8)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-12
+  * 增加 getUserByPhone 接口
 
 1. 2017-05-06
   * 增加 disabled 字段
@@ -385,6 +391,36 @@ rpc.call("profile", "getUsers", uids)
 | 200  | User           |
 | 404  | 推荐人没有找到 |
 | 500  | 错误信息       |
+
+
+
+## getUserByPhone
+
+通过手机号获取用户信息。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name  | type  | note   |
+| ----  | ----  | ----   |
+| phone | sting | 手机号 |
+
+#### response
+
+| name     | type   | note     |
+| ----     | ----   | ----     |
+| code     | int    | 结果编码 |
+| data/msg | string | 结果内容 |
+
+| code | meaning          |
+| ---- | ----             |
+| 200  | User             |
+| 404  | 用户信息没有找到 |
+| 500  | 错误信息         |
 
 ## refresh
 
