@@ -40,9 +40,15 @@
 
 # ChangeLog
 
+1. 2017-05-12
+  * 增加 ownership 数据结构
+  * 增加 ownerships 表
+  * 将行驶证照片字段从 vehicle 迁移到 ownership 中
+  * 将行驶证发证日期字段从 vehicle 迁移到 ownership 中
+
 1. 2017-05-06
-  * 增加行驶证照片字段
-  * 增加行驶证发证日期字段
+  * 增加行驶证照片字段到 vehicle
+  * 增加行驶证发证日期字段 vehicle
 
 1. 2017-03-29
   * 修改 ncd 表的 start_at 为 timestamp 类型
@@ -224,14 +230,21 @@
 | insurance-due-date     | date                   | 保险到期时间           |
 | accident-status        | integer                | 最近出险状况           |
 | ncd                    | {(Date,Date) => float} | 每保险周期的NCD系数    |
-| driving-view           | string                 | 行驶证照片             |
-| issue-date             | iso8601                | 行驶证发证日期         |
 
 | accident-status | note           |
 | ----            | ----           |
 | 1               | 去年未出险     |
 | 2               | 前年未出险     |
 | 3               | 近两年均未出险 |
+
+## ownership
+
+| name         | type    | note           |
+| ----         | ----    | ----           |
+| vehicle      | Vehicle | 车辆           |
+| owner        | Person  | 车主           |
+| driving-view | string  | 行驶证链接     |
+| issue-date   | iso8601 | 行驶证发证日期 |
 
 # Database
 
@@ -266,8 +279,19 @@
 | created_at             | timestamp     |      | now     |         |           |
 | updated_at             | timestamp     |      | now     |         |           |
 | deleted                | boolean       |      | false   |         |           |
-| driving_view           | varchar(1024) | ✓    |         |         |           |
-| issue_date             | timestamp     | ✓    |         |         |           |
+
+## ownerships
+
+| field        | type          | null | default | index   | reference |
+| ----         | ----          | ---- | ----    | ----    | ----      |
+| id           | serial        |      |         | primary |           |
+| vehicle      | uuid          |      |         | unique  | vehicle   |
+| owner        | uuid          |      |         |         | owner     |
+| driving_view | varchar(1024) |      |         |         |           |
+| issue_date   | timestamp     |      |         |         |           |
+| created_at   | timestamp     |      | now     |         |           |
+| updated_at   | timestamp     |      | now     |         |           |
+| deleted      | boolean       |      | false   |         |           |
 
 ## ncd
 
