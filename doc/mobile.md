@@ -48,13 +48,18 @@
   - [updateCertificateViews](#updatecertificateviews)
       - [request](#request-12)
       - [response](#response-12)
-  - [getEffectiveQuotations](#geteffectivequotations)
+  - [getCertificateStatus](#getcertificatestatus)
       - [request](#request-13)
       - [response](#response-13)
+  - [getEffectiveQuotations](#geteffectivequotations)
+      - [request](#request-14)
+      - [response](#response-14)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+1. 2017-04-25
+  * 增加 getCertificateStatus 方法,
 
 1. 2017-04-25
   * 增加 getEffectiveQuotations, updateCertificateViews 方法。
