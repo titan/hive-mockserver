@@ -690,6 +690,38 @@ rpc.call("mobile", "updateCertificateViews", qid, pid, identity_frontal_view, id
 | data | object | {qid:qid,pid:pid} |
 
 
+## getCertificateStatus
+
+获取证件照上传状态
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name                  | type   | note         |
+| ----                  | ----   | ----         |
+| qid                   | string | 报价id       |
+```javascript
+
+
+rpc.call("mobile", "getCertificateStatus", qid) 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type   | note              |
+| ---- | ----   | ----              |
+| code | int    | 200               |
+| data | object | { driving_view_verify_state: 1, driving_view_refused_reason: "", verified: true} |
+
 
 ## getEffectiveQuotations
 
