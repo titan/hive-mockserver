@@ -537,7 +537,7 @@ rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code)
 | recommend           | string      | 推荐人             |
 ```javascript
 
-rpc.call("mobile", "createAgentQuotation", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans, expect_at, recommend) 
+rpc.call("mobile", "createAgentQuotation", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans) 
   .then(function (result) {
 
   }, function (error) {
