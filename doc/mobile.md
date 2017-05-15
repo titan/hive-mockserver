@@ -36,7 +36,7 @@
   - [updateInsuredPhone](#updateinsuredphone)
       - [request](#request-8)
       - [response](#response-8)
-  - [creatPlanOrder](#creatplanorder)
+  - [creatAgentQuotation](#creatagentquotation)
       - [request](#request-9)
       - [response](#response-9)
   - [getQRCode](#getqrcode)
@@ -58,6 +58,9 @@
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+1. 2017-05-15
+  * 将createPlanOrder 方法修改为 creatAgentQuotation,
+
 1. 2017-04-25
   * 增加 getCertificateStatus 方法,
 
@@ -509,9 +512,9 @@ rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code)
 | code | int  | 200  |
 | data | uuid | pid  |
 
-## creatPlanOrder
+## creatAgentQuotation
 
-创建计划订单
+创建代理报价
 
 | domain | accessable |
 | ----   | ----       |
@@ -534,7 +537,7 @@ rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code)
 | recommend           | string      | 推荐人             |
 ```javascript
 
-rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans, expect_at, recommend) 
+rpc.call("mobile", "creatAgentQuotation", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans, expect_at, recommend) 
   .then(function (result) {
 
   }, function (error) {
