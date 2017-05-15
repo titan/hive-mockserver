@@ -60,6 +60,7 @@
 # ChangeLog
 1. 2017-05-15
   * 将createPlanOrder 方法修改为 createAgentQuotation,
+  * 修改 getEffectiveQuotations 参数,
 
 1. 2017-04-25
   * 增加 getCertificateStatus 方法,
@@ -733,7 +734,7 @@ rpc.call("mobile", "getCertificateStatus", qid)
 
 ## getEffectiveQuotations
 
-获取用户未支付订单
+获取用户有效报价
 
 | domain | accessable |
 | ----   | ----       |
@@ -741,12 +742,12 @@ rpc.call("mobile", "getCertificateStatus", qid)
 
 #### request
 
-| name | type   | note   |
-| ---- | ----   | ----   |
-| vid  | string | 车辆id |
-
+| name        | type   | note     |
+| ----        | ----   | ----     |
+| vin         | string | 车架号   |
+| identity_no | string | 身份证号 |
 ```javascript
-rpc.call("mobile", "getEffectiveQuotations", vid)
+rpc.call("mobile", "getEffectiveQuotations", vin, identity_no)
   .then(function (result) {
 
   }, function (error) {
