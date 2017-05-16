@@ -54,10 +54,16 @@
   - [getEffectiveQuotations](#geteffectivequotations)
       - [request](#request-14)
       - [response](#response-14)
+  - [getcases](#getcases)
+      - [request](#request-15)
+      - [response](#response-15)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+1. 2017-05-16
+  * 增加getcases接口（获取案件列表）,
+
 1. 2017-05-15
   * 将createPlanOrder 方法修改为 createAgentQuotation,
   * 修改 getEffectiveQuotations 参数,
@@ -85,7 +91,7 @@
 1. 2017-04-06
   * 修改并完善getHiveStatistics接口中的字段名
 
-1. 2017-03-29
+. 2017-03-29
   * 增加 updateInsuredPhone 方法
 
 1. 2017-03-28
@@ -763,3 +769,33 @@ rpc.call("mobile", "getEffectiveQuotations", vin, identity_no)
 | ---- | ----  | ----    |
 | code | int   | 200     |
 | data | array | [{},{}] |
+
+
+
+## getcases
+
+获取案件列表
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name        | type   | note     |
+| ----        | ----   | ----     |
+```javascript
+rpc.call("mobile", "getcases")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | Object |      |
