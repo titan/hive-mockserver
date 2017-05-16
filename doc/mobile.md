@@ -36,7 +36,7 @@
   - [updateInsuredPhone](#updateinsuredphone)
       - [request](#request-8)
       - [response](#response-8)
-  - [creatPlanOrder](#creatplanorder)
+  - [createAgentQuotation](#createagentquotation)
       - [request](#request-9)
       - [response](#response-9)
   - [getQRCode](#getqrcode)
@@ -48,13 +48,28 @@
   - [updateCertificateViews](#updatecertificateviews)
       - [request](#request-12)
       - [response](#response-12)
-  - [getEffectiveQuotations](#geteffectivequotations)
+  - [getCertificateStatus](#getcertificatestatus)
       - [request](#request-13)
       - [response](#response-13)
+  - [getEffectiveQuotations](#geteffectivequotations)
+      - [request](#request-14)
+      - [response](#response-14)
+  - [getCases](#getcases)
+      - [request](#request-15)
+      - [response](#response-15)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+1. 2017-05-16
+  * 增加getCases接口（获取案件列表）,
+
+1. 2017-05-15
+  * 将createPlanOrder 方法修改为 createAgentQuotation,
+  * 修改 getEffectiveQuotations 参数,
+
+1. 2017-04-25
+  * 增加 getCertificateStatus 方法,
 
 1. 2017-04-25
   * 增加 getEffectiveQuotations, updateCertificateViews 方法。
@@ -76,7 +91,7 @@
 1. 2017-04-06
   * 修改并完善getHiveStatistics接口中的字段名
 
-1. 2017-03-29
+. 2017-03-29
   * 增加 updateInsuredPhone 方法
 
 1. 2017-03-28
@@ -504,9 +519,9 @@ rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code)
 | code | int  | 200  |
 | data | uuid | pid  |
 
-## creatPlanOrder
+## createAgentQuotation
 
-创建计划订单
+创建代理报价
 
 | domain | accessable |
 | ----   | ----       |
@@ -529,7 +544,7 @@ rpc.call("mobile", "updateInsuredPhone", pid, phone, verify_code)
 | recommend           | string      | 推荐人             |
 ```javascript
 
-rpc.call("mobile", "creatPlanOrder", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans, expect_at, recommend) 
+rpc.call("mobile", "createAgentQuotation", verify_code,  qid, owner_name, owner_identity_no, insured_name, insured_identity_no, insured_phone, plans) 
   .then(function (result) {
 
   }, function (error) {
@@ -690,10 +705,9 @@ rpc.call("mobile", "updateCertificateViews", qid, pid, identity_frontal_view, id
 | data | object | {qid:qid,pid:pid} |
 
 
+## getCertificateStatus
 
-## getEffectiveQuotations
-
-获取用户未支付订单
+获取证件照上传状态
 
 | domain | accessable |
 | ----   | ----       |
@@ -701,12 +715,45 @@ rpc.call("mobile", "updateCertificateViews", qid, pid, identity_frontal_view, id
 
 #### request
 
-| name | type   | note   |
-| ---- | ----   | ----   |
-| vid  | string | 车辆id |
-
+| name                  | type   | note         |
+| ----                  | ----   | ----         |
+| qid                   | string | 报价id       |
 ```javascript
-rpc.call("mobile", "getEffectiveQuotations", vid)
+
+
+rpc.call("mobile", "getCertificateStatus", qid) 
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+
+| name | type   | note              |
+| ---- | ----   | ----              |
+| code | int    | 200               |
+| data | object | { driving_view_verify_state: 1, driving_view_refused_reason: "", verified: true} |
+
+
+## getEffectiveQuotations
+
+获取用户有效报价
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name        | type   | note     |
+| ----        | ----   | ----     |
+| vin         | string | 车架号   |
+| identity_no | string | 身份证号 |
+```javascript
+rpc.call("mobile", "getEffectiveQuotations", vin, identity_no)
   .then(function (result) {
 
   }, function (error) {
@@ -722,3 +769,33 @@ rpc.call("mobile", "getEffectiveQuotations", vid)
 | ---- | ----  | ----    |
 | code | int   | 200     |
 | data | array | [{},{}] |
+
+
+
+## getCases
+
+获取案件列表
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name        | type   | note     |
+| ----        | ----   | ----     |
+```javascript
+rpc.call("mobile", "getCases")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | Object |      |
