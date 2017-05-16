@@ -54,7 +54,7 @@
   - [getEffectiveQuotations](#geteffectivequotations)
       - [request](#request-14)
       - [response](#response-14)
-  - [getcases](#getcases)
+  - [getCases](#getcases)
       - [request](#request-15)
       - [response](#response-15)
 
@@ -62,7 +62,7 @@
 
 # ChangeLog
 1. 2017-05-16
-  * 增加getcases接口（获取案件列表）,
+  * 增加getCases接口（获取案件列表）,
 
 1. 2017-05-15
   * 将createPlanOrder 方法修改为 createAgentQuotation,
@@ -772,7 +772,7 @@ rpc.call("mobile", "getEffectiveQuotations", vin, identity_no)
 
 
 
-## getcases
+## getCases
 
 获取案件列表
 
@@ -785,7 +785,7 @@ rpc.call("mobile", "getEffectiveQuotations", vin, identity_no)
 | name        | type   | note     |
 | ----        | ----   | ----     |
 ```javascript
-rpc.call("mobile", "getcases")
+rpc.call("mobile", "getCases")
   .then(function (result) {
 
   }, function (error) {
