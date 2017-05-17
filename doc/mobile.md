@@ -852,6 +852,7 @@ rpc.call("mobile", "getOwnerShip", vid, pid)
 #### request
 
 注：两个参数确定一条关系
+
 | name  | type   | note         |
 | ----  | ----   | ----         |
 | vid?  | string | 刷新可选参数 |
