@@ -57,10 +57,19 @@
   - [getCases](#getcases)
       - [request](#request-15)
       - [response](#response-15)
+  - [getOwnerShip](#getownership)
+      - [request](#request-16)
+      - [response](#response-16)
+  - [refreshOwnerShip](#refreshownership)
+      - [request](#request-17)
+      - [response](#response-17)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+1. 2017-05-16
+  * 增加getOwnerShip接口以及刷新绑定关系refreshOwnerShip接口,
+
 1. 2017-05-16
   * 增加getCases接口（获取案件列表）,
 
@@ -795,7 +804,71 @@ rpc.call("mobile", "getCases")
 
 #### response
 
+| name | type  | note    |
+| ---- | ----  | ----    |
+| code | int   | 200     |
+| data | array | [{},{}] |
+
+## getOwnerShip
+
+获取车人绑定关系
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| vid  | string | 车id |
+| pid  | string | 人id |
+```javascript
+
+rpc.call("mobile", "getOwnerShip", vid, pid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name | type   | note      |
+| ---- | ----   | ----      |
+| code | int    | 200       |
+| data | Object | ownerShip |
+
+
+## refreshOwnerShip
+
+刷新绑定关系
+
+| domain | accessable |
+| ----   | ----       |
+| admin | ✓          |
+
+#### request
+
+注：两个参数确定一条关系
+
+| name  | type   | note         |
+| ----  | ----   | ----         |
+| vid?  | string | 刷新可选参数 |
+| pid？ | string | 刷新可选参数 |
+```javascript
+rpc.call("admin", "refreshOwnerShip", vid?, pid?)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
 | name | type   | note |
 | ---- | ----   | ---- |
 | code | int    | 200  |
-| data | Object |      |
+| data | string | done |
