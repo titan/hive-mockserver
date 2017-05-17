@@ -60,7 +60,7 @@
   - [getOwnerShip](#getownership)
       - [request](#request-16)
       - [response](#response-16)
-  - [refresh](#refresh)
+  - [refreshOwnerShip](#refreshownership)
       - [request](#request-17)
       - [response](#response-17)
 
@@ -68,7 +68,7 @@
 
 # ChangeLog
 1. 2017-05-16
-  * 增加getOwnerShip接口以及刷新绑定关系refresh接口,
+  * 增加getOwnerShip接口以及刷新绑定关系refreshOwnerShip接口,
 
 1. 2017-05-16
   * 增加getCases接口（获取案件列表）,
@@ -841,7 +841,7 @@ rpc.call("mobile", "getOwnerShip", vid, pid)
 | data | Object | ownerShip |
 
 
-## refresh
+## refreshOwnerShip
 
 刷新绑定关系
 
@@ -858,7 +858,7 @@ rpc.call("mobile", "getOwnerShip", vid, pid)
 | vid?  | string | 刷新可选参数 |
 | pid？ | string | 刷新可选参数 |
 ```javascript
-rpc.call("admin", "refresh",vid?,pid?)
+rpc.call("admin", "refreshOwnerShip", vid?, pid?)
   .then(function (result) {
 
   }, function (error) {
