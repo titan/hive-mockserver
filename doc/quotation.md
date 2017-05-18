@@ -58,6 +58,9 @@
 
 # ChangeLog
 
+1. 2017-05-18
+  * getreferencequotation 和　getAccurateQuotation 增加参数 vin
+
 1. 2017-05-09
   * 重命名缓存 vid:uid-qid 为 vid-uid:qid
   * 重命名 driving-view-verified 为 driving-view-verify-state
@@ -651,6 +654,7 @@ rpc.call("quotation", "refresh")
 | name         | type   | note         |
 | ----         | ----   | ----         |
 | vid          | string | vehicle id   |
+| vin          | string | 车架号       |
 | owner        | uuid   | 车主 ID      |
 | insured      | uuid   | 投保人ID     |
 | city_code    | string | 行驶城市代码 |
@@ -664,7 +668,7 @@ let insured      = "00000000-0000-0000-0000-000000000000";
 let city_code    = "110100"; // 北京
 let insurer_code = "APIC"; // 永诚
 
-rpc.call("quotation", "getReferenceQuotation", vid, owner, insured, city_code, insurer_code)
+rpc.call("quotation", "getReferenceQuotation", vid, vin, owner, insured, city_code, insurer_code)
   .then(function (result) {
 
   }, function (error) {
@@ -728,6 +732,7 @@ data 例：
 | name          | type    | note                                 |
 | ----          | ----    | ----                                 |
 | vid           | string  | vehicle id                           |
+| vin           | string  | 车架号                               |
 | qid           | string  | quotation id                         |
 | owner         | uuid    | 车主 ID                              |
 | insured       | uuid    | 投保人ID                             |
@@ -761,7 +766,7 @@ let flag           = 1;
 let cache_first    = false;
 let save            = false;
 
-rpc.call("quotation", "getAccurateQuotation", vid, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date, flag, cache_first)
+rpc.call("quotation", "getAccurateQuotation", vid, vin, qid, owner, insured, city_code, insurer_code, bi_begin_date, ci_begin_date, flag, cache_first)
   .then(function (result) {
 
   }, function (error) {
