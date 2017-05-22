@@ -20,12 +20,22 @@
     - [Event Data Structure](#event-data-structure-1)
     - [Event Type](#event-type-1)
     - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix-1)
+  - [additional-order](#additional-order)
+  - [additional_order-event](#additional_order-event)
+- [Event](#event-1)
+  - [AdditionalOrderEvent](#additionalorderevent)
+    - [Event Data Structure](#event-data-structure-2)
+    - [Event Type](#event-type-2)
+    - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix-2)
+    - [additional order states](#additional-order-states)
 - [Database](#database)
   - [plan_orders](#plan_orders)
   - [plan_order_items](#plan_order_items)
   - [sale_orders](#sale_orders)
   - [sale_order_items](#sale_order_items)
   - [order_events](#order_events)
+  - [additional-order](#additional-order-1)
+  - [order_events](#order_events-1)
   - [order_apply_pdf](#order_apply_pdf)
   - [drivers](#drivers)
 - [Cache](#cache)
@@ -78,10 +88,37 @@
   - [refresh](#refresh)
       - [request](#request-14)
       - [response](#response-14)
+  - [createThirdOrder](#createthirdorder)
+      - [request](#request-15)
+      - [response](#response-15)
+  - [createDeathOrder](#createdeathorder)
+      - [request](#request-16)
+      - [response](#response-16)
+  - [getAdditionalOrder](#getadditionalorder)
+      - [request](#request-17)
+      - [response](#response-17)
+  - [getAdditionalOrdersByUser](#getadditionalordersbyuser)
+      - [request](#request-18)
+      - [response](#response-18)
+  - [getVehiclesByUser](#getvehiclesbyuser)
+      - [request](#request-19)
+      - [response](#response-19)
+  - [payAdditionalOrder](#payadditionalorder)
+      - [request](#request-20)
+      - [response](#response-20)
+  - [refreshThridOrder](#refreshthridorder)
+      - [request](#request-21)
+      - [response](#response-21)
+  - [refreshDeathOrder](#refreshdeathorder)
+      - [request](#request-22)
+      - [response](#response-22)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-22
+  * 增加 补充计划对应接口
 
 1. 2017-05-05
   * 增加 getPlanOrderByNo 接口
@@ -550,7 +587,7 @@
 | type | summary | payment | license_no | no   | owner | promotion | commission-ratio | payment-method |
 | ---- | ----    | ----    | ----       | ---- | ----  | ----      | ----             | ----           |
 | 0    |         |         |            |      |       |           |                  |                |
-| 1    | ✓       | ✓       | ✓          | ✓    | ✓     | ✓         | ✓                |                |
+| 1    |         |         | ✓          | ✓    | ✓     |           |                  |                |
 | 2    |         | ✓       |            |      |       |           |                  | ✓              |
 
 
@@ -1297,10 +1334,10 @@ rpc.call("order", "updateDrivingView", oid, driving_frontal_view, driving_rear_v
 
 | name | type   | note           |
 | ---- | ----   | ----           |
-| no   | string | 订单编号(可选) |
+| id   | string | 订单号(可选) |
 
 ```javascript
-rpc.call("order", "refresh", type, uid, oid)
+rpc.call("order", "refresh", id)
   .then(function (result) {
 
   }, function (error) {
@@ -1330,3 +1367,383 @@ rpc.call("order", "refresh", type, uid, oid)
 | 408  | 请求超时 |
 
 
+## createThirdOrder
+
+创建三者补充计划险
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name        | type   | note     |
+| ----        | ----   | ----     |
+| license_no  | string | 车牌号   |
+| name        | string | 姓名     |
+| identity_no | string | 身份证号 |
+| phone       | string | 手机号   |
+
+```javascript
+rpc.call("order", "createThirdOrder", license_no, name, identity_no, phone)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note          |
+| ---- | ----   | ----          |
+| code | int    | 200           |
+| data | object | {id:id,no:no} |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code   | meanning         |
+| ----   | ----             |
+| 400    | 参数错误         |
+| 500    | 未知错误         |
+| 400010 | 该车已有支付订单 |
+
+## createDeathOrder
+
+创建死亡补充计划险
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name        | type   | note     |
+| ----        | ----   | ----     |
+| license_no  | string | 车牌号   |
+| name        | string | 姓名     |
+| identity_no | string | 身份证号 |
+| phone       | string | 手机号   |
+
+```javascript
+rpc.call("order", "createDeathOrde", license_no, name, identity_no, phone)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note          |
+| ---- | ----   | ----          |
+| code | int    | 200           |
+| data | object | {id:id,no:no} |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code   | meanning         |
+| ----   | ----             |
+| 400    | 参数错误         |
+| 500    | 未知错误         |
+| 400010 | 该车已有支付订单 |
+
+
+## getAdditionalOrder
+
+获取补充计划详情
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+| id   | uuid | 订单号 |
+
+```javascript
+rpc.call("order", "getAdditionalOrder", id)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note  |
+| ---- | ----   | ----  |
+| code | int    | 200   |
+| data | object | order |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning           |
+| ---- | ----               |
+| 400  | 参数错误           |
+| 500  | 未知错误           |
+| 404  | 未找到对应订单     |
+| 403  | 没有权限获取该订单 |
+
+
+
+## getAdditionalOrdersByUser
+
+获取补充计划详情
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+```javascript
+rpc.call("order", "getAdditionalOrdersByUser")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type  | note    |
+| ---- | ----  | ----    |
+| code | int   | 200     |
+| data | array | order[] |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning       |
+| ---- | ----           |
+| 400  | 参数错误       |
+| 500  | 未知错误       |
+| 404  | 未找到对应订单 |
+| 403  | 没有权限获取该订单 |
+
+## getVehiclesByUser
+
+根据下单历史记录获取所有绑定车辆
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+```javascript
+rpc.call("order", "getVehiclesByUser")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type  | note    |
+| ---- | ----  | ----    |
+| code | int   | 200     |
+| data | array | vehicle[] |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning           |
+| ---- | ----               |
+| 400  | 参数错误           |
+| 500  | 未知错误           |
+| 404  | 未找到对应数据     |
+| 403  | 没有权限获取该数据 |
+
+
+## payAdditionalOrder
+
+支付补充计划险
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+```javascript
+rpc.call("order", "payAdditionalOrder",oid, amount, payment_method)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning             |
+| ---- | ----                 |
+| 400  | 参数错误             |
+| 500  | 未知错误             |
+| 404  | 未找到对应数据       |
+| 403  | 该订单状态不支持支付 |
+
+
+## refreshThridOrder
+
+刷新订单数据
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+| oid? | uuid | 订单号 |
+```javascript
+rpc.call("order", "refreshThridOrder",oid?)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | done |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning           |
+| ---- | ----               |
+| 500  | 未知错误           |
+
+
+
+## refreshDeathOrder
+
+刷新订单数据
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+| oid? | uuid | 订单号 |
+```javascript
+rpc.call("order", "refreshDeathOrder",oid?)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | done |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning           |
+| ---- | ----               |
+| 500  | 未知错误           |
