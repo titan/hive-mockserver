@@ -64,6 +64,7 @@
   * 重命名 recharge 接口为 rechargePlanOrder
   * 增加 rechargeThirdOrder 接口
   * 增加 rechargeDeathOrder 接口
+  * 重构缓存设置，增加对 project 的支持
 
 1. 2017-05-10
   * 增加 paid 到 account
@@ -353,12 +354,18 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 
 # Cache
 
-| key                  | type       | value                   | note               |
-| ----                 | ----       | ----                    | ----               |
-| account-entities     | hash       | aid => Account          | 所有钱包帐号实体   |
-| wallet-entities      | hash       | UID => Wallet           | 所有钱包实体       |
-| wallet-slim-entities | hash       | UID => Wallet           | 所有钱包非完整实体 |
-| transactions:${uid}  | sorted set | {occurred, transaction} | 交易记录           |
+| key                    | type       | value                   | note                           |
+| ----                   | ----       | ----                    | ----                           |
+| account-entities       | hash       | aid => Account          | 所有钱包帐号实体               |
+| wallet-entities-1      | hash       | UID => Wallet           | 所有"好车主计划"钱包实体       |
+| wallet-entities-2      | hash       | UID => Wallet           | 所有"三者"钱包实体             |
+| wallet-entities-3      | hash       | UID => Wallet           | 所有"死亡"钱包实体             |
+| wallet-slim-entities-1 | hash       | UID => Wallet           | 所有"好车主计划"钱包非完整实体 |
+| wallet-slim-entities-2 | hash       | UID => Wallet           | 所有"三者"钱包非完整实体       |
+| wallet-slim-entities-3 | hash       | UID => Wallet           | 所有"死亡"钱包非完整实体       |
+| transactions-1:${uid}  | sorted set | {occurred, transaction} | "好车主计划"交易记录           |
+| transactions-2:${uid}  | sorted set | {occurred, transaction} | "三者"交易记录                 |
+| transactions-3:${uid}  | sorted set | {occurred, transaction} | "死亡"交易记录                 |
 
 # API
 
