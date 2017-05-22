@@ -15,40 +15,55 @@
     - [Event Type](#event-type)
     - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix)
 - [Database](#database)
-  - [accounts](#accounts)
   - [account_events](#account_events)
   - [transactions](#transactions)
-  - [apportions](#apportions)
 - [Cache](#cache)
 - [API](#api)
   - [getWallet](#getwallet)
       - [request](#request)
       - [response](#response)
-  - [recharge](#recharge)
+  - [rechargePlanOrder](#rechargeplanorder)
       - [request](#request-1)
       - [response](#response-1)
-  - [adjust](#adjust)
+  - [rechargeThirdOrder](#rechargethirdorder)
       - [request](#request-2)
       - [response](#response-2)
-  - [freeze](#freeze)
+  - [rechargeDeathOrder](#rechargedeathorder)
       - [request](#request-3)
       - [response](#response-3)
-  - [unfreeze](#unfreeze)
+  - [adjust](#adjust)
       - [request](#request-4)
       - [response](#response-4)
-  - [deduct](#deduct)
+  - [freeze](#freeze)
       - [request](#request-5)
       - [response](#response-5)
-  - [getTransactions](#gettransactions)
+  - [unfreeze](#unfreeze)
       - [request](#request-6)
       - [response](#response-6)
-  - [exportAccounts](#exportaccounts)
+  - [deduct](#deduct)
       - [request](#request-7)
       - [response](#response-7)
+  - [getTransactions](#gettransactions)
+      - [request](#request-8)
+      - [response](#response-8)
+  - [exportAccounts](#exportaccounts)
+      - [request](#request-9)
+      - [response](#response-9)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-22
+  * 增加 project 到 wallet
+  * 增加 project 到 account
+  * 增加 project 到 transaction
+  * 增加可选参数到 getWallet，支持获取不同险种的钱包
+  * 增加可选参数到 getTransactions，支持获取不同险种的交易记录
+  * 增加可选参数到 exportAccounts，支持导出不同险种的帐号信息
+  * 重命名 recharge 接口为 rechargePlanOrder
+  * 增加 rechargeThirdOrder 接口
+  * 增加 rechargeDeathOrder 接口
 
 1. 2017-05-10
   * 增加 paid 到 account
@@ -155,12 +170,13 @@
 
 ## Wallet
 
-| name     | type      | note       |
-| ----     | ----      | ----       |
-| frozen   | float     | 冻结金额   |
-| cashable | float     | 可提现金额 |
-| balance  | float     | 总余额     |
-| accounts | [account] | 帐号       |
+| name     | type      | note         |
+| ----     | ----      | ----         |
+| frozen   | float     | 冻结金额     |
+| cashable | float     | 可提现金额   |
+| balance  | float     | 总余额       |
+| accounts | [account] | 帐号         |
+| project  | project   | 钱包所属险种 |
 
 ## Account
 
@@ -175,6 +191,7 @@
 | frozen-balance0  | float   | 小池冻结余额 |
 | frozen-balance1  | float   | 大池冻结余额 |
 | cashable-balance | float   | 可提现金额   |
+| project          | project | 帐号所属险种 |
 
 Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则为池帐号类型。
 
@@ -190,9 +207,10 @@ Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则�
 | ----        | ----    | ----                     |
 | id          | uuid    | 交易日志 ID              |
 | uid         | uuid    | 用户 ID                  |
+| project     | project | 交易记录所属的险种       |
 | aid         | uuid    | 帐号 ID                  |
-| license     | string  | 对应的车牌               |
 | type        | int     | 记录类型                 |
+| license     | string  | 对应的车牌               |
 | title       | string  | 钱包日志内容             |
 | occurred-at | iso8601 | 发生时间                 |
 | amount      | float   | 金额(正为收入，负为支出) |
@@ -204,20 +222,26 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 
 ### Transaction Title
 
-| type | title                                      |
-| ---- | ----                                       |
-| 1    | 加入计划充值                               |
-| 2    | 优惠补贴                                   |
-| 3    | 缴纳管理费                                 |
-| 4    | 试运行期间管理费免缴，中途退出计划不可提现 |
-| 5    | 互助金预存                                 |
-| 6    | 互助金预提                                 |
-| 7    | 互助金结算                                 |
-| 8    | 佣金收入                                   |
-| 9    | 扣除微信手续费                             |
-| 10   | 余额抵扣                                   |
-| 11   | 退出计划                                   |
-| 12   | 退出计划，扣除优惠补贴                     |
+| project | type | title                                      |
+|---------|------|--------------------------------------------|
+|       1 |    1 | 加入计划充值                               |
+|       1 |    2 | 优惠补贴                                   |
+|       1 |    3 | 缴纳管理费                                 |
+|       1 |    4 | 试运行期间管理费免缴，中途退出计划不可提现 |
+|       1 |    5 | 互助金预存                                 |
+|       1 |    6 | 互助金预提                                 |
+|       1 |    7 | 互助金结算                                 |
+|       1 |    8 | 佣金收入                                   |
+|       1 |    9 | 扣除微信手续费                             |
+|       1 |   10 | 余额抵扣                                   |
+|       1 |   11 | 退出计划                                   |
+|       1 |   12 | 退出计划，扣除优惠补贴                     |
+|       2 |  201 | 加入                                       |
+|       2 |  202 | 充值                                       |
+|       2 |  203 | 参与公摊                                   |
+|       3 |  301 | 加入                                       |
+|       3 |  302 | 充值                                       |
+|       3 |  303 | 参与公摊                                   |
 
 ### Transaction Type And Data Structure Matrix
 
@@ -244,37 +268,38 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 
 ### Event Data Structure
 
-| name        | type     | note         |
-| ----        | ----     | ----         |
-| id          | uuid     | event id     |
-| type        | smallint | event type   |
-| opid        | uuid     | operator id  |
-| uid         | uuid     | user id      |
-| aid         | uuid     | account id   |
-| occurred-at | iso8601  | 事件发生时间 |
-| amount      | float    | 金额         |
-| maid        | uuid     | 互助事件 id  |
-| oid         | uuid     | order id     |
+| name        | type     | note           |
+| ----        | ----     | ----           |
+| id          | uuid     | event id       |
+| type        | smallint | event type     |
+| opid        | uuid     | operator id    |
+| uid         | uuid     | user id        |
+| project     | project  | 事件所属的险种 |
+| aid         | uuid     | account id     |
+| occurred-at | iso8601  | 事件发生时间   |
+| amount      | float    | 金额           |
+| maid        | uuid     | 互助事件 id    |
+| oid         | uuid     | order id       |
 
 ### Event Type
 
 | code | name             | note     |
-| ---- | ----             | ----     |
-| 0    | CREATE_ACCOUNT   | 创建帐号 |
-| 1    | INCREASE_NORMAL  | 普通增加 |
-| 2    | DECREASE_NORMAL  | 普通减少 |
-| 3    | INCREASE_PRIVATE | 小池增加 |
-| 4    | DECREASE_PRIVATE | 小池减少 |
-| 5    | INCREASE_PUBLIC  | 大池增加 |
-| 6    | DECREASE_PUBLIC  | 大池减少 |
-| 7    | INCREASE_BONUS   | 优惠增加 |
-| 8    | DECREASE_BONUS   | 优惠减少 |
-| 9    | FREEZE_PRIVATE   | 小池冻结 |
-| 10   | UNFREEZE_PRIVATE | 小池解冻 |
-| 11   | FREEZE_PUBLIC    | 大池冻结 |
-| 12   | UNFREEZE_PUBLIC  | 大池解冻 |
-| 13   | INCREASE_PAID    | 支付增加 |
-| 14   | DECREASE_PAID    | 支付减少 |
+|------|------------------|----------|
+|    0 | REPLAY           | 重播事件 |
+|    1 | INCREASE-NORMAL  | 普通增加 |
+|    2 | DECREASE-NORMAL  | 普通减少 |
+|    3 | INCREASE-PRIVATE | 小池增加 |
+|    4 | DECREASE-PRIVATE | 小池减少 |
+|    5 | INCREASE-PUBLIC  | 大池增加 |
+|    6 | DECREASE-PUBLIC  | 大池减少 |
+|    7 | INCREASE-BONUS   | 优惠增加 |
+|    8 | DECREASE-BONUS   | 优惠减少 |
+|    9 | FREEZE-PRIVATE   | 小池冻结 |
+|   10 | UNFREEZE-PRIVATE | 小池解冻 |
+|   11 | FREEZE-PUBLIC    | 大池冻结 |
+|   12 | UNFREEZE-PUBLIC  | 大池解冻 |
+|   13 | INCREASE-PAID    | 支付增加 |
+|   14 | DECREASE-PAID    | 支付减少 |
 
 ### Event Type And Data Structure Matrix
 
@@ -304,6 +329,7 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | ----        | ----      | ---- | ----    | ----    | ----      |
 | id          | uuid      |      |         | primary |           |
 | uid         | uuid      |      |         |         | users     |
+| project     | smallint  |      |         |         | projects  |
 | aid         | uuid      |      |         |         | accounts  |
 | opid        | uuid      | ✓    |         |         |           |
 | type        | smallint  |      |         |         |           |
@@ -316,11 +342,12 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | ----        | ----         | ---- | ----    | ----    | ----      |
 | id          | uuid         |      |         | primary |           |
 | uid         | uuid         |      |         |         | users     |
+| project     | smallint     |      |         |         | projects  |
 | aid         | uuid         |      |         |         | accounts  |
 | type        | smallint     |      |         |         |           |
 | license     | varchar(8)   |      |         |         |           |
 | title       | varchar(128) |      |         |         |           |
-| amount      | float        |      |         |         |           |
+| amount      | integer      |      |         |         |           |
 | data        | json         |      |         |         |           |
 | occurred_at | timestamp    |      | now     |         |           |
 
@@ -328,7 +355,7 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 
 | key                  | type       | value                   | note               |
 | ----                 | ----       | ----                    | ----               |
-| account-entities     | hash       | aid => Account           | 所有钱包实体       |
+| account-entities     | hash       | aid => Account          | 所有钱包帐号实体   |
 | wallet-entities      | hash       | UID => Wallet           | 所有钱包实体       |
 | wallet-slim-entities | hash       | UID => Wallet           | 所有钱包非完整实体 |
 | transactions:${uid}  | sorted set | {occurred, transaction} | 交易记录           |
@@ -346,10 +373,13 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 
 #### request
 
-| name | type    | note |
-| ---- | ----    | ---- |
-| slim | boolean | true |
-| uid? | uuid    |      |
+| name     | type    | note |
+| ----     | ----    | ---- |
+| project? | integer | 1    |
+| slim?    | boolean | true |
+| uid?     | uuid    |      |
+
+project 是险种编号，默认为 1，即"好车主计划"
 
 当 slim 为真时，返回的钱包帐号中只有 vid 与车牌信息，不包含车辆的其他信息。
 
@@ -388,9 +418,9 @@ rpc.call("wallet", "getWallet")
 
 See [example](../data/wallet/getWallet.json)
 
-## recharge
+## rechargePlanOrder
 
-钱包充值
+"好车主计划" 钱包充值
 
 | domain | accessable |
 | ----   | ----       |
@@ -427,10 +457,86 @@ See [example](../data/wallet/getWallet.json)
 | 408  | 请求超时   |
 | 500  | 未知错误   |
 
+## rechargeThirdOrder
+
+"三者补充计划" 钱包充值
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name   | type  | note     |
+| ----   | ----  | ----     |
+| oid    | uuid  | Order Id |
+| amount | float | 充值金额 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
+## rechargeDeathOrder
+
+"死亡计划" 钱包充值
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name   | type  | note     |
+| ----   | ----  | ----     |
+| oid    | uuid  | Order Id |
+| amount | float | 充值金额 |
+
+#### response
+
+成功：
+
+| name | type   | note    |
+| ---- | ----   | ----    |
+| code | int    | 200     |
+| data | string | Success |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+| ---- | ----       |
+| 404  | 钱包不存在 |
+| 408  | 请求超时   |
+| 500  | 未知错误   |
+
 
 ## adjust
 
-调整大小池比例。
+调整大小池比例。仅对好车主计划有效。
 
 | domain | accessable |
 | ----   | ----       |
@@ -468,7 +574,7 @@ See [example](../data/wallet/getWallet.json)
 
 ## freeze
 
-冻结资金
+冻结资金, 仅对好车主计划有效。
 
 | domain | accessable |
 | ----   | ----       |
@@ -514,7 +620,7 @@ type 可以是 1: 小池; 2: 大池; 3: 小池 + 大池
 
 ## unfreeze
 
-解冻资金
+解冻资金, 仅对好车主计划有效。
 
 | domain | accessable |
 | ----   | ----       |
@@ -611,11 +717,12 @@ type 可以是 1: 小池; 2: 大池; 3: 小池 + 大池
 
 #### request
 
-| name   | type | note                     |
-| ----   | ---- | ----                     |
-| offset | int  | 结果在数据集中的起始位置 |
-| limit  | int  | 显示结果的长度           |
-| uid    | uuid | 仅 admin 有效            |
+| name     | type | note                        |
+| ----     | ---- | ----                        |
+| offset   | int  | 结果在数据集中的起始位置    |
+| limit    | int  | 显示结果的长度              |
+| project? | int  | 交易记录所属的险种，默认为1 |
+| uid?     | uuid | 仅 admin 有效               |
 
 ```javascript
 
@@ -661,9 +768,10 @@ See [example](../data/wallet/getTransactions.json)
 
 #### request
 
-| name     | type   | note             |
-| ----     | ----   | ----             |
-| filename | string | 结果保存到文件中 |
+| name     | type   | note                    |
+| ----     | ----   | ----                    |
+| filename | string | 结果保存到文件中        |
+| project? | int    | 帐号所属的险种，默认为1 |
 
 #### response
 
