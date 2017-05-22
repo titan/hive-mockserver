@@ -63,12 +63,15 @@
   - [refreshOwnerShip](#refreshownership)
       - [request](#request-17)
       - [response](#response-17)
+  - [getLevelPrice](#getlevelprice)
+      - [request](#request-18)
+      - [response](#response-18)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
 1. 2017-05-16
-  * 增加getOwnerShip接口以及刷新绑定关系refreshOwnerShip接口,
+  * 增加getLevelPrice,
 
 1. 2017-05-16
   * 增加getCases接口（获取案件列表）,
@@ -872,3 +875,33 @@ rpc.call("admin", "refreshOwnerShip", vid?, pid?)
 | ---- | ----   | ---- |
 | code | int    | 200  |
 | data | string | done |
+
+
+## getLevelPrice
+
+获取价格对照表
+
+| domain | accessable |
+| ----   | ----       |
+| mobile | ✓          |
+
+#### request
+
+
+| name  | type   | note         |
+| ----  | ----   | ----         |
+```javascript
+rpc.call("mobile", "getLevelPrice")
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+```
+
+#### response
+
+| name | type   | note          |
+| ---- | ----   | ----          |
+| code | int    | 200           |
+| data | Object | {level:price} |
