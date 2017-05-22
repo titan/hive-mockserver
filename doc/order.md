@@ -476,6 +476,86 @@
 | 5    |         |         |      |      |           |          |         |      |         |
 | 6    |         |         |      |      |           |          |         |      |         |
 
+
+
+## additional-order
+
+| name              | type   | note         |
+| ----              | ----   | ----         |
+| id                | uuid   | 主键         |
+| no                | string | 订单编号     |
+| uid               | string | 用户id       |
+| state             | int    | 订单状态编码 |
+| state-description | string | 订单状态     |
+| license_no        | string | 车牌号       |
+| owner             | person | 车主         |
+| payment-method    | int    | 支付方式     |
+| created_at        | date   | 创建时间     |
+| updated_at        | date   | 更新时间     |
+| paid-at           | date   | 订单支付时间 |
+
+支付方式:
+
+| method | meanning |
+| ----   | ----     |
+| 1      | 汇付天下 |
+| 2      | 微信支付 |
+
+## additional_order-event
+
+| name        | type   | note                |
+| ----        | ----   | ----                |
+| id          | uuid   | 主键                |
+| oid         | uuid   | 订单 ID             |
+| type        | string | 订单类型            |
+| uid         | uuid   | 触发事件的人        |
+| data        | json   | JSON 格式的事件数据 |
+| occurred-at | date   | 事件发生时间        |
+
+# Event
+
+## AdditionalOrderEvent
+
+### Event Data Structure
+
+| name             | type     | note         |
+| ----             | ----     | ----         |
+| id               | uuid     | event id     |
+| type             | smallint | event type   |
+| opid             | uuid     | operator id  |
+| oid              | uuid     | order id     |
+| order-type       | smallint | order type   |
+| occurred-at      | iso8601  | 事件发生时间 |
+| summary          | float    | 总金额       |
+| payment          | float    | 应付金额     |
+| license_no       | string   | 车牌号       |
+| no               | string   | 订单编号     |
+| owner            | uuid     | 车主 ID      |
+| promotion        | float    | 优惠金额     |
+| commission-ratio | float    | 手续费率     |
+| payment-method   | smallint | 支付方式     |
+| items            | [Item]   | 订单条目     |
+
+### Event Type
+
+| type | name             | note         |
+| ---- | ----             | ----         |
+| 0    | CANCEL           | 取消订单     |
+| 1    | CREATE           | 创建订单     |
+| 2    | PAY              | 支付订单     |
+
+
+### Event Type And Data Structure Matrix
+
+| type | summary | payment | license_no | no   | owner | promotion | commission-ratio | payment-method |
+| ---- | ----    | ----    | ----       | ---- | ----  | ----      | ----             | ----           |
+| 0    |         |         |            |      |       |           |                  |                |
+| 1    | ✓       | ✓       | ✓          | ✓    | ✓     | ✓         | ✓                |                |
+| 2    |         | ✓       |            |      |       |           |                  | ✓              |
+
+
+### additional order states
+
 # Database
 
 ## plan_orders
@@ -578,6 +658,39 @@ index 是多选项的下标索引
 | ----       | ----       |
 | 1          | plan order |
 | 3          | sale order |
+
+## additional-order
+
+| name              | type      | null | default | index   | reference               |
+| ----              | ----      | ---- | ----    | ----    | ----                    |
+| id                | uuid      |      |         | primary |                         |
+| no                | char(32)  |      |         |         |                         |
+| uid               | uuid      |      |         |         | users                   |
+| state             | smallint  |      | 0       |         |                         |
+| state-description | string    |      |         |         |                         |
+| license_no        | string    |      |         |         |                         |
+| owner             | uuid      |      |         |         | person                  |
+| payment-method    | smallint  |      | 0       |         |                         |
+| created_at        | timestamp |      | now     |         |                         |
+| updated_at        | timestamp |      | now     |         |                         |
+| paid-at           | timestamp |      | now     |         |                         |
+| evtid             | uuid      | ✓    |         |         | additional_order_events |
+
+## order_events
+
+| field       | type      | null | default | index   | reference |
+| ----        | ----      | ---- | ----    | ----    | ----      |
+| id          | uuid      |      |         | primary |           |
+| type        | smallint  |      |         |         |           |
+| oid         | uuid      |      |         |         |           |
+| uid         | uuid      |      |         |         |           |
+| data        | json      |      |         |         |           |
+| occurred_at | timestamp |      | now     |         |           |
+
+| type | meanning |
+| ---- | ----     |
+| 1    | 三者险   |
+| 2    | 死亡险   |
 
 ## order_apply_pdf
 
