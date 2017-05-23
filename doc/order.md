@@ -117,6 +117,9 @@
 
 # ChangeLog
 
+1. 2017-05-23
+  * 增加 getOrderType接口
+
 1. 2017-05-22
   * 增加 补充计划对应接口
 
@@ -1663,6 +1666,54 @@ rpc.call("order", "payAdditionalOrder",oid, amount, payment_method)
 | 500  | 未知错误             |
 | 404  | 未找到对应数据       |
 | 403  | 该订单状态不支持支付 |
+
+
+## getOrderType
+
+获取订单类型
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+| oid? | uuid | 订单号 |
+```javascript
+rpc.call("order", "getOrderType",oid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | number |      |
+
+注：1表示好车主计划，2表示三者责任险，3表示意外死亡险
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning       |
+| ---- | ----           |
+| 500  | 未知错误       |
+| 404  | 未找到对应订单 |
 
 
 ## refresAdditionalOrder
