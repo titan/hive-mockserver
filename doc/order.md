@@ -21,7 +21,7 @@
     - [Event Type](#event-type-1)
     - [Event Type And Data Structure Matrix](#event-type-and-data-structure-matrix-1)
   - [additional-order](#additional-order)
-  - [additional_order-event](#additional_order-event)
+  - [additional-order-event](#additional-order-event)
 - [Event](#event-1)
   - [AdditionalOrderEvent](#additionalorderevent)
     - [Event Data Structure](#event-data-structure-2)
@@ -35,7 +35,7 @@
   - [sale_order_items](#sale_order_items)
   - [order_events](#order_events)
   - [additional-order](#additional-order-1)
-  - [order_events](#order_events-1)
+  - [additional_order_events](#additional_order_events)
   - [order_apply_pdf](#order_apply_pdf)
   - [drivers](#drivers)
 - [Cache](#cache)
@@ -106,16 +106,19 @@
   - [payAdditionalOrder](#payadditionalorder)
       - [request](#request-20)
       - [response](#response-20)
-  - [refreshThridOrder](#refreshthridorder)
+  - [getOrderType](#getordertype)
       - [request](#request-21)
       - [response](#response-21)
-  - [refreshDeathOrder](#refreshdeathorder)
+  - [refresAdditionalOrder](#refresadditionalorder)
       - [request](#request-22)
       - [response](#response-22)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-23
+  * 增加 getOrderType接口
 
 1. 2017-05-22
   * 增加 补充计划对应接口
@@ -527,6 +530,9 @@
 | license_no        | string | 车牌号       |
 | owner             | person | 车主         |
 | payment-method    | int    | 支付方式     |
+| payment           | int    | 实付金额     |
+| summary           | int    | 应付金额     |
+| promotion         | int    | 优惠金额     |
 | created_at        | date   | 创建时间     |
 | updated_at        | date   | 更新时间     |
 | paid-at           | date   | 订单支付时间 |
@@ -538,13 +544,14 @@
 | 1      | 汇付天下 |
 | 2      | 微信支付 |
 
-## additional_order-event
+## additional-order-event
 
 | name        | type   | note                |
 | ----        | ----   | ----                |
 | id          | uuid   | 主键                |
 | oid         | uuid   | 订单 ID             |
-| type        | string | 订单类型            |
+| type        | string | 事件类型            |
+| project     | string | 订单类型            |
 | uid         | uuid   | 触发事件的人        |
 | data        | json   | JSON 格式的事件数据 |
 | occurred-at | date   | 事件发生时间        |
@@ -569,9 +576,7 @@
 | no               | string   | 订单编号     |
 | owner            | uuid     | 车主 ID      |
 | promotion        | float    | 优惠金额     |
-| commission-ratio | float    | 手续费率     |
 | payment-method   | smallint | 支付方式     |
-| items            | [Item]   | 订单条目     |
 
 ### Event Type
 
@@ -703,6 +708,7 @@ index 是多选项的下标索引
 | id                | uuid      |      |         | primary |                         |
 | no                | char(32)  |      |         |         |                         |
 | uid               | uuid      |      |         |         | users                   |
+| project           | smallint  |      |         |         |                         |
 | state             | smallint  |      | 0       |         |                         |
 | state-description | string    |      |         |         |                         |
 | license_no        | string    |      |         |         |                         |
@@ -722,9 +728,10 @@ index 是多选项的下标索引
 | ----        | ----      | ---- | ----    | ----    | ----      |
 | id          | uuid      |      |         | primary |           |
 | type        | smallint  |      |         |         |           |
+| project     | smallint  |      |         |         |           |
 | oid         | uuid      |      |         |         |           |
 | uid         | uuid      |      |         |         |           |
-| data        | json      |      |         |         |           |
+| data        | json      | ✓    |         |         |           |
 | occurred_at | timestamp |      | now     |         |           |
 
 | type | meanning |
@@ -1389,7 +1396,7 @@ rpc.call("order", "refresh", id)
 | phone       | string | 手机号   |
 
 ```javascript
-rpc.call("order", "createThirdOrder", license_no, name, identity_no, phone)
+rpc.call("order", "createThirdOrder",level, license_no, name, identity_no, phone)
   .then(function (result) {
 
   }, function (error) {
@@ -1402,10 +1409,10 @@ rpc.call("order", "createThirdOrder", license_no, name, identity_no, phone)
 
 成功：
 
-| name | type   | note          |
-| ---- | ----   | ----          |
-| code | int    | 200           |
-| data | object | {id:id,no:no} |
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
 
 失败：
 
@@ -1439,7 +1446,7 @@ rpc.call("order", "createThirdOrder", license_no, name, identity_no, phone)
 | phone       | string | 手机号   |
 
 ```javascript
-rpc.call("order", "createDeathOrde", license_no, name, identity_no, phone)
+rpc.call("order", "createDeathOrde",level, license_no, name, identity_no, phone)
   .then(function (result) {
 
   }, function (error) {
@@ -1452,10 +1459,10 @@ rpc.call("order", "createDeathOrde", license_no, name, identity_no, phone)
 
 成功：
 
-| name | type   | note          |
-| ---- | ----   | ----          |
-| code | int    | 200           |
-| data | object | {id:id,no:no} |
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
 
 失败：
 
@@ -1661,7 +1668,55 @@ rpc.call("order", "payAdditionalOrder",oid, amount, payment_method)
 | 403  | 该订单状态不支持支付 |
 
 
-## refreshThridOrder
+## getOrderType
+
+获取订单类型
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name | type | note   |
+| ---- | ---- | ----   |
+| oid? | uuid | 订单号 |
+```javascript
+rpc.call("order", "getOrderType",oid)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | number |      |
+
+注：1表示好车主计划，2表示三者责任险，3表示意外死亡险
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning       |
+| ---- | ----           |
+| 500  | 未知错误       |
+| 404  | 未找到对应订单 |
+
+
+## refresAdditionalOrder
 
 刷新订单数据
 
@@ -1676,7 +1731,7 @@ rpc.call("order", "payAdditionalOrder",oid, amount, payment_method)
 | ---- | ---- | ----   |
 | oid? | uuid | 订单号 |
 ```javascript
-rpc.call("order", "refreshThridOrder",oid?)
+rpc.call("order", "refresAdditionalOrder",oid?)
   .then(function (result) {
 
   }, function (error) {
@@ -1705,48 +1760,3 @@ rpc.call("order", "refreshThridOrder",oid?)
 | ---- | ----               |
 | 500  | 未知错误           |
 
-
-
-## refreshDeathOrder
-
-刷新订单数据
-
-| domain | accessable |
-| ----   | ----       |
-| admin  | ✓          |
-| mobile |            |
-
-#### request
-
-| name | type | note   |
-| ---- | ---- | ----   |
-| oid? | uuid | 订单号 |
-```javascript
-rpc.call("order", "refreshDeathOrder",oid?)
-  .then(function (result) {
-
-  }, function (error) {
-
-  });
-
-```
-
-#### response
-
-成功：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    | 200  |
-| data | string | done |
-
-失败：
-
-| name | type   | note |
-| ---- | ----   | ---- |
-| code | int    |      |
-| msg  | string |      |
-
-| code | meanning           |
-| ---- | ----               |
-| 500  | 未知错误           |
