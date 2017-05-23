@@ -707,13 +707,16 @@ index 是多选项的下标索引
 | state-description | string    |      |         |         |                         |
 | license_no        | string    |      |         |         |                         |
 | owner             | uuid      |      |         |         | person                  |
+| payment           | numeric   |      |         |         |                         |
+| summary           | numeric   |      |         |         |                         |
+| promotion         | numeric   |      | 0       |         |                         |
 | payment-method    | smallint  |      | 0       |         |                         |
 | created_at        | timestamp |      | now     |         |                         |
 | updated_at        | timestamp |      | now     |         |                         |
 | paid-at           | timestamp |      | now     |         |                         |
 | evtid             | uuid      | ✓    |         |         | additional_order_events |
 
-## order_events
+## additional_order_events
 
 | field       | type      | null | default | index   | reference |
 | ----        | ----      | ---- | ----    | ----    | ----      |
