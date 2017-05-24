@@ -109,13 +109,19 @@
   - [getOrderType](#getordertype)
       - [request](#request-21)
       - [response](#response-21)
-  - [refresAdditionalOrder](#refresadditionalorder)
+  - [renameAdditionalOrderNo](#renameadditionalorderno)
       - [request](#request-22)
       - [response](#response-22)
+  - [refresAdditionalOrder](#refresadditionalorder)
+      - [request](#request-23)
+      - [response](#response-23)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-24
+  * 增加 renameAdditionalOrderNo 接口
 
 1. 2017-05-23
   * 增加 getOrderType接口
@@ -1715,6 +1721,41 @@ rpc.call("order", "getOrderType",oid)
 | 500  | 未知错误       |
 | 404  | 未找到对应订单 |
 
+
+
+## renameAdditionalOrderNo
+
+修改补充计划订单编号
+
+| domain | accessable |
+| ----   | ----       |
+| admin  |            |
+| mobile | ✓          |
+
+#### request
+
+| name     | type   | note   |
+| ----     | ----   | ----   |
+| order_no | string | 订单no |
+
+```javascript
+let order_no = "111000100120160000001";
+
+rpc.call("order", "renameAdditionalOrderNo", order_no)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+```
+
+#### response
+
+| name | type   | note       |
+| ---- | ----   | ----       |
+| code | number | 状态码     |
+| data | string | newOrderNo |
 
 ## refresAdditionalOrder
 
