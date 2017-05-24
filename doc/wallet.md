@@ -49,10 +49,28 @@
   - [exportAccounts](#exportaccounts)
       - [request](#request-9)
       - [response](#response-9)
+  - [getAdditionalAccounts](#getadditionalaccounts)
+      - [request](#request-10)
+      - [response](#response-10)
+  - [searchAdditionalAccountsByPhone](#searchadditionalaccountsbyphone)
+      - [request](#request-11)
+      - [response](#response-11)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-23
+  * 增加 license 到 account
+  * 增加 license 到 account-event
+  * 增加 owner 到 account
+  * 增加 owner 到 account-event
+  * 增加 accounts-2 缓存
+  * 增加 accounts-3 缓存
+  * 增加 accounts-of-phone-2:${phone} 缓存
+  * 增加 accounts-of-phone-3:${phone} 缓存
+  * 增加 getAdditionalAccounts 接口
+  * 增加 searchAdditionalAccountsByPhone 接口
 
 1. 2017-05-22
   * 增加 project 到 wallet
@@ -181,26 +199,32 @@
 
 ## Account
 
-| name             | type    | note         |
-| ----             | ----    | ----         |
-| id               | uuid    | 帐号 ID      |
-| vehicle          | vehicle | 帐号对应车辆 |
-| balance0         | float   | 小池余额     |
-| balance1         | float   | 大池余额     |
-| paid             | float   | 支付金额     |
-| bonus            | float   | 优惠金额     |
-| frozen-balance0  | float   | 小池冻结余额 |
-| frozen-balance1  | float   | 大池冻结余额 |
-| cashable-balance | float   | 可提现金额   |
-| project          | project | 帐号所属险种 |
+| name             | type    | note           |
+| ----             | ----    | ----           |
+| id               | uuid    | 帐号 ID        |
+| vehicle          | vehicle | 帐号对应车辆   |
+| balance0         | float   | 小池余额       |
+| balance1         | float   | 大池余额       |
+| paid             | float   | 支付金额       |
+| bonus            | float   | 优惠金额       |
+| frozen-balance0  | float   | 小池冻结余额   |
+| frozen-balance1  | float   | 大池冻结余额   |
+| cashable-balance | float   | 可提现金额     |
+| project          | project | 帐号所属险种   |
+| license?         | string  | 帐号对应的车牌 |
+| owner?           | person  | 帐号对应的用户 |
 
 Account 分为两种类型，若 vehicle 为 null，则为普通帐号；否则为池帐号类型。
 
-大池和小池金额是虚拟金额，支付金额和优惠金额是物理金额。支付金额是用户实际支付的金额，包括上年的结余; 优惠金额是蜂巢互助补贴的金额。扣款时，优先从支付金额里扣除；支付金额扣除完毕后，再扣除优惠金额。
+大池和小池金额是虚拟金额，支付金额和优惠金额是物理金额。支付金额是用户实际支付的
+金额，包括上年的结余; 优惠金额是蜂巢互助补贴的金额。扣款时，优先从支付金额里扣除；
+支付金额扣除完毕后，再扣除优惠金额。
 
 续保时，优惠金额不变，继续保留。
 
 普通帐号将和车无关的收支信息保存在 cashable-balance 中。
+
+license 和 owner 仅在 project = 2(三者险) 或 project(死亡险) = 3 的情况下有效。
 
 ## Transaction
 
@@ -281,6 +305,10 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 | amount      | float    | 金额           |
 | maid        | uuid     | 互助事件 id    |
 | oid         | uuid     | order id       |
+| license     | string   | 车牌           |
+| owner       | person   | 用户           |
+
+license 和 owner 仅在 project = 2 或 project = 3 下有效
 
 ### Event Type
 
@@ -304,23 +332,23 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 
 ### Event Type And Data Structure Matrix
 
-| type | amount | maid | oid  |
-| ---- | ----   | ---- | ---- |
-| 0    |        |      |      |
-| 1    | ✓      | ?    | ?    |
-| 2    | ✓      | ?    | ?    |
-| 3    | ✓      | ?    | ?    |
-| 4    | ✓      | ?    | ?    |
-| 5    | ✓      | ?    | ?    |
-| 6    | ✓      | ?    | ?    |
-| 7    | ✓      | ?    | ?    |
-| 8    | ✓      | ?    | ?    |
-| 9    | ✓      | ?    | ?    |
-| 10   | ✓      | ?    | ?    |
-| 11   | ✓      | ?    | ?    |
-| 12   | ✓      | ?    | ?    |
-| 13   | ✓      | ?    | ?    |
-| 14   | ✓      | ?    | ?    |
+| type | amount | maid | oid  | license | owner |
+| ---- | ----   | ---- | ---- | ----    | ----  |
+|    0 |        |      |      |         |       |
+|    1 | ✓      | ?    | ?    |         |       |
+|    2 | ✓      | ?    | ?    |         |       |
+|    3 | ✓      | ?    | ?    |         |       |
+|    4 | ✓      | ?    | ?    |         |       |
+|    5 | ✓      | ?    | ?    | ?       | ?     |
+|    6 | ✓      | ?    | ?    | ?       | ?     |
+|    7 | ✓      | ?    | ?    |         |       |
+|    8 | ✓      | ?    | ?    |         |       |
+|    9 | ✓      | ?    | ?    |         |       |
+|   10 | ✓      | ?    | ?    |         |       |
+|   11 | ✓      | ?    | ?    |         |       |
+|   12 | ✓      | ?    | ?    |         |       |
+|   13 | ✓      | ?    | ?    |         |       |
+|   14 | ✓      | ?    | ?    |         |       |
 
 # Database
 
@@ -354,18 +382,22 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 
 # Cache
 
-| key                    | type       | value                   | note                           |
-| ----                   | ----       | ----                    | ----                           |
-| account-entities       | hash       | aid => Account          | 所有钱包帐号实体               |
-| wallet-entities-1      | hash       | UID => Wallet           | 所有"好车主计划"钱包实体       |
-| wallet-entities-2      | hash       | UID => Wallet           | 所有"三者"钱包实体             |
-| wallet-entities-3      | hash       | UID => Wallet           | 所有"死亡"钱包实体             |
-| wallet-slim-entities-1 | hash       | UID => Wallet           | 所有"好车主计划"钱包非完整实体 |
-| wallet-slim-entities-2 | hash       | UID => Wallet           | 所有"三者"钱包非完整实体       |
-| wallet-slim-entities-3 | hash       | UID => Wallet           | 所有"死亡"钱包非完整实体       |
-| transactions-1:${uid}  | sorted set | {occurred, transaction} | "好车主计划"交易记录           |
-| transactions-2:${uid}  | sorted set | {occurred, transaction} | "三者"交易记录                 |
-| transactions-3:${uid}  | sorted set | {occurred, transaction} | "死亡"交易记录                 |
+| key                          | type       | value                   | note                           |
+| ----                         | ----       | ----                    | ----                           |
+| account-entities             | hash       | aid => Account          | 所有钱包帐号实体               |
+| wallet-entities-1            | hash       | UID => Wallet           | 所有"好车主计划"钱包实体       |
+| wallet-entities-2            | hash       | UID => Wallet           | 所有"三者"钱包实体             |
+| wallet-entities-3            | hash       | UID => Wallet           | 所有"死亡"钱包实体             |
+| wallet-slim-entities-1       | hash       | UID => Wallet           | 所有"好车主计划"钱包非完整实体 |
+| wallet-slim-entities-2       | hash       | UID => Wallet           | 所有"三者"钱包非完整实体       |
+| wallet-slim-entities-3       | hash       | UID => Wallet           | 所有"死亡"钱包非完整实体       |
+| transactions-1:${uid}        | sorted set | {occurred, transaction} | "好车主计划"交易记录           |
+| transactions-2:${uid}        | sorted set | {occurred, transaction} | "三者"交易记录                 |
+| transactions-3:${uid}        | sorted set | {occurred, transaction} | "死亡"交易记录                 |
+| accounts-2                   | sorted set | {occurred, aid}         | 所有"三者"帐号列表             |
+| accounts-3                   | sorted set | {occurred, aid}         | 所有"死亡"帐号列表             |
+| accounts-of-phone-2:${phone} | sorted set | {occurred, aid}         | 手机号对应的"三者"帐号         |
+| accounts-of-phone-3:${phone} | sorted set | {occurred, aid}         | 手机号对应的"死亡"帐号         |
 
 # API
 
@@ -788,6 +820,81 @@ See [example](../data/wallet/getTransactions.json)
 | ---- | ----   | ----   |
 | code | int    | 200    |
 | data | string | "okay" |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+## getAdditionalAccounts
+
+列出所有的 Additional 帐号，用在管理平台。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name    | type | note                                           |
+| ----    | ---- | ----                                           |
+| project | int  | 险种(2 or 3)                                   |
+| start   | int  | 结果集起始地址，从 0 开始                      |
+| stop    | int  | 结果集结束地址，从 0 开始，-1 表示最后一个结果 |
+
+#### response
+
+成功：
+
+| name | type      | note |
+| ---- | ----      | ---- |
+| code | int       | 200  |
+| data | [Account] |      |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning |
+| ---- | ----     |
+| 500  | 未知错误 |
+
+## searchAdditionalAccountsByPhone
+
+列出某手机号下的 Additional 帐号，用在管理平台。
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile |            |
+
+#### request
+
+| name    | type   | note                                           |
+| ----    | ----   | ----                                           |
+| project | int    | 险种(2 or 3)                                   |
+| phone   | string | 手机号                                         |
+| start   | int    | 结果集起始地址，从 0 开始                      |
+| stop    | int    | 结果集结束地址，从 0 开始，-1 表示最后一个结果 |
+
+#### response
+
+成功：
+
+| name | type      | note |
+| ---- | ----      | ---- |
+| code | int       | 200  |
+| data | [Account] |      |
 
 失败：
 
