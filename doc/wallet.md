@@ -52,7 +52,7 @@
   - [getAdditionalAccounts](#getadditionalaccounts)
       - [request](#request-10)
       - [response](#response-10)
-  - [searchAdditionalAccountsByPhone](#searchadditionalaccountsbyphone)
+  - [getAdditionalAccountsByPhone](#getadditionalaccountsbyphone)
       - [request](#request-11)
       - [response](#response-11)
 
@@ -70,7 +70,7 @@
   * 增加 accounts-of-phone-2:${phone} 缓存
   * 增加 accounts-of-phone-3:${phone} 缓存
   * 增加 getAdditionalAccounts 接口
-  * 增加 searchAdditionalAccountsByPhone 接口
+  * 增加 getAdditionalAccountsByPhone 接口
 
 1. 2017-05-22
   * 增加 project 到 wallet
@@ -869,7 +869,7 @@ See [example](../data/wallet/getTransactions.json)
 | ---- | ----     |
 | 500  | 未知错误 |
 
-## searchAdditionalAccountsByPhone
+## getAdditionalAccountsByPhone
 
 列出某手机号下的 Additional 帐号，用在管理平台。
 
