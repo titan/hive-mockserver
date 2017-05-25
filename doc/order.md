@@ -97,21 +97,18 @@
   - [getAdditionalOrdersByUser](#getadditionalordersbyuser)
       - [request](#request-17)
       - [response](#response-17)
-  - [getVehiclesByUser](#getvehiclesbyuser)
+  - [payAdditionalOrder](#payadditionalorder)
       - [request](#request-18)
       - [response](#response-18)
-  - [payAdditionalOrder](#payadditionalorder)
+  - [getOrderType](#getordertype)
       - [request](#request-19)
       - [response](#response-19)
-  - [getOrderType](#getordertype)
+  - [renameAdditionalOrderNo](#renameadditionalorderno)
       - [request](#request-20)
       - [response](#response-20)
-  - [renameAdditionalOrderNo](#renameadditionalorderno)
+  - [refresAdditionalOrder](#refresadditionalorder)
       - [request](#request-21)
       - [response](#response-21)
-  - [refresAdditionalOrder](#refresadditionalorder)
-      - [request](#request-22)
-      - [response](#response-22)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1506,7 +1503,7 @@ rpc.call("order", "createDeathOrde", check_code, level, license_no, name, identi
 
 ```javascript
 
-rpc.call("order", "createStrictAddtitionalOrder",check_code, project, level, license_no, phone)
+rpc.call("order", "createStrictAddtitionalOrder", project, level, license_no)
   .then(function (result) {
 
   }, function (error) {
@@ -1605,8 +1602,6 @@ rpc.call("order", "getAdditionalOrdersByUser")
   }, function (error) {
 
   });
-
-```
 
 #### response
 
