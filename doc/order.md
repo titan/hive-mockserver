@@ -94,21 +94,30 @@
   - [createDeathOrder](#createdeathorder)
       - [request](#request-16)
       - [response](#response-16)
-  - [getAdditionalOrdersByUser](#getadditionalordersbyuser)
+  - [createStrictAddtitionalOrder](#createstrictaddtitionalorder)
       - [request](#request-17)
       - [response](#response-17)
-  - [payAdditionalOrder](#payadditionalorder)
+  - [getAdditionalOrder](#getadditionalorder)
       - [request](#request-18)
       - [response](#response-18)
-  - [getOrderType](#getordertype)
+  - [getAdditionalOrdersByUser](#getadditionalordersbyuser)
       - [request](#request-19)
       - [response](#response-19)
-  - [renameAdditionalOrderNo](#renameadditionalorderno)
+  - [getVehiclesByUser](#getvehiclesbyuser)
       - [request](#request-20)
       - [response](#response-20)
-  - [refresAdditionalOrder](#refresadditionalorder)
+  - [payAdditionalOrder](#payadditionalorder)
       - [request](#request-21)
       - [response](#response-21)
+  - [getOrderType](#getordertype)
+      - [request](#request-22)
+      - [response](#response-22)
+  - [renameAdditionalOrderNo](#renameadditionalorderno)
+      - [request](#request-23)
+      - [response](#response-23)
+  - [refresAdditionalOrder](#refresadditionalorder)
+      - [request](#request-24)
+      - [response](#response-24)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1451,7 +1460,6 @@ rpc.call("order", "createThirdOrder", check_code, level, license_no, name, ident
 | name        | string | 姓名     |
 | identity_no | string | 身份证号 |
 | phone       | string | 手机号   |
-
 ```javascript
 rpc.call("order", "createDeathOrde", check_code, level, license_no, name, identity_no, phone)
   .then(function (result) {
@@ -1459,6 +1467,9 @@ rpc.call("order", "createDeathOrde", check_code, level, license_no, name, identi
   }, function (error) {
 
   });
+
+
+```
 
 #### response
 
@@ -1484,7 +1495,7 @@ rpc.call("order", "createDeathOrde", check_code, level, license_no, name, identi
 
 ## createStrictAddtitionalOrder
 
-创建死亡补充计划险
+再充值创建订单
 
 | domain | accessable |
 | ----   | ----       |
@@ -1501,14 +1512,15 @@ rpc.call("order", "createDeathOrde", check_code, level, license_no, name, identi
 | license_no | string | 车牌号   |
 | phone      | string | 手机号   |
 
-```javascript
-
+```Javascript
 rpc.call("order", "createStrictAddtitionalOrder", project, level, license_no)
   .then(function (result) {
 
   }, function (error) {
 
   });
+
+  ```
 
 #### response
 
@@ -1603,6 +1615,7 @@ rpc.call("order", "getAdditionalOrdersByUser")
 
   });
 
+  ```
 #### response
 
 成功：
@@ -1640,6 +1653,7 @@ rpc.call("order", "getAdditionalOrdersByUser")
 | name | type | note   |
 | ---- | ---- | ----   |
 ```javascript
+
 rpc.call("order", "getVehiclesByUser")
   .then(function (result) {
 
@@ -1647,15 +1661,15 @@ rpc.call("order", "getVehiclesByUser")
 
   });
 
-```
+  ```
 
 #### response
 
 成功：
 
-| name | type  | note    |
-| ---- | ----  | ----    |
-| code | int   | 200     |
+| name | type  | note      |
+| ---- | ----  | ----      |
+| code | int   | 200       |
 | data | array | vehicle[] |
 
 失败：
@@ -1690,6 +1704,7 @@ rpc.call("order", "getVehiclesByUser")
 | oid            | string | 订单id   |
 | amount         | number | 支付金额 |
 | payment_method | number | 支付方式 |
+
 ```javascript
 
 rpc.call("order", "payAdditionalOrder", uid, oid, amount, payment_method)
@@ -1699,7 +1714,7 @@ rpc.call("order", "payAdditionalOrder", uid, oid, amount, payment_method)
 
   });
 
-```
+  ```
 
 #### response
 
@@ -1740,6 +1755,7 @@ rpc.call("order", "payAdditionalOrder", uid, oid, amount, payment_method)
 | ---- | ---- | ----   |
 | oid? | uuid | 订单号 |
 ```javascript
+
 rpc.call("order", "getOrderType",oid)
   .then(function (result) {
 
@@ -1788,7 +1804,6 @@ rpc.call("order", "getOrderType",oid)
 | name     | type   | note   |
 | ----     | ----   | ----   |
 | order_no | string | 订单no |
-
 ```javascript
 let order_no = "111000100120160000001";
 
@@ -1799,7 +1814,7 @@ rpc.call("order", "renameAdditionalOrderNo", order_no)
 
   });
 
-```
+  ```
 
 #### response
 
@@ -1829,8 +1844,8 @@ rpc.call("order", "refresAdditionalOrder",oid?)
   }, function (error) {
 
   });
-
-```
+  
+  ```
 
 #### response
 
