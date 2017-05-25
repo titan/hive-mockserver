@@ -94,31 +94,37 @@
   - [createDeathOrder](#createdeathorder)
       - [request](#request-16)
       - [response](#response-16)
-  - [getAdditionalOrder](#getadditionalorder)
+  - [createStrictAddtitionalOrder](#createstrictaddtitionalorder)
       - [request](#request-17)
       - [response](#response-17)
-  - [getAdditionalOrdersByUser](#getadditionalordersbyuser)
+  - [getAdditionalOrder](#getadditionalorder)
       - [request](#request-18)
       - [response](#response-18)
-  - [getVehiclesByUser](#getvehiclesbyuser)
+  - [getAdditionalOrdersByUser](#getadditionalordersbyuser)
       - [request](#request-19)
       - [response](#response-19)
-  - [payAdditionalOrder](#payadditionalorder)
+  - [getVehiclesByUser](#getvehiclesbyuser)
       - [request](#request-20)
       - [response](#response-20)
-  - [getOrderType](#getordertype)
+  - [payAdditionalOrder](#payadditionalorder)
       - [request](#request-21)
       - [response](#response-21)
-  - [renameAdditionalOrderNo](#renameadditionalorderno)
+  - [getOrderType](#getordertype)
       - [request](#request-22)
       - [response](#response-22)
-  - [refresAdditionalOrder](#refresadditionalorder)
+  - [renameAdditionalOrderNo](#renameadditionalorderno)
       - [request](#request-23)
       - [response](#response-23)
+  - [refresAdditionalOrder](#refresadditionalorder)
+      - [request](#request-24)
+      - [response](#response-24)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-05-25
+  * 增加 createStrictAddtitionalOrder 接口
 
 1. 2017-05-24
   * 增加 renameAdditionalOrderNo 接口
@@ -1396,13 +1402,15 @@ rpc.call("order", "refresh", id)
 
 | name        | type   | note     |
 | ----        | ----   | ----     |
+| check_code  | string | 验证码   |
+| level       | number | 价格档位 |
 | license_no  | string | 车牌号   |
 | name        | string | 姓名     |
 | identity_no | string | 身份证号 |
 | phone       | string | 手机号   |
 
 ```javascript
-rpc.call("order", "createThirdOrder",level, license_no, name, identity_no, phone)
+rpc.call("order", "createThirdOrder", check_code, level, license_no, name, identity_no, phone)
   .then(function (result) {
 
   }, function (error) {
@@ -1446,18 +1454,20 @@ rpc.call("order", "createThirdOrder",level, license_no, name, identity_no, phone
 
 | name        | type   | note     |
 | ----        | ----   | ----     |
+| check_code  | string | 验证码   |
+| level       | number | 价格档位 |
 | license_no  | string | 车牌号   |
 | name        | string | 姓名     |
 | identity_no | string | 身份证号 |
 | phone       | string | 手机号   |
-
 ```javascript
-rpc.call("order", "createDeathOrde",level, license_no, name, identity_no, phone)
+rpc.call("order", "createDeathOrde", check_code, level, license_no, name, identity_no, phone)
   .then(function (result) {
 
   }, function (error) {
 
   });
+
 
 ```
 
@@ -1483,6 +1493,56 @@ rpc.call("order", "createDeathOrde",level, license_no, name, identity_no, phone)
 | 500    | 未知错误         |
 | 400010 | 该车已有支付订单 |
 
+## createStrictAddtitionalOrder
+
+再充值创建订单
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name       | type   | note     |
+| ----       | ----   | ----     |
+| check_code | string | 验证码   |
+| project    | number | 订单类型 |
+| level      | number | 价格档位 |
+| license_no | string | 车牌号   |
+| phone      | string | 手机号   |
+
+```Javascript
+rpc.call("order", "createStrictAddtitionalOrder", project, level, license_no)
+  .then(function (result) {
+
+  }, function (error) {
+
+  });
+
+  ```
+
+#### response
+
+成功：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    | 200  |
+| data | string | oid  |
+
+失败：
+
+| name | type   | note |
+| ---- | ----   | ---- |
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning             |
+| ---- | ----                 |
+| 400  | 参数错误             |
+| 500  | 未知错误             |
+| 502  | 请参与计划后进行充值 |
 
 ## getAdditionalOrder
 
@@ -1555,8 +1615,7 @@ rpc.call("order", "getAdditionalOrdersByUser")
 
   });
 
-```
-
+  ```
 #### response
 
 成功：
@@ -1594,6 +1653,7 @@ rpc.call("order", "getAdditionalOrdersByUser")
 | name | type | note   |
 | ---- | ---- | ----   |
 ```javascript
+
 rpc.call("order", "getVehiclesByUser")
   .then(function (result) {
 
@@ -1601,15 +1661,15 @@ rpc.call("order", "getVehiclesByUser")
 
   });
 
-```
+  ```
 
 #### response
 
 成功：
 
-| name | type  | note    |
-| ---- | ----  | ----    |
-| code | int   | 200     |
+| name | type  | note      |
+| ---- | ----  | ----      |
+| code | int   | 200       |
 | data | array | vehicle[] |
 
 失败：
@@ -1638,17 +1698,23 @@ rpc.call("order", "getVehiclesByUser")
 
 #### request
 
-| name | type | note   |
-| ---- | ---- | ----   |
+| name           | type   | note     |
+| ----           | ----   | ----     |
+| uid            | string | 用户id   |
+| oid            | string | 订单id   |
+| amount         | number | 支付金额 |
+| payment_method | number | 支付方式 |
+
 ```javascript
-rpc.call("order", "payAdditionalOrder",oid, amount, payment_method)
+
+rpc.call("order", "payAdditionalOrder", uid, oid, amount, payment_method)
   .then(function (result) {
 
   }, function (error) {
 
   });
 
-```
+  ```
 
 #### response
 
@@ -1689,6 +1755,7 @@ rpc.call("order", "payAdditionalOrder",oid, amount, payment_method)
 | ---- | ---- | ----   |
 | oid? | uuid | 订单号 |
 ```javascript
+
 rpc.call("order", "getOrderType",oid)
   .then(function (result) {
 
@@ -1737,7 +1804,6 @@ rpc.call("order", "getOrderType",oid)
 | name     | type   | note   |
 | ----     | ----   | ----   |
 | order_no | string | 订单no |
-
 ```javascript
 let order_no = "111000100120160000001";
 
@@ -1748,7 +1814,7 @@ rpc.call("order", "renameAdditionalOrderNo", order_no)
 
   });
 
-```
+  ```
 
 #### response
 
@@ -1778,8 +1844,8 @@ rpc.call("order", "refresAdditionalOrder",oid?)
   }, function (error) {
 
   });
-
-```
+  
+  ```
 
 #### response
 
