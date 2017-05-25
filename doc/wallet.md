@@ -60,6 +60,19 @@
 
 # ChangeLog
 
+1. 2017-05-24
+  * 增加 transactions-1:${uid}:${license} 缓存
+  * 增加 transactions-2:${uid}:${license} 缓存
+  * 增加 transactions-3:${uid}:${license} 缓存
+  * 增加 accounts-of-license-2:${license} 缓存
+  * 增加 accounts-of-license-3:${license} 缓存
+  * 增加 license 到 getTransactions 的参数列表
+  * 修改 getTransactions 参数 offset 为 start
+  * 修改 getTransactions 参数 limit 为 stop
+  * 增加 license 到 getAdditionalAccounts 的参数列表
+  * 修改 getAdditionalAccounts 的返回结果为 Paging<Account>
+  * 修改 getAdditionalAccountsByPhone 的返回结果为 Paging<Account>
+
 1. 2017-05-23
   * 增加 license 到 account
   * 增加 license 到 account-event
@@ -382,22 +395,27 @@ license 和 owner 仅在 project = 2 或 project = 3 下有效
 
 # Cache
 
-| key                          | type       | value                   | note                           |
-| ----                         | ----       | ----                    | ----                           |
-| account-entities             | hash       | aid => Account          | 所有钱包帐号实体               |
-| wallet-entities-1            | hash       | UID => Wallet           | 所有"好车主计划"钱包实体       |
-| wallet-entities-2            | hash       | UID => Wallet           | 所有"三者"钱包实体             |
-| wallet-entities-3            | hash       | UID => Wallet           | 所有"死亡"钱包实体             |
-| wallet-slim-entities-1       | hash       | UID => Wallet           | 所有"好车主计划"钱包非完整实体 |
-| wallet-slim-entities-2       | hash       | UID => Wallet           | 所有"三者"钱包非完整实体       |
-| wallet-slim-entities-3       | hash       | UID => Wallet           | 所有"死亡"钱包非完整实体       |
-| transactions-1:${uid}        | sorted set | {occurred, transaction} | "好车主计划"交易记录           |
-| transactions-2:${uid}        | sorted set | {occurred, transaction} | "三者"交易记录                 |
-| transactions-3:${uid}        | sorted set | {occurred, transaction} | "死亡"交易记录                 |
-| accounts-2                   | sorted set | {occurred, aid}         | 所有"三者"帐号列表             |
-| accounts-3                   | sorted set | {occurred, aid}         | 所有"死亡"帐号列表             |
-| accounts-of-phone-2:${phone} | sorted set | {occurred, aid}         | 手机号对应的"三者"帐号         |
-| accounts-of-phone-3:${phone} | sorted set | {occurred, aid}         | 手机号对应的"死亡"帐号         |
+| key                              | type       | value                   | note                             |
+| ----                             | ----       | ----                    | ----                             |
+| account-entities                 | hash       | aid => Account          | 所有钱包帐号实体                 |
+| wallet-entities-1                | hash       | UID => Wallet           | 所有"好车主计划"钱包实体         |
+| wallet-entities-2                | hash       | UID => Wallet           | 所有"三者"钱包实体               |
+| wallet-entities-3                | hash       | UID => Wallet           | 所有"死亡"钱包实体               |
+| wallet-slim-entities-1           | hash       | UID => Wallet           | 所有"好车主计划"钱包非完整实体   |
+| wallet-slim-entities-2           | hash       | UID => Wallet           | 所有"三者"钱包非完整实体         |
+| wallet-slim-entities-3           | hash       | UID => Wallet           | 所有"死亡"钱包非完整实体         |
+| transactions-1:${uid}            | sorted set | {occurred, transaction} | "好车主计划"交易记录             |
+| transactions-2:${uid}            | sorted set | {occurred, transaction} | "三者"交易记录                   |
+| transactions-3:${uid}            | sorted set | {occurred, transaction} | "死亡"交易记录                   |
+| transactions-1:${uid}:${license} | sorted set | {occurred, transaction} | 按车牌区分的"好车主计划"交易记录 |
+| transactions-2:${uid}:${license} | sorted set | {occurred, transaction} | 按车牌区分的"三者"交易记录       |
+| transactions-3:${uid}:${license} | sorted set | {occurred, transaction} | 按车牌区分的"死亡"交易记录       |
+| accounts-2                       | sorted set | {occurred, aid}         | 所有"三者"帐号列表               |
+| accounts-3                       | sorted set | {occurred, aid}         | 所有"死亡"帐号列表               |
+| accounts-of-phone-2:${phone}     | sorted set | {occurred, aid}         | 手机号对应的"三者"帐号           |
+| accounts-of-phone-3:${phone}     | sorted set | {occurred, aid}         | 手机号对应的"死亡"帐号           |
+| accounts-of-license-2:${license} | sorted set | {occurred, aid}         | 车牌对应的"三者"帐号             |
+| accounts-of-license-3:${license} | sorted set | {occurred, aid}         | 车牌对应的"死亡"帐号             |
 
 # API
 
@@ -756,12 +774,13 @@ type 可以是 1: 小池; 2: 大池; 3: 小池 + 大池
 
 #### request
 
-| name     | type | note                        |
-| ----     | ---- | ----                        |
-| offset   | int  | 结果在数据集中的起始位置    |
-| limit    | int  | 显示结果的长度              |
-| project? | int  | 交易记录所属的险种，默认为1 |
-| uid?     | uuid | 仅 admin 有效               |
+| name     | type | note                                                         |
+| ----     | ---- | ----                                                         |
+| start    | int  | 结果在数据集中的起始位置，从 0 开始计数                      |
+| stop     | int  | 结果在数据集中的结束位置，从 0 开始计数，-1 代表最后一个数据 |
+| project? | int  | 交易记录所属的险种，默认为1                                  |
+| license? | int  | 通过车牌过滤结果集                                           |
+| uid?     | uuid | 仅 admin 有效                                                |
 
 ```javascript
 
@@ -843,20 +862,32 @@ See [example](../data/wallet/getTransactions.json)
 
 #### request
 
-| name    | type | note                                           |
-| ----    | ---- | ----                                           |
-| project | int  | 险种(2 or 3)                                   |
-| start   | int  | 结果集起始地址，从 0 开始                      |
-| stop    | int  | 结果集结束地址，从 0 开始，-1 表示最后一个结果 |
+| name     | type   | note                                           |
+| ----     | ----   | ----                                           |
+| project  | int    | 险种(2 or 3)                                   |
+| start    | int    | 结果集起始地址，从 0 开始                      |
+| stop     | int    | 结果集结束地址，从 0 开始，-1 表示最后一个结果 |
+| license? | string | 车牌(可选)                                     |
+
+如果有车牌，则显示该车牌下的 Additional 帐号。
 
 #### response
 
 成功：
 
-| name | type      | note |
-| ---- | ----      | ---- |
-| code | int       | 200  |
-| data | [Account] |      |
+| name | type            | note |
+| ---- | ----            | ---- |
+| code | int             | 200  |
+| data | Paging<Account> |      |
+
+Paging 的数据结构包括：
+
+| name  | type   | note                                                             |
+|-------|--------|------------------------------------------------------------------|
+| count | number | 结果集总数                                                       |
+| start | number | 当前结果集在总结果集中的起始地址，从 0 开始                      |
+| stop  | number | 当前结果集在总结果集中的结束地址，从 0 开始，-1 表示最后一个结果 |
+| data  | [any]  | 当前结果集                                                       |
 
 失败：
 
@@ -891,10 +922,10 @@ See [example](../data/wallet/getTransactions.json)
 
 成功：
 
-| name | type      | note |
-| ---- | ----      | ---- |
-| code | int       | 200  |
-| data | [Account] |      |
+| name | type            | note |
+| ---- | ----            | ---- |
+| code | int             | 200  |
+| data | Paging<Account> |      |
 
 失败：
 
