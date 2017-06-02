@@ -44,7 +44,7 @@
 
 # Database
 
-## recommendation
+## recommendations
 
 | field       | type    | null | default | index   | reference |
 | ----        | ----    | ---- | ----    | ----    | ----      |
