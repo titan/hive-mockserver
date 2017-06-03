@@ -5,6 +5,7 @@
 - [ChangeLog](#changelog)
 - [Data Structure](#data-structure)
   - [RedPacket](#redpacket)
+  - [RedPacketNotification](#redpacketnotification)
 - [Event](#event)
   - [RedPacketEvent](#redpacketevent)
     - [Event Data Structure](#event-data-structure)
@@ -34,13 +35,22 @@
   - [getRedPackets](#getredpackets)
       - [request](#request-4)
       - [response](#response-4)
-  - [getUncheckoutRedPacket](#getuncheckoutredpacket)
+  - [getUncheckoutRedPacketAndRolls](#getuncheckoutredpacketandrolls)
       - [request](#request-5)
       - [response](#response-5)
+  - [getRedPacketNotifications](#getredpacketnotifications)
+      - [request](#request-6)
+      - [response](#response-6)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # ChangeLog
+
+1. 2017-06-03
+  * 增加 RedPacketNotification 数据结构
+  * 增加 redpacket-notifications 缓存
+  * 重命名 getUncheckoutRedPacket 接口为 getUncheckoutRedPacketAndRolls
+  * 增加 getRedPacketNotifications 接口
 
 1. 2017-06-02
   * 增加 RedPacket 数据结构
@@ -68,6 +78,15 @@
 | balance | float   | 红包金额   |
 | rolled  | integer | 已翻倍次数 |
 | state   | integer | 红包状态   |
+
+
+## RedPacketNotification
+
+| name         | type   | note     |
+|--------------|--------|----------|
+| title        | string | 通知内容 |
+| occurred\_at | Date   | 通知时间 |
+
 
 [![红包状态转换图](../img/redpacket-states.png)](红包状态转换图)
 
@@ -157,12 +176,13 @@
 
 # Cache
 
-| key                | type       | value            | note                 |
-|--------------------|------------|------------------|----------------------|
-| redpacket-entities | hash       | id => RedPacket  | 所有红包实体         |
-| redpacket:{uid}    | sorted set | (timestamp, rid) | 用户的红包列表       |
-| redpackets         | hash       | uid => rid       | 用户对应的未提现红包 |
-| rolls              | hash       | uid => integer   | 用户对应的可翻倍次数 |
+| key                     | type       | value                              | note                 |
+|-------------------------|------------|------------------------------------|----------------------|
+| redpacket-entities      | hash       | id => RedPacket                    | 所有红包实体         |
+| redpacket:{uid}         | sorted set | (timestamp, rid)                   | 用户的红包列表       |
+| redpackets              | hash       | uid => rid                         | 用户对应的未提现红包 |
+| rolls                   | hash       | uid => integer                     | 用户对应的可翻倍次数 |
+| redpacket-notifications | sorted set | (timestamp, RedPacketNotification) | 红包通知             |
 
 # API
 
@@ -241,6 +261,8 @@
 |  404 | 无足够的可翻倍次数 |
 |  500 | 未知错误           |
 
+See [example](../data/redpacket/createRedPacket.json)
+
 ## roll
 
 红包翻倍，消耗一个红包可翻倍次数。
@@ -278,6 +300,8 @@
 |  416 | 翻倍次数超过限制 |
 |  500 | 未知错误         |
 
+See [example](../data/redpacket/roll.json)
+
 ## checkout
 
 红包提现。提现后，根据剩余的红包可翻倍次数来决定是否创建新的红包。
@@ -313,6 +337,8 @@
 |------|------------|
 |  404 | 红包不存在 |
 |  500 | 未知错误   |
+
+See [example](../data/redpacket/checkout.json)
 
 ## getRedPackets
 
@@ -351,9 +377,11 @@
 |------|------------|
 |  500 | 未知错误   |
 
-## getUncheckoutRedPacket
+See [example](../data/redpacket/getRedPackets.json)
 
-获得用户名下的未提现红包
+## getUncheckoutRedPacketAndRolls
+
+获得用户名下的未提现红包和可翻倍次数
 
 | domain | accessable |
 | ----   | ----       |
@@ -372,10 +400,15 @@
 
 成功：
 
-| name | type      | note |
-|------|-----------|------|
-| code | int       | 200  |
-| data | RedPacket |      |
+| name | type   | note     |
+|------|--------|----------|
+| code | int    | 200      |
+| data | Object | 详情如下 |
+
+| name      | type      | note       |
+|-----------|-----------|------------|
+| redpacket | RedPacket | 红包       |
+| rolls     | int       | 可翻倍次数 |
 
 失败：
 
@@ -388,3 +421,42 @@
 |------|------------|
 |  404 | 红包不存在 |
 |  500 | 未知错误   |
+
+See [example](../data/redpacket/getUncheckoutRedPacketAndRolls.json)
+
+## getRedPacketNotifications
+
+获得所有用户的红包广播通告
+
+| domain | accessable |
+| ----   | ----       |
+| admin  | ✓          |
+| mobile | ✓          |
+
+#### request
+
+| name | type | note |
+|------|------|------|
+
+#### response
+
+成功：
+
+| name | type                    | note     |
+|------|-------------------------|----------|
+| code | int                     | 200      |
+| data | [RedPacketNotification] | 详情如下 |
+
+失败：
+
+| name | type   | note |
+|------|--------|------|
+| code | int    |      |
+| msg  | string |      |
+
+| code | meanning   |
+|------|------------|
+|  404 | 红包不存在 |
+|  500 | 未知错误   |
+
+See [example](../data/redpacket/getRedPacketNotifications.json)

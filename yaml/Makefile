@@ -73,7 +73,19 @@ GET_TRANSACTIONS_DEPS = get-transactions.yaml transactions.yaml
 SIGN = ../data/oss/sign.json
 SIGN_DEPS = oss-sign.yaml
 
-all: $(GET_QUOTATION) $(MOBILE_GET_QUOTATION) $(MOBILE_GETLASTQUOTATIONS) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN)
+GET_REDPACKET = ../data/redpacket/getRedPacket.json
+GET_REDPACKET_DEPS = get-redpacket.yaml redpacket.yaml
+
+GET_REDPACKETS = ../data/redpacket/getRedPackets.json
+GET_REDPACKETS_DEPS = get-redpackets.yaml redpackets.yaml redpacket.yaml
+
+GET_UNCHECKOUT_REDPACKET_AND_ROLLS = ../data/redpacket/getUncheckoutRedPacketAndRolls.json
+GET_UNCHECKOUT_REDPACKET_AND_ROLLS_DEPS = get-uncheckout-redpacket-and-rolls.yaml redpacket.yaml
+
+GET_REDPACKET_NOTIFICATIONS = ../data/redpacket/getRedPacketNotifications.json
+GET_REDPACKET_NOTIFICATIONS_DEPS = get-redpacket-notifications.yaml
+
+all: $(GET_QUOTATION) $(MOBILE_GET_QUOTATION) $(MOBILE_GETLASTQUOTATIONS) $(GET_PLANS) $(GET_PLAN_GROUPS) $(GET_VEHICLE) $(GET_VEHICLES) $(FETCH_VEHICLE_MODELS) $(FETCH_VEHICLE_AND_MODELS) $(GET_GROUP) $(GET_USER) $(GET_INSURED) $(GET_PLAN_ORDER) $(GET_PLAN_ORDERS) $(GET_DRIVER_ORDERS) $(GROUP_TRIGGER) $(GET_WALLET) $(GET_TRANSACTIONS) $(SIGN) $(GET_REDPACKETS) $(GET_REDPACKET) $(GET_UNCHECKOUT_REDPACKET_AND_ROLLS) $(GET_REDPACKET_NOTIFICATIONS)
 
 $(GET_QUOTATION): $(GET_QUOTATION_DEPS)
 	$(YAML2JSON) get-quotation.yaml | aeson-pretty > $@
@@ -135,6 +147,21 @@ $(GET_TRANSACTIONS): $(GET_TRANSACTIONS_DEPS)
 $(SIGN): $(SIGN_DEPS)
 	$(YAML2JSON) oss-sign.yaml | aeson-pretty > $@
 
+$(GET_REDPACKETS): $(GET_REDPACKETS_DEPS)
+	$(YAML2JSON) get-redpackets.yaml | aeson-pretty > $@
+
+$(GET_REDPACKET): $(GET_REDPACKET_DEPS)
+	$(YAML2JSON) get-redpacket.yaml | aeson-pretty > $@
+	cp $@ ../data/redpacket/createRedPacket.json
+	cp $@ ../data/redpacket/checkout.json
+	cp $@ ../data/redpacket/roll.json
+
+$(GET_UNCHECKOUT_REDPACKET_AND_ROLLS): $(GET_UNCHECKOUT_REDPACKET_AND_ROLLS_DEPS)
+	$(YAML2JSON) get-uncheckout-redpacket-and-rolls.yaml | aeson-pretty > $@
+
+$(GET_REDPACKET_NOTIFICATIONS): $(GET_REDPACKET_NOTIFICATIONS_DEPS)
+	$(YAML2JSON) get-redpacket-notifications.yaml | aeson-pretty > $@
+
 clean:
 	rm $(GET_QUOTATION)
 	rm $(MOBILE_GET_QUOTATION)
@@ -152,5 +179,9 @@ clean:
 	rm $(GET_WALLET)
 	rm $(GET_TRANSACTIONS)
 	rm $(SIGN)
+	rm $(GET_REDPACKETS)
+	rm $(GET_REDPACKET)
+	rm $(GET_UNCHECKOUT_REDPACKET_AND_ROLLS)
+	rm $(GET_REDPACKET_NOTIFICATIONS)
 
 .phoney: all clean

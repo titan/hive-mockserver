@@ -1,0 +1,4 @@
+code: 200
+data:
+  redpacket: !include redpacket.yaml
+  rolls: 20
