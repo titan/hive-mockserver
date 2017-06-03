@@ -223,6 +223,8 @@
 |------|--------------------|
 |  500 | 未知错误           |
 
+See [example](../data/redpacket/addRoll.json)
+
 ## createRedPacket
 
 创建红包，创建一个红包要消耗一个红包可翻倍次数。
