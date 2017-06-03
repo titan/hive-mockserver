@@ -60,6 +60,9 @@
 
 # ChangeLog
 
+1. 2017-06-03
+  * 增加 204 和 304 两种新的 transaction type
+
 1. 2017-05-24
   * 增加 transactions-1:${uid}:${license} 缓存
   * 增加 transactions-2:${uid}:${license} 缓存
@@ -277,9 +280,11 @@ SN 用于保证 5, 6, 7 和 8 的唯一性，避免重复记录。
 |       2 |  201 | 加入                                       |
 |       2 |  202 | 充值                                       |
 |       2 |  203 | 参与公摊                                   |
+|       2 |  204 | 首单优惠3元                                |
 |       3 |  301 | 加入                                       |
 |       3 |  302 | 充值                                       |
 |       3 |  303 | 参与公摊                                   |
+|       3 |  304 | 首单优惠3元                                |
 
 ### Transaction Type And Data Structure Matrix
 
