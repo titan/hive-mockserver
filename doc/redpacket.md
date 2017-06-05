@@ -46,6 +46,9 @@
 
 # ChangeLog
 
+1. 2017-06-05
+  * 增加 rid 到 redpacket_events 表中
+
 1. 2017-06-03
   * 增加 RedPacketNotification 数据结构
   * 增加 redpacket-notifications 缓存
@@ -160,6 +163,7 @@
 |-------------|-----------|------|---------|---------|-----------|
 | id          | uuid      |      |         | primary |           |
 | uid         | uuid      |      |         |         | users     |
+| rid         | uuid      |      |         |         |           |
 | type        | smallint  |      |         |         |           |
 | data        | json      |      |         |         |           |
 | occurred_at | timestamp |      | now     |         |           |
